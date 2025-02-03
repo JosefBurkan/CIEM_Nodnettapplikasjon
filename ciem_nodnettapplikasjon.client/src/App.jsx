@@ -23,8 +23,8 @@ function App() {
                 {forecasts.map(forecast =>
                     <tr key={forecast.date}>
                         <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
+                        <td>{888}</td>
+                        <td>{555}</td>
                         <td>{forecast.summary}</td>
                     </tr>
                 )}
