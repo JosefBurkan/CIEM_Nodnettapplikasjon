@@ -8,5 +8,5 @@ public class ApplicationDbContext : DbContext
     }
 
     // Add DbSets for tables here (Example: Users table)
-    public DbSet<User> Users { get; set; }
+    public DbSet<UserModel> Users { get; set; }
 }
