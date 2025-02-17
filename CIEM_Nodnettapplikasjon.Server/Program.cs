@@ -36,7 +36,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Test endpoint
-app.MapGet"/", () => "Hello, backend is running!");
+app.MapGet("/", () => "Hello, backend is running!");
 
 // Fallback for frontend
 app.MapFallbackToFile("/index.html");
