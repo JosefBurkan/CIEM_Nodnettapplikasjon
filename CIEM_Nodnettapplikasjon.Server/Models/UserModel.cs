@@ -17,5 +17,14 @@ namespace CIEM_Nodnettapplikasjon.Server.Models
         public string password { get; set; }
         public string role { get; set; }
 
+        public UserModel(string name, string surname, string email, string phone, string password, string role)
+        {
+            name = name;
+            surname = surname;  
+            email = email;  
+            phone = phone;  
+            password = password;    
+            role = role;    
+        }
     }
 }
