@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignore SSL certificates
+../CIEM_Nodnettapplikasjon.Server/UsersfcjoaDocumentsproject15CIEM_Nodnettapplikasjonciem_nodnettapplikasjon.clientsslciem_nodnettapplikasjon.client.key
+../CIEM_Nodnettapplikasjon.Server/UsersfcjoaDocumentsproject15CIEM_Nodnettapplikasjonciem_nodnettapplikasjon.clientsslciem_nodnettapplikasjon.client.pem
