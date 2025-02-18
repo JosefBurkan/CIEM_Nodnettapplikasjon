@@ -40,7 +40,7 @@ function App() {
     );
     
     async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
+        const response = await fetch('/weatherforecast'); // proxied to backend
         const data = await response.json();
         setForecasts(data);
     }
