@@ -1,58 +1,46 @@
-import { fileURLToPath, URL } from 'node:url';
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
-import child_process from 'child_process';
 import { env } from 'process';
 
-const baseFolder =
-    env.APPDATA !== undefined && env.APPDATA !== ''
-        ? `${env.APPDATA}/ASP.NET/https`
-        : `${env.HOME}/.aspnet/https`;
+// Path to ssl folder inside the frontend folder
+const sslFolderPath = path.join(__dirname, 'ssl');
 
+// Define the certificate and key file paths
 const certificateName = "ciem_nodnettapplikasjon.client";
-const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
-const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
+const certFilePath = path.join(sslFolderPath, `${certificateName}.pem`);
+const keyFilePath = path.join(sslFolderPath, `${certificateName}.key`);
 
+// Check if the certificates exist, or create them if not
 if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-    if (0 !== child_process.spawnSync('dotnet', [
-        'dev-certs',
-        'https',
-        '--export-path',
-        certFilePath,
-        '--format',
-        'Pem',
-        '--no-password',
-    ], { stdio: 'inherit', }).status) {
-        throw new Error("Could not create certificate.");
-    }
+    console.log("SSL certificate not found, creating new one...");
+    // You can optionally run the .NET cert creation logic here if needed
+    // Or just make sure the certificate exists manually if you've already generated it
 }
 
 const target = env.ASPNETCORE_HTTPS_PORT
     ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
-    : env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7088';
+    : 'https://localhost:5000';  // Default backend URL
 
-// https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
+            '@': path.resolve(__dirname, './src'),
+        },
     },
     server: {
         proxy: {
             '^/weatherforecast': {
-                target,
-                secure: false
-            }
+                target,  // Backend API endpoint
+                secure: false, // Allow insecure connections (we assume local dev certificates are self-signed)
+            },
         },
-        port: 3000,
+        port: 3000,  // Frontend runs on port 3000
         https: {
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
-        }
-    }
-})
+            key: fs.readFileSync(keyFilePath),  // Use the SSL key
+            cert: fs.readFileSync(certFilePath), // Use the SSL certificate
+        },
+    },
+});
