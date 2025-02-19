@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
   {
     options.AddPolicy("AllowFrontend", policy =>
     {
-policy.WithOrigins("https://localhost:5255")  // Allow requests from your frontend's URL
+policy.WithOrigins("https://localhost:5173")  // Allow requests from your frontend's URL
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();  // Allow credentials if you're using cookies or authentication headers
@@ -43,6 +43,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Port for backend
+app.Urls.Add("https://localhost:7088");
 
 app.UseHttpsRedirection();
 
