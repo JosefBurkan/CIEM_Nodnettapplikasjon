@@ -1,17 +1,18 @@
 using CIEM_Nodnettapplikasjon.Server.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddScoped<IUserService, UserService>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-// allow the frontend and backend to work together
+// Configure Database Connection
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(11, 6, 2))));
+
+// Cors
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -19,6 +20,13 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 });
+   
+
+builder.Services.AddControllers();
+builder.Services.AddScoped<IUserService, UserService>();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -29,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowFrontend");
+app.UseCors("AllowFrontend"); // Allow frontend and backend to work together
 
 app.UseHttpsRedirection();
 
@@ -46,6 +54,10 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
+// Test endpoint
+app.MapGet("/", () => "Hello, backend is running!");
+
+// Fallback for frontend
 app.MapFallbackToFile("/index.html");
 
 app.Run();
