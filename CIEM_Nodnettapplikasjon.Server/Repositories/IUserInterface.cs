@@ -1,4 +1,9 @@
-﻿namespace CIEM_Nodnettapplikasjon.Server.Repositories
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CIEM_Nodnettapplikasjon.Server.Models;
+
+
+namespace CIEM_Nodnettapplikasjon.Server.Repositories
 {
     public interface IUserInterface
     {
