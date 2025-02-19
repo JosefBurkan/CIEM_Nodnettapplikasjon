@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+gitusing Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
   {
     options.AddPolicy("AllowFrontend", policy =>
     {
-policy.WithOrigins("https://localhost:3000")  // Allow requests from your frontend's URL
+policy.WithOrigins("https://localhost:5255")  // Allow requests from your frontend's URL
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();  // Allow credentials if you're using cookies or authentication headers

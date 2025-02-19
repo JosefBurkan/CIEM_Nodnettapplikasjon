@@ -21,7 +21,7 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
 
 const target = env.ASPNETCORE_HTTPS_PORT
     ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
-    : 'https://localhost:5000';  // Default backend URL
+    : 'https://localhost:7088';  // Default backend URL
 
 export default defineConfig({
     plugins: [react()],
@@ -37,7 +37,7 @@ export default defineConfig({
                 secure: false, // Allow insecure connections (we assume local dev certificates are self-signed)
             },
         },
-        port: 3000,  // Frontend runs on port 3000
+        port: 5255,  // Frontend runs on port 5255
         https: {
             key: fs.readFileSync(keyFilePath),  // Use the SSL key
             cert: fs.readFileSync(certFilePath), // Use the SSL certificate
