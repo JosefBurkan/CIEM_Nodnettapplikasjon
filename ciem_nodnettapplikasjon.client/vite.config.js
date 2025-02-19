@@ -33,11 +33,11 @@ export default defineConfig({
     server: {
         proxy: {
             '^/weatherforecast': {
-                target,  // Backend API endpoint
+                target: 'https://localhost:7088',  // Backend API endpoint
                 secure: false, // Allow insecure connections (we assume local dev certificates are self-signed)
             },
         },
-        port: 5255,  // Frontend runs on port 5255
+        port: 5173,  // Frontend runs on port 5173
         https: {
             key: fs.readFileSync(keyFilePath),  // Use the SSL key
             cert: fs.readFileSync(certFilePath), // Use the SSL certificate
