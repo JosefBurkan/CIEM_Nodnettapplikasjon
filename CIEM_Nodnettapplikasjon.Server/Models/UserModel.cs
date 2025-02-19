@@ -5,7 +5,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Models
     public class UserModel
     {
         public int userID { get; set; }
-        public string name { get; set; }
+        public string name => "Josef";
         public string surname { get; set; }
         public string email { get; set; }
         public string phone { get; set; }

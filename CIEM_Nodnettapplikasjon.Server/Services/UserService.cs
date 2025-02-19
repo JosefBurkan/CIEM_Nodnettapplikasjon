@@ -8,8 +8,15 @@
 
         }
 
-        public void PasswordVerification(int userID, string password) { }
+        public bool AuthenticateUser(string email, string password)
+        {
+            return email == "josef" && password == "123";
+        }
+
         public void GenerateSessionToken(int userID) { }
         public void Logout(int userID) { }
+
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }
