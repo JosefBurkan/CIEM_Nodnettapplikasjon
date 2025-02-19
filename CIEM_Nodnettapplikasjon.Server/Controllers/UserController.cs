@@ -1,15 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CIEM_Nodnettapplikasjon.Server.Services;
+using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
-    [ApiController]  // Ensures it's treated as an API controller
-    [Route("api/[controller]")] // This makes the endpoint accessible at /api/user
-    public class UserController : ControllerBase // Use ControllerBase instead of Controller
+    [ApiController]
+    [Route("api/user")]
+    public class UserController : ControllerBase
     {
-        [HttpGet] // Specifies this is a GET request
-        public IActionResult GetUsers()
+
+        private readonly IUserService _userService;
+        public UserController(IUserService userService) 
         {
-            return Ok(new { message = "API is working!" }); // Returns a test response
+            _userService = userService;
+        }
+
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequest loginRequest)
+        {
+            if (_userService.AuthenticateUser(loginRequest.Email, loginRequest.Password))
+            {
+                return Ok( new {message = "Innlogging lykkes!"});
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
         }
     }
 }
