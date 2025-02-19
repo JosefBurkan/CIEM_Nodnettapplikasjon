@@ -7,13 +7,13 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
 {
     public interface IUserInterface
     {
-        Task AddUser(User user);
+        Task AddUser(UserModel user);
 
-        Task<User> ModifyUser(int brukerID, User user);
+        Task<UserModel> ModifyUser(int brukerID, UserModel user);
 
         Task<bool> DeleteUser(int brukerID);
 
-        Task<User> ViewUser(int brukerID);
+        Task<UserModel> ViewUser(int brukerID);
 
     }
 }
