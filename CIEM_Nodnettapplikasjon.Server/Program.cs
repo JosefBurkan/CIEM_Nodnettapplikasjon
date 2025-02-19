@@ -11,6 +11,18 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(11, 6, 2))));
 
+// Cors
+builder.Services.AddCors(options =>
+  {
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+policy.WithOrigins("https://localhost:5173")  // Allow requests from your frontend's URL
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();  // Allow credentials if you're using cookies or authentication headers
+    });
+});
+   
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -18,6 +30,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Use CORS
+app.UseCors("AllowFrontend"); // Apply cors policy here
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -28,6 +43,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Port for backend
+app.Urls.Add("https://localhost:7088");
 
 app.UseHttpsRedirection();
 
