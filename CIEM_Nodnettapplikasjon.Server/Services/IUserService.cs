@@ -3,11 +3,10 @@
     public interface IUserService
     {
         void Login(string email, string password);
-        void PasswordVerification(int userID,  string password);
+        bool AuthenticateUser(string email, string password);
         void GenerateSessionToken(int userID);
-
         void Logout(int userID);
-
+        
 
 
     }

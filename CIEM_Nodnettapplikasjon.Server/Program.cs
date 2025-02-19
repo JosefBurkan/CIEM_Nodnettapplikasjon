@@ -1,3 +1,4 @@
+using CIEM_Nodnettapplikasjon.Server.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,29 +14,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Cors
 builder.Services.AddCors(options =>
-  {
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-policy.WithOrigins("https://localhost:5173")  // Allow requests from your frontend's URL
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();  // Allow credentials if you're using cookies or authentication headers
-    });
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy.AllowAnyOrigin() //WithOrigins("http://localhost:5173")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
 });
    
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IUserService, UserService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-// Use CORS
-app.UseCors("AllowFrontend"); // Apply cors policy here
-
-app.UseDefaultFiles();
-app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -44,14 +37,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Port for backend
-app.Urls.Add("https://localhost:7088");
+app.UseCors("AllowFrontend"); // Allow frontend and backend to work together
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseDefaultFiles();
+
+app.UseStaticFiles();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 // Test endpoint
 app.MapGet("/", () => "Hello, backend is running!");
