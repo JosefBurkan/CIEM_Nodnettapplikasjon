@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CIEM_Nodnettapplikasjon.Server.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserInterface
     {
         private readonly ApplicationDbContext _context;
 
@@ -24,17 +24,17 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
         }
 
         // Modify user by ID
-        public async Task<UserModel> ModifyUser(int brukerID, UserModel updatedUser)
+        public async Task<UserModel> ModifyUser(int userID, UserModel updatedUser)
         {
-            var user = await _context.Users.FindAsync(brukerID);
+            var user = await _context.Users.FindAsync(userID);
             if (user == null)
                 return null; // Returnerer null hvis ingen bruker er funnet
         
 
         // Update user properties
-        user.FirstName = updatedUser.FirstName;
-            user.LastName = updatedUser.LastName;
-            user.Email = updatedUser.Email;
+        user.name = updatedUser.name;
+            user.surname = updatedUser.surname;
+            user.email = updatedUser.email;
             // legge til mer?
 
             await _context.SaveChangesAsync();
@@ -42,9 +42,9 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
     }
 
     // Delete user by ID
-    public async Task<bool> DeleteUser(int brukerID)
+    public async Task<bool> DeleteUser(int userID)
         {
-            var user = await _context.Users.FindAsync(brukerID);
+            var user = await _context.Users.FindAsync(userID);
             if (user == null)
                 return false;
 
@@ -54,9 +54,9 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
         }
 
         // View user by ID
-        public async Task<UserModel> ViewUser(int brukerID)
+        public async Task<UserModel> ViewUser(int userID)
         {
-            return await _context.Users.FindAsync(brukerID);
+            return await _context.Users.FindAsync(userID);
         }
     }
 }

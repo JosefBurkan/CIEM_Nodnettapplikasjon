@@ -9,11 +9,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
     {
         Task AddUser(UserModel user);
 
-        Task<UserModel> ModifyUser(int brukerID, UserModel user);
+        Task<UserModel> ModifyUser(int userID, UserModel user);
 
-        Task<bool> DeleteUser(int brukerID);
+        Task<bool> DeleteUser(int userID);
 
-        Task<UserModel> ViewUser(int brukerID);
+        Task<UserModel> ViewUser(int userID);
 
     }
 }
