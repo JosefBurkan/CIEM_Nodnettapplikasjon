@@ -1,5 +1,6 @@
 using CIEM_Nodnettapplikasjon.Server.Services;
 using Microsoft.EntityFrameworkCore;
+using CIEM_Nodnettapplikasjon.Server.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(11, 6, 2))));
+
+
+builder.Services.AddScoped<IUserInterface, UserRepository>();
 
 // Cors
 builder.Services.AddCors(options =>
