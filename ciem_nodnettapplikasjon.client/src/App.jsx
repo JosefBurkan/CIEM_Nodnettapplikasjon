@@ -4,7 +4,7 @@ function App() {
     const [inputPassword, setInputPassword] = useState('');
     const [inputEmail, setInputEmail] = useState('');
 
-    const API_URL = import.meta.env.VITE_API_URL; // Stores url to avoid hardcoding
+    const API_URL = import.meta.env.VITE_API_URL; // Stores localhost address
 
     //
     // Summary:
@@ -24,22 +24,22 @@ function App() {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('https://localhost:7088/api/user/login', {
-                method: 'POST',
+            const response = await fetch("https://localhost:7088/api/user/login", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': "application/json",
                 },
                 body: JSON.stringify({ Email: inputEmail, Password: inputPassword }),
             });
 
             if (response.ok) {
                 const result = await response.json();
-                console.log('Success:', result);
+                console.log("Success:", result);
             } else {
-                console.error('Error: funker faen ikke', response.statusText);
+                console.error("Error: funker faen ikke", response.statusText);
             }
         } catch (error) {
-            console.error('Error: ble error nr 2', error);
+            console.error("Error: ble error nr 2", error);
         }
     };
      
@@ -59,6 +59,7 @@ function App() {
             />
             <button onClick={handleSubmit}>Submit</button>
         </div>
+
     );
 }
 
