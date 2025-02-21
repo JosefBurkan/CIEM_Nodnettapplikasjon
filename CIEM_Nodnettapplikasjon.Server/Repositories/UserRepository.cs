@@ -1,62 +1,47 @@
 ﻿using CIEM_Nodnettapplikasjon.Server.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 
 namespace CIEM_Nodnettapplikasjon.Server.Repositories
 {
-    public class UserRepository : IUserInterface
+    public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext _context;
+        private List<UserModel> users = new List<UserModel>();
 
-        public UserRepository(ApplicationDbContext context)
+        // Add User
+        public void AddUser(string username, string email, string phone, string password, string role)
         {
-            _context = context;
+            int newUserID = users.Count + 1;
+            var newUser = new UserModel(username, email, phone, password, role); 
+            newUser.UserID = newUserID;
+            users.Add(newUser);
         }
 
-        // Add a new user
-        public async Task AddUser(UserModel user)
+        // Modify User
+        public void ModifyUser(int userID, string newUsername, string newEmail, string newPhone, string newRole)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var user = users.FirstOrDefault(u => u.UserID == userID);
+            if (user != null)
+            {
+                user.Username = newUsername;
+                user.Email = newEmail;
+                user.Phone = newPhone;
+                user.Role = newRole;
+            }
         }
 
-        // Modify user by ID
-        public async Task<UserModel> ModifyUser(int userID, UserModel updatedUser)
+        // Delete User
+        public void DeleteUser(int userID)
         {
-            var user = await _context.Users.FindAsync(userID);
-            if (user == null)
-                return null; // Returnerer null hvis ingen bruker er funnet
-        
-
-        // Update user properties
-        user.name = updatedUser.name;
-            user.surname = updatedUser.surname;
-            user.email = updatedUser.email;
-            // legge til mer?
-
-            await _context.SaveChangesAsync();
-        return user;
-    }
-
-    // Delete user by ID
-    public async Task<bool> DeleteUser(int userID)
-        {
-            var user = await _context.Users.FindAsync(userID);
-            if (user == null)
-                return false;
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return true;
+            users.RemoveAll(u => u.UserID == userID);
         }
 
-        // View user by ID
-        public async Task<UserModel> ViewUser(int userID)
+        public UserModel ViewUser(int userID)
         {
-            return await _context.Users.FindAsync(userID);
+            return users.FirstOrDefault(u => u.UserID == userID) ?? new UserModel("Joakim", "joakim@gmail.com", "49282920", "123", "Scrummaster");
         }
+
     }
 }

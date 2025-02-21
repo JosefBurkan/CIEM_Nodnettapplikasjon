@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(11, 6, 2))));
 
 
-builder.Services.AddScoped<IUserInterface, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Cors
 builder.Services.AddCors(options =>

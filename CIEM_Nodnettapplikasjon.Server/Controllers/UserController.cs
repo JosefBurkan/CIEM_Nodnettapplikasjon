@@ -1,6 +1,6 @@
 ﻿using CIEM_Nodnettapplikasjon.Server.Services;
-using CIEM_Nodnettapplikasjon.Server.Models;
 using CIEM_Nodnettapplikasjon.Server.Repositories;
+using CIEM_Nodnettapplikasjon.Server.Models;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +10,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
     [Route("api/user")]
     public class UserController : ControllerBase
     {
-
-        private readonly IUserService _userService;
-        private readonly IUserInterface _userRepository;
         
-        public UserController(IUserService userService, IUserInterface userRepository) 
+        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
+        
+        public UserController(IUserService userService, IUserRepository userRepository) 
         {
             _userService = userService;
             _userRepository = userRepository;
@@ -26,58 +26,82 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
         {
             if (_userService.AuthenticateUser(loginRequest.Email, loginRequest.Password))
             {
-                return Ok( new {message = "Innlogging lykkes!"});
+                return Ok(new { message = "Innlogging lykkes!" });
             }
             else
             {
                 return BadRequest();
             }
-            
+
         }
 
-        // Add User
+        // Add a new user (Create)
         [HttpPost("add")]
-        public async Task<IActionResult> AddUser([FromBody] UserModel user)
+        public IActionResult AddUser([FromBody] UserModel user)
         {
             if (user == null)
-                return BadRequest("User data is missing");
+                return BadRequest("User data is null.");
 
-            await _userRepository.AddUser(user);
-            return Ok(new { message = "User added successfully" });
+            _userRepository.AddUser(user.Username, user.Email, user.Phone, user.Password, user.Role);
+            return Ok(new { message = "User added successfully!" });
         }
 
-        // Modify User
-        [HttpPut("modify/{id}")]
-        public async Task<IActionResult> ModifyUser(int id, [FromBody] UserModel updatedUser)
+        // Modify an existing user (Update)
+        [HttpPut("modify/{userId}")]
+        public IActionResult ModifyUser(int userId, [FromBody] UserModel user)
         {
-            var result = await _userRepository.ModifyUser(id, updatedUser);
-            if (result == null)
-                return NotFound(new { message = "User not found" });
+            var existingUser = _userRepository.ViewUser(userId);
+            if (existingUser == null)
+                return NotFound(new { message = "User not found." });
 
-            return Ok(new { message = "User updated successfully", user = result });
+            _userRepository.ModifyUser(userId, user.Username, user.Email, user.Phone, user.Role);
+            return Ok(new { message = "User updated successfully!" });
         }
 
-        // Delete User
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        // Delete a user (Delete)
+        [HttpDelete("delete/{userId}")]
+        public IActionResult DeleteUser(int userId)
         {
-            var success = await _userRepository.DeleteUser(id);
-            if (!success)
-                return NotFound(new { message = "User not found" });
+            var existingUser = _userRepository.ViewUser(userId);
+            if (existingUser == null)
+                return NotFound(new { message = "User not found." });
 
-            return Ok(new { message = "User deleted successfully" });
+            _userRepository.DeleteUser(userId);
+            return Ok(new { message = "User deleted successfully!" });
         }
 
-        // View User
-        [HttpGet("view/{id}")]
-        public async Task<IActionResult> ViewUser(int id)
+        // View a user (Read)
+        [HttpGet("view/{userId}")]
+        public IActionResult ViewUser(int userId)
         {
-            var user = await _userRepository.ViewUser(id);
+            var user = _userRepository.ViewUser(userId);
             if (user == null)
-                return NotFound(new { message = "User not found" });
+                return NotFound(new { message = "User not found." });
 
             return Ok(user);
         }
+
+        [HttpGet("admin")]
+        public IActionResult GetAdmin()
+        {
+            var admin = new AdministratorModel(); // Uses the default values from the Administrator class
+            return Ok(admin); // Returns the admin object to test
+        }
+
+        [HttpGet("basicuser")]
+        public IActionResult GetBasicUser()
+        {
+            var basicUser = new BasicUserModel(); // Uses the default values from BasicUserModel class
+            return Ok(basicUser); // Returns the basic user object to test
+        }
+
+        [HttpGet("departmentleader")]
+        public IActionResult GetDepartmentLeader()
+        {
+            var departmentLeader = new DepartmentLeaderModel(); // Use DepartmentLeaderModel here
+            return Ok(departmentLeader); // Returns the department leader object to test
+        }
+
 
 
     }
