@@ -54,18 +54,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
-// Static files for frontend
-var frontendPath = Path.Combine(Directory.GetCurrentDirectory(), "../ciem_nodnettapplikasjon.client/wwwroot");
-if (Directory.Exists(frontendPath))
-{
-    app.UseStaticFiles(new StaticFileOptions
-    {
-        FileProvider = new PhysicalFileProvider(frontendPath),
-        RequestPath = ""
-    });
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -78,14 +66,10 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
 app.UseDefaultFiles();
-app.UseStaticFiles();
 
 app.MapControllers();
 
 // Test endpoint
 app.MapGet("/", () => "Hello, backend is running!");
-
-// Fallback for frontend (Single page app support)
-app.MapFallbackToFile("/index.html");
 
 app.Run();

@@ -40,7 +40,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Services
                     return false;
                 }
 
-                // Compare plain text passwords (not recommended for production)
                 return password == user.Password;
             }
             catch (Exception ex)

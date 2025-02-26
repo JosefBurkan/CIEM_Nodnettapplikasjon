@@ -74,8 +74,8 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
         // View User
         public UserModel ViewUser(int userID)
         {
-            return _context.Users.FirstOrDefault(u => u.UserID == userID) ??
-                   new UserModel("Joakim", "joakim@gmail.com", "49282920", "123", "Scrummaster");
+            return _context.Users.FirstOrDefault(u => u.UserID == userID) 
+              ?? new UserModel("DefaultUser", "default@example.com", "0000000000", "password", "Guest");
         }
     }
 }
