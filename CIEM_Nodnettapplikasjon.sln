@@ -5,8 +5,6 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIEM_Nodnettapplikasjon.Server", "CIEM_Nodnettapplikasjon.Server\CIEM_Nodnettapplikasjon.Server.csproj", "{A34F542F-9247-4FE8-8CB5-4791C38DC4CB}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ciem_nodnettapplikasjon.client", "ciem_nodnettapplikasjon.client\ciem_nodnettapplikasjon.client.esproj", "{0A493F85-57E9-49C6-952A-31918A16778E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +15,6 @@ Global
 		{A34F542F-9247-4FE8-8CB5-4791C38DC4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A34F542F-9247-4FE8-8CB5-4791C38DC4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A34F542F-9247-4FE8-8CB5-4791C38DC4CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A493F85-57E9-49C6-952A-31918A16778E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A493F85-57E9-49C6-952A-31918A16778E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A493F85-57E9-49C6-952A-31918A16778E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{0A493F85-57E9-49C6-952A-31918A16778E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A493F85-57E9-49C6-952A-31918A16778E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A493F85-57E9-49C6-952A-31918A16778E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

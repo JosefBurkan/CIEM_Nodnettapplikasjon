@@ -1,3 +1,4 @@
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using CIEM_Nodnettapplikasjon.Server.Models;
 
@@ -10,4 +11,6 @@ public class ApplicationDbContext : DbContext
 
     // Add DbSets for tables here (Example: Users table)
     public DbSet<UserModel> Users { get; set; }
+
+
 }

@@ -2,9 +2,8 @@
 {
     public interface IUserService
     {
-        void Login(string email, string password);
-        bool AuthenticateUser(string email, string password);
-        void GenerateSessionToken(int userID);
+        bool Login(string username, string password);
+        bool AuthenticateUser(string username, string password);
         void Logout(int userID);
         
 

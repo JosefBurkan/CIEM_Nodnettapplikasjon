@@ -28,9 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ciem_nodnettapplikasjon.client\ciem_nodnettapplikasjon.client.esproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
+ 
   </ItemGroup>
 
 </Project>

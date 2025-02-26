@@ -10,20 +10,27 @@ namespace CIEM_Nodnettapplikasjon.Server.Models
         public int UserID { get; set; }
         public string Username {  get; set; }
         public string Email { get; set; }
-        public string Phone { get; set; }
         public string Password { get; set; }
+        public string Phone { get; set; }
         public string Role { get; set; }
 
-        public UserModel(string username, string email, string phone, string password, string role)
+        public UserModel(string username, string email, string password, string phone, string role)
         {
             
              
           this.Username = username;
             this.Email = email;
-            this.Phone = phone;
-            this.Password = password;
+            this.Password = phone;
+            this.Phone = password;
             this.Role = role;
 
         }
+
+    }
+
+    public class LoginRequest
+    {
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
     }
 }

@@ -1,19 +1,20 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
+# Use the .NET SDK image to build the project
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY CIEM.Nodnettapplikasjon.Server/ CIEM.Nodnettapplikasjon.Server/
-WORKDIR /src/CIEM.Nodnettapplikasjon.Server/
-RUN dotnet restore
-RUN dotnet build -c Release --no-restore
 
-FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish --no-restore
+# Copy the backend project file (CSProj) and restore dependencies
+COPY ["CIEM_Nodnettapplikasjon.Server/CIEM_Nodnettapplikasjon.Server.csproj", "CIEM_Nodnettapplikasjon.Server/"]
 
-FROM base AS final
+# Restore dependencies for the backend
+RUN dotnet restore CIEM_Nodnettapplikasjon.Server/CIEM_Nodnettapplikasjon.Server.csproj
+
+# Copy the rest of the backend files and publish
+COPY . .  # Copy all files in the current directory to /src
+WORKDIR /src/CIEM_Nodnettapplikasjon.Server
+RUN dotnet publish -c Release -o /app/publish
+
+# Use the ASP.NET runtime image to run the app
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CIEM.Nodnettapplikasjon.Server.dll"]
+COPY --from=build /app/publish .  # Copy the published files to /app
+ENTRYPOINT ["dotnet", "CIEM_Nodnettapplikasjon.Server.dll"]

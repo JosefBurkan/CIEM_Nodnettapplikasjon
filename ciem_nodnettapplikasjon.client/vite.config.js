@@ -12,16 +12,15 @@ const certificateName = "ciem_nodnettapplikasjon.client";
 const certFilePath = path.join(sslFolderPath, `${certificateName}.pem`);
 const keyFilePath = path.join(sslFolderPath, `${certificateName}.key`);
 
-// Check if the certificates exist, or create them if not
+// Check if the certificates exist
 if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     console.log("SSL certificate not found, creating new one...");
-    // You can optionally run the .NET cert creation logic here if needed
-    // Or just make sure the certificate exists manually if you've already generated it
+
 }
 
 const target = env.ASPNETCORE_HTTPS_PORT
     ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
-    : 'https://localhost:7088';  // Default backend URL
+    : 'https://localhost:5255';  // Default backend URL
 
 export default defineConfig({
     plugins: [react()],
@@ -32,9 +31,10 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7088',  // Backend API endpoint
-                secure: false, // Allow insecure connections (we assume local dev certificates are self-signed)
+            '^/api': {
+                target: 'https://localhost:5255',  // Backend API endpoint
+                secure: false,
+                changeOrigin: true,
             },
         },
         port: 5173,  // Frontend runs on port 5173
@@ -43,4 +43,7 @@ export default defineConfig({
             cert: fs.readFileSync(certFilePath), // Use the SSL certificate
         },
     },
+    build: {
+        outDir: '../CIEM_Nodnettapplikasjon.Server/wwwroot'
+    }
 });

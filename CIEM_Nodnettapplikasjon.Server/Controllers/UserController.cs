@@ -10,11 +10,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
     [Route("api/user")]
     public class UserController : ControllerBase
     {
-        
+
         private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
-        
-        public UserController(IUserService userService, IUserRepository userRepository) 
+
+        public UserController(IUserService userService, IUserRepository userRepository)
         {
             _userService = userService;
             _userRepository = userRepository;
@@ -22,15 +22,15 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         // User Authentication
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest loginRequest)
+        public IActionResult Login([FromBody] CIEM_Nodnettapplikasjon.Server.Models.LoginRequest loginRequest)
         {
-            if (_userService.AuthenticateUser(loginRequest.Email, loginRequest.Password))
+            if (_userService.AuthenticateUser(loginRequest.Username, loginRequest.Password))
             {
                 return Ok(new { message = "Innlogging lykkes!" });
             }
             else
             {
-                return BadRequest();
+                return BadRequest(new { message = "Invalid username or password." });
             }
 
         }
