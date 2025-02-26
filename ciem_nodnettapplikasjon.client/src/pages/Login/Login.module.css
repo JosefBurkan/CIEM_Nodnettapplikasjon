@@ -1,0 +1,114 @@
+/* body{
+    background-color: #1a1a1a;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+} */
+
+.loginPage{
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1a1a1a;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.logo{
+    width: 200px;
+    height: auto;  
+    margin-bottom: 3em;
+}
+
+.helpBox{
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size:1.2em;
+    color: #FF3F3F;
+    cursor:pointer;
+    display:flex;
+    align-items: center;
+    background-color:  hsl(0, 0%, 23%);
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: none;
+}
+.helpBox:hover{
+    background-color:  hsl(0, 0%, 18%);
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inputField{
+    width: 400px;
+    padding: 18px;
+    border-radius: 25px;
+    border: none;
+    background-color: #595959;
+    color:white;
+    outline:none;
+    margin-bottom: 25px;
+    font-size: 1em;
+}
+.inputField::placeholder{
+    color: #bbb;
+    text-transform: uppercase;
+}
+
+.loginButton{
+    width: 150px;
+    padding: 15px;
+    border-radius: 25px;
+    outline: none;
+    background-color: #006C74;
+    border:none;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 1rem;
+}
+.loginButton:disabled{
+    background-color: #3a3a3a;
+    cursor:not-allowed;
+    color: hsl(0, 0%, 70%);
+    
+}
+.loginButton:hover{
+    background-color: hsl(184, 100%, 18%);
+}
+.inputField:-webkit-autofill {
+    background-color: #595959 !important;
+    color: white !important;                                       /*  Kode funnet på nett for å forhindre at autofullføring   */
+    -webkit-box-shadow: 0 0 0px 1000px #595959 inset !important;   /*  av nettleser påvirker CSS i brukernavn feltet.          */
+}
+.inputField:-webkit-autofill,
+.inputField:-webkit-autofill:hover, 
+.inputField:-webkit-autofill:focus,         /*  Kode funnet på nett for å forhindre at autofullføring   */
+.inputField:-webkit-autofill:active {       /*  av nettleser påvirker CSS i brukernavn feltet.          */
+    background-color: #595959 !important; 
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+@media (max-width: 800px) { /* Når skjermbredden er under 800px */
+    .helpBox {
+        display: none; /* Skjuler hjelpboksen - // fin hjelp her ja*/
+    }
+}
