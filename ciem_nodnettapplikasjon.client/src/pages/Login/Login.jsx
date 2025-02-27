@@ -5,11 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Login(){
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [correctMessage, setCorrectMessage] = useState("");
-    const isDisabled = (!username || !password);
+    const isDisabled = (!email || !password);
     const navigate = useNavigate();
 
     const showMessage = (error = "", success = "",) => {
@@ -17,37 +17,43 @@ function Login(){
         setCorrectMessage(success);
     }
 
-    const handleLogin = (e) => {
+    const Login = async (e) => {
         e.preventDefault(); 
 
-        if(!username || !password) {
-            showMessage("Vennligst fyll inn brukernavn og passord");
-            return;
-        }
-        if(username === "AdminB" && password === "AdminP"){
-            showMessage("", `Velkommen inn ${username}`);
+        const response = await fetch("https://localhost:7088/api/user/login", {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+            },
+            body: JSON.stringify({ Email: email, Password: password }),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            showMessage("", `Velkommen inn ${email}`);
             setTimeout(() => navigate("/dashboard"), 1000);
-        }
-        else{
+        } else {
+            console.error("Error: ", response.statusText);
             console.log("Feil brukernavn eller passord");
             showMessage("Feil brukernavn eller passord, prøv igjen");
         }
+
         setPassword("");
-        setUsername("");
+        setEmail("");
     };
 
     return(
         <div className={styles.loginPage}>
             <img src={EMKORE} alt="EMKORE logo" className={styles.logo}/>
-            <form className={styles.inputContainer} onSubmit={handleLogin}>
+            <form className={styles.inputContainer} onSubmit={Login}>
                 <input
                     type="text"
-                    name="username"
+                    name="email"
                     className={styles.inputField} 
                     placeholder="BRUKERNAVN"
                     autoComplete="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <input 
                     type="password"

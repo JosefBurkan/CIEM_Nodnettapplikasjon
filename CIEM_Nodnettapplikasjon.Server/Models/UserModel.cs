@@ -7,16 +7,16 @@ namespace CIEM_Nodnettapplikasjon.Server.Models
     public class UserModel
     {
         [Key] // userID primary key
-        public int userID { get; set; }
-        public string name { get; set; }
-        public string surname { get; set; }
-        public string email { get; set; }
-        public string phone { get; set; }
-        public string password { get; set; }
-        public string role { get; set; }
+        public int UserID { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
 
         
-        public UserModel(string name, string surname, string email, string phone, string password, string role)
+        protected UserModel(string name, string surname, string email, string phone, string password, string role)
         {
             name = name;
             surname = surname;  
