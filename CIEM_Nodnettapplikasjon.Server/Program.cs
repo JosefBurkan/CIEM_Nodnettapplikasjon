@@ -4,8 +4,11 @@ using CIEM_Nodnettapplikasjon.Server.Repositories;
 using Pomelo.EntityFrameworkCore.MySql.Extensions;
 using Microsoft.Extensions.FileProviders;
 
-var builder = WebApplication.CreateBuilder(args);
-
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+     {
+    WebRootPath = null
+    });
+  
 // Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

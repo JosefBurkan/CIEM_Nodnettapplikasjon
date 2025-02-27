@@ -44,6 +44,6 @@ export default defineConfig({
         },
     },
     build: {
-        outDir: '../CIEM_Nodnettapplikasjon.Server/wwwroot'
+        outDir: 'dist'
     }
 });
