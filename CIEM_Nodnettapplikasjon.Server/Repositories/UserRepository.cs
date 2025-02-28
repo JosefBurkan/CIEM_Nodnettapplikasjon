@@ -1,4 +1,5 @@
 ﻿using CIEM_Nodnettapplikasjon.Server.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace CIEM_Nodnettapplikasjon.Server.Repositories
@@ -40,10 +41,20 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
         // Add User
         public void AddUser(string username, string email, string phone, string password, string role)
         {
-            var newUser = new UserModel(username, email, phone, password, role);
+            var newUser = new UserModel
+            {
+                Username = username,
+                Email = email,
+                Phone = phone,
+                Password = password, 
+                Role = role
+            };
+
             _context.Users.Add(newUser);
             _context.SaveChanges();
         }
+
+
 
         // Modify User
         public void ModifyUser(int userID, string newUsername, string newEmail, string newPhone, string newRole)

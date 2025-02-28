@@ -8,20 +8,23 @@ namespace CIEM_Nodnettapplikasjon.Server.Models
     {
         [Key] // userID primary key
         public int UserID { get; set; }
+
         public string Username {  get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public string Phone { get; set; }
+        public string Password { get; set; }
         public string Role { get; set; }
 
-        public UserModel(string username, string email, string password, string phone, string role)
+        public UserModel() { }
+
+        public UserModel(string username, string email, string phone, string password, string role)
         {
             
              
           this.Username = username;
             this.Email = email;
-            this.Password = phone;
-            this.Phone = password;
+            this.Phone = phone;
+            this.Password = password;
             this.Role = role;
 
         }

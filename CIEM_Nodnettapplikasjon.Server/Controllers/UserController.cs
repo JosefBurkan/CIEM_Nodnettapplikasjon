@@ -3,11 +3,14 @@ using CIEM_Nodnettapplikasjon.Server.Repositories;
 using CIEM_Nodnettapplikasjon.Server.Models;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
-    [ApiController]
+    [EnableCors("AllowFrontend")]
     [Route("api/user")]
+    [ApiController]
+   
     public class UserController : ControllerBase
     {
 

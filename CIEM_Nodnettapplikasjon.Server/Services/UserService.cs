@@ -1,6 +1,5 @@
 ﻿using CIEM_Nodnettapplikasjon.Server.Repositories;
 using System;
-using System.Linq;
 
 namespace CIEM_Nodnettapplikasjon.Server.Services
 {
@@ -22,34 +21,19 @@ namespace CIEM_Nodnettapplikasjon.Server.Services
         // Authentication method
         public bool AuthenticateUser(string username, string password)
         {
-            try
+            // Fetch the user from the repository
+            var user = _userRepository.GetUserByUsername(username);
+
+            // Check if the user exists and the password matches
+            if (user != null && user.Password == password) // Plaintext comparison
             {
-                if (string.IsNullOrWhiteSpace(username))
-                {
-                    Console.WriteLine("Username is null, empty, or just whitespace.");
-                    return false;
-                }
-
-                username = username.Trim();
-
-                var user = _userRepository.GetUserByUsername(username);
-
-                if (user == null)
-                {
-                    Console.WriteLine($"Authentication failed: User '{username}' not found.");
-                    return false;
-                }
-
-                return password == user.Password;
+                return true;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Authentication error: {ex.Message}");
-                return false;
-            }
+
+            return false;
         }
 
-        // Logout method
+        // Logout method (now correctly inside the class)
         public void Logout(int userID)
         {
             // Simple logout logic
