@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import EMKORE from '../../assets/EMKORE.png';
+import logo from '../../assets/EMKORE.png';
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -38,7 +38,7 @@ function Login(){
 
     return(
         <div className={styles.loginPage}>
-            <img src={EMKORE} alt="EMKORE logo" className={styles.logo}/>
+            <img src={logo} alt="EMKORE logo" className={styles.logo}/>
             <form className={styles.inputContainer} onSubmit={handleLogin}>
                 <input
                     type="text"

@@ -5,8 +5,15 @@ import EMKORE from '../../assets/EMKORE.png';
 
 function Dashboard(){
     return(
-        <div className="pageContainer">
+        <div className={styles.test}>
+            <h1>Dashbaaaoard</h1>
             <h1>Dashboard</h1>
+            <h1>Dashboard</h1>
+            <h1>Dashboard</h1>
+            <h1>Dashboard</h1>
+            <h1>Dashboard</h1>
+            <h1>Dashboard</h1>
+
         </div>
     );
 }
