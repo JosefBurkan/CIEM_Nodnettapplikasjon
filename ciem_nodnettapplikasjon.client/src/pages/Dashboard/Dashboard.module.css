@@ -1,8 +1,8 @@
-.test {
+.test { /* Midlertidig greier for å se midten av nettsiden for navbar */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Holder teksten i midten */
+  align-items: center; 
   text-align: center;
-  max-width: 50%; /* Setter en bredde for at den matcher navbaren */
-  margin: auto; /* Sentrerer den perfekt på siden */
+  max-width: 50%; 
+  margin: auto; 
 }
