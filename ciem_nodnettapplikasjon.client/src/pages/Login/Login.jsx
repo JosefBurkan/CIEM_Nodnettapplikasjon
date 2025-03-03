@@ -5,11 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Login(){
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [correctMessage, setCorrectMessage] = useState("");
-    const isDisabled = (!username || !password);
+    const isDisabled = (!email || !password);
     const navigate = useNavigate();
 
     const showMessage = (error = "", success = "",) => {
@@ -30,7 +30,9 @@ function Login(){
 
         if (response.ok) {
             const result = await response.json();
+
             showMessage("", `Velkommen inn ${username}`);
+
             setTimeout(() => navigate("/dashboard"), 1000);
         } else {
             console.error("Error: ", response.statusText);
@@ -44,16 +46,16 @@ function Login(){
 
     return (
         <div className={styles.loginPage}>
-            <img src={EMKORE} alt="EMKORE logo" className={styles.logo} />
+<img src={EMKORE} alt="EMKORE logo" className={styles.logo} />
             <form className={styles.inputContainer} onSubmit={Login}>
                 <input
                     type="text"
                     name="username"
-                    className={styles.inputField}
+                    className={styles.inputField}                   
                     placeholder="BRUKERNAVN"
                     autoComplete="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                     type="password"

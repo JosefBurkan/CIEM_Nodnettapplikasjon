@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './NavBar.module.css';
+// import styles from './NavBar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 function NavBar(){
@@ -9,5 +9,5 @@ function NavBar(){
     );
 
 }
-
+ 
 export default NavBar;

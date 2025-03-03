@@ -10,7 +10,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
     [EnableCors("AllowFrontend")]
     [Route("api/user")]
     [ApiController]
-   
+
     public class UserController : ControllerBase
     {
 
