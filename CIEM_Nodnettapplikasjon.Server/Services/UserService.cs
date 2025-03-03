@@ -9,7 +9,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Services
 
         public UserService(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository; // Injects the userrepository dependency
         }
 
         // Login method
@@ -21,11 +21,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Services
         // Authentication method
         public bool AuthenticateUser(string username, string password)
         {
-            // Fetch the user from the repository
+            // Fetch the user from the UserRepository.cs
             var user = _userRepository.GetUserByUsername(username);
 
             // Check if the user exists and the password matches
-            if (user != null && user.Password == password) // Plaintext comparison
+            if (user != null && user.Password == password) 
             {
                 return true;
             }
@@ -33,10 +33,9 @@ namespace CIEM_Nodnettapplikasjon.Server.Services
             return false;
         }
 
-        // Logout method (now correctly inside the class)
+        // Logout method 
         public void Logout(int userID)
         {
-            // Simple logout logic
             Console.WriteLine($"User with ID {userID} has logged out.");
         }
     }

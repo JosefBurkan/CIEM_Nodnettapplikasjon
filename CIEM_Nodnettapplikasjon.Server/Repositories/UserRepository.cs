@@ -13,11 +13,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
             _context = context;
         }
 
-        // Username authentication
+        // Username authentication (Retrieves a user by username from database)
         public UserModel? GetUserByUsername(string username)
         {
   
-            var allUsers = _context.Users.ToList();
+            var allUsers = _context.Users.ToList(); // Fecthes all users from database
             Console.WriteLine($"Total users in database: {allUsers.Count}");
             foreach (var u in allUsers)
             {

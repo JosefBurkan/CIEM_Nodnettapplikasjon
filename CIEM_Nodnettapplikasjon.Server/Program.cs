@@ -6,10 +6,10 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-    WebRootPath = null
+    WebRootPath = null 
 });
 
-// Add services to the container.
+// Retrivies database conntection string from configuration
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Configure Database Connection
@@ -63,7 +63,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseRouting(); // <-- Add this before UseCors
+app.UseRouting(); 
 app.UseCors("AllowFrontend");  // Allow frontend and backend to work together
 app.UseAuthorization();
 
