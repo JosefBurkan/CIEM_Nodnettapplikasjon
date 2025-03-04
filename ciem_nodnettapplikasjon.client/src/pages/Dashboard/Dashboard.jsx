@@ -10,7 +10,7 @@ function Dashboard(){
     return(
         <div className="pageContainer">
             <h1>Dashboard</h1>
-            <button onClick={() => navigate("/actors")}>Go to Dashboard</button>
+            <button onClick={() => navigate("/actors")}>Go to Actors</button>
         </div>
     );
 }

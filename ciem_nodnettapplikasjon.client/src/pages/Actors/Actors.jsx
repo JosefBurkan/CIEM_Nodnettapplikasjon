@@ -15,7 +15,13 @@ function Actors() {
 
     return(
         <div>
-            <h1>Antall aktører: {actors} </h1>
+        {
+            actors.map((actor, i) => 
+            {
+                return <div key={i}>{actor}</div>
+                
+            })
+        }
         </div>
     );
 
