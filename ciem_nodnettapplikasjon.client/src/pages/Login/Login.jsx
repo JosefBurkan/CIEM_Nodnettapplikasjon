@@ -20,7 +20,7 @@ function Login(){
     const Login = async (e) => {
         e.preventDefault(); 
 
-        const response = await fetch("https://localhost:7088/api/user/login", {
+        const response = await fetch("https://localhost:5255/api/user/login", {
             method: "POST",
             headers: {
                 'Content-Type': "application/json",
@@ -30,13 +30,13 @@ function Login(){
 
         if (response.ok) {
             const result = await response.json();
-            showMessage("", `Velkommen inn ${email}`);
             setTimeout(() => navigate("/dashboard"), 1000);
         } else {
             console.error("Error: ", response.statusText);
             console.log("Feil brukernavn eller passord");
             showMessage("Feil brukernavn eller passord, prøv igjen");
-        }
+        } 
+
 
         setPassword("");
         setEmail("");

@@ -1,4 +1,6 @@
 ﻿using CIEM_Nodnettapplikasjon.Server.Services;
+using CIEM_Nodnettapplikasjon.Server.Repositories;
+using CIEM_Nodnettapplikasjon.Server.Models;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
         private readonly ApplicationDbContext _context;
 
         public UserController(IUserService userService, ApplicationDbContext context) 
@@ -20,19 +23,13 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _context.Users.ToListAsync();
-            return Ok(users);
-        }
-
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-            if (_userService.AuthenticateUser(loginRequest.Email, loginRequest.Password))
+            var user = _userService.AuthenticateUser(loginRequest.Email).Result;
+
+            if (user.name == loginRequest.Email)
             {
-                GetUsers();
                 return Ok( new {message = "Innlogging lykkes!"});
             }
             else
