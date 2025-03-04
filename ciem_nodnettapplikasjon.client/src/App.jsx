@@ -3,6 +3,8 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import './index.css'
 import NavBar from './components/NavBar/NavBar.jsx';
 import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import KHS from './pages/KHS/KHSnettverk.jsx';
+import Actors from './pages/Actors/Actors.jsx';
 
 function Layout(){
   const location = useLocation();
@@ -14,7 +16,8 @@ function Layout(){
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/khn" element={<Dashboard/>}/>
+          <Route path="/khs" element={<KHS/>}/>
+          <Route path="/actors" element={<Actors/>}/> 
           <Route path="*" element={<Navigate to="/dashboard"/>}/> {/* Sender brukeren til Dashboard ved ugyldig URL*/}
         </Routes>
     </div>

@@ -3,10 +3,13 @@ import styles from './NavBar.module.css';
 import logo from '../../assets/EMKORE.png';
 import DateComponent from '../Date/Date.jsx';
 import { IconSearch, IconMenu2, IconMail, IconUser } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 
 function NavBar(){
+
+    const location = useLocation();
+    const isActive = (path) => location.pathname === path;
 
     return (
         <nav className={styles.navbar}>
@@ -27,8 +30,16 @@ function NavBar(){
             </div>
             <div className={styles.navbarCenter}>
                 <div className={styles.navbarLinks}>
-                    <Link to="/khn" className={styles.navbarLink}>Krisehåndterings-nettverk</Link>
-                    <Link to="/about" className={styles.navbarLink}>Aktører</Link>
+                    {/* <Link to="/khs" className={styles.navbarLink}>Krisehåndterings-nettverk</Link> */}
+                    {/* <Link to="/actors" className={styles.navbarLink}>Aktører</Link> */}
+                    <Link 
+                        to="/khn" 
+                        className={`${styles.navbarLink} ${isActive("/khn") ? styles.activeLink : ""}`}>Krisehåndterings-nettverk
+                    </Link>
+                    <Link 
+                        to="/actors" 
+                        className={`${styles.navbarLink} ${isActive("/actors") ? styles.activeLink : ""}`}>Aktører
+                    </Link> {/*Visualiserer når man er på siden, strek under aktører*/}
                 </div>
             </div>
 

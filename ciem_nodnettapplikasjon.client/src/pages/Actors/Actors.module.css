@@ -1,0 +1,11 @@
+.actorsContainer {
+    display: grid;
+    justify-content: center;
+    gap: 50px;
+    padding: 50px;
+}
+
+.actorsContainer a:last-child {
+    grid-column: span 2;
+    justify-self: center;
+} 

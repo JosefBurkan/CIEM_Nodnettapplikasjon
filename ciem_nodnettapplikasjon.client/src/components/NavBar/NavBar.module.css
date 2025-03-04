@@ -107,13 +107,10 @@
         margin: 10px 0;
     }
 
-    .searchContainer {
+    .searchContainer, .searchBar{
         width: 100%;
     }
 
-    .searchBar {
-        width: 100%;
-    }
 
     .navbarLinks {
         flex-direction: column;
@@ -126,3 +123,10 @@
     }
 }
 
+.activeLink {
+    color: white !important; /* Viser at man er på siden likt som på Figma. Important gjør at den ikke endrer ved hover*/ 
+    text-decoration: underline;
+    text-decoration-color: hsl(17, 100%, 50%);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
