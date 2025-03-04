@@ -3,9 +3,9 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import './index.css'
 import NavBar from './components/NavBar/NavBar.jsx';
 import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import KHS from './pages/KHS/KHSnettverk.jsx';
+import KHN from './pages/KHN/KHNnettverk.jsx';
 import Actors from './pages/Actors/Actors.jsx';
-import PrivateActors from './pages/Actors/PrivateActors.jsx';
+import ActorsList from './pages/Actors/ActorsList.jsx';
 
 function Layout(){
   const location = useLocation();
@@ -17,9 +17,9 @@ function Layout(){
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/khs" element={<KHS/>}/>
+          <Route path="/KHN" element={<KHN/>}/>
           <Route path="/actors" element={<Actors/>}/> 
-          <Route path="/privateActors" element={<PrivateActors/>}/>
+          <Route path="/actorsList" element={<ActorsList/>}/>
           <Route path="*" element={<Navigate to="/dashboard"/>}/> {/* Sender brukeren til Dashboard ved ugyldig URL*/}
         </Routes>
     </div>

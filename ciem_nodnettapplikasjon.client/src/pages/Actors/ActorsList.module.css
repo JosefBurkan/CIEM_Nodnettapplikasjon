@@ -1,0 +1,72 @@
+/* Bare noe for å se containerer */
+/* .actorsListContainer{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: blue;
+    border:1px solid black;
+} */
+
+.topSection{
+    display:flex;
+}
+
+.filterButton{
+    text-align: center;
+    margin: 0.2rem 1rem;
+    border-radius: 15px;
+    background-color: #1A1A1A;
+    color: hsl(0, 0%, 93%);
+    font-size: 1.4rem;
+    width: 150px;
+    border:none;
+    outline: none;
+    cursor:pointer;
+    transition: 0.3s;
+}
+.filterButton:hover{
+    background-color: #006C74;
+    color: white;
+}
+
+.headerBox{
+    display:flex;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #1A1A1A;
+    color: hsl(0, 0%, 93%);
+    border-radius: 15px;
+    width: 10%;
+}
+
+.contentContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 1rem;
+    padding: 1rem;
+    width: 80vw;
+    height: 50vh;
+    margin: auto;
+    background-color: #1A1A1A;
+    color: hsl(0, 0%, 93%);
+    border-radius: 35px;
+}
+
+
+.selectAllButton:hover, .showSelectionButton:hover{
+    background-color: #FF3F3F;
+    color: white;
+}
+.selectAllButton, .showSelectionButton{
+    text-align: center;
+    margin: 0.2rem 1rem;
+    border-radius: 15px;
+    background-color: #1A1A1A;
+    color: hsl(0, 0%, 93%);
+    font-size: 1.4rem;
+    width: 150px;
+    border: 2px solid #FF3F3F;
+    outline: none;
+    cursor:pointer;
+    transition : 0.3s;
+}
+

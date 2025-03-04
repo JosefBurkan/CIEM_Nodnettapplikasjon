@@ -40,20 +40,6 @@
     max-width: 55px;
 }
 
-/* .searchContainer {
-    display: flex;
-    align-items: center;
-    background-color: #4F4F4F;
-    padding: 0.5rem 0.8rem;
-    border-radius: 25px;
-    width: 18rem;
-    position: relative;
-}
-.searchBar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-} */
 .iconSearch, .menuIcon, .iconMail, .iconUser {
     color: hsl(0, 0%, 80%);
     font-size: 1.2rem;
@@ -62,19 +48,6 @@
 .iconSearch:hover, .menuIcon:hover, .iconMail:hover, .iconUser:hover {
     cursor: pointer;
 }
-
-/* .searchInput {
-    flex: 1;
-    background-color: #4F4F4F;
-    border: none;
-    color: white;
-    padding: 0.3rem 0.5rem;
-    outline: none;
-    font-size: 1rem;
-}
-.searchInput::placeholder {
-    color: hsl(0, 0%, 70%);
-} */
 
 .navbarLinks {
     display: flex;

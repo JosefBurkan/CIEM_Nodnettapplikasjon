@@ -9,7 +9,7 @@ import SearchBar from '../SearchBar/SearchBar.jsx';
 function NavBar(){
 
     const location = useLocation();
-    const isActive = (path) => location.pathname === path;
+    const isActive = (path) => location.pathname.startsWith(path);
 
     return (
         <nav className={styles.navbar}>
