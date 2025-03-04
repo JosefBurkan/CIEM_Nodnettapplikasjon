@@ -1,12 +1,14 @@
-﻿namespace CIEM_Nodnettapplikasjon.Server.Models
+﻿using CIEM_Nodnettapplikasjon.Server.Models;
+
+namespace CIEM_Nodnettapplikasjon.Server.Models
 {
     public class AdministratorModel : UserModel
     {
-        public AdministratorModel(string name, string surname, string email, string phone, string password, string role) 
-            : base(name, surname, email, phone, password, role)
-        {
-            name = name;
-        }
+
+        public AdministratorModel() 
+        : base("admin", "admin@example.com", "5550000", "123", "Administrator")
+            {
+            }
 
     }
 }

@@ -1,36 +1,43 @@
-﻿using CIEM_Nodnettapplikasjon.Server.Repositories;
-using CIEM_Nodnettapplikasjon.Server.Models;
-using Microsoft.EntityFrameworkCore;
-
+using CIEM_Nodnettapplikasjon.Server.Repositories;
+using System;
 
 namespace CIEM_Nodnettapplikasjon.Server.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
-        private readonly ApplicationDbContext _context;
 
-        public UserService(ApplicationDbContext context) {
-
-            _context = context;
-        }
-
-        public void Login(string username, string password)
+        public UserService(IUserRepository userRepository)
         {
-
+            _userRepository = userRepository;
         }
 
-    public async Task<UserModel> AuthenticateUser(string name)
-    {
-        var hei = await _context.Users.FirstOrDefaultAsync(u => u.name == name); // Await the async method
+        // Login method
+        public bool Login(string username, string password)
+        {
+            return AuthenticateUser(username, password);
+        }
 
-        return hei;
-    }
+        // Authentication method
+        public bool AuthenticateUser(string username, string password)
+        {
+            // Fetch the user from the repository
+            var user = _userRepository.GetUserByUsername(username);
 
-        public void Logout(int userID) { }
+            // Check if the user exists and the password matches
+            if (user != null && user.Password == password) // Plaintext comparison
+            {
+                return true;
+            }
 
-        public string Email { get; set; }
-        public string Password { get; set; }
+            return false;
+        }
+
+        // Logout method (now correctly inside the class)
+        public void Logout(int userID)
+        {
+            // Simple logout logic
+            Console.WriteLine($"User with ID {userID} has logged out.");
+        }
     }
 }

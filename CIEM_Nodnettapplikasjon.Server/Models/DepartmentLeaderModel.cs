@@ -2,7 +2,10 @@
 {
     public class DepartmentLeaderModel : UserModel
     {
-        public DepartmentLeaderModel(string name, string surname, string email, string phone, string password, string role)
-            : base(name, surname, email, phone, password, role) { }
+
+        public DepartmentLeaderModel() : base("leaderUsername", "leader@example.com", "555-5678", "password", "Leader")
+        {
+        }
+
     }
 }

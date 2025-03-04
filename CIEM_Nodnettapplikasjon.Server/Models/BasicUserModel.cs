@@ -1,8 +1,14 @@
-﻿namespace CIEM_Nodnettapplikasjon.Server.Models
+﻿using CIEM_Nodnettapplikasjon.Server.Models;
+
+namespace CIEM_Nodnettapplikasjon.Server.Models
 {
     public class BasicUserModel : UserModel
     {
-        public BasicUserModel(string name, string surname, string email, string phone, string password, string role)
-            : base(name, surname, email, phone, password, role) { }
+
+        public BasicUserModel()
+        : base("JohnPork", "johnpork@gmail.com", "5559282", "password123", "User")
+        {
+        }
+
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CIEM_Nodnettapplikasjon.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250216201553_InitialCreate")]
+    [Migration("20250224123225_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,41 +21,36 @@ namespace CIEM_Nodnettapplikasjon.Server.Migrations
                 .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("CIEM_Nodnettapplikasjon.Server.Models.UserModel", b =>
                 {
-                    b.Property<int>("userID")
+                    b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("userID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserID"));
 
-                    b.Property<string>("email")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("password")
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("phone")
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("role")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("surname")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("userID");
+                    b.HasKey("UserID");
 
                     b.ToTable("Users");
                 });

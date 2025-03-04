@@ -1,11 +1,9 @@
-﻿using CIEM_Nodnettapplikasjon.Server.Models;
-
 namespace CIEM_Nodnettapplikasjon.Server.Services
 {
     public interface IUserService
     {
-        void Login(string email, string password);
-        Task<UserModel> AuthenticateUser(string email);
+        bool Login(string username, string password);
+        bool AuthenticateUser(string username, string password);
         void Logout(int userID);
         
 
