@@ -1,4 +1,5 @@
 using CIEM_Nodnettapplikasjon.Server.Services;
+using CIEM_Nodnettapplikasjon.Server.Repositories;
 using Microsoft.EntityFrameworkCore;
 using CIEM_Nodnettapplikasjon.Server.Repositories;
 using Pomelo.EntityFrameworkCore.MySql.Extensions;
@@ -32,9 +33,15 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();  // For Swagger docs
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();  // build the application
+
 
 // Database connection check
 using (var scope = app.Services.CreateScope())

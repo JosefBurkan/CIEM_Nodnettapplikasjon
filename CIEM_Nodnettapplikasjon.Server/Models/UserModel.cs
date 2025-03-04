@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations; // For key attribute
+using System.ComponentModel.DataAnnotations; // For key attribute
 using Microsoft.AspNetCore.Identity; // Identity features
 
 

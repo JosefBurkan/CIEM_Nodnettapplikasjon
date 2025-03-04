@@ -1,4 +1,4 @@
-﻿using CIEM_Nodnettapplikasjon.Server.Services;
+using CIEM_Nodnettapplikasjon.Server.Services;
 using CIEM_Nodnettapplikasjon.Server.Repositories;
 using CIEM_Nodnettapplikasjon.Server.Models;
 using Microsoft.AspNetCore.Identity.Data;

@@ -36,7 +36,8 @@ function Login() {
             console.error("Error: ", response.statusText);
             console.log("Feil brukernavn eller passord");
             showMessage("Feil brukernavn eller passord, prøv igjen");
-        }
+        } 
+
 
         setPassword("");
         setUsername("");
