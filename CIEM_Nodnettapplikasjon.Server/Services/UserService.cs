@@ -1,4 +1,4 @@
-﻿using CIEM_Nodnettapplikasjon.Server.Repositories;
+using CIEM_Nodnettapplikasjon.Server.Repositories;
 using System;
 
 namespace CIEM_Nodnettapplikasjon.Server.Services

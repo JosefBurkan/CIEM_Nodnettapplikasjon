@@ -1,4 +1,4 @@
-﻿using CIEM_Nodnettapplikasjon.Server.Models;
+using CIEM_Nodnettapplikasjon.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
