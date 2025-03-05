@@ -21,7 +21,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Models
         {
             
              
-          this.Username = username;
+            this.Username = username;
             this.Email = email;
             this.Phone = phone;
             this.Password = password;

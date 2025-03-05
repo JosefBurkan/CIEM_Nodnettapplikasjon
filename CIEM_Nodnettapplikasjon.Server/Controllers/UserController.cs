@@ -105,7 +105,19 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(departmentLeader); // Returns the department leader object to test
         }
 
-
+        [HttpGet("views")]
+        public IActionResult ViewUsers()
+        {
+            var allUsers = _userRepository.ViewUsers();
+            if (allUsers == null) 
+            {
+                return NotFound(new {message = "naaa"});
+            }
+            else 
+            {
+                return Ok(allUsers);
+            }
+        }
 
     }
 }

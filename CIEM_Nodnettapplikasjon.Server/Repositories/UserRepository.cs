@@ -88,5 +88,16 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
             return _context.Users.FirstOrDefault(u => u.UserID == userID) 
               ?? new UserModel("DefaultUser", "default@example.com", "0000000000", "password", "Guest");
         }
+
+        // Er bare for testing! 
+        public List<string> ViewUsers() {
+
+            var user = _context.Users.ToList();
+
+            List<string> userList = user.Select(u => u.Username).ToList();
+            
+            return userList;
+            
+        }
     }
 }

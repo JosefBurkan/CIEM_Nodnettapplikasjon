@@ -9,6 +9,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories
         void ModifyUser(int userID, string newUsername, string newEmail, string newPhone, string newRole);
         void DeleteUser(int userID);
         UserModel ViewUser(int userID);
+        List<string> ViewUsers();
         UserModel? GetUserByUsername(string username);
     }
 }
