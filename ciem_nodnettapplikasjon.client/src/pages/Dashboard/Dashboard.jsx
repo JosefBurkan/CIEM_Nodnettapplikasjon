@@ -1,7 +1,8 @@
 import React from "react";
-import UpdatesWidget from "./UpdatesWidget";
-import CriticalInfoWidget from "./CriticalInfoWidget";
-import ActiveActorsWidget from "./ActiveActorsWidget";
+import UpdatesWidget from "../../components/DashboardComponents/UpdatesWidget";
+import CriticalInfoWidget from "../../components/DashboardComponents/CriticalInfoWidget";
+import ActiveActorsWidget from "../../components/DashboardComponents/ActiveActorsWidget";
+import LiveNetworkWidget from "../../components/DashboardComponents/LiveNetworkWidget";
 import styles from "./Dashboard.module.css";
 
 function Dashboard() {
@@ -12,10 +13,10 @@ function Dashboard() {
         <UpdatesWidget />
       </div>
 
-      {/* Center Column (for future widgets like Live Network Graph if needed) */}
       <div className={styles.centerColumn}>
-        <CriticalInfoWidget />
-      </div>
+    <LiveNetworkWidget />
+    <CriticalInfoWidget />
+</div>
 
       {/* Right Column */}
       <div className={styles.rightColumn}>

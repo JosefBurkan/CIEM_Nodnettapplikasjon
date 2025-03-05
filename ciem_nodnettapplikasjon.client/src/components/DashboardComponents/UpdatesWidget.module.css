@@ -1,36 +1,33 @@
 .widgetContainer {
+    position: relative;
     background: #1f2029;
     padding: 40px 15px 15px;
-    border-radius: 15px;
-    text-align: left;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
-    position: relative; /* Ensure header is positioned relative to this */
+    border-radius: 30px;
     width: 100%;
-    max-width: 320px;
-    margin-left: 15px; /* Move the whole widget slightly in from the left */
+    max-width: 300px;
+    margin-left: 5px;
 }
 
 .header {
     background: #007880; /* Teal color */
     color: white;
-    padding: 10px 15px;
-    border-radius: 15px 0 0 15px;
+    padding: 8px 15px;
+    border-radius: 15px; /* Rounded pill shape */
     text-align: center;
     font-weight: bold;
     font-size: 14px;
-    width: 85%;  /* Control width to avoid stretching across full container */
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0px; /* Slight offset from top */
+    right: 0px; /* Right corner inside */
     z-index: 2;
-    height: 10px;
+    height: 15px;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Optional - to push text slightly left */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Optional shadow */
+    justify-content: center;
+    width: 75%; 
+    white-space: nowrap; /* Prevent wrapping */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
-
-
 
 /* === LIST STYLING === */
 .list {

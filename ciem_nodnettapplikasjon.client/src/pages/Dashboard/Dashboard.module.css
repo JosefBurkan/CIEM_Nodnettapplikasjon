@@ -1,28 +1,35 @@
 .dashboard {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* Three columns */
-    gap: 20px; /* Space between widgets */
-    padding: 20px;
+    grid-template-columns: 0.9fr 1.2fr 0.9fr; /* Tighter columns */
+    gap: 15px; /* Less space between widgets */
+    padding: 15px;
     box-sizing: border-box;
+    max-width: 1200px; /* Keeps overall dashboard width smaller */
+    margin: 0 auto; /* Centers the dashboard */
 }
 
 .leftColumn {
     display: flex;
     justify-content: flex-start;
+    flex-direction: column;
+    gap: 15px; /* Tighter spacing */
 }
 
 .centerColumn {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Stack LiveKhnWidget above CriticalInfoWidget */
+    gap: 15px; /* Adds space between LiveKhnWidget and CriticalInfoWidget */
+    width: 100%; /* Ensure it takes full space */
 }
 
 .rightColumn {
     display: flex;
     justify-content: flex-end;
+    flex-direction: column;
+    gap: 15px; /* Tighter spacing */
 }
-
-
 
 /* ===== HEADER BAR ===== */
 .header {
@@ -94,7 +101,6 @@
     align-items: center;
 }
 
-
 /* ===== WIDGET STYLING ===== */
 .widget {
     background: #1f2029;
@@ -143,4 +149,58 @@
     justify-content: center;
     color: white;
     font-size: 14px;
+}
+
+/* ===== ADDED: LiveKhnWidget Styling ===== */
+.liveKhnWidget {
+    background-color: #ffffff;
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 15px;
+    width: 100%;
+    max-width: 500px; /* Optional, to match the mockup */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.liveKhnHeader {
+    background: #007b8f;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 15px 15px 0 0;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+/* To space out critical info below live khn */
+.criticalInfoWidget {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ===== RESPONSIVENESS TO MIMIC 80% ZOOM AT 100% ===== */
+@media (min-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 0.9fr 1.2fr 0.9fr; /* Tighter columns like 80% zoom */
+        gap: 15px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .widget {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .leftColumn, .centerColumn, .rightColumn {
+        gap: 15px; /* Tighter column spacing */
+    }
+
+    .liveKhnWidget {
+        max-width: 460px;
+    }
 }
