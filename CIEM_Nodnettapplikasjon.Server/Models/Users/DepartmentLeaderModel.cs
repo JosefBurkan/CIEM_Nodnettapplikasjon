@@ -1,4 +1,4 @@
-﻿namespace CIEM_Nodnettapplikasjon.Server.Models
+﻿namespace CIEM_Nodnettapplikasjon.Server.Models.Users
 {
     public class DepartmentLeaderModel : UserModel
     {

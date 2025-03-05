@@ -1,6 +1,6 @@
-using CIEM_Nodnettapplikasjon.Server.Models;
+using CIEM_Nodnettapplikasjon.Server.Models.Users;
 
-namespace CIEM_Nodnettapplikasjon.Server.Repositories
+namespace CIEM_Nodnettapplikasjon.Server.Repositories.Users
 
 {
     public interface IUserRepository

@@ -1,4 +1,4 @@
-namespace CIEM_Nodnettapplikasjon.Server.Services
+namespace CIEM_Nodnettapplikasjon.Server.Services.Users
 {
     public interface IUserService
     {

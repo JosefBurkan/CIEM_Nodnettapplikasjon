@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations; // For key attribute
 using Microsoft.AspNetCore.Identity; // Identity features
 
 
-namespace CIEM_Nodnettapplikasjon.Server.Models
+namespace CIEM_Nodnettapplikasjon.Server.Models.Users
 {
     public class UserModel
     {

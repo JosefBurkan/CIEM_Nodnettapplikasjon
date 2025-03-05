@@ -1,7 +1,6 @@
-using CIEM_Nodnettapplikasjon.Server.Services;
-using CIEM_Nodnettapplikasjon.Server.Repositories;
+using CIEM_Nodnettapplikasjon.Server.Services.Users;
+using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
-using CIEM_Nodnettapplikasjon.Server.Repositories;
 using Pomelo.EntityFrameworkCore.MySql.Extensions;
 using Microsoft.Extensions.FileProviders;
 

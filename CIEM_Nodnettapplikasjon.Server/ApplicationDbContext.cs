@@ -1,6 +1,6 @@
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using CIEM_Nodnettapplikasjon.Server.Models;
+using CIEM_Nodnettapplikasjon.Server.Models.Users;
 
 public class ApplicationDbContext : DbContext
 {
