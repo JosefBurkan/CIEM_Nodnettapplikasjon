@@ -1,34 +1,31 @@
 .widget {
     background-color: #1f2029;
-    border-radius: 30px;
+    border-radius: 15px;
     padding: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    width: 110%;
+    width: 100%;
     position: relative;
 }
 
 .header {
-    background-color: #007c89; /* Teal */
+    background-color: #007c89;
     color: white;
     font-weight: bold;
     padding: 10px 15px;
     text-align: left;
     font-size: 16px;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 15px; /* No rounded corner on right side */
-    width: 70%; /* Cut the header width to half */
-    border-bottom-right-radius: 15px; /* Optional - you can remove this if you want it to be flat */
-    box-sizing: border-box;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom: none;
 }
-
 
 .actorsList {
     background-color: #1f2029;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
 
 .actorRow {
@@ -43,7 +40,6 @@
 
 .actorName {
     font-weight: bold;
-    font-size: 10px;
 }
 
 .statusIcons {
@@ -104,10 +100,10 @@
 }
 
 .loadMore {
-    background-color: rgb(201, 189, 189);
+    background-color: white;
     border: none;
     padding: 8px 12px;
-    border-radius: 16px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
 }

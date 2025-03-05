@@ -1,8 +1,8 @@
 .widgetContainer {
     background-color: white;
-    border: 10px solid black;
-    border-radius: 40px;
-    width: 450px;
+    border: 3px solid black;
+    border-radius: 15px;
+    width: 400px;
     height: 250px;
     display: flex;
     flex-direction: column;
@@ -16,13 +16,11 @@
     background-color: #007b8f;
     color: white;
     font-weight: bold;
-    width: 150px;
-    text-align: center;
     font-size: 14px;
     padding: 5px 15px;
     border-radius: 10px 10px 0 0;
     position: absolute;
-    top: -35px;
+    top: -15px;
 }
 
 .chartContainer {
