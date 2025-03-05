@@ -1,7 +1,7 @@
-using CIEM_Nodnettapplikasjon.Server.Repositories;
+using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
 using System;
 
-namespace CIEM_Nodnettapplikasjon.Server.Services
+namespace CIEM_Nodnettapplikasjon.Server.Services.Users
 {
     public class UserService : IUserService
     {

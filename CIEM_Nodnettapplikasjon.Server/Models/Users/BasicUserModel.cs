@@ -1,6 +1,6 @@
-﻿using CIEM_Nodnettapplikasjon.Server.Models;
+﻿using CIEM_Nodnettapplikasjon.Server.Models.Users;
 
-namespace CIEM_Nodnettapplikasjon.Server.Models
+namespace CIEM_Nodnettapplikasjon.Server.Models.Users
 {
     public class BasicUserModel : UserModel
     {
