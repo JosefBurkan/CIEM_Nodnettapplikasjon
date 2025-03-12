@@ -1,4 +1,4 @@
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using CIEM_Nodnettapplikasjon.Server.Models.Users;
 

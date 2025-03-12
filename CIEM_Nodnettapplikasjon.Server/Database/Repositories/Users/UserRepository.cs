@@ -8,6 +8,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Repositories.Users
     {
         private readonly ApplicationDbContext _context;
 
+
         public UserRepository(ApplicationDbContext context)
         {
             _context = context;

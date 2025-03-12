@@ -1,30 +1,46 @@
 import React, { useState , useEffect} from "react";
 import { data, Link, useNavigate } from 'react-router-dom';
+import * as signalR from "@microsoft/signalr";
 
-function Actors() {
+function Actors() 
+{
 
-    const [actors, setActors] = useState([])
+    function buildConnection() 
+    {
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:5255/emkoreHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+    
+        hubConnection
+            .start();
+    }
 
-    useEffect(() => {
-        fetch("https://localhost:5255/api/user/views") // Change to match your API URL
-            .then(response => response.json())
-            .then(data => setActors(data))
-            .catch(error => console.error("Error fetching services:", error));
-            console.log(actors);
-    }, []);
+    const [actors, setActors] = useState([]);
 
-    return(
-        <div>
-        {
-            actors.map((actor, i) => 
-            {
-                return <div key={i}>{actor}</div>
-                
-            })
+    const fetchActors = async () => {
+        try {
+            const response = await fetch("https://localhost:5255/api/user/views");
+            const data = await response.json();
+            setActors(data);
+        } catch (error) {
+            console.error("Error fetching services:", error);
         }
+    };
+
+    return (
+        <div>
+            <button onClick={fetchActors}>Fetch Actors</button>
+            <ul>
+                {actors.map((actor, index) => (
+                    <li key={index}>{actor}</li>
+                ))}
+            </ul>
         </div>
     );
+};
 
-}
+    // return <div>{data ? JSON.stringify(data) : "Loading..."}</div>;
+    
 
 export default Actors;
