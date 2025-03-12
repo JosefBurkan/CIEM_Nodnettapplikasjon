@@ -1,8 +1,9 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
 using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Extensions;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
+using CIEM_Nodnettapplikasjon.Server.EmkoreHub;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -10,11 +11,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-// Configure Database Connection
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 2))));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Scoped services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -27,7 +24,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("https://localhost:5173")
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
@@ -39,7 +37,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();  // build the application
+builder.Services.AddSignalR();
+
+var app = builder.Build();
 
 
 // Database connection check
@@ -69,11 +69,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseRouting(); // <-- Add this before UseCors
+app.UseRouting(); 
 app.UseCors("AllowFrontend");  // Allow frontend and backend to work together
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<EmkoreHub>("/emkoreHub");
 
 // Test endpoint
 app.MapGet("/", () => "Hello, backend is running!");
