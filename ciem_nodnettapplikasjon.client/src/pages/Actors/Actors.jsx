@@ -1,46 +1,19 @@
-import React, { useState , useEffect} from "react";
-import { data, Link, useNavigate } from 'react-router-dom';
-import * as signalR from "@microsoft/signalr";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Box from '../../components/Box/Box';
+import styles from './Actors.module.css';
+import "../../index.css";
 
-function Actors() 
-{
-
-    function buildConnection() 
-    {
-        const hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:5255/emkoreHub")
-            .configureLogging(signalR.LogLevel.Information)
-            .build();
-    
-        hubConnection
-            .start();
-    }
-
-    const [actors, setActors] = useState([]);
-
-    const fetchActors = async () => {
-        try {
-            const response = await fetch("https://localhost:5255/api/user/views");
-            const data = await response.json();
-            setActors(data);
-        } catch (error) {
-            console.error("Error fetching services:", error);
-        }
-    };
-
+function Actors() {
     return (
-        <div>
-            <button onClick={fetchActors}>Fetch Actors</button>
-            <ul>
-                {actors.map((actor, index) => (
-                    <li key={index}>{actor}</li>
-                ))}
-            </ul>
+        <div className={styles.actorsContainer}>
+            <Box title="Private Aktører" boxIconColor="#0A77A6" destination="/actorsList" />
+            <Box title="Frivillige Aktører" boxIconColor="#E8D652" destination="/volunteerActors" />
+            <Box title="Statlige Aktører" boxIconColor="#FF3F3F" destination="/stateActors" />
+            <Box title="Alle Aktører" boxIconColor="#D2D2D2" destination="/allActors" />
+            <Box title="Ny Aktør" boxIconColor="#057A36" destination="/newActor" />
         </div>
     );
-};
-
-    // return <div>{data ? JSON.stringify(data) : "Loading..."}</div>;
-    
+}
 
 export default Actors;
