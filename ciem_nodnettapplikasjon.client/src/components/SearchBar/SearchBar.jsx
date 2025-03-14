@@ -2,12 +2,17 @@ import { IconSearch, IconMenu2, IconMail, IconUser } from '@tabler/icons-react';
 import styles from './SearchBar.module.css';
 import React from "react";
 
-function SearchBar({ placeholder="Søk...", bgColor= "#4F4F4F" }) {
+function SearchBar({ placeholder="Søk...", bgColor= "#4F4F4F", onSearch }) {
     return(
         <div className={styles.searchContainer} style={{backgroundColor: bgColor}}>
             <div className={styles.searchBar}>
-                <IconSearch className={styles.iconSearch}/> {/*   Ikke fungerende search bar  */}
-                <input type="text" placeholder={placeholder} className={styles.searchInput}/>
+                <IconSearch className={styles.iconSearch}/>
+                <input 
+                    type="text" 
+                    placeholder={placeholder} 
+                    className={styles.searchInput}
+                    onChange={(e) => onSearch(e.target.value)} 
+                />
                 <IconMenu2 className={styles.menuIcon}/>
             </div>
         </div>

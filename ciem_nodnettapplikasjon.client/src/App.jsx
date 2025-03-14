@@ -6,6 +6,7 @@ import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'reac
 import KHN from './pages/KHN/KHNnettverk.jsx';
 import Actors from './pages/Actors/Actors.jsx';
 import ActorsList from './pages/Actors/ActorsList.jsx';
+import ActorInfo from './pages/Actors/ActorInfo.jsx';
 
 function Layout(){
   const location = useLocation();
@@ -20,6 +21,7 @@ function Layout(){
           <Route path="/KHN" element={<KHN/>}/>
           <Route path="/actors" element={<Actors/>}/> 
           <Route path="/actorsList" element={<ActorsList/>}/>
+          <Route path="/actorInfo" element={<ActorInfo/>}/>
           <Route path="*" element={<Navigate to="/dashboard"/>}/> {/* Sender brukeren til Dashboard ved ugyldig URL*/}
         </Routes>
     </div>
