@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import logo from '../../assets/EMKORE.png';
+import React, { useState } from 'react';
+import EMKORE from '../../assets/EMKORE.png';
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Login(){
+function Login() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -17,42 +17,49 @@ function Login(){
         setCorrectMessage(success);
     }
 
-    const handleLogin = (e) => {
-        e.preventDefault(); 
+    const Login = async (e) => {
+        e.preventDefault();
 
-        if(!username || !password) {
-            showMessage("Vennligst fyll inn brukernavn og passord");
-            return;
-        }
-        if(username === "AdminB" && password === "AdminP"){
+        const response = await fetch("https://localhost:5255/api/user/login", {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
             showMessage("", `Velkommen inn ${username}`);
             setTimeout(() => navigate("/dashboard"), 1000);
-        }
-        else{
+        } else {
+            console.error("Error: ", response.statusText);
             console.log("Feil brukernavn eller passord");
             showMessage("Feil brukernavn eller passord, prøv igjen");
-        }
+        } 
+
+
         setPassword("");
         setUsername("");
     };
 
-    return(
+    return (
         <div className={styles.loginPage}>
-            <img src={logo} alt="EMKORE logo" className={styles.logo}/>
-            <form className={styles.inputContainer} onSubmit={handleLogin}>
+            <img src={EMKORE} alt="EMKORE logo" className={styles.logo} />
+            <form className={styles.inputContainer} onSubmit={Login}>
                 <input
                     type="text"
                     name="username"
-                    className={styles.inputField} 
+                    className={styles.inputField}
                     placeholder="BRUKERNAVN"
                     autoComplete="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
-                <input 
+                <input
                     type="password"
-                    name="password" 
-                    className={styles.inputField} 
+                    name="password"
+                    className={styles.inputField}
                     placeholder="PASSORD"
                     autoComplete="current-password"
                     value={password}
@@ -68,4 +75,4 @@ function Login(){
     );
 }
 
-export default Login;
+export default Login;  

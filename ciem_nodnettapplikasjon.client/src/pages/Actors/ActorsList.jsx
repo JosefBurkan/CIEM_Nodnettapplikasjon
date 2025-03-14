@@ -137,7 +137,7 @@ function ActorsList() {
             </div>
 
             <div className={styles.bottomSection}>            {/*Velg alle og vis utvalg knapp*/}
-                <button onClick={() => { setShowSelectedActor(false); setSearch("");}} className={styles.selectAllButton}>Velg alle</button>
+                <button onClick={() => { setShowSelectedActor(false); setSearch("");}} className={styles.selectAllButton}>Vis alle</button>
                 <button onClick={() => { setShowSelectedActor(true); setSelectedActors(tempSelectedActors);}} className={styles.showSelectionButton}>Oppdater Utvalg 🔄️</button>
             </div>
 
