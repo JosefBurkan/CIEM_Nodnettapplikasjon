@@ -1,0 +1,26 @@
+{
+  "name": "ciem_nodnettapplikasjon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JosefBurkan/CIEM_Nodnettapplikasjon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JosefBurkan/CIEM_Nodnettapplikasjon/issues"
+  },
+  "homepage": "https://github.com/JosefBurkan/CIEM_Nodnettapplikasjon#readme",
+  "description": "",
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}

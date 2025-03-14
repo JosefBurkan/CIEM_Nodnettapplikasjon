@@ -1,0 +1,16 @@
+.actorsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3rem 8rem;
+    padding: 3rem;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+}
+
+.actorsContainer a:last-child {
+    grid-column: span 2;
+    justify-self: center;
+} 

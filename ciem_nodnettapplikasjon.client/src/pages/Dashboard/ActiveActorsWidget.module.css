@@ -1,0 +1,119 @@
+.widget {
+    background-color: #1E1E1E;
+    border-radius: 12px;
+    padding: 15px;
+    width: 350px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    background-color: #007f8b;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.actorsList {
+    margin: 10px 0;
+}
+
+.actorRow {
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.actorName {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.statusIcons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.iconWithNumber {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.greenIcon {
+    background-color: #007f8b;
+}
+
+.redIcon {
+    background-color: #d32f2f;
+}
+
+.orangeIcon {
+    background-color: #f57c00;
+}
+
+.number {
+    font-size: 13px;
+    font-weight: bold;
+    color: black;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.loadMore {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.warningCircle {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+}
