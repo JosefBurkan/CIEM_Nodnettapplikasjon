@@ -7,6 +7,7 @@ import KHN from './pages/KHN/KHNnettverk.jsx';
 import Actors from './pages/Actors/Actors.jsx';
 import ActorsList from './pages/Actors/ActorsList.jsx';
 import ActorInfo from './pages/Actors/ActorInfo.jsx';
+;
 
 function Layout(){
   const location = useLocation();
@@ -31,11 +32,13 @@ function Layout(){
 
 function App(){
 
-  return(
-    <Router>
-      <Layout/>
-    </Router>
-  );
+    return (
+        <div>
+            <Router>
+                <Layout />
+            </Router>
+        </div>
+    );
 }
 
 export default App;

@@ -1,5 +1,6 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
 using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 // Scoped services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IActorRepository, ActorRepository>();
 
 // Cors setup
 builder.Services.AddCors(options =>
