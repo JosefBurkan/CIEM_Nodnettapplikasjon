@@ -1,0 +1,81 @@
+/* Page Background */
+.container {
+    background-color: rgb(5, 107, 107); /* Dark mode background */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    
+}
+
+/* Header */
+.header {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* ✅ Prevents overlapping */
+    width: 100%;
+}
+
+
+/* Left Section */
+.leftSection {
+    width: 60%; /* ✅ Matches right section */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+
+/* Edit Button */
+.editButton {
+    background: #020202;
+    color: white;
+    padding: 10px 15px;
+    border: 30px;
+    border-color: red;
+    border-radius: 30px;
+    width: 200px;
+    height: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+/* Right Section - Box Widgets */
+.rightSection {
+    background: #A0A0A0; /* Gray background */
+    padding: 20px;
+    border-radius: 15px;
+    width: 35%; /* ✅ Expands to half the screen */
+    height: 100vh; /* ✅ Ensures it takes full height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px; /* ✅ Adds spacing between the boxes */
+    
+}
+
+
+/* RESPONSIVENESS */
+@media (max-width: 1024px) {
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .rightSection {
+        margin-top: 20px;
+    }
+}

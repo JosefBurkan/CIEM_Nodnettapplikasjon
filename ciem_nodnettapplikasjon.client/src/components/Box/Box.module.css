@@ -2,7 +2,7 @@
     background-color: #1A1A1A;
     border-radius: 12px;
     padding: 1rem;
-    width: 270px;
+    width: 400px;
     height: 170px;
     display: flex;
     flex-direction: column;
@@ -11,6 +11,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     position: relative;
     transition: transform 0.2s ease-in-out;
+    border-radius: 30px;
 }
 
 .box:hover {

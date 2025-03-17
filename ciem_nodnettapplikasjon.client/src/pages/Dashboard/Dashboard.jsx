@@ -13,10 +13,12 @@ function Dashboard() {
         <UpdatesWidget />
       </div>
 
+      {/* Center Column */}
       <div className={styles.centerColumn}>
-    <LiveNetworkWidget />
-    <CriticalInfoWidget />
-</div>
+        {/* ✅ Normal size LiveNetworkWidget */}
+        <LiveNetworkWidget />
+        <CriticalInfoWidget />
+      </div>
 
       {/* Right Column */}
       <div className={styles.rightColumn}>

@@ -1,11 +1,12 @@
 import React from "react";
 import styles from "./LiveNetworkWidget.module.css";
 
-
-const LiveKhnWidget = () => {
+const LiveNetworkWidget = ({ large }) => {
     return (
-        <div className={styles.widgetContainer}>
-            <div className={styles.header}>LIVE KHN</div>
+        <div className={large ? styles.largeWidgetContainer : styles.widgetContainer}>
+            <div className={large ? styles.largeHeader : styles.header}>
+                LIVE KHN
+            </div>
             <div className={styles.chartContainer}>
                 <svg viewBox="0 0 300 200" className={styles.chart}>
                     {/* Red connecting lines */}
@@ -45,5 +46,4 @@ const LiveKhnWidget = () => {
     );
 };
 
-export default LiveKhnWidget;
-
+export default LiveNetworkWidget;
