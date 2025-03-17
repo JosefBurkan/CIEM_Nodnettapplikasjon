@@ -1,48 +1,44 @@
 import React, { useState } from 'react';
 import "../../index.css";
 import styles from './ActorsList.module.css';
-import SearchBar from '../../components/SearchBar/SearchBar';
+import SearchBar from '../SearchBar/SearchBar';
 import { IconMail, IconUser } from '@tabler/icons-react';
 
-function ActorsList() {
-    const kategori = "Private "; // Endre til valgt kategori - ikke ordnet enda
+function ActorsList({category}) { 
 
-    const [actors, setActors] = useState([     /* Liste over aktrøer hardkodet. bruk setActors for å oppdatere actors med backend greiene, setActors brukes ikke atm */
-        {
-            id: 1,
-            name: "Verisure",
-            subActors: ["Sentralbord", "Teknisk", "Overvåkning", "Ledelse"]
-        },
-        {
-            id: 2,
-            name: "Voi",
-            subActors: []
-        },
-        {
-            id: 3,
-            name: "Å Egi",
-            subActors: ["Avdeling 1", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2"] 
-        },
-        {
-            id: 5,
-            name: "Å rgi",
-            subActors: ["Avdeling 1", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2", "Avdeling 2"] 
-        },
+    const allActors = [     // Liste over alle aktører med underaktører, bare masse testdata
+        {id: 1, type: "Private", name: "Verisure", subActors: ["Sentralbord", "Teknisk", "Overvåkning", "Ledelse"]},
+        {id: 2, type: "Private", name: "Voi", subActors: []},
+        {id: 3, type: "Statlige", name: "Å Egi", subActors: ["Avdeling 1", "Avdeling 2"]},
+        {id: 4, type: "Frivillige", name: "Røde Kors", subActors: ["Hjelpekorps", "Ungdom", "Omsorg"]},
+        {id: 5, type: "Frivillige", name: "Å rgi", subActors: ["Avdeling 1", "Avdeling 2"]},
+        {id: 6, type: "Statlige", name: "Årgi", subActors: ["Avdeling 1", "Avdeling 2"]},
+        {id: 7, type: "Private", name: "Årgi", subActors: ["Avdeling 1", "Avdeling 2"]},
+        {id: 8, type: "Private", name: "Tesla", subActors: ["Kundeservice", "Teknisk Support"]},
+        {id: 9, type: "Statlige", name: "NAV", subActors: ["Pensjon", "Arbeid", "Helse"]},
+        {id: 10, type: "Frivillige", name: "Frelsesarmeen", subActors: ["Matutdeling", "Nødhjelp"]},
+        {id: 11, type: "Private", name: "Google", subActors: ["Support", "Utvikling"]},
+        {id: 12, type: "Statlige", name: "Politiet", subActors: ["Etterforskning", "Patrulje"]},
+        {id: 13, type: "Frivillige", name: "Dyrebeskyttelsen", subActors: ["Adopsjon", "Redning"]},
+        {id: 14, type: "Private", name: "Microsoft", subActors: ["Support", "Salg"]},
+        {id: 15, type: "Statlige", name: "Skatteetaten", subActors: ["Veiledning", "Kontroll"]},
+        {id: 16, type: "Frivillige", name: "Kirkens Bymisjon", subActors: ["Hjelpetiltak", "Frivillige"]},
+        {id: 17, type: "Private", name: "Apple", subActors: ["Support", "Utvikling"]},
+        {id: 18, type: "Statlige", name: "Helsedirektoratet", subActors: ["Folkehelse", "Helseberedskap"]},
+        {id: 19, type: "Frivillige", name: "WWF", subActors: ["Miljøvern", "Dyrevern"]},
+        {id: 20, type: "Private", name: "Amazon", subActors: ["Kundeservice", "Logistikk"]},
+    ];
 
-    ]);
-
+    const actors = category === "Alle" ? allActors : allActors.filter(actor => actor.type === category); /* Sjekker hvilken kategori som er valgt, og filtrerer ut de som ikke er valgt. */
     const [dropdown, setDropdown] = useState({}); /* Starter lukket, holder styr på hvilke som er åpne. */ 
     const [search, setSearch] = useState("");
     const [selectedActors, setSelectedActors] = useState([]);
-    const [showSelectedActor, setShowSelectedActor] = useState({});
+    const [showSelectedActor, setShowSelectedActor] = useState(false);
     const [tempSelectedActors, setTempSelectedActors] = useState([]);
-
 
     const toggleDropdown = (actorName) => {
         setDropdown((prev) => ({
-            ...prev, 
-            [actorName]: !prev[actorName]   /* Sjekker true eller false for å åpne/lukke */
-        }));
+            ...prev, [actorName]: !prev[actorName] }));  /* Sjekker true eller false for å åpne/lukke */
     };
 
     const filteredActors = actors.filter(actor => {  // Søkefunksjon for aktører, sjekker om søket er i navnet eller underaktørene.
@@ -93,7 +89,7 @@ function ActorsList() {
             <div className={styles.headerBoxContainer}>    
                 <div className={styles.headerBox}>              {/* Boks som viser valgt kategori */}
                     <IconUser className={styles.headerIcon}/>
-                    <span>{`${kategori}Aktører`}</span>  {/* ikke implementert enda */}
+                    <span>{`${category} Aktører`}</span>  {/* ikke implementert enda */}
                 </div>
             </div>
 
@@ -137,7 +133,10 @@ function ActorsList() {
             </div>
 
             <div className={styles.bottomSection}>            {/*Velg alle og vis utvalg knapp*/}
-                <button onClick={() => { setShowSelectedActor(false); setSearch("");}} className={styles.selectAllButton}>Vis alle</button>
+                <div className={styles.bottomLeftSection}>
+                    <button onClick={() => { setShowSelectedActor(false); setSearch("");}} className={styles.selectAllButton}>Vis alle</button><br/>
+                    <button onClick={() => setTempSelectedActors([])} className={styles.selectAllButton}> Clear All </button>
+                </div>
                 <button onClick={() => { setShowSelectedActor(true); setSelectedActors(tempSelectedActors);}} className={styles.showSelectionButton}>Oppdater Utvalg 🔄️</button>
             </div>
 
