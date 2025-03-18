@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+// import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Box from '../../components/Box/Box';
 import styles from './Actors.module.css';
 import "../../index.css";
+
 
 function Actors() {
     return (
