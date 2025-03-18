@@ -164,8 +164,8 @@
     justify-content: center;
 }
 
-/* Optional - SVG size control */
-.warningIcon svg {
-    width: 50px;
-    height: 50px;
-}
+    /* Optional - SVG size control */
+    .warningIcon svg {
+        width: 50px;
+        height: 50px;
+    }

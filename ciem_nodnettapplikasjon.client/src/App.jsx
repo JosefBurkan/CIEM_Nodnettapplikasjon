@@ -15,7 +15,6 @@ import PrivateActors from './pages/Actors/PrivateActors.jsx';
 function Layout() {
   const location = useLocation();
   const hideNavBar = location.pathname === "/"; // Hide NavBar on Login Page
-
   return (
     <>
       {!hideNavBar && <NavBar />}
@@ -39,13 +38,16 @@ function Layout() {
 }
 
 
-
 function App() {
-  return (
-    <Router>
-      <Layout />
-    </Router>
-  );
+
+    return (
+        <div>
+            <Router>
+                <Layout />
+            </Router>
+        </div>
+    );
+
 }
 
 export default App;

@@ -1,145 +1,146 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../index.css";
 import styles from './ActorsList.module.css';
 import SearchBar from '../SearchBar/SearchBar';
 import { IconMail, IconUser } from '@tabler/icons-react';
 
-function ActorsList({category}) { 
-
-    const allActors = [     // Liste over alle aktører med underaktører, bare masse testdata
-        {id: 1, type: "Private", name: "Verisure", subActors: ["Sentralbord", "Teknisk", "Overvåkning", "Ledelse"]},
-        {id: 2, type: "Private", name: "Voi", subActors: []},
-        {id: 3, type: "Statlige", name: "Å Egi", subActors: ["Avdeling 1", "Avdeling 2"]},
-        {id: 4, type: "Frivillige", name: "Røde Kors", subActors: ["Hjelpekorps", "Ungdom", "Omsorg"]},
-        {id: 5, type: "Frivillige", name: "Å rgi", subActors: ["Avdeling 1", "Avdeling 2"]},
-        {id: 6, type: "Statlige", name: "Årgi", subActors: ["Avdeling 1", "Avdeling 2"]},
-        {id: 7, type: "Private", name: "Årgi", subActors: ["Avdeling 1", "Avdeling 2"]},
-        {id: 8, type: "Private", name: "Tesla", subActors: ["Kundeservice", "Teknisk Support"]},
-        {id: 9, type: "Statlige", name: "NAV", subActors: ["Pensjon", "Arbeid", "Helse"]},
-        {id: 10, type: "Frivillige", name: "Frelsesarmeen", subActors: ["Matutdeling", "Nødhjelp"]},
-        {id: 11, type: "Private", name: "Google", subActors: ["Support", "Utvikling"]},
-        {id: 12, type: "Statlige", name: "Politiet", subActors: ["Etterforskning", "Patrulje"]},
-        {id: 13, type: "Frivillige", name: "Dyrebeskyttelsen", subActors: ["Adopsjon", "Redning"]},
-        {id: 14, type: "Private", name: "Microsoft", subActors: ["Support", "Salg"]},
-        {id: 15, type: "Statlige", name: "Skatteetaten", subActors: ["Veiledning", "Kontroll"]},
-        {id: 16, type: "Frivillige", name: "Kirkens Bymisjon", subActors: ["Hjelpetiltak", "Frivillige"]},
-        {id: 17, type: "Private", name: "Apple", subActors: ["Support", "Utvikling"]},
-        {id: 18, type: "Statlige", name: "Helsedirektoratet", subActors: ["Folkehelse", "Helseberedskap"]},
-        {id: 19, type: "Frivillige", name: "WWF", subActors: ["Miljøvern", "Dyrevern"]},
-        {id: 20, type: "Private", name: "Amazon", subActors: ["Kundeservice", "Logistikk"]},
-    ];
-
-    const actors = category === "Alle" ? allActors : allActors.filter(actor => actor.type === category); /* Sjekker hvilken kategori som er valgt, og filtrerer ut de som ikke er valgt. */
-    const [dropdown, setDropdown] = useState({}); /* Starter lukket, holder styr på hvilke som er åpne. */ 
+function ActorsList({ category }) {
+    // Use the category prop as initial filter if provided, default to "Alle"
+    const [actors, setActors] = useState([]);
     const [search, setSearch] = useState("");
-    const [selectedActors, setSelectedActors] = useState([]);
-    const [showSelectedActor, setShowSelectedActor] = useState(false);
+    const [categoryFilter, setCategoryFilter] = useState(category || "Alle");
+    const [typeFilter, setTypeFilter] = useState("Alle"); // New: filter by actor type (human/company)
+    const [dropdown, setDropdown] = useState({});
     const [tempSelectedActors, setTempSelectedActors] = useState([]);
 
-    const toggleDropdown = (actorName) => {
-        setDropdown((prev) => ({
-            ...prev, [actorName]: !prev[actorName] }));  /* Sjekker true eller false for å åpne/lukke */
-    };
+    // Fetch actor data from the API when the component mounts
+    useEffect(() => {
+        fetch("https://localhost:5255/api/actor")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched actors:", data); // Debug log: verify API data
+                setActors(data);
+            })
+            .catch(error => console.error("Error fetching actors:", error));
+    }, []);
 
-    const filteredActors = actors.filter(actor => {  // Søkefunksjon for aktører, sjekker om søket er i navnet eller underaktørene.
+    // Filter actors by category, actor type, and search text
+    const filteredActors = actors.filter(actor => {
+        // Compare category values (using trim and lowercase)
+        const matchesCategory =
+            categoryFilter === "Alle" ||
+            (actor.category &&
+                actor.category.trim().toLowerCase() === categoryFilter.toLowerCase());
+        // Compare actor type (using trim and lowercase)
+        const matchesType =
+            typeFilter === "Alle" ||
+            (actor.actorType &&
+                actor.actorType.trim().toLowerCase() === typeFilter.toLowerCase());
+        // Check search text (matches name or any subactor)
         const matchesSearch =
             actor.name.toLowerCase().includes(search.toLowerCase()) ||
-            actor.subActors.some(sub => sub.toLowerCase().includes(search.toLowerCase()));
-    
-        if (showSelectedActor) {  // Sjekker om aktøren er valgt, og om den skal vises eller ikke
-            return selectedActors.includes(actor.name) || (matchesSearch && !showSelectedActor);
-        }
-    
-        return matchesSearch || selectedActors.includes(actor.name) || dropdown[actor.name];
+            (actor.subActors &&
+                actor.subActors.some(sub => sub.toLowerCase().includes(search.toLowerCase())));
+        return matchesCategory && matchesType && matchesSearch;
     });
 
+    // Toggle dropdown visibility for an actor
+    const toggleDropdown = (actorName) => {
+        setDropdown(prev => ({
+            ...prev,
+            [actorName]: !prev[actorName]
+        }));
+    };
+
+    // Toggle temporary selection of an actor
     const toggleTempSelectedActor = (actorName) => {
-        setTempSelectedActors((prev) =>
+        setTempSelectedActors(prev =>
             prev.includes(actorName)
-                ? prev.filter(name => name !== actorName) // Fjern hvis allerede valgt
-                : [...prev, actorName] // Legg til hvis ikke valgt
+                ? prev.filter(name => name !== actorName)
+                : [...prev, actorName]
         );
     };
-    
 
     return (
-        <div className={styles.x}> 
-            <div className={styles.topSection}>       {/*Søk, filter og knapper container*/}
+        <div className={styles.x}>
+            {/* Top Section: Search and filter controls */}
+            <div className={styles.topSection}>
                 <div className={styles.btnContainer}>
                     <button className={styles.midlertidigBtn}>List format</button>
                     <button className={styles.midlertidigBtn}>Nettverk format</button>
                 </div>
                 <div className={styles.searchBarContainer}>
-                    <SearchBar 
-                        placeholder="" 
-                        bgColor='#1A1A1A'
+                    <SearchBar
+                        placeholder="Search actors..."
+                        bgColor="#1A1A1A"
                         onSearch={setSearch}
                     />
                 </div>
                 <div className={styles.filterBtnContainer}>
-                    <button className={styles.filterButton}>Filter</button>
+                    <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}>
+                        <option value="Alle">Alle</option>
+                        <option value="Statlige">Statlige</option>
+                        <option value="Private">Private</option>
+                        <option value="Frivillige">Frivillige</option>
+                    </select>
+                    <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}>
+                        <option value="Alle">Alle</option>
+                        <option value="human">Human</option>
+                        <option value="company">Company</option>
+                    </select>
                 </div>
                 <button>
-                    <IconMail className={styles.mailIcon}/> 
+                    <IconMail className={styles.mailIcon} />
                 </button>
                 <button>
-                    <IconUser className={styles.userIcon}/> 
+                    <IconUser className={styles.userIcon} />
                 </button>
             </div>
-            <div className={styles.headerBoxContainer}>    
-                <div className={styles.headerBox}>              {/* Boks som viser valgt kategori */}
-                    <IconUser className={styles.headerIcon}/>
-                    <span>{`${category} Aktører`}</span>  {/* ikke implementert enda */}
+
+            {/* Header Box: Display the selected filters */}
+            <div className={styles.headerBoxContainer}>
+                <div className={styles.headerBox}>
+                    <IconUser className={styles.headerIcon} />
+                    <span>
+                        {`${categoryFilter} Aktører`}
+                        {typeFilter !== "Alle" && ` / ${typeFilter}`}
+                    </span>
                 </div>
             </div>
 
-            <div className={styles.contentContainer}>         {/* Hovedinnholdet - Container for aktør listene */}
+            {/* Content Container: Display the list of filtered actors */}
+            <div className={styles.contentContainer}>
                 <ul className={styles.actorsList}>
-                    {filteredActors.map((actor) => (  /* Går gjennom actors og lager lister med innholdet */
-                        <li key={actor.name} className={styles.actorItem}>
+                    {filteredActors.map(actor => (
+                        <li key={actor.id} className={styles.actorItem}>
                             <div className={styles.actorListContainer}>
-                                <input              // Checkbox for å velge aktører
+                                <input
                                     className={styles.actorCheckbox}
                                     type="checkbox"
                                     checked={tempSelectedActors.includes(actor.name)}
                                     onChange={() => toggleTempSelectedActor(actor.name)}
                                 />
                                 <button
-                                    className={`${styles.actorBtn}   ${dropdown[actor.name] ? styles.activeDropdown : ''}`}
-                                    onClick={() => toggleDropdown(actor.name)}     // Flipper true/false på den man trykker på
+                                    className={`${styles.actorBtn} ${dropdown[actor.name] ? styles.activeDropdown : ''}`}
+                                    onClick={() => toggleDropdown(actor.name)}
                                 >
                                     {actor.name}
                                     <span className={`${styles.arrow} ${dropdown[actor.name] ? styles.activeArrow : ''}`}>
-                                        {dropdown[actor.name] ? " ▲" : " ▼"} {/* Ser om det er true eller false, og viser pil som representerer det */}
+                                        {dropdown[actor.name] ? " ▲" : " ▼"}
                                     </span>
                                 </button>
                             </div>
-                            {dropdown[actor.name] && (
+                            {dropdown[actor.name] && actor.subActors && actor.subActors.length > 0 && (
                                 <ul className={styles.subActors}>
-                                    {actor.subActors.length > 0 ? (
-                                        actor.subActors.map((sub, i) => (
-                                            <li key={i} className={styles.subActor}>  {/* Ser om subActor > 0, som vil si ingen subactors, og gir "Ingen underaktører" */}
-                                                {sub}
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li className={styles.noSubActor}>Ingen underaktører</li>
-                                    )}
+                                    {actor.subActors.map((sub, index) => (
+                                        <li key={index} className={styles.subActor}>{sub}</li>
+                                    ))}
                                 </ul>
                             )}
                         </li>
                     ))}
                 </ul>
             </div>
-
-            <div className={styles.bottomSection}>            {/*Velg alle og vis utvalg knapp*/}
-                <div className={styles.bottomLeftSection}>
-                    <button onClick={() => { setShowSelectedActor(false); setSearch("");}} className={styles.selectAllButton}>Vis alle</button><br/>
-                    <button onClick={() => setTempSelectedActors([])} className={styles.selectAllButton}> Clear All </button>
-                </div>
-                <button onClick={() => { setShowSelectedActor(true); setSelectedActors(tempSelectedActors);}} className={styles.showSelectionButton}>Oppdater Utvalg 🔄️</button>
-            </div>
-
         </div>
     );
 }
