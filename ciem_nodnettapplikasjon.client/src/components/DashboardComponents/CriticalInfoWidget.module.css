@@ -3,9 +3,11 @@
     border-radius: 30px;
     padding: 50px 20px 20px;
     position: relative;
-    width: 400px;
-    max-width: 100%;
+    width: 90%;
+    max-width: 420px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden; /* Prevents any content from protruding */
+    margin-top: 40px
 }
 
 .header {
@@ -14,46 +16,73 @@
     font-weight: bold;
     font-size: 14px;
     position: absolute;
+    text-align: right;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
     padding: 8px 20px;
-    border-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
 }
 
-.header .icon {
-    width: 12px;
-    height: 12px;
-    background: red;
-    border-radius: 50%;
-    margin-right: 8px;
-}
+    .header .icon {
+        width: 12px;
+        height: 12px;
+        background: red;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
 
 .infoGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr); /* Two-column layout */
+    gap: 8px; /* Adjust spacing */
+    justify-content: center;
+    align-items: stretch; /* Ensures equal height */
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn’t overflow */
+    padding-bottom: 10px; /* Prevents content from being cut off */
 }
 
 .infoBox {
     background: white;
-    padding: 10px;
-    border-radius: 20px;
+    padding: 12px;
+    border-radius: 12px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     font-size: 12px;
     line-height: 1.4;
+    width: 100%; /* Makes sure they don’t exceed their column */
+    box-sizing: border-box;
+    overflow: hidden; /* Ensures content doesn’t leak */
 }
 
+/* Ensure it stays within bounds */
 .infoHeader {
     font-weight: bold;
     margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .infoContent strong {
     display: inline-block;
-    width: 100px;
+    width: 80px;
+}
+
+/* ===== Mobile Responsiveness: Stack Boxes ===== */
+@media (max-width: 768px) {
+    .infoGrid {
+        grid-template-columns: 1fr; /* Stack boxes in one column */
+        gap: 10px;
+    }
+
+    .widgetContainer {
+        width: 90%;
+        padding: 30px 15px 15px;
+    }
 }

@@ -75,9 +75,11 @@ app.UseRouting();
 app.UseCors("AllowFrontend");  // Allow frontend and backend to work together
 app.UseAuthorization();
 
+app.UseWebSockets();
+
 app.MapControllers();
 
-app.MapHub<EmkoreHub>("/emkoreHub");
+//app.MapHub<EmkoreHub>("/emkoreHub");
 
 // Test endpoint
 app.MapGet("/", () => "Hello, backend is running!");
