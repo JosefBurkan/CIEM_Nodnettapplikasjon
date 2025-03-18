@@ -1,7 +1,9 @@
+import React from 'react';
+import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Login from './pages/Login/Login.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
-import './index.css'
 import NavBar from './components/NavBar/NavBar.jsx';
+import KHSnettverk from './pages/KHS/KHSnettverk.jsx';
 import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import KHN from './pages/KHN/KHNnettverk.jsx';
 import Actors from './pages/Actors/Actors.jsx';
@@ -13,14 +15,20 @@ import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
 
 
-function Layout(){
+function Layout() {
   const location = useLocation();
-  const hideNavBar = location.pathname === "/";
-  return(
+  const hideNavBar = location.pathname === "/"; // Hide NavBar on Login Page
+
+  return (
     <>
-      {!hideNavBar && <NavBar/>} {/* Skjuler NavBar når brukeren på Login siden */}
-    <div className="pageContainer">
+      {!hideNavBar && <NavBar />} {/* Hide NavBar when on Login */}
+      <div className="pageContainer">
         <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/krisehandterings-nettverk" element={<KHSnettverk />} /> {/* ✅ Fixed route */}
+          <Route path="/actors" element={<Actors />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} /> {/* Redirect invalid paths to Dashboard */}
           <Route path="/" element={<Login/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/KHN" element={<KHN/>}/>
@@ -33,16 +41,15 @@ function Layout(){
           <Route path="/actorsPrivate" element={<PrivateActors/>}/>
           <Route path="*" element={<Navigate to="/dashboard"/>}/> {/* Sender brukeren til Dashboard ved ugyldig URL*/}
         </Routes>
-    </div>
+      </div>
     </>
   );
 }
 
-function App(){
-
-  return(
+function App() {
+  return (
     <Router>
-      <Layout/>
+      <Layout />
     </Router>
   );
 }

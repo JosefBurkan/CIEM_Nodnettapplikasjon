@@ -1,0 +1,81 @@
+/* Default Small Widget */
+.widgetContainer {
+    background-color: white;
+    border: 10px solid black;
+    border-radius: 40px;
+    width: 450px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+    margin-top: 40px
+}
+
+/* Large Widget for Krisehåndtering */
+.largeWidgetContainer {
+    background-color: rgb(193, 192, 192);
+    border: 10px solid black;
+    border-radius: 40px;
+    width: 800px;  /* ✅ Bigger width */
+    height: 400px; /* ✅ Bigger height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+    margin-top: 100px;
+}
+
+/* Default Small Header */
+.header {
+    background-color: #007b8f;
+    color: white;
+    font-weight: bold;
+    width: 150px;
+    text-align: center;
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    top: -35px;
+}
+
+/* ✅ Large Header for Krisehåndtering */
+.largeHeader {
+    background-color: red;
+    color: rgb(247, 246, 246);
+    font-weight: bold;
+    width: 400px;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 15px 15px 0 0;
+    position: absolute;
+    top: -50px;
+}
+
+
+.chartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+}
+
+.node {
+    fill: black;
+}
+
+.line {
+    stroke: red;
+    stroke-width: 1.5;
+}

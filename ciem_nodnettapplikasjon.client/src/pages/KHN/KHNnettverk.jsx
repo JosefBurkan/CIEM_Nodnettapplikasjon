@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import styles from './KHNnettverk.module.css';
+import styles from './KHSnettverk.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 
-function KHNnettverk(){
+function KHSnettverk(){
     return(
         <div className={styles.test}>
             <h1>Krisehåndterings-nettverk</h1>
@@ -10,4 +10,4 @@ function KHNnettverk(){
     );
 }
 
-export default KHNnettverk;
+export default KHSnettverk;
