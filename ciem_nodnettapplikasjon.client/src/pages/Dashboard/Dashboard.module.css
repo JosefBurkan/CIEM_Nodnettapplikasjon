@@ -1,3 +1,125 @@
-.dashboardPage{
-    color:white;
+.dashboard { 
+    display: grid;
+    grid-template-columns: 0.9fr 1.2fr 0.9fr; /* Tighter columns */
+    gap: 15px; /* Less space between widgets */
+    padding: 15px;
+    box-sizing: border-box;
+    max-width: 1200px; /* Keeps overall dashboard width smaller */
+    margin: 0 auto; /* Centers the dashboard */
+}
+
+.leftColumn {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 50px; /* Tighter spacing */
+}
+
+.centerColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Stack LiveKhnWidget above CriticalInfoWidget */
+    gap: 20px; /* ✅ Adds space between LiveKhnWidget and CriticalInfoWidget */
+    width: 100%; /* Ensure it takes full space */
+}
+
+.rightColumn {
+    display: flex;
+    justify-content: flex-start; /* ✅ Aligns with leftColumn */
+    flex-direction: column;
+    gap: 15px; /* Tighter spacing */
+    align-self: flex-start; /* ✅ Ensures alignment */
+}
+
+/* ===== Active Actors Widget Styling ===== */
+.activeActorsWidget {
+    width: 100%;
+    max-width: 360px; /* Keeps the same width as Next Update Widget */
+    margin-top: 10px; /* ✅ Adjust spacing for better alignment */
+    align-self: flex-start; /* ✅ Ensures it is in line with other widgets */
+}
+
+/* ===== LiveKhnWidget Styling ===== */
+.liveKhnWidget {
+    background-color: #ffffff;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px; /* ✅ Added space below Live KHN widget */
+}
+
+.liveKhnHeader {
+    background: #007b8f;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 15px 15px 0 0;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+/* ===== Critical Information Widget Styling ===== */
+.criticalInfoWidget {
+    width: 100%;
+    max-width: 360px;
+    margin-top: 20px; /* ✅ Added extra spacing for better separation */
+}
+
+/* ===== RESPONSIVENESS TO MIMIC 80% ZOOM AT 100% ===== */
+@media (min-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 0.9fr 1.2fr 0.9fr;
+        gap: 15px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .widget {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .leftColumn,
+    .centerColumn,
+    .rightColumn {
+        gap: 15px;
+    }
+
+    .liveKhnWidget {
+        max-width: 460px;
+    }
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+        height: auto;
+    }
+
+    .leftColumn,
+    .centerColumn,
+    .rightColumn {
+        width: 100%;
+        align-items: center;
+    }
+
+    .widget {
+        width: 95%;
+        max-width: 600px;
+    }
+
+    .liveKhnWidget {
+        max-width: 95%;
+    }
 }
