@@ -3,6 +3,13 @@ import "../../index.css";
 import styles from './ActorsList.module.css';
 import SearchBar from '../SearchBar/SearchBar';
 import { IconMail, IconUser } from '@tabler/icons-react';
+import { createClient } from '@supabase/supabase-js';
+
+    // Create the Supabase client instance
+    const supabase = createClient(
+        'https://vigjqzuqrnxapqxhkwds.supabase.co/',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpZ2pxenVxcm54YXBxeGhrd2RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3NzU2MjksImV4cCI6MjA1NzM1MTYyOX0.4vS7Yh-dgCEDacxGL8lz4Zp47lq28Xa3lfWV8NsiNyM'
+    );
 
 function ActorsList({ category }) {
     // Use the category prop as initial filter if provided, default to "Alle"
@@ -13,15 +20,33 @@ function ActorsList({ category }) {
     const [dropdown, setDropdown] = useState({});
     const [tempSelectedActors, setTempSelectedActors] = useState([]);
 
+
+    // Fetch the actor data
+    const fetchActors = async () => {
+        const response = await fetch("https://localhost:5255/api/actor")
+        const data = await response.json();
+        setActors(data);
+    } 
+
+
     // Fetch actor data from the API when the component mounts
     useEffect(() => {
-        fetch("https://localhost:5255/api/actor")
-            .then(response => response.json())
-            .then(data => {
-                console.log("Fetched actors:", data); // Debug log: verify API data
-                setActors(data);
-            })
-            .catch(error => console.error("Error fetching actors:", error));
+        fetchActors();
+
+        // Listen to database changes, update on INSERT, UPDATE, DELETE 
+        supabase
+        .channel('table-db-changes')
+        .on('postgres_changes',
+    {
+        event: '*',
+        schema: 'public',
+        table: 'Actors',
+    },
+    (payload) => {
+        fetchActors();
+      }
+    )
+    .subscribe(status => console.log(status))
     }, []);
 
     // Filter actors by category, actor type, and search text
