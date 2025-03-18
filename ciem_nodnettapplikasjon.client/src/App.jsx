@@ -5,6 +5,8 @@ import NavBar from './components/NavBar/NavBar.jsx';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Actors from './pages/Actors/Actors.jsx';
 
+
+
 function App() {
     return (
         <Router>
