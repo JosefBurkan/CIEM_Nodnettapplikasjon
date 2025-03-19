@@ -1,0 +1,16 @@
+.container{
+    padding: 0 2rem;  /* 🔥 Legger til 2rem padding på venstre og høyre side */
+    /* border: 1px solid black;
+    width: 90vw;
+    margin: 0 auto; */
+}
+.searchBarContainer{
+    /* margin-top: 5rem;
+    margin-left: 3rem; */
+    margin: 5rem 0 3rem 3rem;
+}
+.networkContainer{
+    width: 60vw;
+    height: 60vh;
+    border: 1px solid white;
+};
