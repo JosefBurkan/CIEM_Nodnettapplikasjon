@@ -4,6 +4,7 @@ import logo from '../../assets/EMKORE.png';
 import DateComponent from '../Date/Date.jsx';
 import { IconSearch, IconMenu2, IconMail, IconUser } from '@tabler/icons-react';
 import { Link, useLocation } from 'react-router-dom';
+import SearchBar from '../SearchBar/SearchBar';
 
 
 function NavBar(){
@@ -17,12 +18,8 @@ function NavBar(){
                 <div className={styles.logoContainer}>
                     <img src={logo} alt="EMKORE logo" className={styles.logo}/>
                 </div>
-                    <div className={styles.searchContainer}>
-                        <div className={styles.searchBar}>
-                            <IconSearch className={styles.iconSearch}/> {/*   Ikke fungerende search bar  */}
-                            <input type="text" placeholder="Søk..." className={styles.searchInput}/>
-                            <IconMenu2 className={styles.menuIcon}/>
-                        </div>
+                <div className={styles.searchContainer}>
+                    <SearchBar/>
 
                     </div>
 
@@ -31,7 +28,7 @@ function NavBar(){
             <div className={styles.navbarCenter}>
                 <div className={styles.navbarLinks}>
                     <Link 
-                        to="/krisehandterings-nettverk"  // ✅ Fixed path
+                        to="/krisehandterings-nettverk"  // Fixed path
                         className={`${styles.navbarLink} ${isActive("/krisehandterings-nettverk") ? styles.activeLink : ""}`}
                     >
                         Krisehåndterings-nettverk
