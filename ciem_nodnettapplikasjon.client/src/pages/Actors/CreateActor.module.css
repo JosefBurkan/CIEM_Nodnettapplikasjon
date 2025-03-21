@@ -1,0 +1,59 @@
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    background-color: hsl(0, 0%, 16%);
+}
+
+.icon{
+    font-size: 12ex;
+}
+.header{
+    display:flex;
+    align-items: center;
+    color: hsl(0, 0%, 90%);
+}
+.form {
+    margin-left: 8.7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 1rem;
+    width: 40vw;
+    color: white;
+    font-size: 3ex;
+    
+}
+select, input, textarea{
+    background-color: #A4A4A4;
+}
+select, input{
+    color: black;
+    font-size: 1.2ex;
+    font-weight: 550;
+    padding: 5px;
+    width: 300px;
+}
+
+select::placeholder, input::placeholder{
+    color:hsl(0, 0%, 40%);
+}
+textarea{
+    width: 20vw;
+    max-width: 500px;
+    max-height:500px;
+}
+.createButton{
+    width: 20vw;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #1A1A1A;
+    border: 2px solid red;
+    color: white;
+    transform: scale(1);
+    transition: transform 0.4s;
+    cursor: pointer;
+}
+.createButton:hover{
+    transform: scale(1.05);
+}
