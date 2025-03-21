@@ -32,7 +32,7 @@ function NavBar(){
                 </Link>
                     <Link 
                         to="/actors" 
-                        className={`${styles.navbarLink} ${isActive("/actors") ? styles.activeLink : ""}`}>Aktører
+                        className={`${styles.navbarLink} ${isActive("/actor") ? styles.activeLink : ""}`}>Aktører
                     </Link> {/*Visualiserer når man er på siden, strek under aktører*/}
                 </div>
             </div>
