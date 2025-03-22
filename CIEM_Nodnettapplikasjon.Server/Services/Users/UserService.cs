@@ -33,10 +33,9 @@ namespace CIEM_Nodnettapplikasjon.Server.Services.Users
             return false;
         }
 
-        // Logout method (now correctly inside the class)
+        // Logout the user
         public void Logout(int userID)
         {
-            // Simple logout logic
             Console.WriteLine($"User with ID {userID} has logged out.");
         }
     }

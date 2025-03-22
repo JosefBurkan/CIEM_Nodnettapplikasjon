@@ -11,6 +11,7 @@ import GovActors from './pages/Actors/GovActors.jsx';
 import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function Layout() {
   const location = useLocation();
@@ -38,16 +39,25 @@ function Layout() {
 }
 
 
+
 function App() {
-
     return (
-        <div>
-            <Router>
-                <Layout />
-            </Router>
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route 
+                    path="/dashboard" 
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    } 
+                />
+                {/* Any other routes */}
+            </Routes>
+        </Router>
     );
-
 }
+
 
 export default App;
