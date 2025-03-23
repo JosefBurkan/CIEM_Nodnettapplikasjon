@@ -18,7 +18,7 @@
     background-color: rgb(193, 192, 192);
     border: 10px solid black;
     border-radius: 40px;
-    width: 800px;  /* ✅ Bigger width */
+    width: 800px; /* ✅ Bigger width */
     height: 400px; /* ✅ Bigger height */
     display: flex;
     flex-direction: column;

@@ -26,10 +26,10 @@
 
 .rightColumn {
     display: flex;
-    justify-content: flex-start; /* ✅ Aligns with leftColumn */
+    justify-content: flex-start;
     flex-direction: column;
     gap: 15px; /* Tighter spacing */
-    align-self: flex-start; /* ✅ Ensures alignment */
+    align-self: flex-start;
 }
 
 /* ===== Active Actors Widget Styling ===== */
