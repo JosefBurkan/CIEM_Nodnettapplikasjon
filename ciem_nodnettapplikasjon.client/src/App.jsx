@@ -13,6 +13,8 @@ import PrivateActors from './pages/Actors/PrivateActors.jsx';
 import LiveKHN from './pages/KHN/LiveKHN.jsx';
 import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
+import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
+import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
 
 function Layout() {
   const location = useLocation();
@@ -34,7 +36,9 @@ function Layout() {
           <Route path="/liveKHN" element={<LiveKHN />} />
           <Route path="/actorNew" element={<NewActor/>} />
           <Route path="/createActor" element={<CreateActor/>} />
-          <Route path="*" element={<Navigate to="/dashboard" />} />
+                  <Route path="*" element={<Navigate to="/dashboard"/>} />
+                  <Route path="/searchDatabase" element={<DatabaseOrg/>} />
+                  <Route path="/searchDatabase/:category" element={<ActorsListWrapper/>} />
         </Routes>
       </div>
     </>

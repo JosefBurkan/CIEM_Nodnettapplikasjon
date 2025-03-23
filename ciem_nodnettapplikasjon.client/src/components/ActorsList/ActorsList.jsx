@@ -16,7 +16,7 @@ function ActorsList({ category }) {
     const [actors, setActors] = useState([]);
     const [search, setSearch] = useState("");
     const [categoryFilter, setCategoryFilter] = useState(category || "Alle");
-    const [typeFilter, setTypeFilter] = useState("Alle"); // New: filter by actor type (human/company)
+    const [typeFilter, setTypeFilter] = useState("Alle"); 
     const [dropdown, setDropdown] = useState({});
     const [tempSelectedActors, setTempSelectedActors] = useState([]);
 
@@ -110,8 +110,8 @@ function ActorsList({ category }) {
                     </select>
                     <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}>
                         <option value="Alle">Alle</option>
-                        <option value="human">Human</option>
-                        <option value="company">Company</option>
+                        <option value="Person">Person</option>
+                        <option value="Organisasjon">Organisasjon</option>
                     </select>
                 </div>
                 <button>
