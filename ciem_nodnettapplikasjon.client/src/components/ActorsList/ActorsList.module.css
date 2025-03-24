@@ -1,0 +1,190 @@
+/* * {
+    outline: 1px solid gold;
+} */
+.x{
+    font-family: Arial, Helvetica, sans-serif;
+    /* background-color: blue; */
+}
+.midlertidigBtn, .filterButton, .selectAllButton, .showSelectionButton{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+    cursor:pointer;
+    color: hsl(0, 0%, 83%);
+    background-color: #1A1A1A;
+}
+
+.topSection {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 1rem 4rem;
+    width: 20%;
+    gap: 1rem;
+    /* border: 1px solid */
+}
+.btnContainer {
+    /* border: 1px solid black; */
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* .filterBtnContainer{
+    border: 1px solid black;
+    display: flex;
+    justify-content: flex-end; 
+} */
+.midlertidigBtn{
+    border: 2px solid rgb(165, 31, 31);
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.midlertidigBtn:hover {
+    background-color: red;
+    color: black;
+}
+
+.filterButton{
+    text-align: center;
+    border-radius: 15px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    width: 150px;
+    border:none;
+    outline: none;
+    transition: 0.3s;
+}
+.filterButton:hover{
+    background-color: #006C74;
+    color: white;
+}
+.headerBoxContainer {
+    position: absolute;
+    top: 3rem;
+    margin-left: 20%;
+    width: 20%;
+}
+.headerBox{
+    /* display:flex;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #1A1A1A;
+    color: hsl(0, 0%, 93%);
+    border-radius: 15px;
+    width: 10%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: #1A1A1A;
+    color: #D2D2D2;
+    border-radius: 15px;
+    width: 12rem;
+    height: 3rem;
+    margin: auto;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.contentContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 1rem;
+    padding: 1rem;
+    width: 92vw;
+    height: 47vh;
+    margin: auto;
+    background-color: #1A1A1A;
+    border: 3px solid #0A77A6;
+    color: hsl(0, 0%, 93%);
+    border-radius: 50px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+
+.selectAllButton:hover, .showSelectionButton:hover{
+    background-color: #FF3F3F;
+    color: white;
+}
+.selectAllButton, .showSelectionButton{
+    text-align: center;
+    border-radius: 25px;
+    border: 3px solid #FF3F3F;
+}
+.selectAllButton{
+    padding: 0.6rem;
+    width: 150px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    position: relative;
+    left: 2.8vw;
+    margin-top: 20px;
+}
+.showSelectionButton{
+    padding: 1rem;
+    width: 17rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    position: relative;
+    right: 2.8vw;
+    margin-top: 40px;
+}
+
+.bottomSection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+.actorsList{
+    list-style: none;
+}
+.actorListContainer{
+    display:flex;
+    margin-top: 10px;
+}
+.actorCheckbox{
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    border: none;
+    backface-visibility:hidden;
+    vertical-align: middle;
+    appearance: none;
+    /* outline: 3px solid white; */
+    cursor: pointer;
+    box-shadow: none;
+}
+.actorCheckbox:checked {
+    background-color: gray;
+    cursor: pointer;
+}
+
+.actorBtn{
+    width: 60vw;
+    text-align:end;
+    display:flex;
+    justify-content: space-between;
+    border:none;
+    color: white;
+    background-color: hsla(0, 0%, 0%, 0);
+    font-size: 1.3rem;
+    border-bottom: 1.5px solid #FFFFFF;
+    margin-bottom: 5px;
+}
+
+.activeDropdown { 
+    border-bottom: 2px solid #FF3F3F;
+    font-weight: bold;
+
+}
+.activeArrow{
+    color: #FF3F3F;
+}

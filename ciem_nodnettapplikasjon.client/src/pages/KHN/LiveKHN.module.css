@@ -1,0 +1,85 @@
+*{
+    border:none;
+}
+
+.container {
+    padding: 0 2rem;
+}
+
+.content {
+    display: flex;
+    gap: 5rem;
+}
+
+.searchBarContainer {
+    margin: 5rem 0 3rem 3rem;
+    width: fit-content;
+}
+
+.networkContainer {
+    width: 60vw;
+    height: 60vh;
+    border: 1px solid white;
+}
+
+.infoBox {
+    position: relative;
+    top: -5vh;
+    width: 30%;
+    height: 70vh;
+    background: #111;
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tabContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+}
+
+.tabButton {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.tabButton:hover {
+    background: #555;
+}
+
+.activeTab {
+    background: red !important;
+}
+
+.tabContent {
+    width: 90%;
+    background: #222;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 10px;
+    text-align: center;
+}
+.editButton{
+    position: absolute;
+    bottom: 100px;
+    padding: 20px 50px;
+    border-radius: 15px;
+    border:none;
+}
+.editButton:hover{
+    background-color: red;
+    color: transparent;
+}

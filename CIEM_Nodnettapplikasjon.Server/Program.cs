@@ -1,5 +1,7 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
 using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
@@ -16,6 +18,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 // Scoped services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<INodeNetworkRepository, NodeNetworksRepository>();
 
 // Cors setup
 builder.Services.AddCors(options =>
@@ -31,8 +35,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -73,9 +75,11 @@ app.UseRouting();
 app.UseCors("AllowFrontend");  // Allow frontend and backend to work together
 app.UseAuthorization();
 
+app.UseWebSockets();
+
 app.MapControllers();
 
-app.MapHub<EmkoreHub>("/emkoreHub");
+//app.MapHub<EmkoreHub>("/emkoreHub");
 
 // Test endpoint
 app.MapGet("/", () => "Hello, backend is running!");

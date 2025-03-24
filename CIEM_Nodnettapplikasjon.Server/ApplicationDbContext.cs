@@ -1,6 +1,8 @@
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using CIEM_Nodnettapplikasjon.Server.Models.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Actors;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 
 public class ApplicationDbContext : DbContext
 {
@@ -9,8 +11,11 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    // Add DbSets for tables here (Example: Users table)
+ 
     public DbSet<UserModel> Users { get; set; }
+    public DbSet<ActorModel> Actors { get; set; }
+    public DbSet<NodeNetworksModel> NodeNetworks { get; set;}
+
 
 
 }
