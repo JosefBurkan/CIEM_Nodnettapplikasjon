@@ -33,7 +33,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(actor);
         }
 
-        [HttpPost]
+        [HttpPost("CreateActor")]
         public async Task<ActionResult<ActorModel>> CreateActor([FromBody] ActorModel newActor)
         {
             await _actorRepository.CreateActorAsync(newActor);
