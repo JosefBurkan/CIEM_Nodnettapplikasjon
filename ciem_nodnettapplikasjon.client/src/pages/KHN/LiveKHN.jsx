@@ -6,6 +6,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import CustomNode from "../../components/CustomNode/CustomNode";
 
 
+
 const initialNodes = [ // Fyll informasjon for å vise noe. 
     { id: "1", position: { x: 250, y: 0 }, data: { label: "Krisehåndterings Sentral" }, type: "custom" },
     { id: "2", position: { x: 400, y: 80 }, data: { label: "Hoved redningssentralen" }, type: "custom" },
@@ -24,7 +25,15 @@ const initialEdges = [
 const nodeTypes = { custom: CustomNode };
 const proOptions = { hideAttribution: true };
 
-function LiveKHN(){
+function LiveKHN() {
+    
+    const fetchKHN = async () => {
+        const response = await fetch("https://localhost:5255/api/actor")
+        const data = await response.json();
+        setActors(data);
+    } 
+
+
     const [activeTab, setActiveTab] = useState("actors");
 
     return(
