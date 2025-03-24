@@ -41,21 +41,22 @@ function Layout() {
 
 
 function App() {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route 
-                    path="/dashboard" 
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    } 
-                />
-                {/* Any other routes */}
-            </Routes>
-        </Router>
+  return (
+    < Router >
+      
+    <Routes>
+      <Route path="/" element={<Login />} />
+      
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      />
+      </Routes>
+        </Router >
     );
 }
 
