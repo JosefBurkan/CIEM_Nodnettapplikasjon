@@ -2,15 +2,20 @@ import React from 'react';
 import styles from './KHNnettverk.module.css';
 import LiveNetworkWidget from "../../components/DashboardComponents/LiveNetworkWidget";
 import Box from '../../components/Box/Box';
+import { Link } from 'react-router-dom';
 
 function KHSnettverk() {
+
+
     return (
         <div className={styles.container}>
             <div className={styles.dashboard}>
                 {/* Left Section - Large Live Network Widget */}
                 <div className={styles.leftSection}>
                     {/* ✅ Pass "large" prop here */}
-                    <LiveNetworkWidget large />
+                    <Link to="/liveKHN">
+                        <LiveNetworkWidget large />
+                    </Link>
                     <button className={styles.editButton}>Rediger Nettverk</button>
                 </div>
 

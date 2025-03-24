@@ -14,10 +14,7 @@ function Dashboard() {
       </div>
 
 
-      <div className={styles.centerColumn}>
-    <LiveNetworkWidget />
-    <CriticalInfoWidget />
-</div>
+ 
 
       {/* Center Column */}
       <div className={styles.centerColumn}>

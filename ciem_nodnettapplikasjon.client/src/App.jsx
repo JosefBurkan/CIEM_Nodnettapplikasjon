@@ -5,13 +5,15 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import KHSnettverk from './pages/KHN/KHNnettverk.jsx';
 import Actors from './pages/Actors/Actors.jsx';
-import ActorsList from './components/ActorsList/ActorsList.jsx';
 import ActorInfo from './pages/Actors/ActorInfo.jsx';
 import GovActors from './pages/Actors/GovActors.jsx';
 import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
 import ProtectedRoute from './components/ProtectedRoute';
+import LiveKHN from './pages/KHN/LiveKHN.jsx';
+import NewActor from './pages/Actors/NewActor.jsx';
+import CreateActor from './pages/Actors/CreateActor.jsx';
 
 function Layout() {
   const location = useLocation();
@@ -25,12 +27,14 @@ function Layout() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/krisehandterings-nettverk" element={<KHSnettverk />} />
           <Route path="/actors" element={<Actors />} />
-          <Route path="/actorsList" element={<ActorsList />} />
           <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
           <Route path="/actorsVol" element={<VolActors />} />
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
+          <Route path="/liveKHN" element={<LiveKHN />} />
+          <Route path="/actorNew" element={<NewActor/>} />
+          <Route path="/createActor" element={<CreateActor/>} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </div>
