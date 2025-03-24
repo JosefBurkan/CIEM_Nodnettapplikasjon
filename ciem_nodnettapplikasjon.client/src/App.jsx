@@ -10,6 +10,7 @@ import GovActors from './pages/Actors/GovActors.jsx';
 import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
+import ProtectedRoute from './components/ProtectedRoute';
 import LiveKHN from './pages/KHN/LiveKHN.jsx';
 import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
@@ -42,16 +43,26 @@ function Layout() {
 }
 
 
+
 function App() {
-
-    return (
-        <div>
-            <Router>
-                <Layout />
-            </Router>
-        </div>
+  return (
+    < Router >
+      
+    <Routes>
+      <Route path="/" element={<Login />} />
+      
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      />
+      </Routes>
+        </Router >
     );
-
 }
+
 
 export default App;
