@@ -20,11 +20,17 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 
         }
 
-        public async Task<NodeNetworksModel> GetNodeNetworkByID(int id) {
-
-            return await _context.NodeNetworks.FindAsync(id);
-
+        // Grab a specific nodenetwork, and only the nodes witch matches the foreign key of Nodes
+        public async Task<NodeNetworksModel> GetNodeNetworkByID(int id)
+        {
+            return await _context.NodeNetworks
+                .Where(n => n.networkID == id) 
+                .Include(n => n.Nodes) 
+                .FirstOrDefaultAsync();
         }
+
+
+
 
         public async Task<NodeNetworksModel> CreateNodeNetwork(NodeNetworksModel newNodeNetwork) {
 
