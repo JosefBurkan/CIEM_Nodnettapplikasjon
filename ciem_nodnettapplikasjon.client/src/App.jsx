@@ -16,6 +16,7 @@ import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
+import NettverksArkiv from './pages/Nettverk/NettverksArkiv.jsx';
 
 function Layout() {
   const location = useLocation();
@@ -39,7 +40,8 @@ function Layout() {
           <Route path="/createActor" element={<CreateActor/>} />
                   <Route path="*" element={<Navigate to="/dashboard"/>} />
                   <Route path="/searchDatabase" element={<DatabaseOrg/>} />
-                  <Route path="/searchDatabase/:category" element={<ActorsListWrapper/>} />
+                  <Route path="/searchDatabase/:category" element={<ActorsListWrapper />} />
+                  <Route path="/nettverks-arkiv" element={<NettverksArkiv />} />
         </Routes>
       </div>
     </>

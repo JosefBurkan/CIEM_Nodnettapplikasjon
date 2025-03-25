@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<UserModel> Users { get; set; }
     public DbSet<ActorModel> Actors { get; set; }
     public DbSet<NodeNetworksModel> NodeNetworks { get; set;}
-
+    public DbSet<ArchivedNetwork> ArchivedNetworks { get; set; }
 
 
 }
