@@ -1,59 +1,55 @@
-
-.container{
-    width: 100vw;
-    height: 100vh;
-    background-color: hsl(0, 0%, 16%);
+\.container {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 2rem;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-.icon{
-    font-size: 12ex;
-}
-.header{
-    display:flex;
-    align-items: center;
-    color: hsl(0, 0%, 90%);
-}
 .form {
-    margin-left: 8.7rem;
     display: flex;
     flex-direction: column;
-    align-items: left;
     gap: 1rem;
-    width: 40vw;
-    color: white;
-    font-size: 3ex;
-    
-}
-select, input, textarea{
-    background-color: #A4A4A4;
-}
-select, input{
-    color: black;
-    font-size: 1.2ex;
-    font-weight: 550;
-    padding: 5px;
-    width: 300px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-select::placeholder, input::placeholder{
-    color:hsl(0, 0%, 40%);
+.textInput,
+.selectInput,
+.textArea {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 0.5rem;
 }
-textarea{
-    width: 20vw;
-    max-width: 500px;
-    max-height:500px;
+
+.textArea {
+    min-height: 80px;
+    resize: vertical;
 }
-.createButton{
-    width: 20vw;
-    padding: 10px;
-    border-radius: 25px;
-    background-color: #1A1A1A;
-    border: 2px solid red;
-    color: white;
-    transform: scale(1);
-    transition: transform 0.4s;
+
+.createButton {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #ff3f3f;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
     cursor: pointer;
+    transition: transform 0.3s;
 }
-.createButton:hover{
+
+.createButton:hover {
     transform: scale(1.05);
+
 }
+
+.successMessage {
+    background-color: green;
+    color: white;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
