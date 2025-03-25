@@ -11,6 +11,7 @@ import GovActors from './pages/Actors/GovActors.jsx';
 import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
+import NetworkEditor from './pages/LiveKHN/NetworkEditor.jsx';
 
 function Layout() {
   const location = useLocation();
@@ -31,6 +32,7 @@ function Layout() {
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="/rediger-struktur" element={<NetworkEditor />} />
         </Routes>
       </div>
     </>
