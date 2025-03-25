@@ -39,7 +39,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSignalR();
+// builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -78,8 +78,6 @@ app.UseAuthorization();
 app.UseWebSockets();
 
 app.MapControllers();
-
-//app.MapHub<EmkoreHub>("/emkoreHub");
 
 // Test endpoint
 app.MapGet("/", () => "Hello, backend is running!");
