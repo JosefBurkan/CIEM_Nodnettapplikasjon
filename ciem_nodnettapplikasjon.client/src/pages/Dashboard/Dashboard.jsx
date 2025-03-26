@@ -4,6 +4,7 @@ import CriticalInfoWidget from "../../components/DashboardComponents/CriticalInf
 import ActiveActorsWidget from "../../components/DashboardComponents/ActiveActorsWidget";
 import LiveNetworkWidget from "../../components/DashboardComponents/LiveNetworkWidget";
 import styles from "./Dashboard.module.css";
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
   return (
@@ -18,7 +19,9 @@ function Dashboard() {
 
       {/* Center Column */}
       <div className={styles.centerColumn}>
-        <LiveNetworkWidget />
+        <Link to="/liveKHN">
+          <LiveNetworkWidget />
+        </Link>
         <CriticalInfoWidget />
       </div>
 

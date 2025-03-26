@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { ReactFlow, MiniMap, Controls, Background, ReactFlowProvider } from '@xyflow/react';
+// import { ReactFlow, MiniMap, Controls, Background, ReactFlowProvider } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import styles from "./LiveKHN.module.css"
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CustomNode from "../../components/CustomNode/CustomNode";
+import CollapseExpand from "../../components/CollapseExpand/CollapseExpand";
 
 
 
-const initialNodes = [ // Fyll informasjon for å vise noe. 
+
+const initialNodes = [ // Fyll informasjon for å vise noe. brukes ikke atm pga CollapseExpand
     { id: "1", position: { x: 250, y: 0 }, data: { label: "Krisehåndterings Sentral" }, type: "custom" },
     { id: "2", position: { x: 400, y: 80 }, data: { label: "Hoved redningssentralen" }, type: "custom" },
     { id: "3", position: { x: 100, y: 80 }, data: { label: "Nødetatene" }, type: "custom" },
@@ -48,11 +50,12 @@ function LiveKHN() {
         <div className={styles.content}>
 
             <div className={styles.networkContainer}> 
-                <ReactFlow proOptions={proOptions} nodes={initialNodes} edges={initialEdges} fitView> {/* Reactflow libraryen som brukes for interaktivt kart */}
-                    <MiniMap pannable zoomable />
-                    <Controls />
-                    <Background />
-                </ReactFlow>
+                {/* <ReactFlow proOptions={proOptions} nodes={initialNodes} edges={initialEdges} fitView> */}
+                    {/* <MiniMap pannable zoomable /> */}
+                    {/* <Controls /> */}
+                    {/* <Background /> */}
+                {/* </ReactFlow> */}
+                <CollapseExpand/>
             </div>
 
             <div className={styles.infoBox}>

@@ -1,0 +1,35 @@
+
+.main {
+    background-color: #1e88e5;
+    color: white;
+    padding: 40px;
+    font-weight: bold;
+    font-size: 1.5em;
+    border: 2px solid #2e4764;
+    
+  }
+  
+  .second {
+    background-color: #fbc02d;
+    border-radius: 15px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+    border: 2px solid #f57f17;
+  }
+  
+  .third {
+    background-color: #81c784;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 1.1em;
+    border: 2px solid #388e3c;
+  }
+  
+  .fourth {
+    background-color: #e57373;
+    border-radius: 15px;
+    padding: 2px;
+    border: 2px solid #c62828;
+  }
+  
