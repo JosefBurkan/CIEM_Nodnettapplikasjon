@@ -24,6 +24,6 @@
     "vite": "^6.2.2"
   },
   "dependencies": {
-    "@xyflow/react": "^12.4.4"
+    "@xyflow/react": "^12.5.1"
   }
 }

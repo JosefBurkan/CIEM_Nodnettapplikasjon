@@ -10,19 +10,20 @@ function KHSnettverk() {
     return (
         <div className={styles.container}>
             <div className={styles.dashboard}>
-                {/* Left Section - Large Live Network Widget */}
+
                 <div className={styles.leftSection}>
-                    {/* ✅ Pass "large" prop here */}
-                    <Link to="/liveKHN">
+                     <Link to="/liveKHN">
                         <LiveNetworkWidget large />
                     </Link>
                     <button className={styles.editButton}>Rediger Nettverk</button>
                 </div>
 
-                {/* Right Section - Box Widgets */}
-                <div className={styles.rightSection}>
+                 <div className={styles.rightSection}>
                     <Box title="Nytt Nettverk" icon="grid-add" />
-                    <Box title="Nettverks Arkiv" icon="folder" />
+
+                    <Link to="/nettverks-arkiv" style={{ textDecoration: 'none' }}>
+                        <Box title="Nettverks Arkiv" boxIconColor="red" disableLink/>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -12,15 +12,16 @@ import dagre from "dagre";
 import "reactflow/dist/style.css";
 import styles from './CollapseExpand.module.css';
 
-export const CollapseExpand = () => {
+export const CollapseExpand = ({ onSelectNode }) => {
   const position = { x: 0, y: 0 };
+
 const initialNodes = [
-    { id: "1", data: { label: "KHN" }, position, className: styles.main },
-    { id: "2", data: { label: "Nødetatene" }, position, className: styles.second },
-    { id: "3", data: { label: "HRS" }, position, className: styles.second },
-    { id: "10", data: { label: "x" }, position, className: styles.second },
-    { id: "4", data: { label: "Politi" }, position, className: styles.third },
-    { id: "5", data: { label: "Brann" }, position, className: styles.third },
+    { id: "1", data: { label: "KHN", beskrivelse: "Beskrivelse for KHN" }, position, className: styles.main },
+    { id: "2", data: { label: "Nødetatene", beskrivelse: "Beskrivelse for Nødetatene" }, position, className: styles.second },
+    { id: "3", data: { label: "HRS", beskrivelse: "Beskrivelse for HRS" }, position, className: styles.second },
+    { id: "10", data: { label: "x", beskrivelse: "Beskrivelse for x" }, position, className: styles.second },
+    { id: "4", data: { label: "Politi", beskrivelse: "Beskrivelse for Politi" }, position, className: styles.third },
+    { id: "5", data: { label: "Brann", beskrivelse: "Beskrivelse for Brann" }, position, className: styles.third },
     { id: "6", data: { label: "Ambulanse" }, position, className: styles.third },
     { id: "7", data: { label: "y" }, position, className: styles.third },
     { id: "8", data: { label: "z" }, position, className: styles.third },
@@ -47,10 +48,8 @@ const initialNodes = [
 
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
-
   const nodeWidth = 172;
   const nodeHeight = 36;
-
   const proOptions = { hideAttribution: true };
 
   const getLayoutedElements = (nodes, edges, direction = "LR") => {
@@ -72,24 +71,16 @@ const initialNodes = [
       node.targetPosition = isHorizontal ? "left" : "top";
       node.sourcePosition = isHorizontal ? "right" : "bottom";
 
-      // We are shifting the dagre node position (anchor=center center) to the top left
-      // so it matches the React Flow node anchor point (top left).
       node.position = {
         x: nodeWithPosition.x - nodeWidth / 2,
         y: nodeWithPosition.y - nodeHeight / 2,
       };
-
-      return node;
     });
 
     return { nodes, edges };
   };
 
-  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-    initialNodes,
-    initialEdges
-  );
-
+  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(initialNodes, initialEdges);
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [hidden, setHidden] = useState(true);
@@ -104,45 +95,57 @@ const initialNodes = [
   };
 
   const checkTarget = (edge, id) => {
-    let edges = edge.filter((ed) => {
-      return ed.target !== id;
-    });
-    return edges;
+    return edge.filter((ed) => ed.target !== id);
   };
 
   let outgoers = [];
   let connectedEdges = [];
   let stack = [];
+  let clickTimeout = null;
 
-  const nodeClick = (some, node) => {
-    let currentNodeID = node.id;
-    stack.push(node);
-    while (stack.length > 0) {
-      let lastNOde = stack.pop();
-      let childnode = getOutgoers(lastNOde, nodes, edges);
-      let childedge = checkTarget(
-        getConnectedEdges([lastNOde], edges),
-        currentNodeID
-      );
-      childnode.map((goer, key) => {
-        stack.push(goer);
-        outgoers.push(goer);
-      });
-      childedge.map((edge, key) => {
-        connectedEdges.push(edge);
-      });
+  const handleNodeClick = (event, node) => {
+    if (clickTimeout) {
+      clearTimeout(clickTimeout);
+      clickTimeout = null;
+      return;
     }
 
-    let childNodeID = outgoers.map((node) => {
-      return node.id;
-    });
-    let childEdgeID = connectedEdges.map((edge) => {
-      return edge.id;
-    });
+    clickTimeout = setTimeout(() => {
+      // Expand/collapse on single click
+      let currentNodeID = node.id;
+      stack = [node];
+      outgoers = [];
+      connectedEdges = [];
 
-    setNodes((node) => node.map(hide(hidden, childEdgeID, childNodeID)));
-    setEdges((edge) => edge.map(hide(hidden, childEdgeID, childNodeID)));
-    setHidden(!hidden);
+      while (stack.length > 0) {
+        let lastNode = stack.pop();
+        let childNodes = getOutgoers(lastNode, nodes, edges);
+        let childEdges = checkTarget(getConnectedEdges([lastNode], edges), currentNodeID);
+
+        childNodes.forEach((goer) => {
+          stack.push(goer);
+          outgoers.push(goer);
+        });
+        childEdges.forEach((edge) => connectedEdges.push(edge));
+      }
+
+      const childNodeID = outgoers.map((node) => node.id);
+      const childEdgeID = connectedEdges.map((edge) => edge.id);
+
+      setNodes((nds) => nds.map(hide(hidden, childEdgeID, childNodeID)));
+      setEdges((eds) => eds.map(hide(hidden, childEdgeID, childNodeID)));
+      setHidden(!hidden);
+
+      clickTimeout = null;
+    }, 200);
+  };
+
+  const handleNodeDoubleClick = (event, node) => {
+    clearTimeout(clickTimeout);
+    clickTimeout = null;
+    if (onSelectNode) {
+      onSelectNode(node); // Send valgt node til LiveKHN
+    }
   };
 
   return (
@@ -160,11 +163,12 @@ const initialNodes = [
         preventScrolling={true}
         panOnDrag={true}
         panOnScroll={false}
-        onNodeClick={nodeClick}
+        onNodeClick={handleNodeClick}
+        onNodeDoubleClick={handleNodeDoubleClick}
         attributionPosition="bottom-right"
         proOptions={proOptions}
       >
-        <MiniMap pannable zoomable /> 
+        <MiniMap pannable zoomable />
         <Controls />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
