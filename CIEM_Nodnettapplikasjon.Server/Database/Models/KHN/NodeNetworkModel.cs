@@ -1,13 +1,20 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
     public class NodeNetworksModel
     {
         [Key] // Set NetworkID to PK
-        public int NetworkID { get; set; }
-        public string Name { get; set; }
-        public DateTimeOffset DateOfCreation {get; set;}
+        public int networkID { get; set; }
+        public string name { get; set; }
+        public DateTimeOffset time_of_creation {get; set;}
+
+        // Connects the class to the Nodes table
+        public List<NodesModel> Nodes { get; set; } = new();
+
+
+
     }
 }
