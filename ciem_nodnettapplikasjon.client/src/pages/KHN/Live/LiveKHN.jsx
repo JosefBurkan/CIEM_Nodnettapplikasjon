@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { ReactFlow, MiniMap, Controls, Background, ReactFlowProvider } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import styles from "./LiveKHN.module.css"
-import SearchBar from "../../components/SearchBar/SearchBar";
-import CustomNode from "../../components/CustomNode/CustomNode";
+import SearchBar from "../../../components/SearchBar/SearchBar";
+import CustomNode from "../../../components/CustomNode/CustomNode";
 
 
 

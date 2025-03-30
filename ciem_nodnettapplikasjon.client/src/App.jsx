@@ -11,12 +11,13 @@ import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
 import ProtectedRoute from './components/ProtectedRoute';
-import LiveKHN from './pages/KHN/LiveKHN.jsx';
+import LiveKHN from './pages/KHN/Live/LiveKHN.jsx';
 import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
-import NettverksArkiv from './pages/Nettverk/NettverksArkiv.jsx';
+import NettverksArkiv from './pages/KHN/Archive/NettverksArkiv.jsx';
+import NewNetwork from './pages/KHN/NewNetwork/NewNetwork.jsx';
 
 function Layout() {
   const location = useLocation();
@@ -36,7 +37,8 @@ function Layout() {
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
           <Route path="/liveKHN" element={<LiveKHN />} />
-          <Route path="/actorNew" element={<NewActor/>} />
+          <Route path="/actorNew" element={<NewActor />} />
+          <Route path = "newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor/>} />
                   <Route path="*" element={<Navigate to="/dashboard"/>} />
                   <Route path="/searchDatabase" element={<DatabaseOrg/>} />
