@@ -19,14 +19,15 @@ function KHSnettverk() {
                 </div>
 
                 <div className={styles.rightSection}>
-                    <Link to="/createKHN" style={{ textDecoration: 'none' }}>
-                    <Box title="Nytt Nettverk" icon="grid-add" />
+                       <Link to ="/newNetwork">
+                        <Box title="Nytt Nettverk" icon="grid-add" />
                     </Link>
 
                     <Link to="/nettverks-arkiv" style={{ textDecoration: 'none' }}>
                         <Box title="Nettverks Arkiv" boxIconColor="red" disableLink/>
                     </Link>
                 </div>
+                
             </div>
         </div>
     );

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ActorController : ControllerBase
     {
         private readonly IActorRepository _actorRepository;
@@ -24,6 +24,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(actors);
         }
 
+        /*
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorModel>> GetActor(int id)
         {
@@ -46,5 +47,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             await _actorRepository.DeleteActorAsync(id);
             return NoContent();
         }
+        */
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CreateKHN() {
+function NewNetwork() {
     const [networkName, setNetworkName] = useState("");
     const [errorMessage, setErrorMessage] = useState(""); 
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ function CreateKHN() {
                 console.log("Created network:", data);
 
                
-                navigate("/liveKHN"); 
+                navigate(`/nytt-khn/${data.id}`); 
             } else {
                 setErrorMessage("Failed to create network. Please try again.");
             }
@@ -59,4 +59,4 @@ function CreateKHN() {
     );
 }
 
-export default CreateKHN;
+export default NewNetwork;
