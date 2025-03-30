@@ -24,7 +24,7 @@ function NettverksArkiv() {
 
     async function handleCreateNetwork() {
         try {
-            const response = await fetch("https://localhost:5255/api/ArchivedNetworks", {
+            const response = await fetch("https://localhost:5255/api/GetArchivedNetworks", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name: newNetworkName })
@@ -43,7 +43,7 @@ function NettverksArkiv() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Nettverks Arkiv</h1>
+            <h1 className={styles.title}>Nettverksarkiv</h1>
 
             <div className={styles.controls}>
                 <input
@@ -60,14 +60,14 @@ function NettverksArkiv() {
 
             <div className={styles.grid}>
                 {networks.map((network) => (
-                    <div key={network.id} className={styles.networkCard}>
+                    <div key={network.networkID} className={styles.networkCard}>
                         <img
                             src="/icons/network-icon.png"
                             alt="Network Icon"
                             className={styles.cardIcon}
                         />
                         <span className={styles.networkName}>
-                            {network.name} (ID: {network.id})
+                            {network.name} (ID: {network.networkID})
                         </span>
                     </div>
                 ))}

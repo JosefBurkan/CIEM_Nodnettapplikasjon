@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class KHNController : ControllerBase
     {
         private readonly INodeNetworkRepository _nodeNetwork;
