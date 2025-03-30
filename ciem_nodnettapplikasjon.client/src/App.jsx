@@ -60,9 +60,9 @@ function App() {
       <Route
         path="/*"
         element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <Layout />
-          </ProtectedRoute>
+          /* </ProtectedRoute> */
         }
       />
       </Routes>
