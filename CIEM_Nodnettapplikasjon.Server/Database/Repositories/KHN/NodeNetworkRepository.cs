@@ -14,6 +14,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
             _context = context;
         }
 
+        // Get all nodenetworks
         public async Task<IEnumerable<NodeNetworksModel>> GetAllNodeNetworks() {
 
             return await _context.NodeNetworks.ToListAsync();
@@ -30,8 +31,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
         }
 
 
-
-
+        // 
         public async Task<NodeNetworksModel> CreateNodeNetwork(NodeNetworksModel newNodeNetwork) {
 
             _context.NodeNetworks.Add(newNodeNetwork);
