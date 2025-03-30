@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 
+
+
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
     public class NodeNetworksModel

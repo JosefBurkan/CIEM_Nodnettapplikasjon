@@ -17,10 +17,11 @@ import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
 import NettverksArkiv from './pages/Nettverk/NettverksArkiv.jsx';
+import CreateKHN from './pages/KHN/CreateKHN.jsx';
 
 function Layout() {
   const location = useLocation();
-  const hideNavBar = location.pathname === "/"; // Hide NavBar on Login Page
+  const hideNavBar = location.pathname === "/"; 
   return (
     <>
       {!hideNavBar && <NavBar />}
@@ -35,7 +36,8 @@ function Layout() {
           <Route path="/actorsVol" element={<VolActors />} />
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
-          <Route path="/liveKHN" element={<LiveKHN />} />
+                  <Route path="/liveKHN" element={<LiveKHN />} />
+                  <Route path="/createKHN" element={<CreateKHN />} />
           <Route path="/actorNew" element={<NewActor/>} />
           <Route path="/createActor" element={<CreateActor/>} />
                   <Route path="*" element={<Navigate to="/dashboard"/>} />

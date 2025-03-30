@@ -1,7 +1,9 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
+using CIEM_Nodnettapplikasjon.Server.Services.KHN;
 using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.KHN;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
@@ -20,6 +22,10 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<INodeNetworkRepository, NodeNetworksRepository>();
+builder.Services.AddScoped<IKHNService, KHNService>();
+builder.Services.AddScoped<INetworkBuilderRepository, NetworkBuilderRepository>();
+builder.Services.AddScoped<INetworkBuilderService, NetworkBuilderService>();
+
 
 // Cors setup
 builder.Services.AddCors(options =>
