@@ -16,7 +16,7 @@ import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
-import NettverksArkiv from './pages/Nettverk/NettverksArkiv.jsx';
+import NettverksArkiv from './pages/KHN/Archive/NettverksArkiv.jsx';
 import NewNetwork from './pages/KHN/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 
