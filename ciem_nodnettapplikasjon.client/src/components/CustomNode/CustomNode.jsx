@@ -1,5 +1,5 @@
 import React from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, Position } from '@xyflow/react';
 import styles from './CustomNode.module.css';
 
 const CustomNode = ({ data }) => {
@@ -14,4 +14,4 @@ const CustomNode = ({ data }) => {
     );
 };
 
-export default CustomNode; // ! ! !  fikk ikke dette til å funke enda, så bare ignorer  ! ! !  
+export default CustomNode;

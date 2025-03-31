@@ -39,7 +39,7 @@ function Layout() {
           <Route path="/actorsPrivate" element={<PrivateActors />} />
                   <Route path="/liveKHN" element={<LiveKHN />} />
           <Route path="/actorNew" element={<NewActor/>} />
-          <Route path = "newNetwork" element={<NewNetwork />} />
+          <Route path ="/newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor/>} />
                   <Route path="*" element={<Navigate to="/dashboard"/>} />
                   <Route path="/searchDatabase" element={<DatabaseOrg/>} />
