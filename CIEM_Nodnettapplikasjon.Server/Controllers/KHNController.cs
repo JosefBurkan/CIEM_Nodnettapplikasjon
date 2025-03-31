@@ -18,8 +18,8 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _nodeNetwork = nodeNetwork;
         }
 
-        [HttpGet("GetNodeNetwork")] 
-        public async Task<ActionResult<NodeNetworksModel>> GetNodeNetwork() 
+        [HttpGet("GetNodeNetwork")]
+        public async Task<ActionResult<NodeNetworksModel>> GetNodeNetwork()
         {
             var nodeNetwork = await _nodeNetwork.GetNodeNetworkByID(1);
             return Ok(nodeNetwork);
