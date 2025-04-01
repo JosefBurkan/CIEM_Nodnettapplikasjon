@@ -12,6 +12,7 @@ import "@xyflow/react/dist/style.css";
 import styles from "./LiveKHN.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import CustomNode from "../../../components/CustomNode/CustomNode";
+import AddActor from "./AddActor";
 
 const nodeTypes = { custom: CustomNode };
 const proOptions = { hideAttribution: true };
@@ -25,6 +26,7 @@ function LiveKHN() {
   const [selectedNode, setSelectedNode] = useState(null);
   const [hiddenNodes, setHiddenNodes] = useState(new Set());
   const [hiddenEdges, setHiddenEdges] = useState(new Set());
+  const [showAddActorModal, setShowAddActorModal] = useState(false);
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
 
@@ -67,7 +69,7 @@ function LiveKHN() {
         id: `${node.nodeID}-${node.nodeID + 1}`,
         source: String(node.nodeID),
         target: String(node.nodeID + 1),
-        animated: true,
+        animated: false,
         hidden: hiddenEdges.has(`${node.nodeID}-${node.nodeID + 1}`),
       }));
 
@@ -167,6 +169,14 @@ function LiveKHN() {
     setActiveTab("details");
   }, []);
 
+  const handleActorAdded = (newActor) => {
+    setNodeNetwork((prev) => ({
+      ...prev,
+      nodes: [...prev.nodes, newActor]
+    }));
+    setShowAddActorModal(false);
+  };
+
   if (!isReady) {
     return <div>Loading...</div>;
   }
@@ -226,9 +236,15 @@ function LiveKHN() {
               )}
               {activeTab === "actors" && nodeNetwork.nodes && (
                 <ul>
-                  {nodeNetwork.nodes.map((node) => (
-                    <li key={node.nodeID}>{node.name}</li>
-                  ))}
+                  <button 
+                    className={styles.addActorButton}
+                    onClick={() => setShowAddActorModal(true)}
+                  >
+                      + Ny Aktør
+                  </button>
+                    {nodeNetwork.nodes.map((node) => (
+                      <li key={node.nodeID} className={styles.actorList}>{node.name}</li>
+                    ))}
                 </ul>
               )}
               {activeTab === "info" && <p>Kritisk informasjon om nettverket og tilstand...</p>}
@@ -237,6 +253,15 @@ function LiveKHN() {
         </div>
         <button className={styles.editButton}>Redigersmodus</button>
       </div>
+
+            {/* Popup vindu for å opprette ny aktør */}
+          {showAddActorModal && (
+            <AddActor
+              onClose={() => setShowAddActorModal(false)}
+              onActorAdded={handleActorAdded}
+              existingActors={nodeNetwork.nodes} // Passer inn listen med eksisterende aktører/noder
+            />
+          )}
     </ReactFlowProvider>
   );
 }

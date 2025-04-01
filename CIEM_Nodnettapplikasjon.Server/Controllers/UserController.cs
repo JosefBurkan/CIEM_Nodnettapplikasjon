@@ -22,7 +22,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _userRepository = userRepository;
         }
 
-        // User Authentication
+        // Authenticate the login request
         [HttpPost("login")]
         public IActionResult Login([FromBody] CIEM_Nodnettapplikasjon.Server.Models.Users.LoginRequest loginRequest)
         {
@@ -37,7 +37,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         }
 
-        // Add a new user (Create)
+        // Add a new user
         [HttpPost("add")]
         public IActionResult AddUser([FromBody] UserModel user)
         {
@@ -48,7 +48,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(new { message = "User added successfully!" });
         }
 
-        // Modify an existing user (Update)
+        // Modify an existing user
         [HttpPut("modify/{userId}")]
         public IActionResult ModifyUser(int userId, [FromBody] UserModel user)
         {
@@ -60,7 +60,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(new { message = "User updated successfully!" });
         }
 
-        // Delete a user (Delete)
+        // Delete a user 
         [HttpDelete("delete/{userId}")]
         public IActionResult DeleteUser(int userId)
         {
@@ -72,7 +72,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(new { message = "User deleted successfully!" });
         }
 
-        // View a user (Read)
+        // View a user
         [HttpGet("view/{userId}")]
         public IActionResult ViewUser(int userId)
         {
@@ -102,20 +102,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
         {
             var departmentLeader = new DepartmentLeaderModel(); // Use DepartmentLeaderModel here
             return Ok(departmentLeader); // Returns the department leader object to test
-        }
-
-        [HttpGet("views")]
-        public IActionResult ViewUsers()
-        {
-            var allUsers = _userRepository.ViewUsers();
-            if (allUsers == null) 
-            {
-                return NotFound(new {message = "naaa"});
-            }
-            else 
-            {
-                return Ok(allUsers);
-            }
         }
 
     }
