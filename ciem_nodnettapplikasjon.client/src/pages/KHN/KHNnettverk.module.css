@@ -1,83 +1,64 @@
-/* Page Background */
 .container {
-    background-color: rgb(5, 107, 107); /* Dark mode background */
+    background-color: rgb(5, 107, 107);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
-   
-    
-}
-
-/* Header */
-.header {
-    color: white;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Dashboard Layout */
-.dashboard {
+  }
+  
+  .dashboard {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* ✅ Prevents overlapping */
+    align-items: flex-start;
     width: 100%;
-}
-
-
-/* Left Section */
-.leftSection {
-    width: 60%; /* ✅ Matches right section */
+  }
+  
+  /* LEFT SIDE */
+  .leftSection {
+    width: 65%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
-}
-
-
-/* Edit Button */
-.editButton {
-    background: #020202;
-    color: white;
-    padding: 10px 15px;
-    border: 30px;
-    border-color: red;
-    border-radius: 30px;
-    width: 200px;
-    height: 40px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: transform 0.2s ease-in-out;
-}
-
-/* Right Section - Box Widgets */
-.rightSection {
-    background: rgb(170, 170, 170); /* Gray background */
+  }
+  
+  .widgetLink {
+    width: 100%;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* RIGHT SIDE */
+  .rightSection {
+    background: rgb(170, 170, 170);
     padding: 20px;
     border-radius: 15px;
-    width: 35%; /* ✅ Expands to half the screen */
-    height: 100vh; /* ✅ Ensures it takes full height */
+    width: 35%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 200px; /* ✅ Adds spacing between the boxes */
-    
-}
-
-
-/* RESPONSIVENESS */
-@media (max-width: 1024px) {
+    gap: 200px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
     .dashboard {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      flex-direction: column;
+      align-items: center;
     }
-    
+  
     .rightSection {
-        margin-top: 20px;
+      margin-top: 20px;
+      width: 90%;
+      height: auto;
     }
-}
+  
+    .leftSection {
+      width: 100%;
+    }
+  }
+  

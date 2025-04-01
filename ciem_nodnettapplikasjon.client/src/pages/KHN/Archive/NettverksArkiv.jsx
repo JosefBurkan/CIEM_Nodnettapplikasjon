@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './NettverksArkiv.module.css';
+import SearchBar from '../../../components/SearchBar/SearchBar';
 
 function NettverksArkiv() {
     const [networks, setNetworks] = useState([]);
     const [newNetworkName, setNewNetworkName] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         fetchArchivedNetworks();
@@ -33,7 +35,6 @@ function NettverksArkiv() {
                 throw new Error("Failed to create network");
             }
 
-            // Refresh the list
             fetchArchivedNetworks();
             setNewNetworkName("");
         } catch (error) {
@@ -41,9 +42,19 @@ function NettverksArkiv() {
         }
     }
 
+    const filteredNetworks = networks.filter((network) =>
+        network.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Nettverksarkiv</h1>
+            <div className={styles.searchContainer}>
+                <SearchBar
+                    placeholder="Søk etter nettverk..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
 
             <div className={styles.controls}>
                 <input
@@ -58,19 +69,24 @@ function NettverksArkiv() {
                 </button>
             </div>
 
-            <div className={styles.grid}>
-                {networks.map((network) => (
-                    <div key={network.networkID} className={styles.networkCard}>
-                        <img
-                            src="/icons/network-icon.png"
-                            alt="Network Icon"
-                            className={styles.cardIcon}
-                        />
-                        <span className={styles.networkName}>
-                            {network.name} (ID: {network.networkID})
-                        </span>
-                    </div>
-                ))}
+            {/* Red Rounded Tab */}
+            <div className={styles.tab}>Nettverks Arkiv</div>
+
+            <div className={styles.cardWrapper}>
+                <div className={styles.grid}>
+                    {filteredNetworks.map((network) => (
+                        <div key={network.networkID} className={styles.networkCard}>
+                            <img
+                                src="/images/network-icon.png"
+                                alt="Network Icon"
+                                className={styles.cardIcon}
+                            />
+                            <span className={styles.networkName}>
+                                {network.name} {network.networkID ? `(ID: ${network.networkID})` : ""}
+                            </span>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
