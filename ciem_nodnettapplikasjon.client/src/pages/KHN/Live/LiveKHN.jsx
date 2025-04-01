@@ -77,13 +77,11 @@ function LiveKHN() {
             setInitialNodes(nodes);
             setInitialEdges(edges);
         }
-    }, [nodeNetwork]); // Runs when nodeNetwork is updated
-
+    }, [nodeNetwork]); // Runs when nodeNetwork is update
 
     if (!isReady) {
-        return <div>Loading...</div>; // Show loading message while waiting for data
+        return <div>Loading...</div>; // Show loading message while fetching data due to async method
     }
-
 
     return (
         <div className={styles.container}>
