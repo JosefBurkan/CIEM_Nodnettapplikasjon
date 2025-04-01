@@ -28,7 +28,7 @@ function LiveKHN() {
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
 
-  // Henter nettverksdata fra API-et
+  // Henter data
   const fetchKHN = async () => {
     try {
       const response = await fetch("https://localhost:5255/api/KHN/GetNodeNetwork");
@@ -56,14 +56,13 @@ function LiveKHN() {
           position: { x: count * 200, y: node.layer * 100 },
           data: {
             label: node.name,
-            info: `Detaljert informasjon om ${node.name}. Her kan du for eksempel vise historikk, kontaktinfo eller annen relevant beskrivelse for testing.`
+            info: `Detaljert informasjon om ${node.name}.`
           },
           type: "custom",
           hidden: hiddenNodes.has(String(node.nodeID)),
         };
       });
 
-      // For eksempelets skyld kobles noder sekvensielt.
       const edges = nodeNetwork.nodes.map((node) => ({
         id: `${node.nodeID}-${node.nodeID + 1}`,
         source: String(node.nodeID),
@@ -77,7 +76,7 @@ function LiveKHN() {
     }
   }, [nodeNetwork, hiddenNodes, hiddenEdges]);
 
-  // Hjelpefunksjon: Finner alle etterfølgende noder (rekursivt)
+
   const getDescendantNodes = (node, allNodes, allEdges) => {
     const descendants = [];
     const visited = new Set();
@@ -97,7 +96,7 @@ function LiveKHN() {
     return descendants;
   };
 
-  // Hjelpefunksjon: Finner alle kanter tilknyttet de rekursive etterfølgerne
+
   const getDescendantEdges = (node, allNodes, allEdges) => {
     const descendantNodes = getDescendantNodes(node, allNodes, allEdges);
     const descendantIds = descendantNodes.map((n) => n.id);
@@ -107,7 +106,7 @@ function LiveKHN() {
     return descendantEdges;
   };
 
-  // Collapse/expand-funksjonalitet: toggler skjul/vis for alle etterfølgerne
+  // Collapse/expand - toggler skjul/vis for alle etterfølgerne
   const toggleCollapseExpand = useCallback(
     (node) => {
       const descendants = getDescendantNodes(node, initialNodes, initialEdges);
@@ -116,7 +115,7 @@ function LiveKHN() {
       const updatedHiddenNodes = new Set(hiddenNodes);
       const updatedHiddenEdges = new Set(hiddenEdges);
 
-      // Hvis minst én etterfølger er synlig, skal vi skjule alle; ellers vise dem.
+
       const shouldHide = descendants.some((desc) => !hiddenNodes.has(desc.id));
 
       descendants.forEach((desc) => {
@@ -141,7 +140,7 @@ function LiveKHN() {
     [hiddenNodes, hiddenEdges, initialNodes, initialEdges]
   );
 
-  // Enkeltklikk: sett opp timeout for å differensiere enkelt- vs. dobbeltklikk
+  //  timeout for å se enkelt / dobbeltklikk
   const handleNodeClick = useCallback(
     (event, node) => {
       clickTimeoutRef.current = setTimeout(() => {
@@ -157,7 +156,7 @@ function LiveKHN() {
     [toggleCollapseExpand]
   );
 
-  // Dobbeltklikk: fjerner eventuell ventende timeout og viser detaljer
+  // fjerner eventuell ventende timeout og viser detaljer ved dobbelclikk
   const handleNodeDoubleClick = useCallback((event, node) => {
     if (clickTimeoutRef.current) {
       clearTimeout(clickTimeoutRef.current);
@@ -221,9 +220,7 @@ function LiveKHN() {
                   <h3>{selectedNode.data.label}</h3>
                   <p>{selectedNode.data.info}</p>
                   <p>
-                    Her kan du legge til enda mer informasjon, som for eksempel kontaktdata, historikk,
-                    eller annen relevant informasjon for aktøren. Dette er testinformasjon for å sjekke at
-                    dobbeltklikkfunksjonaliteten fungerer som forventet.
+                    Fyll  info
                   </p>
                 </div>
               )}

@@ -18,6 +18,7 @@ import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
 import NettverksArkiv from './pages/KHN/Archive/NettverksArkiv.jsx';
 import NewNetwork from './pages/KHN/NewNetwork/NewNetwork.jsx';
+import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 
 
 function Layout() {
@@ -41,6 +42,7 @@ function Layout() {
           <Route path="/actorNew" element={<NewActor/>} />
           <Route path ="/newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor/>} />
+          <Route path="/aboutActor" element={<AboutActor/>} />
                   <Route path="*" element={<Navigate to="/dashboard"/>} />
                   <Route path="/searchDatabase" element={<DatabaseOrg/>} />
                   <Route path="/searchDatabase/:category" element={<ActorsListWrapper />} />
@@ -63,9 +65,9 @@ function App() {
       <Route
         path="/*"
         element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <Layout />
-          </ProtectedRoute>
+          /* </ProtectedRoute> */
         }
       />
       </Routes>
