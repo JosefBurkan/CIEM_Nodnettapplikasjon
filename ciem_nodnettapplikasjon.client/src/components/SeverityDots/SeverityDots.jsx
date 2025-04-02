@@ -5,6 +5,8 @@ function SeverityDots({ level, max = 5 }) {
   // Determine the active color based on the level
   const getActiveColor = (level) => {
     switch (level) {
+      case 0:
+        return '#000000'; // No danger: all dots black
       case 1:
         return '#4D0000'; // darkred
       case 2:
