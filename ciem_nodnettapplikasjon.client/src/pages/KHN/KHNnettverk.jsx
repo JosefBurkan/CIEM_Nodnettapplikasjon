@@ -3,19 +3,41 @@ import styles from './KHNnettverk.module.css';
 import LiveNetworkWidget from "../../components/DashboardComponents/LiveNetworkWidget";
 import Box from '../../components/Box/Box';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
 
-function KHSnettverk() {
+function KHNnettverk() {
+    const [situations, setSituations] = useState([]);
 
+  useEffect(() => {
+    fetch("/api/khn/situations")
+      .then(res => res.json())
+      .then(data => setSituations(data));
+  }, []);
 
+    const liveSituations = situations.filter(s => s.status === "Live");
+   
     return (
         <div className={styles.container}>
             <div className={styles.dashboard}>
 
                 <div className={styles.leftSection}>
-                     <Link to="/liveKHN">
-                        <LiveNetworkWidget large />
-                    </Link>
-                    <button className={styles.editButton}>Rediger Nettverk</button>
+                    {liveSituations.length === 0 ? (
+                        <div className={styles.noBox}>
+                            <p> Ingen pågående kriser registrert</p>
+                        </div>
+                    ) : (
+                        <div className={styles.grid}>
+                            {liveSituations.map((situation) => (
+                                <Link
+                                    key={situation.networkId}
+                                    to={`/khn/${situation.networkId}`}
+                                    className={styles.cardLink}
+                                >
+                                    <LiveNetworkWidget title={situation.title} />
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className={styles.rightSection}>
@@ -33,4 +55,4 @@ function KHSnettverk() {
     );
 }
 
-export default KHSnettverk;
+export default KHNnettverk;

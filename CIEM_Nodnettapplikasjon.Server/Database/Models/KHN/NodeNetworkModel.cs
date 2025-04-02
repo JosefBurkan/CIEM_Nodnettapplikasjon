@@ -10,8 +10,12 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
     {
         [Key] // Set NetworkID to PK
         public int networkID { get; set; }
-        public string name { get; set; }
+
+        public string name { get; set; } = string.Empty;
+
         public DateTimeOffset time_of_creation {get; set;}
+
+        public string Status { get; set; } = "Not Live";
 
         // Connects the class to the Nodes table
         public List<NodesModel> Nodes { get; set; } = new();

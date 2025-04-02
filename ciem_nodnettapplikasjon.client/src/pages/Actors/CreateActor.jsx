@@ -39,7 +39,7 @@ function CreateActor() {
 
 
         try {
-            const response = await fetch("https://localhost:5255/api/actor", {
+            const response = await fetch("https://localhost:5255/api/actor/CreateActor", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

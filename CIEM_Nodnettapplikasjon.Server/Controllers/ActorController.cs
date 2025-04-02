@@ -24,7 +24,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(actors);
         }
 
-        /*
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorModel>> GetActor(int id)
         {
@@ -47,6 +47,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             await _actorRepository.DeleteActorAsync(id);
             return NoContent();
         }
-        */
+        
     }
 }
