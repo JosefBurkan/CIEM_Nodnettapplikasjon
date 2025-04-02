@@ -5,22 +5,114 @@ import DateComponent from '../../../components/Date/Date.jsx';
 import SeverityDots from '../../../components/SeverityDots/SeverityDots.jsx';
 import checkListIcon from '../../../assets/checkList.svg';
 
-// Define the InfoItem component here so it can be used inside AboutActor
-function InfoItem({ children, initialUpdate, className }) {
-  const [lastUpdate, setLastUpdate] = useState(initialUpdate || null);
+// Enhanced InfoItem component
+function InfoItem({ type, initialValues, className }) {
+  // Two timestamps: one for "Lest" and one for confirmed edits ("Endret")
+  const [lastRead, setLastRead] = useState(null);
+  const [lastEdit, setLastEdit] = useState(null);
+  // Flag to control editing mode
+  const [isEditing, setIsEditing] = useState(false);
+  // Values for the info item
+  const [values, setValues] = useState(initialValues);
 
+  // Update the "Lest" timestamp
   const handleRead = () => {
-    setLastUpdate(new Date());
+    setLastRead(new Date());
+  };
+
+  // Open editing mode
+  const openEdit = () => {
+    setIsEditing(true);
+  };
+
+  // Cancel editing
+  const cancelEdit = () => {
+    setIsEditing(false);
+  };
+
+  // Confirm the new values and update the "Endret" timestamp
+  const confirmEdit = () => {
+    setLastEdit(new Date());
+    setIsEditing(false);
+  };
+
+  // Render input fields for each value.
+  // If the type is "sikkerhet", restrict the input between 0 and 5.
+  const renderInputs = () => {
+    return Object.keys(values).map((key) => (
+      <div key={key} className={styles.editField}>
+        <label>
+          {key.charAt(0).toUpperCase() + key.slice(1)}:
+        </label>
+        <input
+          type="number"
+          min={type === 'sikkerhet' ? 0 : undefined}
+          max={type === 'sikkerhet' ? 5 : undefined}
+          value={values[key]}
+          onChange={(e) =>
+            setValues({ ...values, [key]: Number(e.target.value) })
+          }
+        />
+      </div>
+    ));
+  };
+
+  // Render display view for the info item.
+  // For "sikkerhet", use SeverityDots; otherwise, display the values as text.
+  const renderDisplay = () => {
+    if (type === 'sikkerhet') {
+      return (
+        <div className={styles.displayValues}>
+          <p>
+            <strong>Område:</strong>{' '}
+            <SeverityDots level={values.omrade} />
+          </p>
+          <p>
+            <strong>Struktur:</strong>{' '}
+            <SeverityDots level={values.struktur} />
+          </p>
+          <p>
+            <strong>Eskalering:</strong>{' '}
+            <SeverityDots level={values.eskalering} />
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.displayValues}>
+          {Object.keys(values)
+            .map((key) => (
+              `${key.charAt(0).toUpperCase() + key.slice(1)}: ${values[key]}`
+            ))
+            .join(' | ')}
+        </div>
+      );
+    }
   };
 
   return (
     <div className={className}>
       <p>
-        <strong>Siste Oppdatering:</strong>{' '}
-        {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Ikke oppdatert'}
+        <strong>Aktør mottat:</strong>{' '}
+        {lastRead ? lastRead.toLocaleTimeString() : 'Ikke oppdatert'}
+      </p>
+      <p>
+        <strong>Situasjon Oppdatert:</strong>{' '}
+        {lastEdit ? lastEdit.toLocaleTimeString() : 'Ingen endringer'}
       </p>
       <button onClick={handleRead}>Lest ✔</button>
-      {children}
+      <button onClick={openEdit}>Oppdater</button>
+      {isEditing ? (
+        <div className={styles.editContainer}>
+          {renderInputs()}
+          <div className={styles.editButtons}>
+            <button onClick={confirmEdit}>Bekreft</button>
+            <button onClick={cancelEdit}>Avbryt</button>
+          </div>
+        </div>
+      ) : (
+        renderDisplay()
+      )}
     </div>
   );
 }
@@ -48,101 +140,59 @@ const AboutActor = () => {
 
   return (
     <div className={styles.aboutActorContainer}>
-      {/* Actor header and contact card */}
-      <div className={styles.actorHeader}>
-        <h1>{aktor.name}</h1>
-        <div className={styles.contactCard}>
-          <h3>Kontaktinformasjon</h3>
-          <p>E-post: {aktor.contact.email}</p>
-          <p>Telefon: {aktor.contact.phone}</p>
+      {/* Top row with three columns: actorInfoCard (far left), orgSection (middle), and infoPanel (top right) */}
+      <div className={styles.topRow}>
+        <div className={styles.actorInfoCard}>
+          <h1>{aktor.name}</h1>
+          <div className={styles.contactCard}>
+            <h3>Kontaktinformasjon</h3>
+            <p>E-post: {aktor.contact.email}</p>
+            <p>Telefon: {aktor.contact.phone}</p>
+          </div>
+        </div>
+        <div className={styles.orgSection}>
+          <h2 className={styles.sectionTitle}>Om Organisasjonen</h2>
+          <p>{aktor.description}</p>
+        </div>
+        <div className={styles.infoPanel}>
+          <div className={styles.headerRow}>
+            <div className={styles.titleWithIcon}>
+              <img
+                src={checkListIcon}
+                alt="Checklist Icon"
+                className={styles.infoIcon}
+              />
+              <h2 className={styles.sectionTitle}>Infosjekkliste</h2>
+            </div>
+            <div className={styles.timestampContainer}>
+              <span>Gitt på:</span>
+              <DateComponent />
+            </div>
+          </div>
+          {/* Info item for Sikkerhet */}
+          <InfoItem
+            className={styles.infoItem}
+            type="sikkerhet"
+            initialValues={{ omrade: 3, struktur: 2, eskalering: 1 }}
+          />
+          {/* Info item for Antall */}
+          <InfoItem
+            className={styles.infoItem}
+            type="default"
+            initialValues={{ skadde: 6, dode: 0, uskadde: 16, uvisst: 5 }}
+          />
+          {/* Info item for Evakuering */}
+          <InfoItem
+            className={styles.infoItem}
+            type="default"
+            initialValues={{ evakuert: 18, gjenværende: 4, savnet: 5 }}
+          />
         </div>
       </div>
 
-      {/* Main content with two columns */}
-      <div className={styles.mainContent}>
-        <div className={styles.leftColumn}>
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Om Organisasjonen</h2>
-            <p>{aktor.description}</p>
-          </section>
-
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Underliggende Aktører</h2>
-            <ul className={styles.actorsList}>
-              {aktor.underlyingActors.map(uActor => (
-                <li key={uActor.id}>
-                  <Link to={`/actor/${uActor.id}`}>{uActor.name}</Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Pågående Oppgaver</h2>
-            <ul>
-              {aktor.tasks.map((oppgave, index) => (
-                <li key={index}>{oppgave}</li>
-              ))}
-            </ul>
-          </section>
-        </div>
-
-        <div className={styles.rightColumn}>
-          <div className={styles.infoPanel}>
-            {/* Title & icon */}
-            <div className={styles.headerRow}>
-              <div className={styles.titleWithIcon}>
-                <img
-                  src={checkListIcon}
-                  alt="Checklist Icon"
-                  className={styles.infoIcon}
-                />
-                <h2 className={styles.sectionTitle}>Infosjekkliste</h2>
-              </div>
-            </div>
-
-            {/* Info item with read button for Sikkerhet/Struktur/Fare for eskalering */}
-            <InfoItem className={styles.infoItem}>
-              <div className={styles.metricsRow}>
-                <div className={styles.metric}>
-                  <strong>Sikkerhet</strong>
-                  <span>| Område:</span>
-                  <SeverityDots level={3} />
-                </div>
-                <div className={styles.metric}>
-                  <span>| Struktur:</span>
-                  <SeverityDots level={2} />
-                </div>
-                <div className={styles.metric}>
-                  <span>| Fare for eskalering:</span>
-                  <SeverityDots level={1} />
-                </div>
-              </div>
-            </InfoItem>
-
-            {/* Additional static info item for Antall */}
-            <InfoItem className={styles.infoItem}>
-              <div className={styles.metricsRow}>
-                <div className={styles.metric}>
-                  <strong>Antall</strong>
-                  <span>| Skadde: 6 | Døde: 0 | Uskadde: 16 | Uvisst: 5</span>
-                </div>
-              </div>
-            </InfoItem>
-
-            {/* Additional static info item for Evakuering */}
-            
-            <InfoItem className={styles.infoItem}>
-              <div className={styles.metricsRow}>
-                <div className={styles.metric}>
-                  <strong>Evakuering</strong>
-                  <span>| Evakuert: 18 | Gjenværende: 4 | Savnet: 5</span>
-                </div>
-              </div>
-            </InfoItem>
-            {/* Add more items as needed */}
-          </div>
-        </div>
+      {/* Optionally, add additional rows below if needed */}
+      <div className={styles.bottomRow}>
+        {/* Additional content can go here */}
       </div>
     </div>
   );
