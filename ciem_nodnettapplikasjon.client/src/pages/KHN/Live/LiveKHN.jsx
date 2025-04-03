@@ -57,25 +57,24 @@ function LiveKHN() {
     // Visualise the node data
     useEffect(() => {
         if (nodeNetwork && nodeNetwork.nodes) {
-              return {
-                  id: String(node.nodeID),
-                  position: { x: (node.childID * 200), y: 0 + (node.parentID * 100) },
-                  data: { label: node.name },
-
-              };
-          });
-
+            const nodes = nodeNetwork.nodes.map((node) => ({
+                id: String(node.nodeID),
+                position: { x: node.childID * 200, y: 0 + node.parentID * 100 },
+                data: { label: node.name },
+            }));
+    
             const edges = nodeNetwork.nodes.map((node) => ({
                 id: `${node.nodeID} - ${node.nodeID + 1}`,
                 source: String(node.parentID),
                 target: String(node.nodeID),
                 animated: true,
             }));
-
+    
             setInitialNodes(nodes);
             setInitialEdges(edges);
         }
-    }, [nodeNetwork]); // Runs when nodeNetwork is update
+    }, [nodeNetwork]); // Runs when nodeNetwork is updated
+    
 
     if (!isReady) {
         return <div>Loading...</div>; // Show loading message while fetching data due to async method
