@@ -12,6 +12,12 @@ function LiveNetworkPreview() {
     const fetchData = async () => {
       try {
         const res = await fetch("https://localhost:5255/api/KHN/GetNodeNetwork");
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`Server error: ${res.status} - ${text}`);
+        }
+
         const data = await res.json();
 
         const layerCounts = new Map();
@@ -40,7 +46,7 @@ function LiveNetworkPreview() {
         setEdges(parsedEdges);
         setIsReady(true);
       } catch (err) {
-        console.error("Live preview fetch failed:", err);
+        console.error("Live preview fetch failed:", err.message);
       }
     };
 
