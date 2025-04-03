@@ -7,7 +7,6 @@ using CIEM_Nodnettapplikasjon.Server.Database.Repositories.KHN;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
-using CIEM_Nodnettapplikasjon.Server.EmkoreHub;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
