@@ -9,6 +9,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
         Task<IEnumerable<ActorModel>> GetAllActorsAsync();
         Task<ActorModel> GetActorByIdAsync(int id);
         Task<ActorModel> CreateActorAsync(ActorModel newActor);
+        Task<ActorModel> CreateSubActorAsync(int actorID, string newSubActor);
         Task DeleteActorAsync(int id);
     
     }

@@ -52,16 +52,10 @@ function LiveKHN() {
     // Visualise the node data
     useEffect(() => {
         if (nodeNetwork && nodeNetwork.nodes) {
-            const layerCounts = new Map();
             const nodes = nodeNetwork.nodes.map((node) => {
-
-                const xPos = layerCounts.get(node.layer) || 0;
-
-                layerCounts.set(node.layer, xPos + 1);
-
                 return {
                     id: String(node.nodeID),
-                    position: { x: xPos * 200, y: 0 + (node.layer * 100) },
+                    position: { x: (node.childID * 200), y: 0 + (node.parentID * 100) },
                     data: { label: node.name },
                     type: "custom"
                 };
@@ -69,8 +63,8 @@ function LiveKHN() {
 
             const edges = nodeNetwork.nodes.map((node) => ({
                 id: `${node.nodeID} - ${node.nodeID + 1}`,
-                source: String(node.nodeID),
-                target: String(node.nodeID + 1),
+                source: String(node.parentID),
+                target: String(node.nodeID),
                 animated: true,
             }));
 

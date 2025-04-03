@@ -11,11 +11,13 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes
         [Key] // Set NodeID to PK
         public int nodeID { get; set; }
         public string name { get; set; }
-        public int layer {get; set; }
+        public int childID {get; set; }
+        public int parentID {get; set; }
 
         // NetworkID is FK for NodesModel
         [ForeignKey("NodeNetwork")]
         public int networkID {get; set; }
+
 
 
         // Allows NodeNetworkModel to access whole NodeModel, instead of just NetworkID

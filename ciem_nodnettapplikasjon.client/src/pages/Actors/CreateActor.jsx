@@ -9,15 +9,22 @@ function CreateActor() {
     const [actorHierachy, setActorHierachy] = useState("Overordnet");
     const [existingActor, setExistingActor] = useState(""); // For the dropdown meny, to select an actor from the database 
     const [successMessage, setSuccessMessage] = useState("");
+    const [actorID, setActorID] = useState("");
+    const [subActor, setSubActor] = useState("");
 
+    const [subaActorFormData, setSubActorFormData] = useState({
+        actorID: 0,
+        subActor: ""
+    });
 
-    const [formData, setFormData] = useState({
+    const [actorFormData, setActorFormData] = useState({
         name: "",
         category: "",
         actorType: "",
         subActors: "",
         description: ""
     });
+
 
 
     // Fetch actors to use actor names for the drop down meny
@@ -31,9 +38,17 @@ function CreateActor() {
         fetchActors();
     }, []);
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
+    const handleChangeActor = (e) => {
+        setActorFormData({
+            ...actorFormData,
+            [e.target.name]: e.target.value,
+
+        });
+    };
+
+    const handleChangeSubActor = (e) => {
+        setSubActorFormData({
+            ...subaActorFormData,
             [e.target.name]: e.target.value,
 
         });
@@ -43,19 +58,18 @@ function CreateActor() {
         setActorHierachy(e.target.value);
     };
 
-
-    const handleSubmit = async (e) => {
+    const handleSubmitActor = async (e) => {
         e.preventDefault();
 
 
-        const payload = {
-            name: formData?.name,
-            category: formData?.category,
-            actorType: formData?.actorType,
-            subActors: formData?.subActors // Skip subactors if empty
-                ? formData?.subActors.split(",").map((s) => s.trim()) // Parse at every ','
+        const actorPayload = {
+            name: actorFormData.name,
+            category: actorFormData.category,
+            actorType: actorFormData.actorType,
+            subActors: actorFormData.subActors 
+                ? actorFormData.subActors.split(",").map((s) => s.trim()) // Map to folder, parse at every ','
                 : [],
-            description: formData?.description
+            description: actorFormData.description
         };
 
 
@@ -65,7 +79,7 @@ function CreateActor() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(actorPayload)
             });
 
             if (!response.ok) {
@@ -74,7 +88,7 @@ function CreateActor() {
 
             setSuccessMessage("New actor created!");
 
-            setFormData({
+            setActorFormData({
                 name: "",
                 category: "",
                 actorType: "",
@@ -91,6 +105,40 @@ function CreateActor() {
             console.error("Error creating actor:", error);
         }
     };
+
+    // Create a subactor for an existing actor
+    const handleSubmitSubActor = async (e) => {
+        e.preventDefault();
+    
+        const subActorPayLoad = {
+            actorID: subaActorFormData.actorID,
+            subActor: subaActorFormData.subActor
+        };
+    
+        try {
+            const response = await fetch("https://localhost:5255/api/actor/CreateSubActor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(subActorPayLoad), 
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to create sub-actor");
+            }
+    
+            console.log("Sub-actor created successfully!");
+            
+            setTimeout(() => {
+                navigate("/actorsAll");
+            }, 2000);
+    
+        } catch (error) {
+            console.error("Could not create sub-actor: ", error);
+        }
+    };
+    
     
 
     if (actorHierachy == "Overordnet") {
@@ -103,7 +151,7 @@ function CreateActor() {
                         {successMessage}
                     </div>)}
 
-                <form onSubmit={handleSubmit} className={styles.form}>
+                <form onSubmit={handleSubmitActor} className={styles.form}>
                     {/* Choose hierachy*/}
                     <label htmlFor="actorHierachy">Velg Hieraki:</label>
                         <select
@@ -124,8 +172,8 @@ function CreateActor() {
                         name="name"
                         type="text"
                         placeholder="Navn..."
-                        value={formData.name}
-                        onChange={handleChange}
+                        value={actorFormData.name}
+                        onChange={handleChangeActor}
                         className={styles.textInput}
                         required
                     />
@@ -135,8 +183,8 @@ function CreateActor() {
                     <select
                         id="category"
                         name="category"
-                        value={formData.category}
-                        onChange={handleChange}
+                        value={actorFormData.category}
+                        onChange={handleChangeActor}
                         className={styles.selectInput}
                         required
                     >
@@ -151,8 +199,8 @@ function CreateActor() {
                     <select
                         id="actorType"
                         name="actorType"
-                        value={formData.actorType}
-                        onChange={handleChange}
+                        value={actorFormData.actorType}
+                        onChange={handleChangeActor}
                         className={styles.selectInput}
                         required
                     >
@@ -168,8 +216,8 @@ function CreateActor() {
                         name="subActors"
                         type="text"
                         placeholder="f.eks. R&D, Sales"
-                        value={formData.subActors}
-                        onChange={handleChange}
+                        value={actorFormData.subActors}
+                        onChange={handleChangeActor}
                         className={styles.textInput}
                     />
 
@@ -179,8 +227,8 @@ function CreateActor() {
                         id="description"
                         name="description"
                         placeholder="Beskrivelse..."
-                        value={formData.description}
-                        onChange={handleChange}
+                        value={actorFormData.description}
+                        onChange={handleChangeActor}
                         className={styles.textArea}
                     />
 
@@ -197,7 +245,7 @@ function CreateActor() {
         <div className={styles.container}>
             <h1>Legg til Underliggende aktør</h1>
                 
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmitSubActor} className={styles.form}>
                 {/* Choose hierachy*/}
                 <label htmlFor="actorHierachy">Velg Hieraki:</label>
                 <select
@@ -212,28 +260,28 @@ function CreateActor() {
                 </select>
 
                 {/* Actor */}
-                <label htmlFor="Actor">Aktør:</label>
+                <label htmlFor="actorID">Aktør:</label>
                 <select
-                    id="actor"
-                    name="actor"
-                    onChange={handleChange}
+                    id="actorID"
+                    name="actorID"
                     className={styles.textInput}
                     required
+                    onChange={handleChangeSubActor /* Set ID of chosen actor, to send subactor to that location*/ } 
                     >
                     {existingActor.map((actor) => (
-                        <option key={actor.id} value={actor.name}> {actor.name}</option>
+                        <option key={actor.id} value={actor.id}> {actor.name}</option>
                     ))}
                 </select>
 
                 {/* Name */}
-                <label htmlFor="subActorname">Navn:</label>
+                <label htmlFor="subActor">Navn:</label>
                 <input
-                    id="subActorname"
-                    name="subActorname"
+                    id="subActor"
+                    name="subActor"
                     type="text"
-                    placeholder="Navn..."
-                    value={formData.name}
-                    onChange={handleChange}
+                        placeholder="Navn..."
+                    value={subaActorFormData.subActor}
+                    onChange={handleChangeSubActor}
                     className={styles.textInput}
                     required
                     />
