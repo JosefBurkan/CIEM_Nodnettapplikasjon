@@ -24,6 +24,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(actors);
         }
 
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorModel>> GetActor(int id)
         {

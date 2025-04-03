@@ -81,3 +81,28 @@
         margin-top: 20px;
     }
 }
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    justify-items: center;
+    margin-top: 40px;
+}
+
+.cardLink {
+    text-decoration: none;
+}
+
+
+.noBox {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-top: 80px;
+}
