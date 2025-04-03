@@ -7,6 +7,8 @@ import {
   Background,
   getOutgoers,
   getConnectedEdges,
+  applyNodeChanges,
+  addEdge
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import styles from "./LiveKHN.module.css";
@@ -47,8 +49,9 @@ function LiveKHN() {
   }, []);
 
   // Oppretter noder og kanter basert på API-data
+  // Kjør kun denne når nodeNetwork endres (og initialNodes er tom) for å bevare brukerens dra-og-slipp endringer
   useEffect(() => {
-    if (nodeNetwork && nodeNetwork.nodes) {
+    if (nodeNetwork && nodeNetwork.nodes && initialNodes.length === 0) {
       const layerCounts = new Map();
       const nodes = nodeNetwork.nodes.map((node) => {
         const count = layerCounts.get(node.layer) || 0;
@@ -69,15 +72,15 @@ function LiveKHN() {
         id: `${node.nodeID}-${node.nodeID + 1}`,
         source: String(node.nodeID),
         target: String(node.nodeID + 1),
-        animated: false,
+        animated: false, // Hierarkiske forbindelser er ikke animerte
+        hierarchical: true, // Flag som markerer at dette er en API-generert/hierarkisk edge
         hidden: hiddenEdges.has(`${node.nodeID}-${node.nodeID + 1}`),
       }));
 
       setInitialNodes(nodes);
       setInitialEdges(edges);
     }
-  }, [nodeNetwork, hiddenNodes, hiddenEdges]);
-
+  }, [nodeNetwork, hiddenNodes, hiddenEdges, initialNodes.length]);
 
   const getDescendantNodes = (node, allNodes, allEdges) => {
     const descendants = [];
@@ -98,7 +101,6 @@ function LiveKHN() {
     return descendants;
   };
 
-
   const getDescendantEdges = (node, allNodes, allEdges) => {
     const descendantNodes = getDescendantNodes(node, allNodes, allEdges);
     const descendantIds = descendantNodes.map((n) => n.id);
@@ -117,7 +119,6 @@ function LiveKHN() {
       const updatedHiddenNodes = new Set(hiddenNodes);
       const updatedHiddenEdges = new Set(hiddenEdges);
 
-
       const shouldHide = descendants.some((desc) => !hiddenNodes.has(desc.id));
 
       descendants.forEach((desc) => {
@@ -129,10 +130,13 @@ function LiveKHN() {
       });
 
       descendantEdges.forEach((edge) => {
-        if (shouldHide) {
-          updatedHiddenEdges.add(edge.id);
-        } else {
-          updatedHiddenEdges.delete(edge.id);
+        // Toggle kun de hierarkiske kantene
+        if (edge.hierarchical) {
+          if (shouldHide) {
+            updatedHiddenEdges.add(edge.id);
+          } else {
+            updatedHiddenEdges.delete(edge.id);
+          }
         }
       });
 
@@ -158,7 +162,7 @@ function LiveKHN() {
     [toggleCollapseExpand]
   );
 
-  // fjerner eventuell ventende timeout og viser detaljer ved dobbelclikk
+  // fjerner eventuell ventende timeout og viser detaljer ved dobbelklikk
   const handleNodeDoubleClick = useCallback((event, node) => {
     if (clickTimeoutRef.current) {
       clearTimeout(clickTimeoutRef.current);
@@ -167,6 +171,20 @@ function LiveKHN() {
     doubleClickFlagRef.current = true;
     setSelectedNode(node);
     setActiveTab("details");
+  }, []);
+
+  // onConnect callback for drawing new connections between nodes
+  const onConnect = useCallback((params) => {
+    const newEdge = {
+      ...params,
+      animated: true,           // Kommunikasjonsforbindelser er animerte
+      hierarchical: false,      // Ikke hierarkiske
+    };
+    setInitialEdges((eds) => addEdge(newEdge, eds));
+  }, []);
+
+  const onNodesChange = useCallback((changes) => {
+    setInitialNodes((nds) => applyNodeChanges(changes, nds));
   }, []);
 
   const handleActorAdded = (newActor) => {
@@ -194,6 +212,8 @@ function LiveKHN() {
               nodes={initialNodes}
               edges={initialEdges}
               fitView
+              onNodesChange={onNodesChange}
+              onConnect={onConnect}
               onNodeClick={handleNodeClick}
               onNodeDoubleClick={handleNodeDoubleClick}
               nodeTypes={nodeTypes}
@@ -229,9 +249,7 @@ function LiveKHN() {
                 <div>
                   <h3>{selectedNode.data.label}</h3>
                   <p>{selectedNode.data.info}</p>
-                  <p>
-                    Fyll  info
-                  </p>
+                  <p>Fyll  info</p>
                 </div>
               )}
               {activeTab === "actors" && nodeNetwork.nodes && (
@@ -240,11 +258,11 @@ function LiveKHN() {
                     className={styles.addActorButton}
                     onClick={() => setShowAddActorModal(true)}
                   >
-                      + Ny Aktør
+                    + Ny Aktør
                   </button>
-                    {nodeNetwork.nodes.map((node) => (
-                      <li key={node.nodeID} className={styles.actorList}>{node.name}</li>
-                    ))}
+                  {nodeNetwork.nodes.map((node) => (
+                    <li key={node.nodeID} className={styles.actorList}>{node.name}</li>
+                  ))}
                 </ul>
               )}
               {activeTab === "info" && <p>Kritisk informasjon om nettverket og tilstand...</p>}
@@ -254,14 +272,14 @@ function LiveKHN() {
         <button className={styles.editButton}>Redigersmodus</button>
       </div>
 
-            {/* Popup vindu for å opprette ny aktør */}
-          {showAddActorModal && (
-            <AddActor
-              onClose={() => setShowAddActorModal(false)}
-              onActorAdded={handleActorAdded}
-              existingActors={nodeNetwork.nodes} // Passer inn listen med eksisterende aktører/noder
-            />
-          )}
+      {/* Popup vindu for å opprette ny aktør */}
+      {showAddActorModal && (
+        <AddActor
+          onClose={() => setShowAddActorModal(false)}
+          onActorAdded={handleActorAdded}
+          existingActors={nodeNetwork.nodes} // Passer inn listen med eksisterende aktører/noder
+        />
+      )}
     </ReactFlowProvider>
   );
 }
