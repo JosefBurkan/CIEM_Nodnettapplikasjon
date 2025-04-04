@@ -7,7 +7,6 @@ using CIEM_Nodnettapplikasjon.Server.Database.Repositories.KHN;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
-using CIEM_Nodnettapplikasjon.Server.EmkoreHub;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -44,8 +43,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// builder.Services.AddSignalR();
 
 var app = builder.Build();
 
