@@ -6,7 +6,7 @@ WORKDIR /src
 COPY ["CIEM_Nodnettapplikasjon.Server.csproj", "."]
 
 # Restore dependencies for the backend
-RUN dotnet restore "CIEM_Nodnettapplikasjon.Server/CIEM_Nodnettapplikasjon.Server.csproj"
+RUN dotnet restore "CIEM_Nodnettapplikasjon.Server.csproj"
 
 # Copy the rest of the backend files
 COPY . .
