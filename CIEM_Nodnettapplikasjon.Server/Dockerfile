@@ -12,7 +12,7 @@ RUN dotnet restore "CIEM_Nodnettapplikasjon.Server.csproj"
 COPY . .
 
 # Publish the backend
-WORKDIR "/src/CIEM_Nodnettapplikasjon.Server"
+WORKDIR "."
 RUN dotnet publish -c Release -o /app/publish
 
 # Use the ASP.NET runtime image to run the app
