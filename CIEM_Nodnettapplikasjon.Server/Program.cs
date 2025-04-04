@@ -7,6 +7,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Repositories.KHN;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
+using System.Threading;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -14,7 +15,8 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Scoped services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -24,7 +26,6 @@ builder.Services.AddScoped<INodeNetworkRepository, NodeNetworksRepository>();
 builder.Services.AddScoped<IKHNService, KHNService>();
 builder.Services.AddScoped<INetworkBuilderRepository, NetworkBuilderRepository>();
 builder.Services.AddScoped<INetworkBuilderService, NetworkBuilderService>();
-
 
 // Cors setup
 builder.Services.AddCors(options =>
@@ -46,23 +47,43 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
-// Database connection check
+// Database connection check with retry logic
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     Console.WriteLine($"Database Connection: {dbContext.Database.GetConnectionString()}");
 
-    try
+    int maxRetries = 5;
+    int retryDelayMilliseconds = 5000; // 5 seconds delay between retries
+    int attempt = 0;
+    bool connected = false;
+
+    while (attempt < maxRetries && !connected)
     {
-        Console.WriteLine("Checking database connection...");
-        dbContext.Database.OpenConnection();
-        Console.WriteLine("Database connection successful!");
-        dbContext.Database.CloseConnection();
+        try
+        {
+            Console.WriteLine($"Attempting to connect to the database (Attempt {attempt + 1}/{maxRetries})...");
+            dbContext.Database.OpenConnection();
+            Console.WriteLine("Database connection successful!");
+            dbContext.Database.CloseConnection();
+            connected = true;  // If connection is successful, exit the loop
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Database connection failed: {ex.Message}");
+            attempt++;
+            if (attempt < maxRetries)
+            {
+                Console.WriteLine($"Retrying in {retryDelayMilliseconds / 1000} seconds...");
+                Thread.Sleep(retryDelayMilliseconds);  // Wait before retrying
+            }
+        }
     }
-    catch (Exception ex)
+
+    if (!connected)
     {
-        Console.WriteLine($"Database connection failed: {ex.Message}");
+        Console.WriteLine($"Database connection failed after {maxRetries} attempts.");
+        Environment.Exit(1); // Exit application if unable to connect after max retries
     }
 }
 
