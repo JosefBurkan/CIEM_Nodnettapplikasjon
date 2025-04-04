@@ -18,5 +18,6 @@ RUN dotnet publish -c Release -o /app/publish
 # Use the ASP.NET runtime image to run the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=build /app/publish .  # Copy the published files to /app
+ # Copy the published files to /app
+COPY --from=build /app/publish . 
 ENTRYPOINT ["dotnet", "CIEM_Nodnettapplikasjon.Server.dll"]
