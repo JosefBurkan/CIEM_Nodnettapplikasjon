@@ -34,6 +34,10 @@ function NavBar() {
                         to="/actors"
                         className={`${styles.navbarLink} ${isActive("/actor") ? styles.activeLink : ""}`}>Aktører
                     </Link> {/*Visualiserer når man er på siden, strek under aktører*/}
+                    <Link
+                        to="/qr-code"
+                        className={`${styles.navbarLink} ${isActive("/qr-code") ? styles.activeLink : ""}`}>QRcode
+                    </Link>
                 </div>
             </div>
 

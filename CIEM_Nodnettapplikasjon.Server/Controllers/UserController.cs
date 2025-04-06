@@ -12,12 +12,16 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
     [Route("api/user")]
     public class UserController : ControllerBase
     {
-
+        private readonly ApplicationDbContext _context;
         private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
 
-        public UserController(IUserService userService, IUserRepository userRepository)
+        public UserController(
+            ApplicationDbContext context,
+            IUserService userService, 
+            IUserRepository userRepository)
         {
+            _context = context;
             _userService = userService;
             _userRepository = userRepository;
         }
@@ -26,16 +30,28 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] CIEM_Nodnettapplikasjon.Server.Models.Users.LoginRequest loginRequest)
         {
-            if (_userService.AuthenticateUser(loginRequest.Username, loginRequest.Password))
-            {
-                return Ok(new { message = "Innlogging lykkes!" });
-            }
-            else
+            if (!_userService.AuthenticateUser(loginRequest.Username, loginRequest.Password))
             {
                 return BadRequest(new { message = "Invalid username or password." });
             }
 
+            // Fetch user manually after verifying credentials
+            var user = _context.Users.FirstOrDefault(u => u.Username == loginRequest.Username);
+
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found after authentication." });
+            }
+
+            return Ok(new
+            {
+                UserID = user.UserID,
+                Username = user.Username,
+                qr_token = user.qr_token ?? ""
+            });
         }
+
+
 
         // Add a new user (Create)
         [HttpPost("add")]

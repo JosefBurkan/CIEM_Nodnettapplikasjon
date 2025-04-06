@@ -19,6 +19,7 @@ import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
 import NettverksArkiv from './pages/KHN/Archive/NettverksArkiv.jsx';
 import NewNetwork from './pages/KHN/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
+import QRcodePage from './pages/KHN/QRcode/QRcodePage.jsx';
 
 
 function Layout() {
@@ -32,7 +33,8 @@ function Layout() {
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/krisehandterings-nettverk" element={<KHSnettverk />} />
-          <Route path="/actors" element={<Actors />} />
+                  <Route path="/actors" element={<Actors />} />
+                  <Route path="/qr-code" element={<QRcodePage />} />
           <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
           <Route path="/actorsVol" element={<VolActors />} />
