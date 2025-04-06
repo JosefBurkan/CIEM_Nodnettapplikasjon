@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./LiveNetworkWidget.module.css";
 
-const LiveNetworkWidget = ({ large }) => {
+const LiveNetworkWidget = ({ large, title }) => {
     return (
         <div className={large ? styles.largeWidgetContainer : styles.widgetContainer}>
             <div className={large ? styles.largeHeader : styles.header}>
-                LIVE KHN
+                {title || "LIVE KHN"}
             </div>
             <div className={styles.chartContainer}>
                 <svg viewBox="0 0 300 200" className={styles.chart}>

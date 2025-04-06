@@ -28,7 +28,6 @@ function ActorsList({ category }) {
         setActors(data);
     } 
 
-
     // Fetch actor data from the API when the component mounts
     useEffect(() => {
         fetchActors();

@@ -24,7 +24,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(actors);
         }
 
-        /*
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorModel>> GetActor(int id)
         {
@@ -41,12 +41,24 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return CreatedAtAction(nameof(GetActor), new { id = newActor.Id }, newActor);
         }
 
+        [HttpPost("CreateSubActor")]
+        public async Task<ActionResult> CreateSubActor([FromBody] AddSubActor newSubActor)
+        {
+            var updatedActor = await _actorRepository.CreateSubActorAsync(newSubActor.ActorID, newSubActor.SubActor);
+
+            if (updatedActor == null)
+            {
+                return NotFound($"Actor with ID {newSubActor.ActorID} not found.");
+            }
+
+            return Ok(updatedActor);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteActor(int id)
         {
             await _actorRepository.DeleteActorAsync(id);
             return NoContent();
         }
-        */
     }
 }

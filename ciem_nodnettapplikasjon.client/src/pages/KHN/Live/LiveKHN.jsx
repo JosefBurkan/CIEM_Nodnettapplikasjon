@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -10,31 +10,32 @@ import {
   applyEdgeChanges,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import styles from "./LiveKHN.module.css";
-import SearchBar from "../../../components/SearchBar/SearchBar.jsx";
+import styles from "./LiveKHN.module.css"
+import SearchBar from "../../../components/SearchBar/SearchBar";
+import { useParams } from "react-router-dom";
 import CustomNode from "../../../components/CustomNode/CustomNode.jsx";
 import FloatingEdge from "../../../components/FloatingEdge";
 
+
+const proOptions = { hideAttribution: true };
 const nodeTypes = { custom: CustomNode };
 const edgeTypes = { floatingEdge: FloatingEdge };
 
+
 function LiveKHN() {
 
-    const fetchNodes = async (nodes) => {
-
-    }
+    const { networkId } = useParams();
 
     const [nodeNetwork, setNodeNetwork] = useState({});
     const [isReady, setIsReady] = useState(false); // Tracks if the node network has recieved its data yet
     const [activeTab, setActiveTab] = useState("actors");
     const [initialNodes, setInitialNodes] = useState([]);
     const [initialEdges, setInitialEdges] = useState([]);
-    let xCoordinate = 0;
 
 
     const FetchKHN = async () => {
         try {
-            const response = await fetch("https://localhost:5255/api/KHN/GetNodeNetwork")
+            const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
             const data = await response.json();
             console.log(data);
             setNodeNetwork(data);
@@ -43,54 +44,46 @@ function LiveKHN() {
 
         }
         catch (error) {
-            console.log("fetchKHN failed to fetch: ", error);
+            console.log("Fetch KHN failed to fetch: ", error);
         }
     }
 
     // Fetch the data
     useEffect(() => {
         FetchKHN();
-    }, []);
+    }, [networkId]);
 
 
     // Visualise the node data
     useEffect(() => {
         if (nodeNetwork && nodeNetwork.nodes) {
-            const layerCounts = new Map();
-            const nodes = nodeNetwork.nodes.map((node) => {
-
-                const xPos = layerCounts.get(node.layer) || 0;
-
-                layerCounts.set(node.layer, xPos + 1);
-
-                return {
-                    id: String(node.nodeID),
-                    position: { x: xPos * 200, y: 0 + (node.layer * 100) },
-                    data: { label: node.name },
-                    type: "custom"
-                };
-            });
-
+            const nodes = nodeNetwork.nodes.map((node) => ({
+                id: String(node.nodeID),
+                position: { x: node.childID * 200, y: 0 + node.parentID * 100 },
+                data: { label: node.name },
+            }));
+    
             const edges = nodeNetwork.nodes.map((node) => ({
                 id: `${node.nodeID} - ${node.nodeID + 1}`,
-                source: String(node.nodeID),
-                target: String(node.nodeID + 1),
+                source: String(node.parentID),
+                target: String(node.nodeID),
                 animated: true,
             }));
-
+    
             setInitialNodes(nodes);
             setInitialEdges(edges);
         }
     }, [nodeNetwork]); // Runs when nodeNetwork is updated
-
+    
 
     if (!isReady) {
-        return <div>Loading...</div>; // Show loading message while waiting for data
+        return <div>Loading...</div>; // Show loading message while fetching data due to async method
     }
-
 
     return (
         <div className={styles.container}>
+            <h2 className={styles.title}>{nodeNetwork.name}</h2>
+
             <div className={styles.searchBarContainer}>
                 <SearchBar
                     placeholder="Søk etter aktør"
@@ -98,14 +91,23 @@ function LiveKHN() {
                     width="25rem"
                 />
             </div>
-            <div className={styles.content}>
 
+
+            <div className={styles.content}>
                 <div className={styles.networkContainer}>
-                    <ReactFlow proOptions={proOptions} nodes={initialNodes} edges={initialEdges} fitView> {/* Reactflow libraryen som brukes for interaktivt kart */}
+                <ReactFlowProvider>
+                    <ReactFlow
+                        proOptions={proOptions}
+                        nodes={initialNodes}
+                        edges={initialEdges}
+                        fitView
+                    
+                        >
                         <MiniMap pannable zoomable />
                         <Controls />
                         <Background />
-                    </ReactFlow>
+                        </ReactFlow>
+                    </ReactFlowProvider>
                 </div>
 
                 <div className={styles.infoBox}>
@@ -120,6 +122,7 @@ function LiveKHN() {
                             Info kontroll
                         </button>
                     </div>
+
                     <div className={styles.tabContent}>
                         {activeTab === "details" && <p>Detaljer om valgt aktør vises her...</p>}
 

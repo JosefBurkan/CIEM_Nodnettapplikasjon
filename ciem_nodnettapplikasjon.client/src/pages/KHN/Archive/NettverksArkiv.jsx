@@ -21,8 +21,9 @@ function NettverksArkiv() {
             console.error("Error fetching networks:", error);
         }
     }
-
-    async function handleCreateNetwork() {
+    // "api/actor/CreateActor"
+    // "api/CreateActor"
+    async function CreateNetwork() {
         try {
             const response = await fetch("https://localhost:5255/api/GetArchivedNetworks", {
                 method: "POST",
@@ -53,7 +54,7 @@ function NettverksArkiv() {
                     value={newNetworkName}
                     onChange={(e) => setNewNetworkName(e.target.value)}
                 />
-                <button className={styles.createButton} onClick={handleCreateNetwork}>
+                <button className={styles.createButton} onClick={CreateNetwork}>
                     Legg til nytt nettverk i arkivet
                 </button>
             </div>

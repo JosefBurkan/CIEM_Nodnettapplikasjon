@@ -13,16 +13,16 @@ const DatabaseOrg = () => {
         <div className={styles.container}>
             <div className={styles.content}>
                 <button className={styles.button} onClick={() => handleCategoryClick('nodetater')}>
-                    Nødetatene
+                    Nï¿½detatene
                 </button>
                 <button className={styles.button} onClick={() => handleCategoryClick('rednings')}>
-                    Rednings Aktører
+                    Redningsaktï¿½rer
                 </button>
                 <button className={styles.button} onClick={() => handleCategoryClick('frivillige')}>
                     Frivillige Organisasjoner
                 </button>
                 <button className={styles.button} onClick={() => handleCategoryClick('private')}>
-                    Private Aktører
+                    Private Aktï¿½rer
                 </button>
             </div>
         </div>
