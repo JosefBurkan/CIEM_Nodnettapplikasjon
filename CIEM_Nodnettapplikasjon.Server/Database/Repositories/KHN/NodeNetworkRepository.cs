@@ -31,7 +31,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
         }
 
 
-        // 
+        // Create a new nodenetwork
         public async Task<NodeNetworksModel> CreateNodeNetwork(NodeNetworksModel newNodeNetwork) {
 
             _context.NodeNetworks.Add(newNodeNetwork);
@@ -39,6 +39,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
             return newNodeNetwork;
         }
 
+        // Delete a nodenetwork
         public async Task DeleteNodeNetwork(int id) {
 
             var nodeNetwork = await _context.NodeNetworks.FindAsync(id);

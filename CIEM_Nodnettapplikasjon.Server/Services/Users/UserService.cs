@@ -25,7 +25,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Services.Users
             var user = _userRepository.GetUserByUsername(username);
 
             // Check if the user exists and the password matches
-            if (user != null && user.Password == password) // Plaintext comparison
+            if (user != null && user.Password == password) 
             {
                 return true;
             }

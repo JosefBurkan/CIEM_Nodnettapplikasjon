@@ -1,0 +1,153 @@
+/* Overall container for the page */
+.aboutActorContainer {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #d4d4d4;
+  padding: 30px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Top row with three columns */
+.topRow {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Actor Info Card (far left) */
+.actorInfoCard {
+  flex: 1;
+  background-color: #2a2a2a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.contactCard {
+  margin-top: 10px;
+}
+
+/* Org Section in the middle (text only) */
+.orgSection {
+  flex: 2;
+  background-color: #2a2a2a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Info Panel on the top right */
+.infoPanel {
+  flex: 1;
+  background-color: #2a2a2a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header row inside infoPanel */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Container for title and icon */
+.titleWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.infoIcon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Timestamp container inside headerRow */
+.timestampContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+/* Section title (used in orgSection and infoPanel headers) */
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* InfoItem container (for each info block in infoPanel) */
+.infoItem {
+  background-color: #3a3a3a;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Shared button styling within infoItem */
+.infoItem button {
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  background-color: #51aad3;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Metrics row: groups metric blocks horizontally */
+.metricsRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Individual metric styling */
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Edit mode container for InfoItem */
+.editContainer {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #444;
+  border-radius: 4px;
+}
+
+/* Styling for each editable field */
+.editField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Container for edit buttons */
+.editButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Display view of values when not editing */
+.displayValues {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #ddd;
+}
+

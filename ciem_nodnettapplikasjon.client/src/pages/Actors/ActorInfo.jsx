@@ -1,11 +1,11 @@
 import React from 'react';
 
-const AboutActor = () => {
+const ActorInfo = () => {
     return (
-        <div className="aboutActor">
+        <div className="actorInfo">
             <span>Verisure</span>
         </div>
     );
 };
 
-export default AboutActor;
+export default ActorInfo;

@@ -123,3 +123,46 @@
         max-width: 95%;
     }
 }
+
+.noCrisisContainer {
+    padding: 40px;
+    background-color: #dcdcdc;
+    min-height: 100vh;
+}
+
+.welcomeBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: black;
+    color: white;
+    padding: 30px 40px;
+    border-radius: 30px;
+    margin-bottom: 40px;
+}
+
+.leftText h2 {
+    margin-bottom: 5px;
+}
+
+.userName {
+    color: orange;
+    font-weight: bold;
+}
+
+.rightText {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sunIcon {
+    font-size: 2rem;
+}
+
+.cardGrid {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 40px;
+    flex-wrap: wrap;
+}
