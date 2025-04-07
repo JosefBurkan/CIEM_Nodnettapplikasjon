@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import styles from "./LiveNetworkWidget.module.css";
+import styles from "./LiveNetworkWidget.module.css"; // <- Uses .flowPreview from here
 
 function LiveNetworkPreview() {
   const [nodes, setNodes] = useState([]);
@@ -11,7 +11,7 @@ function LiveNetworkPreview() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("https://localhost:5255/api/KHN/GetNodeNetwork");
+        const res = await fetch("https://localhost:5255/api/KHN/GetNodeNetwork/1");
 
         if (!res.ok) {
           const text = await res.text();
@@ -22,13 +22,17 @@ function LiveNetworkPreview() {
 
         const layerCounts = new Map();
         const parsedNodes = data.nodes.map((node) => {
-          const x = layerCounts.get(node.layer) || 0;
-          layerCounts.set(node.layer, x + 1);
+          const layer = Number.isFinite(node.layer) ? node.layer : 0;
+          const xCount = layerCounts.get(layer) || 0;
+          layerCounts.set(layer, xCount + 1);
 
           return {
             id: String(node.nodeID),
-            position: { x: x * 140, y: node.layer * 100 },
-            data: { label: node.name },
+            position: {
+              x: xCount * 140,
+              y: layer * 100,
+            },
+            data: { label: node.name || "Ukjent node" },
             type: "default",
           };
         });
@@ -56,6 +60,7 @@ function LiveNetworkPreview() {
   if (!isReady) return <div>Laster forhåndsvisning...</div>;
 
   return (
+    // ✅ This is the wrapper ReactFlow needs
     <div className={styles.flowPreview}>
       <ReactFlow
         nodes={nodes}
