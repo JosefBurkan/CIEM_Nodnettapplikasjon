@@ -1,2 +1,2 @@
-[build.dockerfile]
-  path = "./CIEM_Nodnettapplikasjon.Server/Dockerfile"
+[build]
+  dockerfile = "./CIEM_Nodnettapplikasjon.Server/Dockerfile"
