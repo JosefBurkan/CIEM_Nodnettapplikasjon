@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy the backend project file (CSProj) and restore dependencies
-COPY ["CIEM_Nodnettapplikasjon.Server/CIEM_Nodnettapplikasjon.Server.csproj", "CIEM_Nodnettapplikasjon.Server/"]
+COPY ["CIEM_Nodnettapplikasjon.Server.csproj", "CIEM_Nodnettapplikasjon.Server/"]
 
 # Restore dependencies for the backend
 RUN dotnet restore "CIEM_Nodnettapplikasjon.Server/CIEM_Nodnettapplikasjon.Server.csproj"
