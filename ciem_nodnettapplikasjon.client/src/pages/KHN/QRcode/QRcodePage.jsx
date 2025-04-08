@@ -10,7 +10,7 @@ function QRcodePage() {
         return <p>QR-token ikke tilgjengelig.</p>;
     }
 
-    const qrCodeLink = `https://localhost:5173/qr-access?token=${qrToken}`;
+    const qrCodeLink = `https://localhost:5173/#/qr-access?parentId=${user.UserID}&token=${user.qr_token}`;
 
     return (
         <div style={{ textAlign: "center", marginTop: "4rem" }}>

@@ -36,17 +36,21 @@ function LiveKHN() {
     const FetchKHN = async () => {
         try {
             const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
+
+            if (!response.ok) {
+                const errorText = await response.text(); // Read raw response
+                throw new Error(`Server returned ${response.status}: ${errorText}`);
+            }
+
             const data = await response.json();
-            console.log(data);
+            console.log("✅ Fetch successful!", data);
+
             setNodeNetwork(data);
             setIsReady(true);
-            console.log("Fetch successful!", typeof data);
-
+        } catch (error) {
+            console.error("❌ Fetch KHN failed:", error.message);
         }
-        catch (error) {
-            console.log("Fetch KHN failed to fetch: ", error);
-        }
-    }
+    };
 
     // Fetch the data
     useEffect(() => {
