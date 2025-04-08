@@ -82,8 +82,7 @@ using (var scope = app.Services.CreateScope())
 
     if (!connected)
     {
-        Console.WriteLine($"Database connection failed after {maxRetries} attempts.");
-        Environment.Exit(1); // Exit application if unable to connect after max retries
+        Console.WriteLine($"Database out of reach");
     }
 }
 

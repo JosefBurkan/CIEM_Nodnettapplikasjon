@@ -12,11 +12,11 @@ RUN dotnet restore "CIEM_Nodnettapplikasjon.Server.csproj"
 COPY . .
 
 # Publish the backend
-WORKDIR "."
-RUN dotnet publish "CIEM_Nodnettapplikasjon.Server.csproj" -c Release -o /app/publish --self-contained true -r linux-x64
+WORKDIR "/."
+RUN dotnet publish "CIEM_Nodnettapplikasjon.Server.csproj" -c Release -o /app/publish
 
 # Make the published file executable
-RUN chmod +x /app/publish/CIEM_Nodnettapplikasjon.Server
+RUN chmod +x /app/publish/CIEM_Nodnettaplikasjon.Server
 
 # Use the ASP.NET runtime image to run the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
