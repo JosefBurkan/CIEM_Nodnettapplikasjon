@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://localhost:5173", "https://emkore.vercel.app")
+        policy.WithOrigins("https://localhost:5173", "https://ciem-nodnettapplikasjon-463rskx1h-josefburkans-projects.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
