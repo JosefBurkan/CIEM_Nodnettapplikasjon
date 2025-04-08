@@ -2,3 +2,4 @@ app = "ciem-nodnettapplikasjon"
 
 [build]
   dockerfile = "./CIEM_Nodnettapplikasjon.Server/Dockerfile"
+
