@@ -11,7 +11,10 @@ function KHNnettverk() {
   useEffect(() => {
     fetch("/api/khn/situations")
       .then(res => res.json())
-      .then(data => setSituations(data))
+      .then(data => {
+        console.log("Fetched situations:", data);
+        setSituations(data);
+      })
       .catch(err => {
         console.error("Failed to fetch situations:", err);
         setSituations([]);
@@ -39,16 +42,14 @@ function KHNnettverk() {
                     to={`/khn/${situation.networkId}`}
                     className={styles.cardLink}
                   >
-                    <LiveNetworkWidget title={situation.title} />
+                    <LiveNetworkWidget
+                      title={situation.title}
+                      networkId={situation.networkId}
+                    />
                   </Link>
                 ))}
               </div>
             )}
-
-            {/* Extra widget (wrapped in Link) */}
-            <Link to="/liveKHN" className={styles.widgetLink}>
-              <LiveNetworkWidget large />
-            </Link>
           </ReactFlowProvider>
         </div>
 

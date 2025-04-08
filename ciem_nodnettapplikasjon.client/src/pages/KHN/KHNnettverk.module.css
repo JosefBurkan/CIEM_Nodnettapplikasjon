@@ -12,6 +12,7 @@
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
+    padding: 0 2rem;
   }
   
   /* LEFT SIDE */
@@ -20,14 +21,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-  }
-  
-  .widgetLink {
-    width: 100%;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
   }
   
   /* RIGHT SIDE */
@@ -35,7 +28,7 @@
     background: rgb(170, 170, 170);
     padding: 20px;
     border-radius: 15px;
-    width: 35%;
+    width: 30%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -44,7 +37,37 @@
     gap: 200px;
   }
   
-  /* Responsive */
+  /* 2x2 Grid layout for widgets */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 400px);
+    gap: 40px;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 40px;
+  }
+  
+  .cardLink {
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .noBox {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-top: 80px;
+  }
+  
+  /* RESPONSIVE */
   @media (max-width: 1024px) {
     .dashboard {
       flex-direction: column;
@@ -60,31 +83,10 @@
     .leftSection {
       width: 100%;
     }
+  
+    .grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: unset;
+    }
   }
   
-
-
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    justify-items: center;
-    margin-top: 40px;
-}
-
-.cardLink {
-    text-decoration: none;
-}
-
-
-.noBox {
-    background-color: white;
-    padding: 40px 50px;
-    border-radius: 20px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    margin-top: 80px;
-}

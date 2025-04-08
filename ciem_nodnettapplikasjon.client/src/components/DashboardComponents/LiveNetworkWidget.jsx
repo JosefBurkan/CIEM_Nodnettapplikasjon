@@ -2,13 +2,13 @@ import React from "react";
 import styles from "./LiveNetworkWidget.module.css";
 import LiveNetworkPreview from "./LiveNetworkPreview";
 
-function LiveNetworkWidget({ large }) {
+const LiveNetworkWidget = ({ title, networkId }) => {
   return (
-    <div className={`${styles.widget} ${large ? styles.large : ""}`}>
-      <div className={styles.label}>LIVE KHN</div>
-      <LiveNetworkPreview />
+    <div className={styles.widget}>
+      <div className={styles.label}>{title || "LIVE KHN"}</div>
+      <LiveNetworkPreview networkId={networkId} />
     </div>
   );
-}
+};
 
 export default LiveNetworkWidget;

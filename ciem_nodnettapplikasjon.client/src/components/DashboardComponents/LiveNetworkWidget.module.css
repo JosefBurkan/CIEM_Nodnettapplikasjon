@@ -3,7 +3,9 @@
     border-radius: 10px;
     overflow: hidden;
     width: 100%;
-    max-width: 800px;
+    height: 100%; /* 🔥 important! */
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
@@ -20,9 +22,16 @@
   
   .flowPreview {
     width: 100%;
-    height: 400px;        /* 💥 Required by ReactFlow */
+    flex: 1; /* 🔥 this ensures the preview takes remaining space */
     background: #f5f5f5;
-    pointer-events: auto; /* 💥 Don't block interaction */
+    pointer-events: auto;
     overflow: hidden;
+  }
+  
+  .noData {
+    padding: 1rem;
+    text-align: center;
+    color: #888;
+    font-size: 0.95rem;
   }
   

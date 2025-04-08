@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import styles from "./LiveNetworkWidget.module.css"; // <- Uses .flowPreview from here
+import styles from "./LiveNetworkWidget.module.css";
 
-function LiveNetworkPreview() {
+function LiveNetworkPreview({ networkId }) {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [isReady, setIsReady] = useState(false);
@@ -11,7 +11,7 @@ function LiveNetworkPreview() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("https://localhost:5255/api/KHN/GetNodeNetwork/1");
+        const res = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
 
         if (!res.ok) {
           const text = await res.text();
@@ -19,20 +19,17 @@ function LiveNetworkPreview() {
         }
 
         const data = await res.json();
+        console.log(`✅ Preview for networkId=${networkId}`, data);
 
         const layerCounts = new Map();
         const parsedNodes = data.nodes.map((node) => {
-          const layer = Number.isFinite(node.layer) ? node.layer : 0;
-          const xCount = layerCounts.get(layer) || 0;
-          layerCounts.set(layer, xCount + 1);
+          const x = layerCounts.get(node.layer) || 0;
+          layerCounts.set(node.layer, x + 1);
 
           return {
             id: String(node.nodeID),
-            position: {
-              x: xCount * 140,
-              y: layer * 100,
-            },
-            data: { label: node.name || "Ukjent node" },
+            position: { x: x * 140, y: node.layer * 100 },
+            data: { label: node.name },
             type: "default",
           };
         });
@@ -50,17 +47,18 @@ function LiveNetworkPreview() {
         setEdges(parsedEdges);
         setIsReady(true);
       } catch (err) {
-        console.error("Live preview fetch failed:", err.message);
+        console.error("❌ Live preview fetch failed:", err.message);
       }
     };
 
-    fetchData();
-  }, []);
+    if (networkId) {
+      fetchData();
+    }
+  }, [networkId]);
 
   if (!isReady) return <div>Laster forhåndsvisning...</div>;
 
   return (
-    // ✅ This is the wrapper ReactFlow needs
     <div className={styles.flowPreview}>
       <ReactFlow
         nodes={nodes}
