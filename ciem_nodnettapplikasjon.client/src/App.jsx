@@ -45,7 +45,7 @@ function Layout() {
           <Route path="/actorsPrivate" element={<PrivateActors />} />
                   <Route path="/khn/:networkId" element={<LiveKHN />} />
           <Route path="/actorNew" element={<NewActor/>} />
-          <Route path = "newNetwork" element={<NewNetwork />} />
+          <Route path ="/newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor/>} />
           <Route path="/aboutActor" element={<AboutActor/>} />
                   <Route path="*" element={<Navigate to="/dashboard"/>} />
