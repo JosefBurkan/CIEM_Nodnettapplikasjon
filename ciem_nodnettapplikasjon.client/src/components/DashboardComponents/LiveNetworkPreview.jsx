@@ -1,3 +1,4 @@
+// LiveNetworkPreview.jsx
 import React, { useEffect, useState } from "react";
 import { ReactFlow, Background } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
@@ -11,15 +12,9 @@ function LiveNetworkPreview({ networkId }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
-
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(`Server error: ${res.status} - ${text}`);
-        }
-
+        const res = await fetch(`/api/KHN/GetNodeNetwork/${networkId}`);
+        if (!res.ok) throw new Error("Failed to load network data");
         const data = await res.json();
-        console.log(`✅ Preview for networkId=${networkId}`, data);
 
         const layerCounts = new Map();
         const parsedNodes = data.nodes.map((node) => {
@@ -47,11 +42,12 @@ function LiveNetworkPreview({ networkId }) {
         setEdges(parsedEdges);
         setIsReady(true);
       } catch (err) {
-        console.error("❌ Live preview fetch failed:", err.message);
+        console.error("Live preview fetch failed:", err);
       }
     };
 
     if (networkId) {
+      setIsReady(false);
       fetchData();
     }
   }, [networkId]);

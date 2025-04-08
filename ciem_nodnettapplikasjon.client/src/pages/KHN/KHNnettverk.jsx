@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import styles from './KHNnettverk.module.css';
 import LiveNetworkWidget from "../../components/DashboardComponents/LiveNetworkWidget";
 import Box from '../../components/Box/Box';
@@ -9,12 +9,9 @@ function KHNnettverk() {
   const [situations, setSituations] = useState([]);
 
   useEffect(() => {
-    fetch("/api/khn/situations")
+    fetch("https://localhost:5255/api/khn/situations")
       .then(res => res.json())
-      .then(data => {
-        console.log("Fetched situations:", data);
-        setSituations(data);
-      })
+      .then(data => setSituations(data))
       .catch(err => {
         console.error("Failed to fetch situations:", err);
         setSituations([]);
@@ -26,7 +23,6 @@ function KHNnettverk() {
   return (
     <div className={styles.container}>
       <div className={styles.dashboard}>
-
         {/* LEFT SECTION */}
         <div className={styles.leftSection}>
           <ReactFlowProvider>
@@ -44,7 +40,7 @@ function KHNnettverk() {
                   >
                     <LiveNetworkWidget
                       title={situation.title}
-                      networkId={situation.networkId}
+                      networkId={situation.networkId} // ✅ Correctly pass networkId
                     />
                   </Link>
                 ))}
@@ -62,7 +58,6 @@ function KHNnettverk() {
             <Box title="Nettverks Arkiv" boxIconColor="red" disableLink />
           </Link>
         </div>
-
       </div>
     </div>
   );
