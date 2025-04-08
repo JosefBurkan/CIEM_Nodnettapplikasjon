@@ -28,12 +28,16 @@ function NavBar() {
                     {/* <Link to="/actors" className={styles.navbarLink}>Aktører</Link> */}
                     <Link
                         to="/krisehandterings-nettverk"
-                        className={`${styles.navbarLink} ${isActive("/krisehåndterings-nettverk") ? styles.activeLink : ""}`}>Krisehåndterings-nettverk
+                        className={`${styles.navbarLink} ${isActive("/krisehandterings-nettverk") ? styles.activeLink : ""}`}>Krisehåndterings-nettverk
                     </Link>
                     <Link
                         to="/actors"
                         className={`${styles.navbarLink} ${isActive("/actor") ? styles.activeLink : ""}`}>Aktører
                     </Link> {/*Visualiserer når man er på siden, strek under aktører*/}
+                    <Link
+                        to="/qr-code"
+                        className={`${styles.navbarLink} ${isActive("/qr-code") ? styles.activeLink : ""}`}>QRcode
+                    </Link>
                 </div>
             </div>
 

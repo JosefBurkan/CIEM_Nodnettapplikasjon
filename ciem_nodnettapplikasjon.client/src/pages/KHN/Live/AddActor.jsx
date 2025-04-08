@@ -8,7 +8,7 @@ function AddActor({ onClose, onActorAdded, existingActors }) {
     category: "",
     actorType: "",
     description: "",
-    parentId: ""
+    parentID: ""
   });
   const [error, setError] = useState("");
 
@@ -25,7 +25,7 @@ function AddActor({ onClose, onActorAdded, existingActors }) {
       setError("Fyll inn alle obligatoriske felter");
       return;
     }
-    if (formData.hierarchy === "Underaktør" && !formData.parentId) {
+    if (formData.hierarchy === "Underaktør" && !formData.parentID) {
       setError("Velg en overordnet aktør");
       return;
     }
@@ -38,7 +38,7 @@ function AddActor({ onClose, onActorAdded, existingActors }) {
       actorType: formData.actorType,
       description: formData.description,
       // Hvis underaktør, lagres id'en til den overordnede aktøren.
-      parentId: formData.hierarchy === "Underaktør" ? formData.parentId : null,
+      parentID: formData.hierarchy === "Underaktør" ? formData.parentID : null,
       hierarchy: formData.hierarchy
     };
 
@@ -67,11 +67,11 @@ function AddActor({ onClose, onActorAdded, existingActors }) {
           {/* Hvis underaktør, vis select for å velge overordnet aktør */}
           {formData.hierarchy === "Underaktør" && (
             <>
-              <label htmlFor="parentId">Velg overordnet aktør:</label>
+              <label htmlFor="parentID">Velg overordnet aktør:</label>
               <select
-                id="parentId"
-                name="parentId"
-                value={formData.parentId}
+                id="parentID"
+                name="parentID"
+                value={formData.parentID}
                 onChange={handleChange}
                 required
               >

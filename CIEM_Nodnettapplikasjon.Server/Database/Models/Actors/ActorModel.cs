@@ -9,4 +9,10 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Actors
         public List<string>? SubActors { get; set; }
         public string? Description { get; set; }
     }
+
+        public class AddSubActor
+    {
+        public int ActorID { get; set; }
+        public string SubActor { get; set; } = null!;
+    }
 }

@@ -33,6 +33,18 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
             return newActor;
         }
 
+        public async Task<ActorModel> CreateSubActorAsync(int actorID, string newSubActor) 
+        {
+            var actor = await GetActorByIdAsync(actorID);
+
+            actor.SubActors.Add(newSubActor);
+
+            await _context.SaveChangesAsync();
+
+            return actor;
+
+        }
+
         public async Task DeleteActorAsync(int id)
         {
             var actor = await _context.Actors.FindAsync(id);

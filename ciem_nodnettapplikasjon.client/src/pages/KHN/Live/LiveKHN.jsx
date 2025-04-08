@@ -6,37 +6,90 @@ import {
   Controls,
   Background,
   getOutgoers,
-  getConnectedEdges,
+  addEdge,
   applyNodeChanges,
-  addEdge
+  applyEdgeChanges,
 } from "@xyflow/react";
+import dagre from "dagre";
 import "@xyflow/react/dist/style.css";
+import { useParams } from "react-router-dom";
 import styles from "./LiveKHN.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
-import CustomNode from "../../../components/CustomNode/CustomNode";
 import AddActor from "./AddActor";
 
-const nodeTypes = { custom: CustomNode };
 const proOptions = { hideAttribution: true };
 
+function getLayoutedElements(nodes, edges, direction = "TB") {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+  const nodeWidth = 180;
+  const nodeHeight = 50;
+
+  dagreGraph.setGraph({
+    rankdir: direction,
+    ranksep: 100,
+    nodeSep: 80,
+    edgeSep: 50,
+  });
+
+  nodes.forEach((node) => {
+    if (!node.hidden) {
+      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    }
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const layoutedNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    if (nodeWithPosition) {
+      return {
+        ...node,
+        position: {
+          x: nodeWithPosition.x - nodeWidth / 2,
+          y: nodeWithPosition.y - nodeHeight / 2,
+        },
+      };
+    }
+    return node;
+  });
+
+  return { nodes: layoutedNodes, edges };
+}
+
 function LiveKHN() {
-  const [nodeNetwork, setNodeNetwork] = useState(null);
+  const { networkId } = useParams();
+
+  const [nodeNetwork, setNodeNetwork] = useState({});
   const [isReady, setIsReady] = useState(false);
-  const [activeTab, setActiveTab] = useState("actors");
+
   const [initialNodes, setInitialNodes] = useState([]);
   const [initialEdges, setInitialEdges] = useState([]);
-  const [selectedNode, setSelectedNode] = useState(null);
+
   const [hiddenNodes, setHiddenNodes] = useState(new Set());
   const [hiddenEdges, setHiddenEdges] = useState(new Set());
+
+  const [activeTab, setActiveTab] = useState("actors");
+  const [selectedNode, setSelectedNode] = useState(null);
   const [showAddActorModal, setShowAddActorModal] = useState(false);
+
+  // Få tak i ReactFlow-instansen for å kunne sentrere kameraet
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
 
-  // Henter data
+  // Hent data fra API (bruker networkId fra URL)
   const fetchKHN = async () => {
     try {
-      const response = await fetch("https://localhost:5255/api/KHN/GetNodeNetwork");
+      const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
       const data = await response.json();
+      console.log("Fetched data:", data);
       setNodeNetwork(data);
       setIsReady(true);
     } catch (error) {
@@ -45,48 +98,64 @@ function LiveKHN() {
   };
 
   useEffect(() => {
-    fetchKHN();
-  }, []);
+    if (networkId) {
+      fetchKHN();
+    }
+  }, [networkId]);
 
-  // Oppretter noder og kanter basert på API-data
-  // Kjør kun denne når nodeNetwork endres (og initialNodes er tom) for å bevare brukerens dra-og-slipp endringer
-  useEffect(() => {
-    if (nodeNetwork && nodeNetwork.nodes && initialNodes.length === 0) {
-      const layerCounts = new Map();
-      const nodes = nodeNetwork.nodes.map((node) => {
-        const count = layerCounts.get(node.layer) || 0;
-        layerCounts.set(node.layer, count + 1);
-        return {
-          id: String(node.nodeID),
-          position: { x: count * 200, y: node.layer * 100 },
-          data: {
-            label: node.name,
-            info: `Detaljert informasjon om ${node.name}.`
-          },
-          type: "custom",
-          hidden: hiddenNodes.has(String(node.nodeID)),
-        };
-      });
-
-      const edges = nodeNetwork.nodes.map((node) => ({
-        id: `${node.nodeID}-${node.nodeID + 1}`,
-        source: String(node.nodeID),
-        target: String(node.nodeID + 1),
-        animated: false, // Hierarkiske forbindelser er ikke animerte
-        hierarchical: true, // Flag som markerer at dette er en API-generert/hierarkisk edge
-        hidden: hiddenEdges.has(`${node.nodeID}-${node.nodeID + 1}`),
+  // Oppdater layout: generer noder og kanter fra nodeNetwork og hidden-sets
+  const updateLayout = useCallback(() => {
+    if (nodeNetwork && nodeNetwork.nodes) {
+      const nodes = nodeNetwork.nodes.map((node) => ({
+        id: String(node.nodeID),
+        data: { label: node.name, info: `Detaljert info om ${node.name}` },
+        hidden: hiddenNodes.has(String(node.nodeID)),
+        position: { x: 0, y: 0 },
       }));
 
-      setInitialNodes(nodes);
-      setInitialEdges(edges);
-    }
-  }, [nodeNetwork, hiddenNodes, hiddenEdges, initialNodes.length]);
+      const edges = nodeNetwork.nodes
+        .filter((n) => n.parentID != null && n.parentID !== 0)
+        .map((n) => ({
+          id: `edge-${n.parentID}-${n.nodeID}`,
+          source: String(n.parentID),
+          target: String(n.nodeID),
+          animated: true,
+          hierarchical: true,
+          hidden: hiddenEdges.has(`edge-${n.parentID}-${n.nodeID}`),
+        }));
 
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, "TB");
+      setInitialNodes(layoutedNodes);
+      setInitialEdges(layoutedEdges);
+    }
+  }, [nodeNetwork, hiddenNodes, hiddenEdges]);
+
+  useEffect(() => {
+    updateLayout();
+  }, [nodeNetwork, hiddenNodes, hiddenEdges, updateLayout]);
+
+  // Søke-funksjonalitet: Sentrer kameraet til en node som matcher søkestrengen
+  const handleSearch = useCallback(
+    (query) => {
+      if (!reactFlowInstance || !query) return;
+      const matchingNode = initialNodes.find((node) =>
+        node.data.label.toLowerCase().includes(query.toLowerCase())
+      );
+      if (matchingNode) {
+        // Juster posisjonen slik at nodens midtpunkt er i midten
+        const x = matchingNode.position.x + 90; // Omtrent halvparten av nodeWidth
+        const y = matchingNode.position.y + 25; // Omtrent halvparten av nodeHeight
+        reactFlowInstance.setCenter(x, y, 1.5); // 1.5 er et eksempel på zoom-nivå
+      }
+    },
+    [reactFlowInstance, initialNodes]
+  );
+
+  // Hjelpefunksjoner for collapse/expand
   const getDescendantNodes = (node, allNodes, allEdges) => {
     const descendants = [];
     const visited = new Set();
     const stack = [node];
-
     while (stack.length > 0) {
       const current = stack.pop();
       const children = getOutgoers(current, allNodes, allEdges);
@@ -104,18 +173,15 @@ function LiveKHN() {
   const getDescendantEdges = (node, allNodes, allEdges) => {
     const descendantNodes = getDescendantNodes(node, allNodes, allEdges);
     const descendantIds = descendantNodes.map((n) => n.id);
-    const descendantEdges = allEdges.filter(
+    return allEdges.filter(
       (edge) => descendantIds.includes(edge.source) || descendantIds.includes(edge.target)
     );
-    return descendantEdges;
   };
 
-  // Collapse/expand - toggler skjul/vis for alle etterfølgerne
   const toggleCollapseExpand = useCallback(
     (node) => {
       const descendants = getDescendantNodes(node, initialNodes, initialEdges);
       const descendantEdges = getDescendantEdges(node, initialNodes, initialEdges);
-
       const updatedHiddenNodes = new Set(hiddenNodes);
       const updatedHiddenEdges = new Set(hiddenEdges);
 
@@ -130,7 +196,6 @@ function LiveKHN() {
       });
 
       descendantEdges.forEach((edge) => {
-        // Toggle kun de hierarkiske kantene
         if (edge.hierarchical) {
           if (shouldHide) {
             updatedHiddenEdges.add(edge.id);
@@ -142,15 +207,14 @@ function LiveKHN() {
 
       setHiddenNodes(updatedHiddenNodes);
       setHiddenEdges(updatedHiddenEdges);
+      updateLayout();
     },
-    [hiddenNodes, hiddenEdges, initialNodes, initialEdges]
+    [hiddenNodes, hiddenEdges, initialNodes, initialEdges, updateLayout]
   );
 
-  //  timeout for å se enkelt / dobbeltklikk
   const handleNodeClick = useCallback(
     (event, node) => {
       clickTimeoutRef.current = setTimeout(() => {
-        // Dersom et dobbeltklikk har blitt oppdaget, ignorer enkeltklikk
         if (doubleClickFlagRef.current) {
           doubleClickFlagRef.current = false;
           return;
@@ -162,7 +226,6 @@ function LiveKHN() {
     [toggleCollapseExpand]
   );
 
-  // fjerner eventuell ventende timeout og viser detaljer ved dobbelklikk
   const handleNodeDoubleClick = useCallback((event, node) => {
     if (clickTimeoutRef.current) {
       clearTimeout(clickTimeoutRef.current);
@@ -173,26 +236,67 @@ function LiveKHN() {
     setActiveTab("details");
   }, []);
 
-  // onConnect callback for drawing new connections between nodes
-  const onConnect = useCallback((params) => {
-    const newEdge = {
-      ...params,
-      animated: true,           // Kommunikasjonsforbindelser er animerte
-      hierarchical: false,      // Ikke hierarkiske
-    };
-    setInitialEdges((eds) => addEdge(newEdge, eds));
-  }, []);
+  // onEdgeClick: Skjul target-noden og dens etterkommere
+  const handleEdgeClick = useCallback(
+    (event, edge) => {
+      const targetNode = initialNodes.find((n) => n.id === edge.target);
+      if (targetNode) {
+        const descendants = getDescendantNodes(targetNode, initialNodes, initialEdges);
+        const updatedHiddenNodes = new Set(hiddenNodes);
+        updatedHiddenNodes.add(targetNode.id);
+        descendants.forEach((desc) => updatedHiddenNodes.add(desc.id));
 
-  const onNodesChange = useCallback((changes) => {
-    setInitialNodes((nds) => applyNodeChanges(changes, nds));
-  }, []);
+        const descendantEdges = getDescendantEdges(targetNode, initialNodes, initialEdges);
+        const updatedHiddenEdges = new Set(hiddenEdges);
+        descendantEdges.forEach((e) => updatedHiddenEdges.add(e.id));
 
+        setHiddenNodes(updatedHiddenNodes);
+        setHiddenEdges(updatedHiddenEdges);
+        updateLayout();
+      }
+    },
+    [initialNodes, initialEdges, hiddenNodes, hiddenEdges, updateLayout]
+  );
+
+  // onConnect: Når en ny forbindelse lages manuelt
+  const onConnect = useCallback(
+    (params) => {
+      const targetNode = nodeNetwork.nodes.find(
+        (n) => String(n.nodeID) === params.target
+      );
+      let newEdge = {};
+      if (targetNode && String(targetNode.parentID) === params.source) {
+        newEdge = { ...params, animated: false, hierarchical: true };
+      } else {
+        newEdge = { ...params, animated: true, hierarchical: false };
+      }
+      setInitialEdges((eds) => addEdge(newEdge, eds));
+    },
+    [nodeNetwork]
+  );
+
+  const onNodesChange = useCallback(
+    (changes) => {
+      setInitialNodes((nds) => applyNodeChanges(changes, nds));
+    },
+    []
+  );
+
+  const onEdgesChange = useCallback(
+    (changes) => {
+      setInitialEdges((eds) => applyEdgeChanges(changes, eds));
+    },
+    []
+  );
+
+  // Når en ny aktør legges til via AddActor – forventer newActor: { nodeID, name, parentID, ... }
   const handleActorAdded = (newActor) => {
     setNodeNetwork((prev) => ({
       ...prev,
-      nodes: [...prev.nodes, newActor]
+      nodes: [...prev.nodes, newActor],
     }));
     setShowAddActorModal(false);
+    updateLayout();
   };
 
   if (!isReady) {
@@ -202,27 +306,42 @@ function LiveKHN() {
   return (
     <ReactFlowProvider>
       <div className={styles.container}>
+        <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
+
         <div className={styles.searchBarContainer}>
-          <SearchBar placeholder="Søk etter aktør" bgColor="#1A1A1A" width="25rem" />
+          <SearchBar
+            placeholder="Søk etter aktør"
+            bgColor="#1A1A1A"
+            width="25rem"
+            onSearch={handleSearch}
+          />
         </div>
+
         <div className={styles.content}>
           <div className={styles.networkContainer}>
             <ReactFlow
               proOptions={proOptions}
               nodes={initialNodes}
               edges={initialEdges}
-              fitView
               onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
               onConnect={onConnect}
               onNodeClick={handleNodeClick}
               onNodeDoubleClick={handleNodeDoubleClick}
-              nodeTypes={nodeTypes}
+              onEdgeClick={handleEdgeClick}
+              fitView
+              style={{ width: "100%", height: "100%" }}
+              panOnDrag
+              zoomOnScroll
+              zoomOnDoubleClick
+              onInit={setReactFlowInstance}  // Fanger ReactFlow-instansen
             >
               <MiniMap pannable zoomable />
               <Controls />
               <Background />
             </ReactFlow>
           </div>
+
           <div className={styles.infoBox}>
             <div className={styles.tabContainer}>
               <button
@@ -249,35 +368,38 @@ function LiveKHN() {
                 <div>
                   <h3>{selectedNode.data.label}</h3>
                   <p>{selectedNode.data.info}</p>
-                  <p>Fyll  info</p>
+                  <p>Fyll inn mer detaljer her...</p>
                 </div>
               )}
               {activeTab === "actors" && nodeNetwork.nodes && (
                 <ul>
-                  <button 
+                  <button
                     className={styles.addActorButton}
                     onClick={() => setShowAddActorModal(true)}
                   >
                     + Ny Aktør
                   </button>
                   {nodeNetwork.nodes.map((node) => (
-                    <li key={node.nodeID} className={styles.actorList}>{node.name}</li>
+                    <li key={node.nodeID} className={styles.actorList}>
+                      {node.name}
+                    </li>
                   ))}
                 </ul>
               )}
-              {activeTab === "info" && <p>Kritisk informasjon om nettverket og tilstand...</p>}
+              {activeTab === "info" && (
+                <p>Kritisk informasjon om nettverket og tilstand...</p>
+              )}
             </div>
           </div>
         </div>
         <button className={styles.editButton}>Redigersmodus</button>
       </div>
 
-      {/* Popup vindu for å opprette ny aktør */}
       {showAddActorModal && (
         <AddActor
           onClose={() => setShowAddActorModal(false)}
           onActorAdded={handleActorAdded}
-          existingActors={nodeNetwork.nodes} // Passer inn listen med eksisterende aktører/noder
+          existingActors={nodeNetwork.nodes}
         />
       )}
     </ReactFlowProvider>

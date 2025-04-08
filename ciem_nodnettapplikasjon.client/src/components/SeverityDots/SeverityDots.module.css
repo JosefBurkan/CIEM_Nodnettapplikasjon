@@ -1,0 +1,12 @@
+.dotsContainer {
+    display: flex;
+    gap: 4px; /* Space between dots */
+  }
+  
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
