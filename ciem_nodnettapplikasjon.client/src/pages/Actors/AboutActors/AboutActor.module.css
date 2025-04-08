@@ -1,4 +1,4 @@
-/* Overall container */
+/* Overall Container */
 .aboutActorContainer {
   width: 100%;
   min-height: 100vh;
@@ -11,41 +11,42 @@
   gap: 20px;
 }
 
-/* Top Row: Two Columns */
+/* TOP ROW */
 .topRow {
   display: flex;
   gap: 20px;
   align-items: flex-start;
 }
 
-/* Left Column of Top Row: Stacked Actor Name and Contact Panels */
+/* Top Left Column: Actor Name & Contact Panels */
 .topLeftColumn {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.actorNamePanel {
-  background-color: #1d1d1d;
-  border-radius: 8px;
-  color: #fff;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 50px;
-  width: 300px;
-}
+.actorNamePanel,
 .contactPanel {
   background-color: #1d1d1d;
   border-radius: 8px;
   color: #fff;
   padding: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+}
+.actorNamePanel {
+  min-height: 50px;
+  width: 300px;
+}
+.actorNamePanel h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+.contactPanel {
   cursor: pointer;
+  flex-direction: column;
   gap: 8px;
   min-height: 100px;
   width: 300px;
@@ -55,7 +56,7 @@
   height: 70px;
 }
 
-/* Right Column of Top Row: Om Organisasjonen Panel */
+/* Top Right Column: Om Organisasjonen Panel */
 .orgSection {
   flex: 100;
   background-color: #1d1d1d;
@@ -63,7 +64,7 @@
   border-radius: 8px;
   padding: 20px;
   overflow-y: auto;
-  min-height: 245px;
+  min-height: 230px;
 }
 .orgHeader {
   display: flex;
@@ -71,9 +72,19 @@
   justify-content: space-between;
   margin-bottom: 10px;
 }
+.orgHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .orgIcon {
   width: 48px;
   height: 48px;
+}
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
 }
 .editModeButton {
   background: none;
@@ -81,16 +92,39 @@
   cursor: pointer;
   font-size: 1.5rem;
   padding: 4px;
+  color: #fff;
+}
+.editButtons button {
+  margin-right: 5px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.saveChangesButton {
+  background-color: #5cb85c;
+}
+.cancelChangesButton {
+  background-color: #d9534f;
 }
 
-/* Infosjekkliste Panel (horizontal layout) */
+/* BOTTOM PANELS */
+.bottomPanels {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: nowrap;
+}
+
+/* Infosjekkliste Panel (Bottom Left) */
 .infoSjekkContainer {
-  background-color: #2a2a2a;
-  color: #fff;
+  flex: 1;
+  min-width: 300px;
+  background-color: #1d1d1d;
   border-radius: 8px;
   padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  color: #fff;
 }
 .infoHeader {
   display: flex;
@@ -107,15 +141,13 @@
   width: 48px;
   height: 48px;
 }
-
-/* Infosjekkliste Content: Left (fields) and Right (grid) */
 .infoSjekkContent {
   display: flex;
   gap: 20px;
 }
 .infoLeft {
   flex: 1;
-  background-color: #1d1d1d;
+  background-color: #3a3a3a;
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -136,8 +168,6 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
-
-/* "Sist kommunikasjon med aktør" row */
 .kommunikasjonRow {
   display: flex;
   align-items: center;
@@ -157,13 +187,31 @@
   cursor: pointer;
 }
 
-/* Actors List Section */
-.actorsListContainer {
-  background-color: #1d1d1d;
+/* Underliggende Aktører Panel (Bottom Right) */
+.underliggendePanel {
+  flex: 1;
+  min-width: 300px;
+  background-color: #1d1d1d; /* Dark background restored */
   color: #fff;
   border-radius: 8px;
   padding: 20px;
+  overflow-y: auto;
+}
+.underliggendePanel h2 {
+  font-size: 1.5rem;
+  margin: 0 0 10px;
+}
+.fullDescription {
+  margin-bottom: 10px;
+}
+
+/* Actors List Section (if used) */
+.actorsListContainer {
+  background-color: #1d1d1d;
+  border-radius: 8px;
+  padding: 20px;
   margin-bottom: 20px;
+  color: #fff;
 }
 .actorsHeader {
   display: flex;
@@ -177,8 +225,8 @@
 }
 .actorsList {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 .actorItem {
   background-color: #3a3a3a;
@@ -194,7 +242,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -229,15 +277,6 @@
   border-radius: 8px;
   padding: 10px;
 }
-.infoItem button {
-  margin-bottom: 8px;
-  padding: 6px 10px;
-  background-color: #51aad3;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-}
 .infoItemEditButton {
   padding: 6px 10px;
   background-color: #51aad3;
@@ -246,24 +285,11 @@
   color: #fff;
   cursor: pointer;
 }
-
-/* Edit Mode for InfoItems */
-.editContainer {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #444;
-  border-radius: 4px;
-}
 .editField {
   display: flex;
   gap: 8px;
   align-items: center;
   margin-bottom: 8px;
-}
-.editButtons {
-  display: flex;
-  gap: 10px;
-  margin-top: 8px;
 }
 .displayValues {
   margin-top: 8px;
@@ -294,3 +320,4 @@
 .cancelChangesButton {
   background-color: #d9534f;
 }
+
