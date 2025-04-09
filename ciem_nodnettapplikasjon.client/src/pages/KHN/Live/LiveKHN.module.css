@@ -77,12 +77,13 @@ ul{
     width: 60%;
     padding: 5px;
     border-radius: 25px;
-    background-color: #555;
+    background-color: #a8a2a2;
     border: 1px solid black;
     cursor:pointer;
+    font-size:1.5em;
 }
 .addActorButton:hover{
-    background-color: hsl(0, 0%, 23%);
+    background-color: hsl(0, 3%, 53%);
 }
 .actorList {
     padding: 5px 10px;

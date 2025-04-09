@@ -17,9 +17,9 @@ import styles from "./LiveKHN.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import AddActor from "./AddActor";
 
-const proOptions = { hideAttribution: true }; // Fjerner ReactFlow logo i hjørnet
+const proOptions = { hideAttribution: true };
 
-function getLayoutedElements(nodes, edges, direction = "TB") { 
+function getLayoutedElements(nodes, edges, direction = "TB") {  
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
@@ -153,6 +153,21 @@ function LiveKHN() {
     },
     [reactFlowInstance, initialNodes]
   );
+
+  const handleDeleteNode = useCallback(() => {
+    if (!selectedNode) return;
+    const nodeIdToDelete = selectedNode.id;
+
+    const updatedNodes = nodeNetwork.nodes.filter(
+      (n) => String(n.nodeID) !== nodeIdToDelete
+    );
+    setNodeNetwork((prev) => ({
+      ...prev,
+      nodes: updatedNodes
+    }));
+    setSelectedNode(null);
+    updateLayout();
+  }, [selectedNode, nodeNetwork, updateLayout]);
 
 
   // const handleSearch = useCallback((query) => {
@@ -379,6 +394,9 @@ function LiveKHN() {
                   <h3>{selectedNode.data.label}</h3>
                   <p>{selectedNode.data.info}</p>
                   <p>Fyll inn mer detaljer her...</p>
+                  <button className={styles.deleteButton} onClick={handleDeleteNode}>
+                    Slett node
+                  </button>
                 </div>
               )}
               {activeTab === "actors" && nodeNetwork.nodes && (
