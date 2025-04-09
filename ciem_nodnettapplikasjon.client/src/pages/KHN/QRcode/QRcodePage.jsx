@@ -1,5 +1,5 @@
 import React from "react";
-import QRCode from "react-qr-code";
+// import QRCode from "qrcode.react";
 
 function QRcodePage() {
     const storedUser = localStorage.getItem("user");
