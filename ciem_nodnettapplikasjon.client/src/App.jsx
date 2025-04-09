@@ -19,8 +19,12 @@ import NettverksArkiv from './pages/KHN/Archive/NettverksArkiv.jsx';
 import NewNetwork from './pages/KHN/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/KHN/QRcode/QRcodePage.jsx';
+import QRAccessPage from './pages/KHN/QRcode/QRAccessPage.jsx';
 
 function Layout() {
+  const location = useLocation();
+    const hideNavBar = location.pathname === "/"; 
+
   return (
     <>
       <NavBar />
@@ -28,8 +32,9 @@ function Layout() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/krisehandterings-nettverk" element={<KHSnettverk />} />
-          <Route path="/actors" element={<Actors />} />
-          <Route path="/qr-code" element={<QRcodePage />} />
+                  <Route path="/actors" element={<Actors />} />
+                  <Route path="/qr-code" element={<QRcodePage />} />
+                  <Route path="/qr-access" element={<QRAccessPage />} />
           <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
           <Route path="/actorsVol" element={<VolActors />} />

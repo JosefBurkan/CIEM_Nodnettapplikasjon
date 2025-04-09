@@ -1,4 +1,4 @@
-using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users;
 using System;
 
 namespace CIEM_Nodnettapplikasjon.Server.Services.Users
