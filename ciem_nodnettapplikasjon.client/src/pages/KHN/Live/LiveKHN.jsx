@@ -19,7 +19,7 @@ import AddActor from "./AddActor";
 
 const proOptions = { hideAttribution: true };
 
-function getLayoutedElements(nodes, edges, direction = "TB") {
+function getLayoutedElements(nodes, edges, direction = "TB") {  
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
@@ -136,22 +136,44 @@ function LiveKHN() {
     updateLayout();
   }, [nodeNetwork, hiddenNodes, hiddenEdges, updateLayout]);
 
-  // Søke-funksjonalitet: Sentrer kameraet til en node som matcher søkestrengen
-  const handleSearch = useCallback(
-    (query) => {
-      if (!reactFlowInstance || !query) return;
-      const matchingNode = initialNodes.find((node) =>
-        node.data.label.toLowerCase().includes(query.toLowerCase())
-      );
-      if (matchingNode) {
-        // Juster posisjonen slik at nodens midtpunkt er i midten
-        const x = matchingNode.position.x + 90; // Omtrent halvparten av nodeWidth
-        const y = matchingNode.position.y + 25; // Omtrent halvparten av nodeHeight
-        reactFlowInstance.setCenter(x, y, 1.5); // 1.5 er et eksempel på zoom-nivå
+  const focusNode = useCallback(
+    (actor) => {
+      if (!reactFlowInstance || !actor) return;
+      console.log("Fokusere på actor:", actor);
+      const node = initialNodes.find(n => n.id === String(actor.nodeID));
+      if (!node) {
+        console.log("Fant ikke node for actor:", actor);
+        return;
       }
+      const x = node.position.x + 90; // juster ut fra nodens dimensjoner
+      const y = node.position.y + 25;
+      reactFlowInstance.setCenter(x, y, 1.5);
+      setActiveTab("details");
+      setSelectedNode(node);
     },
     [reactFlowInstance, initialNodes]
   );
+
+  const handleDeleteNode = useCallback(() => {
+    if (!selectedNode) return;
+    const nodeIdToDelete = selectedNode.id;
+
+    const updatedNodes = nodeNetwork.nodes.filter(
+      (n) => String(n.nodeID) !== nodeIdToDelete
+    );
+    setNodeNetwork((prev) => ({
+      ...prev,
+      nodes: updatedNodes
+    }));
+    setSelectedNode(null);
+    updateLayout();
+  }, [selectedNode, nodeNetwork, updateLayout]);
+
+
+  // const handleSearch = useCallback((query) => {
+  //   // Vi kan legge til live-søk her om nødvendig, men nå lar vi fokus skje via onSelectActor i SearchBar.
+  //   console.log("Søker med query:", query);
+  // }, []);
 
   // Hjelpefunksjoner for collapse/expand
   const getDescendantNodes = (node, allNodes, allEdges) => {
@@ -186,9 +208,7 @@ function LiveKHN() {
       const descendantEdges = getDescendantEdges(node, initialNodes, initialEdges);
       const updatedHiddenNodes = new Set(hiddenNodes);
       const updatedHiddenEdges = new Set(hiddenEdges);
-
       const shouldHide = descendants.some((desc) => !hiddenNodes.has(desc.id));
-
       descendants.forEach((desc) => {
         if (shouldHide) {
           updatedHiddenNodes.add(desc.id);
@@ -315,7 +335,10 @@ function LiveKHN() {
             placeholder="Søk etter aktør"
             bgColor="#1A1A1A"
             width="25rem"
-            onSearch={handleSearch}
+            enableDropdown={true}
+            actors={nodeNetwork.nodes || []}
+            onSelectActor={focusNode}  // Fokusfunksjonen som sentrerer kameraet på den valgte noden
+            // onSearch={handleSearch}    // Om du ønsker live feedback
           />
         </div>
 
@@ -371,6 +394,9 @@ function LiveKHN() {
                   <h3>{selectedNode.data.label}</h3>
                   <p>{selectedNode.data.info}</p>
                   <p>Fyll inn mer detaljer her...</p>
+                  <button className={styles.deleteButton} onClick={handleDeleteNode}>
+                    Slett node
+                  </button>
                 </div>
               )}
               {activeTab === "actors" && nodeNetwork.nodes && (
@@ -382,9 +408,13 @@ function LiveKHN() {
                     + Ny Aktør
                   </button>
                   {nodeNetwork.nodes.map((node) => (
-                    <li key={node.nodeID} className={styles.actorList}>
+                    <button
+                      key={node.nodeID}
+                      className={styles.actorList}
+                      onClick={() => focusNode(node)}
+                    >
                       {node.name}
-                    </li>
+                    </button>
                   ))}
                 </ul>
               )}

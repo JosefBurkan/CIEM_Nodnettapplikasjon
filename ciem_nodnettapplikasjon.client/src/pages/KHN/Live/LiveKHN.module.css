@@ -72,15 +72,29 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    justify-items: center;
-  }
-  
-  .actorList,
-  .addActorButton {
-    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+.addActorButton{
+    width: 60%;
+    padding: 5px;
+    border-radius: 25px;
+    background-color: #a8a2a2;
+    border: 1px solid black;
+    cursor:pointer;
+    font-size:1.5em;
+}
+.addActorButton:hover{
+    background-color: hsl(0, 3%, 53%);
+}
+.actorList {
+    padding: 5px 10px;
+    width: 200px;
+    border: 1px solid white;
+    overflow-y: auto;
     padding: 10px;
     border: 2px dashed #00b3b3; /* Teal dashed border */
     border-radius: 999px;

@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://localhost:5173")
+        policy.WithOrigins("https://localhost:5173", "https://emkore.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -82,8 +82,7 @@ using (var scope = app.Services.CreateScope())
 
     if (!connected)
     {
-        Console.WriteLine($"Database connection failed after {maxRetries} attempts.");
-        Environment.Exit(1); // Exit application if unable to connect after max retries
+        Console.WriteLine($"Database out of reach");
     }
 }
 

@@ -22,31 +22,26 @@ function KHNnettverk() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.dashboard}>
+      <div className={styles.content}>
         {/* LEFT SECTION */}
         <div className={styles.leftSection}>
-          <ReactFlowProvider>
-            {liveSituations.length === 0 ? (
-              <div className={styles.noBox}>
-                <p>Ingen pågående kriser registrert</p>
-              </div>
-            ) : (
-              <div className={styles.grid}>
-                {liveSituations.map((situation) => (
-                  <Link
-                    key={situation.networkId}
-                    to={`/khn/${situation.networkId}`}
-                    className={styles.cardLink}
-                  >
-                    <LiveNetworkWidget
-                      title={situation.title}
-                      networkId={situation.networkId} // ✅ Correctly pass networkId
-                    />
-                  </Link>
-                ))}
-              </div>
-            )}
-          </ReactFlowProvider>
+          {liveSituations.length === 0 ? (
+            <div className={styles.noBox}>
+              <p>Ingen pågående kriser registrert</p>
+            </div>
+          ) : (
+            <div className={styles.grid}>
+              {liveSituations.map((situation) => (
+                <Link
+                  key={situation.networkId}
+                  to={`/khn/${situation.networkId}`}
+                  className={styles.cardLink}
+                >
+                  <LiveNetworkWidget title={situation.title} />
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* RIGHT SECTION */}
@@ -54,6 +49,7 @@ function KHNnettverk() {
           <Link to="/newNetwork">
             <Box title="Nytt Nettverk" icon="grid-add" />
           </Link>
+
           <Link to="/nettverks-arkiv" style={{ textDecoration: 'none' }}>
             <Box title="Nettverks Arkiv" boxIconColor="red" disableLink />
           </Link>

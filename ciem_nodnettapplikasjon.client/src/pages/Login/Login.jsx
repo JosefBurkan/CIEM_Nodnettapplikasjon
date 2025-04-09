@@ -37,7 +37,7 @@ function Login() {
             sessionStorage.setItem("isAuthenticated", "true");
             console.log("Authentication flag set in sessionStorage:", sessionStorage.getItem("isAuthenticated"));
    
-            setTimeout(() => navigate("/dashboard"), 1000);
+            setTimeout(() => navigate("/dashboard"), 500);
         } else {
             console.error("Error: ", response.statusText);
             console.log("Feil brukernavn eller passord");
