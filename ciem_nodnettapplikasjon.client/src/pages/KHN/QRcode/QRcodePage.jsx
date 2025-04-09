@@ -23,7 +23,7 @@ function QRcodePage() {
                 setUserNode(data);
             } catch (err) {
                 console.error("Feil ved henting av node:", err);
-                setError("Får ikke opp tilknyttet kode til denne brukeren.");
+                setError("Fï¿½r ikke opp tilknyttet kode til denne brukeren.");
             }
         };
 
@@ -33,7 +33,6 @@ function QRcodePage() {
     if (!qrToken || !userNode) {
         return <p>{error || "Laster QR-kode..."}</p>;
     }
-
 
     const qrCodeLink = `https://localhost:5173/#/qr-access?parentId=${userNode.nodeID}&token=${user.qr_token}`;
 

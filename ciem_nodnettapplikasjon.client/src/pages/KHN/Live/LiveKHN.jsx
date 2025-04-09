@@ -44,6 +44,14 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
   });
 
   dagre.layout(dagreGraph);
+    const FetchKHN = async () => {
+        try {
+            const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
+            const data = await response.json();
+            console.log(data);
+            setNodeNetwork(data);
+            setIsReady(true);
+            console.log("Fetch successful!", typeof data);
 
   const layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
