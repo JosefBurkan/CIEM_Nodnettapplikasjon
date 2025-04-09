@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import styles from "./AddActor.module.css";
 
-function AddActor({ onClose, onActorAdded, existingActors }) {
+function AddActor({ onClose, onActorAdded, existingActors, defaultParent, networkID }) {
   const [formData, setFormData] = useState({
     hierarchy: "Overordnet",
-    name: "",
+      name: "",
+    phone: "",
     category: "",
     actorType: "",
     description: "",
-    parentID: ""
+    parentID: defaultParent?.nodeID || ""
   });
   const [error, setError] = useState("");
 
@@ -19,7 +20,7 @@ function AddActor({ onClose, onActorAdded, existingActors }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.category || !formData.actorType) {
       setError("Fyll inn alle obligatoriske felter");
@@ -31,18 +32,38 @@ function AddActor({ onClose, onActorAdded, existingActors }) {
     }
 
     const newActor = {
-      nodeID: Date.now(),
-      name: formData.name,
-      layer: formData.hierarchy === "Underaktør" ? 1 : 0,
-      category: formData.category,
-      actorType: formData.actorType,
-      description: formData.description,
-      // Hvis underaktør, lagres id'en til den overordnede aktøren.
-      parentID: formData.hierarchy === "Underaktør" ? formData.parentID : null,
-      hierarchy: formData.hierarchy
-    };
+          name: formData.name,
+          phone: formData.phone, 
+          beskrivelse: formData.description,
+          parentID: formData.hierarchy === "Underaktør" ? parseInt(formData.parentID) : null,
+          networkID: networkID,
+          category: formData.category,
+          type: formData.actorType,
+          hierarchyLevel: formData.hierarchy,
+      };
 
-    onActorAdded(newActor);
+      try {
+          const res = await fetch("https://localhost:5255/api/nodes/add", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(newActor)
+          });
+
+          if (res.ok) {
+              const savedActor = await res.json();
+              onActorAdded(savedActor); // use returned DB data (with real nodeID)
+              onClose();
+          } else {
+              const err = await res.json();
+              console.error("Failed to save actor:", err);
+              setError("Noe gikk galt ved lagring.");
+          }
+      } catch (err) {
+          console.error("Request error:", err);
+          setError("Kunne ikke koble til serveren.");
+      }
   };
 
   return (
@@ -95,7 +116,17 @@ function AddActor({ onClose, onActorAdded, existingActors }) {
             value={formData.name}
             onChange={handleChange}
             required
-          />
+                  />
+
+                  <label htmlFor="phone">Telefonnummer:</label>
+                  <input
+                      id="phone"
+                      name="phone"
+                      type="text"
+                      placeholder="Telefonnummer..."
+                      value={formData.phone}
+                      onChange={handleChange}
+                  />
 
           <label htmlFor="category">Kategori:</label>
           <select

@@ -82,7 +82,9 @@ function LiveKHN() {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
   const clickTimeoutRef = useRef(null);
-  const doubleClickFlagRef = useRef(false);
+    const doubleClickFlagRef = useRef(false);
+
+
 
   // Hent data fra API (bruker networkId fra URL)
   const fetchKHN = async () => {
@@ -409,9 +411,10 @@ function LiveKHN() {
 
       {showAddActorModal && (
         <AddActor
-          onClose={() => setShowAddActorModal(false)}
-          onActorAdded={handleActorAdded}
-          existingActors={nodeNetwork.nodes}
+                  onClose={() => setShowAddActorModal(false)}
+                  onActorAdded={handleActorAdded}
+                  existingActors={nodeNetwork.nodes}
+                  networkID={parseInt(networkId)}
         />
       )}
     </ReactFlowProvider>
