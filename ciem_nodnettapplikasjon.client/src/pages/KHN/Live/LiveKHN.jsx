@@ -35,7 +35,7 @@ function LiveKHN() {
 
     const FetchKHN = async () => {
         try {
-            const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
+            const response = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/KHN/GetNodeNetwork/${networkId}`);
             const data = await response.json();
             console.log(data);
             setNodeNetwork(data);
