@@ -109,6 +109,34 @@ function AddActor({ onClose, onActorAdded, existingActors, defaultParent, networ
               </div>
 
               <div>
+                <label htmlFor="phone">Telefonnummer:</label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="text"
+                  placeholder="Telefonnummer..."
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="category">Kategori:</label>
+                <select
+                  id="category"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Velg kategori</option>
+                  <option value="Private">Private</option>
+                  <option value="Frivillige">Frivillige</option>
+                  <option value="Statlige">Statlige</option>
+                </select>
+              </div>
+
+              <div>
                 <label htmlFor="hierarchy">Hierarki:</label>
                 <select
                   id="hierarchy"

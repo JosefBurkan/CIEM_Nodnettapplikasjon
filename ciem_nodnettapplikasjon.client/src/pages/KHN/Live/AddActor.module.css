@@ -122,8 +122,6 @@
 }
 
 .form textarea {
-  all: unset;
-  all: revert-layer; /* If using layers in modern CSS setup */
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -132,7 +130,7 @@
   border: 1px solid #333;
   color: black;
   height: 150px;
-  resize: none !important; /* ✅ forcefully disable resize */
+  resize: none !important; /* ✅ disables the resize handle */
   font-family: inherit;
   font-size: 1rem;
   box-sizing: border-box;
