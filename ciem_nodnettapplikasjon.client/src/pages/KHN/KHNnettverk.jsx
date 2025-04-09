@@ -23,7 +23,7 @@ function KHNnettverk() {
                 <div className={styles.leftSection}>
                     {liveSituations.length === 0 ? (
                         <div className={styles.noBox}>
-                            <p> Ingen pågående kriser registrert</p>
+                            <p> Ingen pÃ¥gÃ¥ende kriser registrert</p>
                         </div>
                     ) : (
                         <div className={styles.grid}>
