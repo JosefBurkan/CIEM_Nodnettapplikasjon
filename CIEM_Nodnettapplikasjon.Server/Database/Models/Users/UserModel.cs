@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations; // For key attribute
 using Microsoft.AspNetCore.Identity; // Identity features
 
 
-namespace CIEM_Nodnettapplikasjon.Server.Models.Users
+namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Users
 {
     public class UserModel
     {
@@ -20,16 +20,12 @@ namespace CIEM_Nodnettapplikasjon.Server.Models.Users
 
         public UserModel(string username, string email, string phone, string password, string role)
         {
-            
-             
             this.Username = username;
             this.Email = email;
             this.Phone = phone;
             this.Password = password;
             this.Role = role;
-
         }
-
     }
 
     public class LoginRequest

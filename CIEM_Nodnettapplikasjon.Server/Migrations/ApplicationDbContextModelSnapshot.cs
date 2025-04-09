@@ -50,7 +50,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.ToTable("Actors", (string)null);
                 });
 
             modelBuilder.Entity("CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks.NodeNetworksModel", b =>
@@ -74,7 +74,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Migrations
 
                     b.HasKey("networkID");
 
-                    b.ToTable("NodeNetworks");
+                    b.ToTable("NodeNetworks", (string)null);
                 });
 
             modelBuilder.Entity("CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes.NodesModel", b =>
@@ -99,7 +99,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Migrations
 
                     b.HasIndex("networkID");
 
-                    b.ToTable("Nodes");
+                    b.ToTable("Nodes", (string)null);
                 });
 
             modelBuilder.Entity("CIEM_Nodnettapplikasjon.Server.Models.Users.UserModel", b =>
@@ -132,7 +132,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes.NodesModel", b =>

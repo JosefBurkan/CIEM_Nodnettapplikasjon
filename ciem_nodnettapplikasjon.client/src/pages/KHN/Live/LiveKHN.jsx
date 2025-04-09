@@ -1,274 +1,357 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
   MiniMap,
   Controls,
   Background,
+  getOutgoers,
   addEdge,
   applyNodeChanges,
   applyEdgeChanges,
-} from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import styles from "./LiveKHN.module.css"
-import SearchBar from "../../../components/SearchBar/SearchBar";
+} from "@xyflow/react";
+import dagre from "dagre";
+import "@xyflow/react/dist/style.css";
 import { useParams } from "react-router-dom";
-import CustomNode from "../../../components/CustomNode/CustomNode.jsx";
-import FloatingEdge from "../../../components/FloatingEdge";
+import styles from "./LiveKHN.module.css";
+import SearchBar from "../../../components/SearchBar/SearchBar";
+import AddActor from "./AddActor";
 
+const proOptions = { hideAttribution: true }; // Fjerner ReactFlow logo i hjørnet
 
-const proOptions = { hideAttribution: true };
-const nodeTypes = { custom: CustomNode };
-const edgeTypes = { floatingEdge: FloatingEdge };
+function getLayoutedElements(nodes, edges, direction = "TB") { 
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
 
+  const nodeWidth = 180;
+  const nodeHeight = 50;
+
+  dagreGraph.setGraph({
+    rankdir: direction,
+    ranksep: 100,
+    nodeSep: 80,
+    edgeSep: 50,
+  });
+
+  nodes.forEach((node) => {
+    if (!node.hidden) {
+      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    }
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const layoutedNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    if (nodeWithPosition) {
+      return {
+        ...node,
+        position: {
+          x: nodeWithPosition.x - nodeWidth / 2,
+          y: nodeWithPosition.y - nodeHeight / 2,
+        },
+      };
+    }
+    return node;
+  });
+
+  return { nodes: layoutedNodes, edges };
+}
 
 function LiveKHN() {
+  const { networkId } = useParams();
 
-    const { networkId } = useParams();
+  const [nodeNetwork, setNodeNetwork] = useState({});
+  const [isReady, setIsReady] = useState(false);
 
-    const [nodeNetwork, setNodeNetwork] = useState({});
-    const [isReady, setIsReady] = useState(false); // Tracks if the node network has recieved its data yet
-    const [activeTab, setActiveTab] = useState("actors");
-    const [initialNodes, setInitialNodes] = useState([]);
-    const [initialEdges, setInitialEdges] = useState([]);
+  const [initialNodes, setInitialNodes] = useState([]);
+  const [initialEdges, setInitialEdges] = useState([]);
+
+  const [hiddenNodes, setHiddenNodes] = useState(new Set());
+  const [hiddenEdges, setHiddenEdges] = useState(new Set());
+
+  const [activeTab, setActiveTab] = useState("actors");
+  const [selectedNode, setSelectedNode] = useState(null);
+  const [showAddActorModal, setShowAddActorModal] = useState(false);
+
+  // Få tak i ReactFlow-instansen for å kunne sentrere kameraet
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  const clickTimeoutRef = useRef(null);
+    const doubleClickFlagRef = useRef(false);
 
 
-    const FetchKHN = async () => {
-        try {
-            const response = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/KHN/GetNodeNetwork/${networkId}`);
-            const data = await response.json();
-            console.log(data);
-            setNodeNetwork(data);
-            setIsReady(true);
-            console.log("Fetch successful!", typeof data);
 
-        }
-        catch (error) {
-            console.log("Fetch KHN failed to fetch: ", error);
-        }
+  // Hent data fra API (bruker networkId fra URL)
+  const fetchKHN = async () => {
+    try {
+      const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
+      const data = await response.json();
+      console.log("Fetched data:", data);
+      setNodeNetwork(data);
+      setIsReady(true);
+    } catch (error) {
+      console.error("Failed to fetch node network:", error);
     }
+  };
 
-    // Fetch the data
-    useEffect(() => {
-        FetchKHN();
-    }, [networkId]);
-
-
-    // Visualise the node data
-    useEffect(() => {
-        if (nodeNetwork && nodeNetwork.nodes) {
-            const nodes = nodeNetwork.nodes.map((node) => ({
-                id: String(node.nodeID),
-                position: { x: node.childID * 200, y: 0 + node.parentID * 100 },
-                data: { label: node.name },
-            }));
-    
-            const edges = nodeNetwork.nodes.map((node) => ({
-                id: `${node.nodeID} - ${node.nodeID + 1}`,
-                source: String(node.parentID),
-                target: String(node.nodeID),
-                animated: true,
-            }));
-    
-            setInitialNodes(nodes);
-            setInitialEdges(edges);
-        }
-    }, [nodeNetwork]); // Runs when nodeNetwork is updated
-    
-
-    if (!isReady) {
-        return <div>Loading...</div>; // Show loading message while fetching data due to async method
+  useEffect(() => {
+    if (networkId) {
+      fetchKHN();
     }
+  }, [networkId]);
 
-    return (
-        <div className={styles.container}>
-            <h2 className={styles.title}>{nodeNetwork.name}</h2>
+  // Oppdater layout: generer noder og kanter fra nodeNetwork og hidden-sets
+  const updateLayout = useCallback(() => {
+    if (nodeNetwork && nodeNetwork.nodes) {
+      const nodes = nodeNetwork.nodes.map((node) => ({
+        id: String(node.nodeID),
+        data: { label: node.name, info: `Detaljert info om ${node.name}` },
+        hidden: hiddenNodes.has(String(node.nodeID)),
+        position: { x: 0, y: 0 },
+      }));
 
-            <div className={styles.searchBarContainer}>
-                <SearchBar
-                    placeholder="Søk etter aktør"
-                    bgColor='#1A1A1A'
-                    width="25rem"
-                />
-            </div>
+      const edges = nodeNetwork.nodes
+        .filter((n) => n.parentID != null && n.parentID !== 0)
+        .map((n) => ({
+          id: `edge-${n.parentID}-${n.nodeID}`,
+          source: String(n.parentID),
+          target: String(n.nodeID),
+          animated: true,
+          hierarchical: true,
+          hidden: hiddenEdges.has(`edge-${n.parentID}-${n.nodeID}`),
+        }));
+
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, "TB");
+      setInitialNodes(layoutedNodes);
+      setInitialEdges(layoutedEdges);
+    }
+  }, [nodeNetwork, hiddenNodes, hiddenEdges]);
+
+  useEffect(() => {
+    updateLayout();
+  }, [nodeNetwork, hiddenNodes, hiddenEdges, updateLayout]);
+
+  const focusNode = useCallback(
+    (actor) => {
+      if (!reactFlowInstance || !actor) return;
+      console.log("Fokusere på actor:", actor);
+      const node = initialNodes.find(n => n.id === String(actor.nodeID));
+      if (!node) {
+        console.log("Fant ikke node for actor:", actor);
+        return;
+      }
+      const x = node.position.x + 90; // juster ut fra nodens dimensjoner
+      const y = node.position.y + 25;
+      reactFlowInstance.setCenter(x, y, 1.5);
+      setActiveTab("details");
+      setSelectedNode(node);
+    },
+    [reactFlowInstance, initialNodes]
+  );
 
 
-            <div className={styles.content}>
-                <div className={styles.networkContainer}>
-                <ReactFlowProvider>
-                    <ReactFlow
-                        proOptions={proOptions}
-                        nodes={initialNodes}
-                        edges={initialEdges}
-                        fitView
-                    
-                        >
-                        <MiniMap pannable zoomable />
-                        <Controls />
-                        <Background />
-                        </ReactFlow>
-                    </ReactFlowProvider>
-                </div>
+  // const handleSearch = useCallback((query) => {
+  //   // Vi kan legge til live-søk her om nødvendig, men nå lar vi fokus skje via onSelectActor i SearchBar.
+  //   console.log("Søker med query:", query);
+  // }, []);
 
-                <div className={styles.infoBox}>
-                    <div className={styles.tabContainer}>
-                        <button className={`${styles.tabButton} ${activeTab === "details" ? styles.activeTab : ""}`} onClick={() => setActiveTab("details")}>
-                            Detaljer
-                        </button>
-                        <button className={`${styles.tabButton} ${activeTab === "actors" ? styles.activeTab : ""}`} onClick={() => setActiveTab("actors")}>
-                            Aktører
-                        </button>
-                        <button className={`${styles.tabButton} ${activeTab === "info" ? styles.activeTab : ""}`} onClick={() => setActiveTab("info")}>
-                            Info kontroll
-                        </button>
-                    </div>
+  // Hjelpefunksjoner for collapse/expand
+  const getDescendantNodes = (node, allNodes, allEdges) => {
+    const descendants = [];
+    const visited = new Set();
+    const stack = [node];
+    while (stack.length > 0) {
+      const current = stack.pop();
+      const children = getOutgoers(current, allNodes, allEdges);
+      children.forEach((child) => {
+        if (!visited.has(child.id)) {
+          visited.add(child.id);
+          descendants.push(child);
+          stack.push(child);
+        }
+      });
+    }
+    return descendants;
+  };
 
-                    <div className={styles.tabContent}>
-                        {activeTab === "details" && <p>Detaljer om valgt aktør vises her...</p>}
-
-                        {activeTab === "actors" && (
-                            <ul>
-                                {nodeNetwork.nodes.map((node) => (
-                                    <p key={node.nodeID}>{node.name}</p>
-                                ))}
-                            </ul>
-                        )}
-                        {activeTab === "info" && <p>Kritisk informasjon...</p>}
-                    </div>
-                </div>
-            </div>
-            <button className={styles.editButton}> Redigersmodus</button>
-        </div>
+  const getDescendantEdges = (node, allNodes, allEdges) => {
+    const descendantNodes = getDescendantNodes(node, allNodes, allEdges);
+    const descendantIds = descendantNodes.map((n) => n.id);
+    return allEdges.filter(
+      (edge) => descendantIds.includes(edge.source) || descendantIds.includes(edge.target)
     );
   };
 
-  function LiveKHNContent() {
-    const updateNodeData = useCallback((id, newData) => {
-      setNodes((nds) =>
-        nds.map((node) =>
-          node.id === id
-            ? { ...node, data: { ...node.data, ...newData, onUpdate: updateNodeData } }
-            : node
-        )
+  const toggleCollapseExpand = useCallback(
+    (node) => {
+      const descendants = getDescendantNodes(node, initialNodes, initialEdges);
+      const descendantEdges = getDescendantEdges(node, initialNodes, initialEdges);
+      const updatedHiddenNodes = new Set(hiddenNodes);
+      const updatedHiddenEdges = new Set(hiddenEdges);
+      const shouldHide = descendants.some((desc) => !hiddenNodes.has(desc.id));
+      descendants.forEach((desc) => {
+        if (shouldHide) {
+          updatedHiddenNodes.add(desc.id);
+        } else {
+          updatedHiddenNodes.delete(desc.id);
+        }
+      });
+
+      descendantEdges.forEach((edge) => {
+        if (edge.hierarchical) {
+          if (shouldHide) {
+            updatedHiddenEdges.add(edge.id);
+          } else {
+            updatedHiddenEdges.delete(edge.id);
+          }
+        }
+      });
+
+      setHiddenNodes(updatedHiddenNodes);
+      setHiddenEdges(updatedHiddenEdges);
+      updateLayout();
+    },
+    [hiddenNodes, hiddenEdges, initialNodes, initialEdges, updateLayout]
+  );
+
+  const handleNodeClick = useCallback(
+    (event, node) => {
+      clickTimeoutRef.current = setTimeout(() => {
+        if (doubleClickFlagRef.current) {
+          doubleClickFlagRef.current = false;
+          return;
+        }
+        toggleCollapseExpand(node);
+        clickTimeoutRef.current = null;
+      }, 200);
+    },
+    [toggleCollapseExpand]
+  );
+
+  const handleNodeDoubleClick = useCallback((event, node) => {
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+    }
+    doubleClickFlagRef.current = true;
+    setSelectedNode(node);
+    setActiveTab("details");
+  }, []);
+
+  // onEdgeClick: Skjul target-noden og dens etterkommere
+  const handleEdgeClick = useCallback(
+    (event, edge) => {
+      const targetNode = initialNodes.find((n) => n.id === edge.target);
+      if (targetNode) {
+        const descendants = getDescendantNodes(targetNode, initialNodes, initialEdges);
+        const updatedHiddenNodes = new Set(hiddenNodes);
+        updatedHiddenNodes.add(targetNode.id);
+        descendants.forEach((desc) => updatedHiddenNodes.add(desc.id));
+
+        const descendantEdges = getDescendantEdges(targetNode, initialNodes, initialEdges);
+        const updatedHiddenEdges = new Set(hiddenEdges);
+        descendantEdges.forEach((e) => updatedHiddenEdges.add(e.id));
+
+        setHiddenNodes(updatedHiddenNodes);
+        setHiddenEdges(updatedHiddenEdges);
+        updateLayout();
+      }
+    },
+    [initialNodes, initialEdges, hiddenNodes, hiddenEdges, updateLayout]
+  );
+
+  // onConnect: Når en ny forbindelse lages manuelt
+  const onConnect = useCallback(
+    (params) => {
+      const targetNode = nodeNetwork.nodes.find(
+        (n) => String(n.nodeID) === params.target
       );
-    }, []);
-  
-    const initialNodes = [
-      {
-        id: "1",
-        position: { x: 250, y: 0 },
-        data: { label: "Krisehåndterings Sentral", statusLevel: 1, color: "#ffcccc", onUpdate: updateNodeData },
-        type: "custom",
-      },
-      {
-        id: "2",
-        position: { x: 400, y: 80 },
-        data: { label: "Hoved redningssentralen", statusLevel: 2, color: "#fff0b3", onUpdate: updateNodeData },
-        type: "custom",
-      },
-      {
-        id: "3",
-        position: { x: 100, y: 80 },
-        data: { label: "Nødetatene", statusLevel: 3, color: "#ccffcc", onUpdate: updateNodeData },
-        type: "custom",
-      },
-      {
-        id: "4",
-        position: { x: 0, y: 150 },
-        data: { label: "Politi", statusLevel: 1, color: "#fff0b3", onUpdate: updateNodeData },
-        type: "custom",
-      },
-      {
-        id: "5",
-        position: { x: 200, y: 150 },
-        data: { label: "Brannvesen", statusLevel: 2, color: "#ccffcc", onUpdate: updateNodeData },
-        type: "custom",
+      let newEdge = {};
+      if (targetNode && String(targetNode.parentID) === params.source) {
+        newEdge = { ...params, animated: false, hierarchical: true };
+      } else {
+        newEdge = { ...params, animated: true, hierarchical: false };
       }
-    ];
-  
-    const initialEdges = [
-      { id: "e1-2", source: "1", target: "2", type: "floatingEdge", animated: false },
-      { id: "e1-3", source: "1", target: "3", type: "floatingEdge", animated: false },
-      { id: "e3-4", source: "3", target: "4", type: "floatingEdge", animated: true },
-      { id: "e3-5", source: "3", target: "5", type: "floatingEdge", animated: true }
-    ];
-  
-    const proOptions = { hideAttribution: true };
-  
-    const [nodes, setNodes] = useState(initialNodes);
-    const [edges, setEdges] = useState(initialEdges);
-    const [selectedElements, setSelectedElements] = useState([]);
-    const [editMode, setEditMode] = useState(false);
-    const [activeTab, setActiveTab] = useState("actors");
-  
-    const onNodesChange = useCallback(
-      (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-      []
-    );
-    const onEdgesChange = useCallback(
-      (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-      []
-    );
-    const onConnect = useCallback(
-      (params) => setEdges((eds) => addEdge(params, eds)),
-      []
-    );
-    const onSelectionChange = useCallback((elements) => {
-      setSelectedElements(elements || []);
-    }, []);
-  
-    const addNode = () => {
-      const newId = (nodes.length + 1).toString();
-      const newNode = {
-        id: newId,
-        position: { x: 100 + Math.random() * 300, y: 100 + Math.random() * 300 },
-        data: { label: `Ny Aktør ${newId}`, statusLevel: 0, color: "#ffffff", onUpdate: updateNodeData },
-        type: "custom",
-      };
-      setNodes((nds) => nds.concat(newNode));
-    };
-  
-    const deleteSelected = () => {
-      if (selectedElements.length) {
-        const selectedIds = selectedElements.map((el) => el.id);
-        setNodes((nds) => nds.filter((node) => !selectedIds.includes(node.id)));
-        setEdges((eds) => eds.filter((edge) => !selectedIds.includes(edge.id)));
-      }
-    };
-  
-    return (
+      setInitialEdges((eds) => addEdge(newEdge, eds));
+    },
+    [nodeNetwork]
+  );
+
+  const onNodesChange = useCallback(
+    (changes) => {
+      setInitialNodes((nds) => applyNodeChanges(changes, nds));
+    },
+    []
+  );
+
+  const onEdgesChange = useCallback(
+    (changes) => {
+      setInitialEdges((eds) => applyEdgeChanges(changes, eds));
+    },
+    []
+  );
+
+  // Når en ny aktør legges til via AddActor – forventer newActor: { nodeID, name, parentID, ... }
+  const handleActorAdded = (newActor) => {
+    setNodeNetwork((prev) => ({
+      ...prev,
+      nodes: [...prev.nodes, newActor],
+    }));
+    setShowAddActorModal(false);
+    updateLayout();
+  };
+
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <ReactFlowProvider>
       <div className={styles.container}>
+        <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
+
         <div className={styles.searchBarContainer}>
-          <SearchBar placeholder="Søk etter aktør" bgColor="#1A1A1A" width="25rem" />
+          <SearchBar
+            placeholder="Søk etter aktør"
+            bgColor="#1A1A1A"
+            width="25rem"
+            enableDropdown={true}
+            actors={nodeNetwork.nodes || []}
+            onSelectActor={focusNode}  // Fokusfunksjonen som sentrerer kameraet på den valgte noden
+            // onSearch={handleSearch}    // Om du ønsker live feedback
+          />
         </div>
+
         <div className={styles.content}>
           <div className={styles.networkContainer}>
             <ReactFlow
               proOptions={proOptions}
-              nodes={nodes}
-              edges={edges}
-              nodeTypes={nodeTypes}
-              edgeTypes={edgeTypes}
+              nodes={initialNodes}
+              edges={initialEdges}
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}
-              onSelectionChange={onSelectionChange}
-              nodesDraggable={editMode}
-              nodesConnectable={true}
-              elementsSelectable={true}
+              onNodeClick={handleNodeClick}
+              onNodeDoubleClick={handleNodeDoubleClick}
+              onEdgeClick={handleEdgeClick}
               fitView
+              style={{ width: "100%", height: "100%" }}
+              panOnDrag
+              zoomOnScroll
+              zoomOnDoubleClick
+              onInit={setReactFlowInstance}  // Fanger ReactFlow-instansen
             >
-              <MiniMap pannable zoomable nodeColor={(n) => n.data.color || '#eee'} />
+              <MiniMap pannable zoomable />
               <Controls />
               <Background />
             </ReactFlow>
-            {editMode && (
-              <div className={styles.editButtons}>
-                <button onClick={addNode} className={styles.smallButton}>Legg til aktør</button>
-                <button onClick={deleteSelected} className={styles.smallButton}>Slett valgte</button>
-              </div>
-            )}
           </div>
+
           <div className={styles.infoBox}>
             <div className={styles.tabContainer}>
               <button
@@ -291,18 +374,51 @@ function LiveKHN() {
               </button>
             </div>
             <div className={styles.tabContent}>
-              {activeTab === "details" && <p>Detaljer om valgt aktør vises her...</p>}
-              {activeTab === "actors" && <p>Liste over aktører...</p>}
-              {activeTab === "info" && <p>Kritisk informasjon...</p>}
+              {activeTab === "details" && selectedNode && (
+                <div>
+                  <h3>{selectedNode.data.label}</h3>
+                  <p>{selectedNode.data.info}</p>
+                  <p>Fyll inn mer detaljer her...</p>
+                </div>
+              )}
+              {activeTab === "actors" && nodeNetwork.nodes && (
+                <ul>
+                  <button
+                    className={styles.addActorButton}
+                    onClick={() => setShowAddActorModal(true)}
+                  >
+                    + Ny Aktør
+                  </button>
+                  {nodeNetwork.nodes.map((node) => (
+                    <button
+                      key={node.nodeID}
+                      className={styles.actorList}
+                      onClick={() => focusNode(node)}
+                    >
+                      {node.name}
+                    </button>
+                  ))}
+                </ul>
+              )}
+              {activeTab === "info" && (
+                <p>Kritisk informasjon om nettverket og tilstand...</p>
+              )}
             </div>
           </div>
         </div>
-        <button className={styles.editButton} onClick={() => setEditMode((prev) => !prev)}>
-          {editMode ? "Avslutt redigeringsmodus" : "Redigeringsmodus ✏️"}
-        </button>
+        <button className={styles.editButton}>Redigersmodus</button>
       </div>
-    );
-  }
 
+      {showAddActorModal && (
+        <AddActor
+                  onClose={() => setShowAddActorModal(false)}
+                  onActorAdded={handleActorAdded}
+                  existingActors={nodeNetwork.nodes}
+                  networkID={parseInt(networkId)}
+        />
+      )}
+    </ReactFlowProvider>
+  );
+}
 
 export default LiveKHN;

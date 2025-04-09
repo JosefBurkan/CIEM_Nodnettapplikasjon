@@ -1,16 +1,41 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import QRCode from "react-qr-code";
 
 function QRcodePage() {
     const storedUser = localStorage.getItem("user");
     const user = storedUser ? JSON.parse(storedUser) : null;
-    const qrToken = user?.qr_token; 
+    const qrToken = user?.qr_token;
+    const userId = user?.userID;
 
-    if (!qrToken) {
-        return <p>QR-token ikke tilgjengelig.</p>;
+    const [userNode, setUserNode] = useState(null);
+    const [error, setError] = useState("")
+
+
+    useEffect(() => {
+        const fetchUserNode = async () => {
+            try {
+                const res = await fetch(`https://localhost:5255/api/nodes/user/${userId}`);
+                if (!res.ok) {
+                    const msg = await res.text();
+                    throw new Error(msg || "Feil ved henting av kode.");
+                }
+                const data = await res.json();
+                setUserNode(data);
+            } catch (err) {
+                console.error("Feil ved henting av node:", err);
+                setError("F�r ikke opp tilknyttet kode til denne brukeren.");
+            }
+        };
+
+        fetchUserNode();
+    }, [userId]);
+
+    if (!qrToken || !userNode) {
+        return <p>{error || "Laster QR-kode..."}</p>;
     }
 
-    const qrCodeLink = `https://ciem-nodnettapplikasjon.onrender.com/qr-access?token=${qrToken}`;
+    const qrCodeLink = `https://localhost:5173/#/qr-access?parentId=${userNode.nodeID}&token=${user.qr_token}`;
+
 
     return (
         <div style={{ textAlign: "center", marginTop: "4rem" }}>

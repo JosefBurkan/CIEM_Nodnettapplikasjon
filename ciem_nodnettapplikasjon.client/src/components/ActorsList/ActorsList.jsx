@@ -3,16 +3,10 @@ import "../../index.css";
 import styles from './ActorsList.module.css';
 import SearchBar from '../SearchBar/SearchBar';
 import { IconMail, IconUser } from '@tabler/icons-react';
-import { createClient } from '@supabase/supabase-js';
-
-    // Create the Supabase client instance
-    const supabase = createClient(
-        'https://vigjqzuqrnxapqxhkwds.supabase.co/',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpZ2pxenVxcm54YXBxeGhrd2RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3NzU2MjksImV4cCI6MjA1NzM1MTYyOX0.4vS7Yh-dgCEDacxGL8lz4Zp47lq28Xa3lfWV8NsiNyM'
-    );
+import { Link } from 'react-router-dom';
+import { supabase } from '../../utils/supabaseClient';
 
 function ActorsList({ category }) {
-    // Use the category prop as initial filter if provided, default to "Alle"
     const [actors, setActors] = useState([]);
     const [search, setSearch] = useState("");
     const [categoryFilter, setCategoryFilter] = useState(category || "Alle");
@@ -20,47 +14,34 @@ function ActorsList({ category }) {
     const [dropdown, setDropdown] = useState({});
     const [tempSelectedActors, setTempSelectedActors] = useState([]);
 
-
-    // Fetch the actor data
     const fetchActors = async () => {
-        const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/actor")
+        const response = await fetch("https://localhost:5255/api/actor");
         const data = await response.json();
         setActors(data);
-    } 
+    };
 
-    // Fetch actor data from the API when the component mounts
     useEffect(() => {
         fetchActors();
-
-        // Listen to database changes, update on INSERT, UPDATE, DELETE 
-        supabase
-        .channel('table-db-changes')
-        .on('postgres_changes',
-    {
-        event: '*',
-        schema: 'public',
-        table: 'Actors',
-    },
-    (payload) => {
-        fetchActors();
-      }
-    )
-    .subscribe(status => console.log(status))
+        supabase.channel('table-db-changes')
+          .on('postgres_changes', {
+              event: '*',
+              schema: 'public',
+              table: 'Actors',
+          }, (payload) => {
+              fetchActors();
+          })
+          .subscribe();
     }, []);
 
-    // Filter actors by category, actor type, and search text
     const filteredActors = actors.filter(actor => {
-        // Compare category values (using trim and lowercase)
         const matchesCategory =
             categoryFilter === "Alle" ||
             (actor.category &&
                 actor.category.trim().toLowerCase() === categoryFilter.toLowerCase());
-        // Compare actor type (using trim and lowercase)
         const matchesType =
             typeFilter === "Alle" ||
             (actor.actorType &&
                 actor.actorType.trim().toLowerCase() === typeFilter.toLowerCase());
-        // Check search text (matches name or any subactor)
         const matchesSearch =
             actor.name.toLowerCase().includes(search.toLowerCase()) ||
             (actor.subActors &&
@@ -68,7 +49,6 @@ function ActorsList({ category }) {
         return matchesCategory && matchesType && matchesSearch;
     });
 
-    // Toggle dropdown visibility for an actor
     const toggleDropdown = (actorName) => {
         setDropdown(prev => ({
             ...prev,
@@ -76,7 +56,6 @@ function ActorsList({ category }) {
         }));
     };
 
-    // Toggle temporary selection of an actor
     const toggleTempSelectedActor = (actorName) => {
         setTempSelectedActors(prev =>
             prev.includes(actorName)
@@ -87,7 +66,6 @@ function ActorsList({ category }) {
 
     return (
         <div className={styles.x}>
-            {/* Top Section: Search and filter controls */}
             <div className={styles.topSection}>
                 <div className={styles.btnContainer}>
                     <button className={styles.midlertidigBtn}>List format</button>
@@ -121,7 +99,6 @@ function ActorsList({ category }) {
                 </button>
             </div>
 
-            {/* Header Box: Display the selected filters */}
             <div className={styles.headerBoxContainer}>
                 <div className={styles.headerBox}>
                     <IconUser className={styles.headerIcon} />
@@ -132,7 +109,6 @@ function ActorsList({ category }) {
                 </div>
             </div>
 
-            {/* Content Container: Display the list of filtered actors */}
             <div className={styles.contentContainer}>
                 <ul className={styles.actorsList}>
                     {filteredActors.map(actor => (
@@ -144,15 +120,16 @@ function ActorsList({ category }) {
                                     checked={tempSelectedActors.includes(actor.name)}
                                     onChange={() => toggleTempSelectedActor(actor.name)}
                                 />
-                                <button
-                                    className={`${styles.actorBtn} ${dropdown[actor.name] ? styles.activeDropdown : ''}`}
-                                    onClick={() => toggleDropdown(actor.name)}
-                                >
+                                <Link to={`/actor/${actor.id}`} className={styles.actorBtn}>
                                     {actor.name}
-                                    <span className={`${styles.arrow} ${dropdown[actor.name] ? styles.activeArrow : ''}`}>
-                                        {dropdown[actor.name] ? " ▲" : " ▼"}
-                                    </span>
-                                </button>
+                                </Link>
+                                <span
+                                  className={`${styles.arrow} ${dropdown[actor.name] ? styles.activeArrow : ''}`}
+                                  onClick={() => toggleDropdown(actor.name)}
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  {dropdown[actor.name] ? "▲" : "▼"}
+                                </span>
                             </div>
                             {dropdown[actor.name] && actor.subActors && actor.subActors.length > 0 && (
                                 <ul className={styles.subActors}>
