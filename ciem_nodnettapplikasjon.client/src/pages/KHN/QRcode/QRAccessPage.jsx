@@ -9,7 +9,7 @@ function QRAccessPage() {
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
-        profession: ""
+        beskrivelse: ""
     });
 
     const [submitted, setSubmitted] = useState(false);
@@ -25,7 +25,7 @@ function QRAccessPage() {
         const payload = {
             name: formData.name,
             phone: formData.phone,
-            profession: formData.profession,
+            beskrivelse: formData.beskrivelse,
             parentId: parseInt(parentId),
             token: token
         };
@@ -40,8 +40,14 @@ function QRAccessPage() {
             });
 
             if (res.ok) {
-                console.log("Node successfully added.");
+                const result = await res.json();
                 setSubmitted(true);
+
+                // Redirect
+                setTimeout(() => {
+                    window.location.href = `/live/${result.networkID}`;
+                }, 1500);
+
             } else {
                 const errorData = await res.json();
                 console.error("Failed to add node:", errorData);
@@ -73,7 +79,7 @@ function QRAccessPage() {
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <input name="name" type="text" placeholder="Navn" required onChange={handleChange} />
                 <input name="phone" type="text" placeholder="Telefonnummer" required onChange={handleChange} />
-                <input name="profession" type="text" placeholder="Yrke" required onChange={handleChange} />
+                <input name="beskrivelse" type="text" placeholder="Beskrivelse" required onChange={handleChange} />
                 <button type="submit">Koble til nettverket</button>
             </form>
         </div>

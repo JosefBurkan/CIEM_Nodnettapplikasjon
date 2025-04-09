@@ -399,9 +399,10 @@ function LiveKHN() {
 
       {showAddActorModal && (
         <AddActor
-          onClose={() => setShowAddActorModal(false)}
-          onActorAdded={handleActorAdded}
-          existingActors={nodeNetwork.nodes}
+                  onClose={() => setShowAddActorModal(false)}
+                  onActorAdded={handleActorAdded}
+                  existingActors={nodeNetwork.nodes}
+                  networkID={parseInt(networkId)}
         />
       )}
     </ReactFlowProvider>

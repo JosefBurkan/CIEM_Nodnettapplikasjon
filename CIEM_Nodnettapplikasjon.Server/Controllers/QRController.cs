@@ -27,25 +27,35 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
             // Validate the token from the user
             var parentUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserID == dto.ParentId && u.qr_token == dto.Token);
+                .FirstOrDefaultAsync(u => u.qr_token == dto.Token);
 
             if (parentUser == null)
             {
                 return Unauthorized("Ugyldig token eller parentID.");
             }
 
-            // Optionally: Find the active network for the parent user (if needed)
             var parentNode = await _context.Nodes
-                .FirstOrDefaultAsync(n => n.parentID == parentUser.UserID);
+                .FirstOrDefaultAsync(n => n.nodeID == dto.ParentId && n.UserID == parentUser.UserID);
+
+            if (parentNode == null)
+            {
+                return BadRequest("Kunne ikke finne noden til tilhørende bruker.");
+            }
+
 
             // Create and add new node
             var newNode = new NodesModel
             {
                 name = dto.Name,
                 phone = dto.Phone,
-                profession = dto.Profession,
+                beskrivelse = dto.Beskrivelse,
                 parentID = dto.ParentId,
                 networkID = parentNode?.networkID ?? dto.ParentId, // fallback to parentId
+
+            // Auto filling the rest
+            category = "Frivillige",
+            type = "Selvstendig",
+            hierarchy_level = "Underaktør"
             };
 
             _context.Nodes.Add(newNode);
@@ -59,8 +69,8 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
     {
         public string Name { get; set; }
         public string Phone { get; set; }
-        public string Profession { get; set; }
         public int ParentId { get; set; }
         public string Token { get; set; }
+        public string Beskrivelse { get; set; }
     }
 }
