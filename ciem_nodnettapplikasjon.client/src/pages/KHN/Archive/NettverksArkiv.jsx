@@ -11,7 +11,7 @@ function NettverksArkiv() {
 
     async function fetchArchivedNetworks() {
         try {
-            const response = await fetch("https://localhost:5255/api/ArchivedNetworks");
+            const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/ArchivedNetworks");
             if (!response.ok) {
                 throw new Error("Failed to fetch archived networks");
             }
@@ -25,7 +25,7 @@ function NettverksArkiv() {
     // "api/CreateActor"
     async function CreateNetwork() {
         try {
-            const response = await fetch("https://localhost:5255/api/GetArchivedNetworks", {
+            const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/GetArchivedNetworks", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name: newNetworkName })

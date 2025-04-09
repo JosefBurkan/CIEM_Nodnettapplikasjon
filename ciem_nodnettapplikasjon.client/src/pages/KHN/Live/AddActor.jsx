@@ -43,7 +43,7 @@ function AddActor({ onClose, onActorAdded, existingActors, defaultParent, networ
       };
 
       try {
-          const res = await fetch("https://localhost:5255/api/nodes/add", {
+          const res = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/nodes/add", {
               method: "POST",
               headers: {
                   "Content-Type": "application/json"

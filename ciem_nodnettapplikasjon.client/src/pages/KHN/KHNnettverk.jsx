@@ -9,7 +9,7 @@ function KHNnettverk() {
     const [situations, setSituations] = useState([]);
 
   useEffect(() => {
-    fetch("https://localhost:5255/api/khn/situations")
+    fetch("https://ciem-nodnettapplikasjon.onrender.com/api/khn/situations")
       .then(res => res.json())
       .then(data => setSituations(data));
   }, []);

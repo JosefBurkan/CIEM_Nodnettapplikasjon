@@ -89,7 +89,7 @@ function LiveKHN() {
   // Hent data fra API (bruker networkId fra URL)
   const fetchKHN = async () => {
     try {
-      const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
+      const response = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/KHN/GetNodeNetwork/${networkId}`);
       const data = await response.json();
       console.log("Fetched data:", data);
       setNodeNetwork(data);

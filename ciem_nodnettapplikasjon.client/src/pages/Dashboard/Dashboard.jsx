@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
         const [loading, setLoading] = useState(true);
 
         useEffect(() => {
-            fetch("https://localhost:5255/api/khn/all-situations")
+            fetch("https://ciem-nodnettapplikasjon.onrender.com/api/khn/all-situations")
                 .then((res) => res.json())
                 .then((data) => {
                     setSituations(data); 

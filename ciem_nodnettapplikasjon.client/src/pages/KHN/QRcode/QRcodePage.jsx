@@ -14,7 +14,7 @@ function QRcodePage() {
     useEffect(() => {
         const fetchUserNode = async () => {
             try {
-                const res = await fetch(`https://localhost:5255/api/nodes/user/${userId}`);
+                const res = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/nodes/user/${userId}`);
                 if (!res.ok) {
                     const msg = await res.text();
                     throw new Error(msg || "Feil ved henting av kode.");
@@ -34,7 +34,7 @@ function QRcodePage() {
         return <p>{error || "Laster QR-kode..."}</p>;
     }
 
-    const qrCodeLink = `https://localhost:5173/#/qr-access?parentId=${userNode.nodeID}&token=${user.qr_token}`;
+    const qrCodeLink = `https://emkore.vercel.app/#/qr-access?parentId=${userNode.nodeID}&token=${user.qr_token}`;
 
 
     return (
