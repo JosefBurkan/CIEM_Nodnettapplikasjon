@@ -21,7 +21,7 @@ function Login() {
     const Login = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("https://localhost:5255/api/user/login", {
+        const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/user/login", {
             method: "POST",
             headers: {
                 'Content-Type': "application/json",
@@ -36,6 +36,7 @@ function Login() {
             showMessage("", `Velkommen inn ${username}`);
             sessionStorage.setItem("isAuthenticated", "true");
             console.log("Authentication flag set in sessionStorage:", sessionStorage.getItem("isAuthenticated"));
+   
             setTimeout(() => navigate("/dashboard"), 1000);
         } else {
             console.error("Error: ", response.statusText);

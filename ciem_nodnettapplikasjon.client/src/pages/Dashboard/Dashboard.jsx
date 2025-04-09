@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
         const [loading, setLoading] = useState(true);
 
         useEffect(() => {
-            fetch("/api/khn/all-situations")
+            fetch("https://ciem-nodnettapplikasjon.onrender.com/api/khn/all-situations")
                 .then((res) => res.json())
                 .then((data) => {
                     setSituations(data); 
@@ -61,7 +61,7 @@ import { Link } from "react-router-dom";
                     <p>Operasjonsleder<br />Politiet Agder</p>
                 </div>
                 <div className={styles.rightText}>
-                    <p>Ingen pågående kriser er registrert</p>
+                    <p>Ingen pÃ¥gÃ¥ende kriser er registrert</p>
                     <WiDaySunny className={styles.sunIcon} />
 
                 </div>
@@ -77,7 +77,7 @@ import { Link } from "react-router-dom";
                 </Link>
 
                 <Link to="/actorsAll">
-                    <Box title="Alle Aktører" icon="users" />
+                    <Box title="Alle AktÃ¸rer" icon="users" />
                 </Link>
             </div>
         </div>
