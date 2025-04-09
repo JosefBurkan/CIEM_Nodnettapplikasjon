@@ -13,7 +13,7 @@ import {
 import dagre from "dagre";
 import "@xyflow/react/dist/style.css";
 import { useParams } from "react-router-dom";
-import styles from "./LiveKHN.module.css";
+import styles from "./LiveNettverk.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import AddActor from "./AddActor";
 
@@ -62,7 +62,7 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
   return { nodes: layoutedNodes, edges };
 }
 
-function LiveKHN() {
+function LiveNettverk() {
   const { networkId } = useParams();
 
   const [nodeNetwork, setNodeNetwork] = useState({});
@@ -84,24 +84,22 @@ function LiveKHN() {
   const clickTimeoutRef = useRef(null);
     const doubleClickFlagRef = useRef(false);
 
-
-
   // Hent data fra API (bruker networkId fra URL)
-  const fetchKHN = async () => {
+  const fetchSamvirkeNettverk = async () => {
     try {
-      const response = await fetch(`https://localhost:5255/api/KHN/GetNodeNetwork/${networkId}`);
-      const data = await response.json();
-      console.log("Fetched data:", data);
-      setNodeNetwork(data);
-      setIsReady(true);
+        const response = await fetch(`https://localhost:5255/api/samvirkeNettverk/GetNodeNetwork/${networkId}`);
+        const data = await response.json();
+        console.log("Fetched data:", data);
+        setNodeNetwork(data);
+        setIsReady(true);
     } catch (error) {
-      console.error("Failed to fetch node network:", error);
+        console.error("Failed to fetch node network:", error);
     }
   };
 
   useEffect(() => {
     if (networkId) {
-      fetchKHN();
+        fetchSamvirkeNettverk();
     }
   }, [networkId]);
 
@@ -439,4 +437,4 @@ function LiveKHN() {
   );
 }
 
-export default LiveKHN;
+export default LiveNettverk;

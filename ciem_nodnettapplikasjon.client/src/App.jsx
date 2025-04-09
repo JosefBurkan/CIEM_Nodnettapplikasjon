@@ -3,23 +3,23 @@ import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'reac
 import Login from './pages/Login/Login.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
-import KHSnettverk from './pages/KHN/KHNnettverk.jsx';
+import SamvirkeNettverk from './pages/SamvirkeNettverk/SamvirkeNettverk.jsx';
 import Actors from './pages/Actors/Actors.jsx';
 import ActorInfo from './pages/Actors/ActorInfo.jsx';
 import GovActors from './pages/Actors/GovActors.jsx';
 import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
-import LiveKHN from './pages/KHN/Live/LiveKHN.jsx';
+import LiveNettverk from './pages/SamvirkeNettverk/Live/LiveNettverk.jsx';
 import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
-import NettverksArkiv from './pages/KHN/Archive/NettverksArkiv.jsx';
-import NewNetwork from './pages/KHN/NewNetwork/NewNetwork.jsx';
+import NettverksArkiv from './pages/SamvirkeNettverk/Archive/NettverksArkiv.jsx';
+import NewNetwork from './pages/SamvirkeNettverk/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
-import QRcodePage from './pages/KHN/QRcode/QRcodePage.jsx';
-import QRAccessPage from './pages/KHN/QRcode/QRAccessPage.jsx';
+import QRcodePage from './pages/SamvirkeNettverk/QRcode/QRcodePage.jsx';
+import QRAccessPage from './pages/SamvirkeNettverk/QRcode/QRAccessPage.jsx';
 
 function Layout() {
   const location = useLocation();
@@ -31,7 +31,7 @@ function Layout() {
       <div className="pageContainer">
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/krisehandterings-nettverk" element={<KHSnettverk />} />
+          <Route path="/samvirkeNettverk" element={<SamvirkeNettverk />} />
                   <Route path="/actors" element={<Actors />} />
                   <Route path="/qr-code" element={<QRcodePage />} />
                   <Route path="/qr-access" element={<QRAccessPage />} />
@@ -40,7 +40,7 @@ function Layout() {
           <Route path="/actorsVol" element={<VolActors />} />
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
-          <Route path="/khn/:networkId" element={<LiveKHN />} />
+          <Route path="/sn/:networkId" element={<LiveNettverk />} />
           <Route path="/actorNew" element={<NewActor />} />
           <Route path="/newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor />} />

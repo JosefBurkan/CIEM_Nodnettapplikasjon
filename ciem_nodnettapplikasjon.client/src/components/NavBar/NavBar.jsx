@@ -17,23 +17,21 @@ function NavBar() {
             <div className={styles.navbarLeft}>
                 <div className={styles.logoContainer}>
                     <Link to="/dashboard" className={styles.logoLink}>
-                        <img src={logo} alt="EMKORE logo" className={styles.logo} /> {/*Logo som home knapp*/}
+                        <img src={logo} alt="EMKORE logo" className={styles.logo} />
                     </Link>
                 </div>
                 <SearchBar />
             </div>
             <div className={styles.navbarCenter}>
                 <div className={styles.navbarLinks}>
-                    {/* <Link to="/khs" className={styles.navbarLink}>Krisehåndterings-nettverk</Link> */}
-                    {/* <Link to="/actors" className={styles.navbarLink}>Aktører</Link> */}
                     <Link
                         to="/krisehandterings-nettverk"
-                        className={`${styles.navbarLink} ${isActive("/krisehandterings-nettverk") ? styles.activeLink : ""}`}>Krisehåndterings-nettverk
+                        className={`${styles.navbarLink} ${isActive("/samvirkeNettverk") ? styles.activeLink : ""}`}>Samvirke-Nettverk
                     </Link>
                     <Link
                         to="/actors"
                         className={`${styles.navbarLink} ${isActive("/actor") ? styles.activeLink : ""}`}>Aktører
-                    </Link> {/*Visualiserer når man er på siden, strek under aktører*/}
+                    </Link>
                     <Link
                         to="/qr-code"
                         className={`${styles.navbarLink} ${isActive("/qr-code") ? styles.activeLink : ""}`}>QRcode

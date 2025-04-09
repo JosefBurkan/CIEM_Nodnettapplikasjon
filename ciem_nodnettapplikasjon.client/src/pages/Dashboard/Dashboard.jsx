@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
         const [loading, setLoading] = useState(true);
 
         useEffect(() => {
-            fetch("https://localhost:5255/api/khn/all-situations")
+            fetch("https://localhost:5255/api/samvirkeNettverk/all-situations")
                 .then((res) => res.json())
                 .then((data) => {
                     setSituations(data); 
@@ -32,7 +32,7 @@ import { Link } from "react-router-dom";
 
     if (hasLiveSituations) {
 
-        // Live KHN
+        // Live SamvirkeNettverk
         return (
             <div className={styles.dashboard}>
                 <div className={styles.leftColumn}>
@@ -51,7 +51,7 @@ import { Link } from "react-router-dom";
         );
     }
 
-    // No Live KHN
+    // No Live SamvirkeNettverk
     return (
         <div className={styles.noCrisisContainer}>
             <div className={styles.welcomeBox}>
@@ -61,7 +61,7 @@ import { Link } from "react-router-dom";
                     <p>Operasjonsleder<br />Politiet Agder</p>
                 </div>
                 <div className={styles.rightText}>
-                    <p>Ingen pågående kriser er registrert</p>
+                    <p>Ingen pågående hendelser er registrert</p>
                     <WiDaySunny className={styles.sunIcon} />
 
                 </div>
