@@ -1,5 +1,12 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
+
 import Login from './pages/Login/Login.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
@@ -23,7 +30,7 @@ import QRAccessPage from './pages/KHN/QRcode/QRAccessPage.jsx';
 
 function Layout() {
   const location = useLocation();
-    const hideNavBar = location.pathname === "/"; 
+  const hideNavBar = location.pathname === '/';
 
   return (
     <>
@@ -32,9 +39,9 @@ function Layout() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/krisehandterings-nettverk" element={<KHSnettverk />} />
-                  <Route path="/actors" element={<Actors />} />
-                  <Route path="/qr-code" element={<QRcodePage />} />
-                  <Route path="/qr-access" element={<QRAccessPage />} />
+          <Route path="/actors" element={<Actors />} />
+          <Route path="/qr-code" element={<QRcodePage />} />
+          <Route path="/qr-access" element={<QRAccessPage />} />
           <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
           <Route path="/actorsVol" element={<VolActors />} />
