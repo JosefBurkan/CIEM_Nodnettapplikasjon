@@ -20,16 +20,12 @@ namespace CIEM_Nodnettapplikasjon.Server.Models.Users
 
         public UserModel(string username, string email, string phone, string password, string role)
         {
-            
-             
             this.Username = username;
             this.Email = email;
             this.Phone = phone;
             this.Password = password;
             this.Role = role;
-
         }
-
     }
 
     public class LoginRequest
