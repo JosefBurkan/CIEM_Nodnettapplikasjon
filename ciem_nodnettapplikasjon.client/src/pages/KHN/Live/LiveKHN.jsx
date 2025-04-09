@@ -17,9 +17,9 @@ import styles from "./LiveKHN.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import AddActor from "./AddActor";
 
-const proOptions = { hideAttribution: true }; // Fjerner ReactFlow logo i hjørnet
+const proOptions = { hideAttribution: true };
 
-function getLayoutedElements(nodes, edges, direction = "TB") { 
+function getLayoutedElements(nodes, edges, direction = "TB") {  
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
