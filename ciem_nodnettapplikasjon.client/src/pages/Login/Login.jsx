@@ -21,7 +21,7 @@ function Login() {
     const Login = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/auth/login'", {
+        const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/user/login'", {
             method: "POST",
             headers: {
                 'Content-Type': "application/json",
