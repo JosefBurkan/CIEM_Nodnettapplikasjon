@@ -23,7 +23,7 @@ function ActorsList({ category }) {
 
     // Fetch the actor data
     const fetchActors = async () => {
-        const response = await fetch("https://localhost:5255/api/actor")
+        const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/actor")
         const data = await response.json();
         setActors(data);
     } 
