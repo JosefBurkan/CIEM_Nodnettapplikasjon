@@ -1,8 +1,8 @@
-using CIEM_Nodnettapplikasjon.Server.Models.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace CIEM_Nodnettapplikasjon.Server.Repositories.Users
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
 {
     public class UserRepository : IUserRepository
     {

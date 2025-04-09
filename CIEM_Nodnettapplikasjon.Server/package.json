@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@microsoft/signalr": "^8.0.7",
-    "@tabler/icons-react": "^3.31.0"
+    "@tabler/icons-react": "^3.31.0",
+    "dagre": "^0.8.5"
   }
 }

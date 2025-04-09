@@ -1,6 +1,6 @@
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
-using CIEM_Nodnettapplikasjon.Server.Models.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Users;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;

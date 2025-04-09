@@ -1,6 +1,6 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
 using CIEM_Nodnettapplikasjon.Server.Services.KHN;
-using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.KHN;

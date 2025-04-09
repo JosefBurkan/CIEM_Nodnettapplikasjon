@@ -36,6 +36,7 @@ function Login() {
             showMessage("", `Velkommen inn ${username}`);
             sessionStorage.setItem("isAuthenticated", "true");
             console.log("Authentication flag set in sessionStorage:", sessionStorage.getItem("isAuthenticated"));
+   
             setTimeout(() => navigate("/dashboard"), 1000);
         } else {
             console.error("Error: ", response.statusText);

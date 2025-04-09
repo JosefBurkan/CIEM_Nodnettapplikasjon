@@ -68,6 +68,8 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(result);
         }
 
+
+
     }
 
 }
