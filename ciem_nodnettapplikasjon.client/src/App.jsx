@@ -42,7 +42,6 @@ function Layout() {
           <Route path="/searchDatabase" element={<DatabaseOrg />} />
           <Route path="/searchDatabase/:category" element={<ActorsListWrapper />} />
           <Route path="/nettverks-arkiv" element={<NettverksArkiv />} />
-          {/* New route for individual actor details */}
           <Route path="/actor/:id" element={<AboutActor />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
