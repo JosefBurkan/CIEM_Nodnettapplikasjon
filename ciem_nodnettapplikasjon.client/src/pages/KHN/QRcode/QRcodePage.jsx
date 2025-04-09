@@ -10,7 +10,7 @@ function QRcodePage() {
         return <p>QR-token ikke tilgjengelig.</p>;
     }
 
-    const qrCodeLink = `https://localhost:5173/qr-access?token=${qrToken}`;
+    const qrCodeLink = `https://ciem-nodnettapplikasjon.onrender.com/qr-access?token=${qrToken}`;
 
     return (
         <div style={{ textAlign: "center", marginTop: "4rem" }}>
