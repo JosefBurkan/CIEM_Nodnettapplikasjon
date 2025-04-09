@@ -1,6 +1,6 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
-using CIEM_Nodnettapplikasjon.Server.Repositories.Users;
-using CIEM_Nodnettapplikasjon.Server.Models.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Users;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
@@ -28,7 +28,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         // Authenticate the login request
         [HttpPost("login")]
-        public IActionResult Login([FromBody] CIEM_Nodnettapplikasjon.Server.Models.Users.LoginRequest loginRequest)
+        public IActionResult Login([FromBody] CIEM_Nodnettapplikasjon.Server.Database.Models.Users.LoginRequest loginRequest)
         {
             if (!_userService.AuthenticateUser(loginRequest.Username, loginRequest.Password))
             {

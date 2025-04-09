@@ -1,5 +1,5 @@
 *{
-    border:none;
+    border: none;
 }
 
 .container {
@@ -17,8 +17,8 @@
 }
 
 .networkContainer {
-    width: 100vw;
-    height: 80vh;
+    width: 70vw;
+    height: 65vh;
     border: 1px solid white;
 }
 
@@ -63,13 +63,41 @@
 .activeTab {
     background: red !important;
 }
-
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+.addActorButton{
+    width: 60%;
+    padding: 5px;
+    border-radius: 25px;
+    background-color: #555;
+    border: 1px solid black;
+    cursor:pointer;
+}
+.addActorButton:hover{
+    background-color: hsl(0, 0%, 23%);
+}
+.actorList {
+    padding: 5px 10px;
+    width: 200px;
+    border: 1px solid white;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 15px;
+}
 .tabContent {
+    list-style-type: none;
     width: 90%;
     background: #222;
     border-radius: 5px;
-    padding: 15px;
-    margin-top: 10px;
+    padding: 5px 10px;
     text-align: center;
 }
 .editButton{

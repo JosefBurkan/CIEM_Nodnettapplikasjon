@@ -28,7 +28,7 @@ function NavBar() {
                     {/* <Link to="/actors" className={styles.navbarLink}>Aktører</Link> */}
                     <Link
                         to="/krisehandterings-nettverk"
-                        className={`${styles.navbarLink} ${isActive("/krisehåndterings-nettverk") ? styles.activeLink : ""}`}>Krisehåndterings-nettverk
+                        className={`${styles.navbarLink} ${isActive("/krisehandterings-nettverk") ? styles.activeLink : ""}`}>Krisehåndterings-nettverk
                     </Link>
                     <Link
                         to="/actors"
