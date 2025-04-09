@@ -1,59 +1,146 @@
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .modalContent {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-  }
-  
-  .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
-  .errorMessage {
-    color: red;
-    margin-bottom: 10px;
-  }
-  
-  .form label {
-    display: block;
-    margin: 10px 0 5px;
-  }
-  
-  .form input,
-  .form textarea,
-  .form select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    background-color: hsl(0, 0%, 90%);
-  }
-  
-  .form button {
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #121212;
+  color: white;
+  padding: 20px;
+  border-radius: 50px;
+  max-width: 700px;
+  min-height: 400px; 
+  width: 90%;
+  border: 2px solid red;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+  position: relative;
+}
+
+.modalContentWide {
+  background-color: #121212;
+  color: white;
+  padding: 20px;
+  border-radius: 50px;
+  max-width: 700px;
+  min-height: 400px;
+  width: 90%;
+  border: 2px solid red;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+  position: relative;
+}
+.centeredButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  color: red;
+  cursor: pointer;
+}
+
+.errorMessage {
+  color: #ff4d4d;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 400px;        /* 👈 Controls how wide it can grow */
+  padding: 10px;
+  margin: 15px auto;       /* 👈 Center it horizontally */
+  background: #1e1e1e;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 999px;
+  display: block;          /* Needed for auto margin to center */
+}
+
+
+.eller {
+  text-align: center;
+  margin: 10px 0;
+  color: #aaa;
+}
+
+.outlinedRed {
+  border: 2px solid red;
+  background: transparent;
+  color: white;
+  padding: 12px 30px;           /* 👈 Bigger padding */
+  border-radius: 999px;         /* 👈 Fully rounded (pill shape) */
+  font-weight: bold;
+  font-size: 1rem;              /* 👈 Slightly larger text */
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.outlinedRed:hover {
+  background-color: red;
+  color: black;
+}
+
+
+.form label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: white;
+}
+
+.form input,
+.form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  color: white;
+}
+
+.form textarea {
+  all: unset;
+  all: revert-layer; /* If using layers in modern CSS setup */
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  background-color: white;
+  border: 1px solid #333;
+  color: black;
+  height: 150px;
+  resize: none !important; /* ✅ forcefully disable resize */
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+
+
+.form input::placeholder,
+.form textarea::placeholder {
+  color: #aaa;
+}

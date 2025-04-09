@@ -1,11 +1,14 @@
 .nodeContainer {
-    background: black;
-    color: white;
-    padding: 10px 15px;
+    background: #000000;            /* Black background */
+    color: #ffffff;                 /* White text */
+    padding: 10px 20px;
     border-radius: 8px;
     text-align: center;
     font-weight: bold;
-    border: 2px solid white;
+    border: 2px solid #ff0000;      /* Red border */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Optional glow effect */
+    font-size: 14px;
+    line-height: 1.2;
 }
 
 .nodeContent {
@@ -13,7 +16,8 @@
 }
 
 .react-flow__handle {
-    background: red;
+    background: #ff0000;   /* Red handle */
     width: 10px;
     height: 10px;
+    border: none;
 }
