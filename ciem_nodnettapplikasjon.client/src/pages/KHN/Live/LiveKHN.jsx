@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 import styles from "./LiveKHN.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import AddActor from "./AddActor";
-import { supabase } from '../../utils/supabaseClient';
+// import { supabase } from '../../utils/supabaseClient';
 
 const proOptions = { hideAttribution: true }; // Fjerner ReactFlow logo i hjørnet
 
