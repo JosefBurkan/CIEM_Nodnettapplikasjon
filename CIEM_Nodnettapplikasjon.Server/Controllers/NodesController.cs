@@ -40,7 +40,7 @@ public class NodesController : ControllerBase
         return Ok(newNode);
     }
 
-    [HttpGet("user/{UserID}")]
+    [HttpGet("user/{userID}")]
     public async Task<IActionResult> GetNodeByUserId(int UserID)
     {
         var node = await _context.Nodes
@@ -48,6 +48,27 @@ public class NodesController : ControllerBase
 
         if (node == null)
             return NotFound("Ingen node funnet for denne brukeren.");
+
+        return Ok(node);
+    }
+
+    // Delete a node
+    [HttpDelete("delete/{nodeID}")]
+    public async Task<IActionResult> RemoveNodeByUserId(int nodeID)
+    {
+        var node = await _context.Nodes
+            .FirstOrDefaultAsync(n => n.nodeID == nodeID);
+        
+        if (node == null) 
+        {
+            return NotFound("Ingen node funnet med denne id'en");
+        }
+        else
+        {
+            Console.WriteLine("Noden har blitt fjernet!");
+            _context.Nodes.Remove(node);
+            await _context.SaveChangesAsync();
+        }
 
         return Ok(node);
     }

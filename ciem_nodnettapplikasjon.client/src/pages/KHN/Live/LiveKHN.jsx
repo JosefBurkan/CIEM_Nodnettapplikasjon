@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import styles from "./LiveKHN.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import AddActor from "./AddActor";
+import { supabase } from '../../utils/supabaseClient';
 
 const proOptions = { hideAttribution: true }; // Fjerner ReactFlow logo i hjørnet
 
@@ -99,6 +100,24 @@ function LiveKHN() {
     }
   };
 
+   // API for deleting a single node
+   const deleteNode = async (nodeID) => {
+    try {
+      const response = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/Nodes/delete/${nodeID}`, {
+        method: "DELETE",
+      });
+  
+      const text = await response.text(); // Don't assume it's JSON
+      console.log("Server response:", text);
+      
+      // Optional: refetch updated data
+      setIsReady(true);
+    } catch (error) {
+      console.error("Failed to delete node:", error);
+    }
+  };
+  
+
   useEffect(() => {
     if (networkId) {
       fetchKHN();
@@ -153,6 +172,24 @@ function LiveKHN() {
     },
     [reactFlowInstance, initialNodes]
   );
+
+  const handleDeleteNode = useCallback(() => {
+    if (!selectedNode) return;
+    const nodeIdToDelete = selectedNode.id;    
+    deleteNode(selectedNode.id);
+
+
+    const updatedNodes = nodeNetwork.nodes.filter(
+      (n) => String(n.nodeID) !== nodeIdToDelete, 
+    );
+
+    setNodeNetwork((prev) => ({
+      ...prev,
+      nodes: updatedNodes
+    }));
+    setSelectedNode(null);
+    updateLayout();
+  }, [selectedNode, nodeNetwork, updateLayout]);
 
 
   // const handleSearch = useCallback((query) => {
@@ -379,6 +416,9 @@ function LiveKHN() {
                   <h3>{selectedNode.data.label}</h3>
                   <p>{selectedNode.data.info}</p>
                   <p>Fyll inn mer detaljer her...</p>
+                  <button className={styles.deleteButton} onClick={handleDeleteNode}>
+                    Slett node
+                  </button>
                 </div>
               )}
               {activeTab === "actors" && nodeNetwork.nodes && (
