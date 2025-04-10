@@ -15,7 +15,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 
         public DateTimeOffset time_of_creation {get; set;}
 
-        public string Status { get; set; } = "Not Live";
+        public string Status { get; set; } = "Live";
 
         // Connects the class to the Nodes table
         public List<NodesModel> Nodes { get; set; } = new();
