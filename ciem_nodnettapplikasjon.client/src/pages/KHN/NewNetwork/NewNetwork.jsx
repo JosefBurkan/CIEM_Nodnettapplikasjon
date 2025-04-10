@@ -26,9 +26,8 @@ function NewNetwork() {
             if (response.ok) {
                 const data = await response.json();
                 console.log("Created network:", data);
+                navigate(`/khn/${data.id}`);
 
-
-                navigate(`/nytt-khn/${data.id}`);
             } else {
                 setErrorMessage("Failed to create network. Please try again.");
             }
