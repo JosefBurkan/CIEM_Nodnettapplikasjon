@@ -51,7 +51,7 @@ function QRAccessPage() {
             } else {
                 const errorData = await res.json();
                 console.error("Failed to add node:", errorData);
-                alert("Noe gikk galt. Prøv igjen.");
+                alert("Noe gikk galt. Prï¿½v igjen.");
             }
         } catch (err) {
             console.error("Error sending request:", err);
@@ -61,13 +61,13 @@ function QRAccessPage() {
 
 
     if (!parentId || !token) {
-        return <div>Mangler nødvendig QR-informasjon.</div>;
+        return <div>Mangler nÃ¸dvendig QR-informasjon.</div>;
     }
 
     if (submitted) {
         return (
             <div style={{ textAlign: "center", marginTop: "3rem" }}>
-                <h2>Takk! Du er nå koblet til nettverket.</h2>
+                <h2>Takk! Du er nÃ¥ koblet til nettverket.</h2>
             </div>
         );
     }
@@ -75,7 +75,7 @@ function QRAccessPage() {
     return (
         <div style={{ maxWidth: "400px", margin: "3rem auto" }}>
             <h2>Bli med i nettverket</h2>
-            <p>Fyll inn nødvendig informasjon for å få tilgang til nettverket.</p>
+            <p>Fyll inn nÃ¸dvendig informasjon for Ã¥ fÃ¥ tilgang til nettverket.</p>
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <input name="name" type="text" placeholder="Navn" required onChange={handleChange} />
                 <input name="phone" type="text" placeholder="Telefonnummer" required onChange={handleChange} />
