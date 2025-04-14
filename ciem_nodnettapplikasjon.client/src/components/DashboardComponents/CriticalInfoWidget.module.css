@@ -7,7 +7,7 @@
     max-width: 420px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     overflow: hidden; /* Prevents any content from protruding */
-    margin-top: 40px
+    margin-top: 40px;
 }
 
 .header {
@@ -29,13 +29,13 @@
     z-index: 2;
 }
 
-    .header .icon {
-        width: 12px;
-        height: 12px;
-        background: red;
-        border-radius: 50%;
-        margin-right: 8px;
-    }
+.header .icon {
+    width: 12px;
+    height: 12px;
+    background: red;
+    border-radius: 50%;
+    margin-right: 8px;
+}
 
 .infoGrid {
     display: grid;

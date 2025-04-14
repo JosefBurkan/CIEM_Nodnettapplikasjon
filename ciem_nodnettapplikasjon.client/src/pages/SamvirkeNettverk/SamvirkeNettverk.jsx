@@ -1,25 +1,24 @@
 import React from 'react';
 import styles from './SamvirkeNettverk.module.css';
-import LiveNetworkWidget from "../../components/DashboardComponents/LiveNetworkWidget";
+import LiveNetworkWidget from '../../components/DashboardComponents/LiveNetworkWidget';
 import Box from '../../components/Box/Box';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 function SamvirkeNettverk() {
     const [situations, setSituations] = useState([]);
 
     useEffect(() => {
-        fetch("https://localhost:5255/api/samvirkeNettverk/situations")
-            .then(res => res.json())
-            .then(data => setSituations(data));
+        fetch('https://localhost:5255/api/samvirkeNettverk/situations')
+            .then((res) => res.json())
+            .then((data) => setSituations(data));
     }, []);
 
-    const liveSituations = situations.filter(s => s.status === "Live");
-   
+    const liveSituations = situations.filter((s) => s.status === 'Live');
+
     return (
         <div className={styles.container}>
             <div className={styles.dashboard}>
-
                 <div className={styles.leftSection}>
                     {liveSituations.length === 0 ? (
                         <div className={styles.noBox}>
@@ -33,7 +32,9 @@ function SamvirkeNettverk() {
                                     to={`/sn/${situation.networkId}`}
                                     className={styles.cardLink}
                                 >
-                                    <LiveNetworkWidget title={situation.title} />
+                                    <LiveNetworkWidget
+                                        title={situation.title}
+                                    />
                                 </Link>
                             ))}
                         </div>
@@ -41,15 +42,21 @@ function SamvirkeNettverk() {
                 </div>
 
                 <div className={styles.rightSection}>
-                       <Link to ="/newNetwork">
+                    <Link to="/newNetwork">
                         <Box title="Nytt Nettverk" icon="grid-add" />
                     </Link>
 
-                    <Link to="/nettverks-arkiv" style={{ textDecoration: 'none' }}>
-                        <Box title="Nettverks Arkiv" boxIconColor="red" disableLink/>
+                    <Link
+                        to="/nettverks-arkiv"
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <Box
+                            title="Nettverks Arkiv"
+                            boxIconColor="red"
+                            disableLink
+                        />
                     </Link>
                 </div>
-                
             </div>
         </div>
     );

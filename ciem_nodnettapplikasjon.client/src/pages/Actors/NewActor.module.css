@@ -15,10 +15,10 @@
     font-size: 3ex;
 }
 .button {
-    border: 2px solid #FF3F3F;
+    border: 2px solid #ff3f3f;
     border-radius: 25px;
     padding: 10px;
-    background-color: #1A1A1A;
+    background-color: #1a1a1a;
     color: hsl(0, 0%, 93%);
     padding: 0.8rem 5rem;
     font-size: 2.3ex;

@@ -12,12 +12,14 @@
     align-items: center;
     width: 100%;
 }
-.iconSearch, .menuIcon{
+.iconSearch,
+.menuIcon {
     color: hsl(0, 0%, 80%);
     font-size: 1.2rem;
     margin: 0 5px;
 }
-.iconSearch:hover, .menuIcon:hover{
+.iconSearch:hover,
+.menuIcon:hover {
     cursor: pointer;
 }
 .searchInput {
@@ -46,13 +48,13 @@
     padding: 0;
     overflow-y: auto;
     z-index: 1000;
-  }
-  
-  .dropdownItem {
+}
+
+.dropdownItem {
     padding: 8px 10px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
-  }
-  .dropdownItem:hover {
+}
+.dropdownItem:hover {
     background-color: #f0f0f0;
-  }
+}

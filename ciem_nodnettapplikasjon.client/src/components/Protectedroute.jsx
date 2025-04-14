@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 // Exists only to direct the user to the next page on login, and block
@@ -8,11 +8,11 @@ const ProtectedRoute = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
 
     useEffect(() => {
-        const authStatus = sessionStorage.getItem("isAuthenticated");
-        console.log("IsAuthenticated: ", authStatus);
+        const authStatus = sessionStorage.getItem('isAuthenticated');
+        console.log('IsAuthenticated: ', authStatus);
 
         // Update state based on sessionStorage value
-        if (authStatus === "true") {
+        if (authStatus === 'true') {
             setIsAuthenticated(true);
         } else {
             setIsAuthenticated(false);
@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
         return <div>Loading...</div>;
     }
 
-    console.log("Protected route isAuthenticated:", isAuthenticated);
+    console.log('Protected route isAuthenticated:', isAuthenticated);
 
     return isAuthenticated ? children : <Navigate to="/" />;
 };

@@ -1,4 +1,4 @@
-namespace CIEM_Nodnettapplikasjon.Server.Services.KHN
+namespace CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk
 {
     public class CreateNetworkDto
     {

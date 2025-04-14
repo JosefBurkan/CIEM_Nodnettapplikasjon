@@ -15,10 +15,11 @@ const NewActor = () => {
                     bgColor="#1A1A1A"
                     // onSearch={setSearch}
                 />
-                <span>
-                    eller...
-                </span>
-                <button className={styles.button} onClick={() => navigate('/createActor')}>
+                <span>eller...</span>
+                <button
+                    className={styles.button}
+                    onClick={() => navigate('/createActor')}
+                >
                     Opprett ny aktør
                 </button>
             </div>
