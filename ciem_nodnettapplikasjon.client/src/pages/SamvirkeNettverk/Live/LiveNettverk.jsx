@@ -65,7 +65,7 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
   return { nodes: layoutedNodes, edges };
 }
 
-function LiveKHN() {
+function LiveNettverk() {
   const { networkId } = useParams();
 
   const [nodeNetwork, setNodeNetwork] = useState({});

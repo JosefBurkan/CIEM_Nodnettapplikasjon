@@ -166,7 +166,7 @@ function CreateActor() {
 
                 <form onSubmit={handleSubmitActor} className={styles.form}>
                     {/* Choose hierachy*/}
-                    <label htmlFor="actorHierachy">Velg Hieraki:</label>
+                    <label htmlFor="actorHierachy">Velg Hierarki:</label>
                         <select
                             id="actorHierachy"
                             name="actorHierachy"
@@ -218,7 +218,7 @@ function CreateActor() {
                         required
                     >
                         <option value="">Velg type</option>
-                        <option value="selvstending">Selvsending</option>
+                        <option value="selvstendig">Selvstendig</option>
                         <option value="organisasjon">Organisasjon</option>
                     </select>
 
