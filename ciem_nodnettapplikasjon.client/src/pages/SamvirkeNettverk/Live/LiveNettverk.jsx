@@ -16,9 +16,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styles from './LiveNettverk.module.css';
 import SearchBar from '../../../components/SearchBar/SearchBar';
 import AddActor from './AddActor';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 
 const proOptions = { hideAttribution: true };
 
@@ -70,30 +67,24 @@ function getLayoutedElements(nodes, edges, direction = 'TB') {
 
 function LiveNettverk() {
     const { networkId } = useParams();
+    const navigate = useNavigate(); // Added to support navigation
 
     const [nodeNetwork, setNodeNetwork] = useState({});
     const [isReady, setIsReady] = useState(false);
-
     const [initialNodes, setInitialNodes] = useState([]);
     const [initialEdges, setInitialEdges] = useState([]);
-
     const [hiddenNodes, setHiddenNodes] = useState(new Set());
     const [hiddenEdges, setHiddenEdges] = useState(new Set());
-
     const [activeTab, setActiveTab] = useState('actors');
     const [selectedNode, setSelectedNode] = useState(null);
-      const [showAddActorModal, setShowAddActorModal] = useState(false);
+    const [showAddActorModal, setShowAddActorModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
-    // Få tak i ReactFlow-instansen for å kunne sentrere kameraet
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
     const clickTimeoutRef = useRef(null);
     const doubleClickFlagRef = useRef(false);
 
-
-
-    // Hent data fra API (bruker networkId fra URL)
+    // Fetch data from API using networkId from URL
     const fetchSamvirkeNettverk = async () => {
         try {
             const response = await fetch(
@@ -108,30 +99,28 @@ function LiveNettverk() {
         }
     };
 
-  // API for deleting a single node
-  const deleteNode = async (nodeID) => {
-    try {
-      const response = await fetch(`https://localhost:5255/api/Nodes/delete/${nodeID}`, {
-        method: "DELETE",
-      });
-  
-      const text = await response.text(); // Don't assume it's JSON
-      console.log("Server response:", text);
-      
-      // Optional: refetch updated data
-      setIsReady(true);
-    } catch (error) {
-      console.error("Failed to delete node:", error);
-    }
-  };
-  
+    // API for deleting a single node
+    const deleteNode = async (nodeID) => {
+        try {
+            const response = await fetch(`https://localhost:5255/api/Nodes/delete/${nodeID}`, {
+                method: "DELETE",
+            });
+
+            const text = await response.text(); // Don't assume it's JSON
+            console.log("Server response:", text);
+
+            // Optionally refetch or update data
+            setIsReady(true);
+        } catch (error) {
+            console.error("Failed to delete node:", error);
+        }
+    };
 
     useEffect(() => {
         if (networkId) {
             fetchSamvirkeNettverk();
         }
     }, [networkId]);
-
 
     const handleArchiveNetwork = async () => {
         try {
@@ -151,16 +140,7 @@ function LiveNettverk() {
         }
     };
 
-  // Oppdater layout: generer noder og kanter fra nodeNetwork og hidden-sets
-  const updateLayout = useCallback(() => {
-    if (nodeNetwork && nodeNetwork.nodes) {
-      const nodes = nodeNetwork.nodes.map((node) => ({
-        id: String(node.nodeID),
-        data: { label: node.name, info: `Detaljert info om ${node.name}` },
-        hidden: hiddenNodes.has(String(node.nodeID)),
-        position: { x: 0, y: 0 },
-      }));
-    // Oppdater layout: generer noder og kanter fra nodeNetwork og hidden-sets
+    // Consolidated updateLayout function
     const updateLayout = useCallback(() => {
         if (nodeNetwork && nodeNetwork.nodes) {
             const nodes = nodeNetwork.nodes.map((node) => ({
@@ -199,14 +179,12 @@ function LiveNettverk() {
         (actor) => {
             if (!reactFlowInstance || !actor) return;
             console.log('Fokusere på actor:', actor);
-            const node = initialNodes.find(
-                (n) => n.id === String(actor.nodeID)
-            );
+            const node = initialNodes.find((n) => n.id === String(actor.nodeID));
             if (!node) {
                 console.log('Fant ikke node for actor:', actor);
                 return;
             }
-            const x = node.position.x + 90; // juster ut fra nodens dimensjoner
+            const x = node.position.x + 90; // Adjust based on node dimensions
             const y = node.position.y + 25;
             reactFlowInstance.setCenter(x, y, 1.5);
             setActiveTab('details');
@@ -217,9 +195,8 @@ function LiveNettverk() {
 
     const handleDeleteNode = useCallback(() => {
         if (!selectedNode) return;
-        const nodeIdToDelete = selectedNode.id;    
-    deleteNode(selectedNode.id);
-
+        const nodeIdToDelete = selectedNode.id;
+        deleteNode(selectedNode.id);
 
         const updatedNodes = nodeNetwork.nodes.filter(
             (n) => String(n.nodeID) !== nodeIdToDelete
@@ -232,12 +209,7 @@ function LiveNettverk() {
         updateLayout();
     }, [selectedNode, nodeNetwork, updateLayout]);
 
-    // const handleSearch = useCallback((query) => {
-    //   // Vi kan legge til live-søk her om nødvendig, men nå lar vi fokus skje via onSelectActor i SearchBar.
-    //   console.log("Søker med query:", query);
-    // }, []);
-
-    // Hjelpefunksjoner for collapse/expand
+    // Helper functions for collapse/expand
     const getDescendantNodes = (node, allNodes, allEdges) => {
         const descendants = [];
         const visited = new Set();
@@ -268,21 +240,11 @@ function LiveNettverk() {
 
     const toggleCollapseExpand = useCallback(
         (node) => {
-            const descendants = getDescendantNodes(
-                node,
-                initialNodes,
-                initialEdges
-            );
-            const descendantEdges = getDescendantEdges(
-                node,
-                initialNodes,
-                initialEdges
-            );
+            const descendants = getDescendantNodes(node, initialNodes, initialEdges);
+            const descendantEdges = getDescendantEdges(node, initialNodes, initialEdges);
             const updatedHiddenNodes = new Set(hiddenNodes);
             const updatedHiddenEdges = new Set(hiddenEdges);
-            const shouldHide = descendants.some(
-                (desc) => !hiddenNodes.has(desc.id)
-            );
+            const shouldHide = descendants.some((desc) => !hiddenNodes.has(desc.id));
             descendants.forEach((desc) => {
                 if (shouldHide) {
                     updatedHiddenNodes.add(desc.id);
@@ -332,25 +294,17 @@ function LiveNettverk() {
         setActiveTab('details');
     }, []);
 
-    // onEdgeClick: Skjul target-noden og dens etterkommere
+    // onEdgeClick: Hide the target node and its descendants
     const handleEdgeClick = useCallback(
         (event, edge) => {
             const targetNode = initialNodes.find((n) => n.id === edge.target);
             if (targetNode) {
-                const descendants = getDescendantNodes(
-                    targetNode,
-                    initialNodes,
-                    initialEdges
-                );
+                const descendants = getDescendantNodes(targetNode, initialNodes, initialEdges);
                 const updatedHiddenNodes = new Set(hiddenNodes);
                 updatedHiddenNodes.add(targetNode.id);
                 descendants.forEach((desc) => updatedHiddenNodes.add(desc.id));
 
-                const descendantEdges = getDescendantEdges(
-                    targetNode,
-                    initialNodes,
-                    initialEdges
-                );
+                const descendantEdges = getDescendantEdges(targetNode, initialNodes, initialEdges);
                 const updatedHiddenEdges = new Set(hiddenEdges);
                 descendantEdges.forEach((e) => updatedHiddenEdges.add(e.id));
 
@@ -362,7 +316,7 @@ function LiveNettverk() {
         [initialNodes, initialEdges, hiddenNodes, hiddenEdges, updateLayout]
     );
 
-    // onConnect: Når en ny forbindelse lages manuelt
+    // onConnect: When a new edge is manually created
     const onConnect = useCallback(
         (params) => {
             const targetNode = nodeNetwork.nodes.find(
@@ -387,7 +341,7 @@ function LiveNettverk() {
         setInitialEdges((eds) => applyEdgeChanges(changes, eds));
     }, []);
 
-    // Når en ny aktør legges til via AddActor – forventer newActor: { nodeID, name, parentID, ... }
+    // When a new actor is added via AddActor – expects newActor: { nodeID, name, parentID, ... }
     const handleActorAdded = (newActor) => {
         setNodeNetwork((prev) => ({
             ...prev,
@@ -408,18 +362,17 @@ function LiveNettverk() {
                     {nodeNetwork.name || 'Nettverk uten navn'}
                 </h2>
 
-        <div className={styles.searchBarContainer}>
-          <SearchBar
-            placeholder="Søk etter aktør"
-            bgColor="#1A1A1A"
-            width="25rem"
-            enableDropdown={true}
-            actors={nodeNetwork.nodes || []}
-            onSelectActor={focusNode}  // Fokusfunksjonen som sentrerer kameraet på den valgte noden
-            // onSearch={handleSearch}    // Om du ønsker live feedback
-            searchBarMode="NetworkSearch"
-          />
-        </div>
+                <div className={styles.searchBarContainer}>
+                    <SearchBar
+                        placeholder="Søk etter aktør"
+                        bgColor="#1A1A1A"
+                        width="25rem"
+                        enableDropdown={true}
+                        actors={nodeNetwork.nodes || []}
+                        onSelectActor={focusNode}
+                        searchBarMode="NetworkSearch"
+                    />
+                </div>
 
                 <div className={styles.content}>
                     <div className={styles.networkContainer}>
@@ -438,7 +391,7 @@ function LiveNettverk() {
                             panOnDrag
                             zoomOnScroll
                             zoomOnDoubleClick
-                            onInit={setReactFlowInstance} // Fanger ReactFlow-instansen
+                            onInit={setReactFlowInstance}
                         >
                             <MiniMap pannable zoomable />
                             <Controls />
@@ -480,98 +433,92 @@ function LiveNettverk() {
                                         Slett node
                                     </button>
                                 </div>
-                                        )}
+                            )}
 
-                          {activeTab === "details" && !selectedNode && (
-                              <>
-                              <div>
-                                  <h3>{nodeNetwork.name}</h3>
-                                      <p>Status: {nodeNetwork.status}</p>
+                            {activeTab === "details" && !selectedNode && (
+                                <>
+                                    <div>
+                                        <h3>{nodeNetwork.name}</h3>
+                                        <p>Status: {nodeNetwork.status}</p>
+                                        <button
+                                            className={styles.archiveButton}
+                                            onClick={async () => {
+                                                try {
+                                                    const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
+                                                        method: "POST",
+                                                    });
+                                                    if (res.ok) {
+                                                        toast.success("Nettverket er arkivert!", {
+                                                            position: "top-right",
+                                                            autoClose: 3000,
+                                                            hideProgressBar: false,
+                                                            closeOnClick: true,
+                                                            pauseOnHover: true,
+                                                            draggable: true,
+                                                        });
+                                                        setTimeout(() => {
+                                                            navigate("/nettverks-arkiv");
+                                                        }, 2000);
+                                                    } else {
+                                                        toast.error("Kunne ikke arkivere nettverket.");
+                                                    }
+                                                } catch (err) {
+                                                    console.error("Error archiving network:", err);
+                                                    toast.error("Noe gikk galt...");
+                                                }
+                                            }}
+                                        >
+                                            Arkiver Nettverk
+                                        </button>
 
-                                  <button
-                                      className={styles.archiveButton}
-                                      onClick={async () => {
-                                          try {
-                                              const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
-                                                  method: "POST",
-                                              });
-                                              if (res.ok) {
-                                                  toast.success("Nettverket er arkivert!", {
-                                                      position: "top-right",
-                                                      autoClose: 3000,
-                                                      hideProgressBar: false,
-                                                      closeOnClick: true,
-                                                      pauseOnHover: true,
-                                                      draggable: true,
-                                                  });
-                                                  setTimeout(() => {
-                                                      navigate("/nettverks-arkiv");
-                                                  }, 2000);
-                                              } else {
-                                                  toast.error("Kunne ikke arkivere nettverket.");
-                                              }
-                                          } catch (err) {
-                                              console.error("Error archiving network:", err);
-                                              toast.error("Noe gikk galt...");
-                                          }
-                                      }}
-                                  >
-                                      Arkiver Nettverk
-                                  </button>          
+                                        <button
+                                            className={styles.deleteNetworkButton}
+                                            onClick={() => setShowDeleteConfirm(true)}
+                                        >
+                                            Slett Nettverk
+                                        </button>
+                                    </div>
 
-
-                                  <button
-                                      className={styles.deleteNetworkButton}
-                                      onClick={() => setShowDeleteConfirm(true)}
-                                  >
-                                      Slett Nettverk
-                                  </button>
-                                  </div>
-
-                                  {showDeleteConfirm && (
-                                      <div className={styles.confirmModal}>
-                                          <p>Er du sikker på at du vil slette dette nettverket?</p>
-                                          <button
-                                              onClick={async () => {
-                                                  try {
-                                                      const res = await fetch(`https://localhost:5255/api/KHN/delete/${networkId}`, {
-                                                          method: "DELETE",
-                                                      });
-
-                                                      if (res.ok) {
-                                                          toast.success("Nettverket ble slettet!", {
-                                                              position: "top-right",
-                                                              autoClose: 3000,
-                                                          });
-                                                          setTimeout(() => {
-                                                              navigate("/samvirke-nettverk");
-                                                          }, 2000);
-                                                      } else {
-                                                          toast.error("Kunne ikke slette nettverket.");
-                                                      }
-                                                  } catch (err) {
-                                                      console.error("Error deleting network:", err);
-                                                  }
-                                              }}
-                                          >
-                                              Ja, slett
-                                          </button>
-
-                                          <button onClick={() => setShowDeleteConfirm(false)}>
-                                              Avbryt
-                                          </button>
-                                      </div>
-                          )}
-                      </>                             
-)}
+                                    {showDeleteConfirm && (
+                                        <div className={styles.confirmModal}>
+                                            <p>Er du sikker på at du vil slette dette nettverket?</p>
+                                            <button
+                                                onClick={async () => {
+                                                    try {
+                                                        const res = await fetch(`https://localhost:5255/api/KHN/delete/${networkId}`, {
+                                                            method: "DELETE",
+                                                        });
+                                                        if (res.ok) {
+                                                            toast.success("Nettverket ble slettet!", {
+                                                                position: "top-right",
+                                                                autoClose: 3000,
+                                                            });
+                                                            setTimeout(() => {
+                                                                navigate("/samvirke-nettverk");
+                                                            }, 2000);
+                                                        } else {
+                                                            toast.error("Kunne ikke slette nettverket.");
+                                                        }
+                                                    } catch (err) {
+                                                        console.error("Error deleting network:", err);
+                                                    }
+                                                }}
+                                            >
+                                                Ja, slett
+                                            </button>
+                                            <button onClick={() => setShowDeleteConfirm(false)}>
+                                                Avbryt
+                                            </button>
+                                        </div>
+                                    )}
+                                </>
+                            )}
 
                             {activeTab === 'actors' && nodeNetwork.nodes && (
                                 <ul>
                                     <button
                                         className={styles.addActorButton}
-                                        onClick={() =>
-                                            setShowAddActorModal(true)
-                                        }
+                                        onClick={() => setShowAddActorModal(true)}
                                     >
                                         + Ny Aktør
                                     </button>
@@ -588,8 +535,7 @@ function LiveNettverk() {
                             )}
                             {activeTab === 'info' && (
                                 <p>
-                                    Kritisk informasjon om nettverket og
-                                    tilstand...
+                                    Kritisk informasjon om nettverket og tilstand...
                                 </p>
                             )}
                         </div>

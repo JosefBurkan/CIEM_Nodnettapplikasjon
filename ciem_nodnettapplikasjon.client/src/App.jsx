@@ -17,7 +17,6 @@ import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
 import LiveNettverk from './pages/SamvirkeNettverk/Live/LiveNettverk.jsx';
-import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
@@ -26,7 +25,6 @@ import NewNetwork from './pages/SamvirkeNettverk/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/SamvirkeNettverk/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/SamvirkeNettverk/QRcode/QRAccessPage.jsx';
-import { ToastContainer } from 'react-toastify';
 
 function Layout() {
     const location = useLocation();
@@ -51,7 +49,6 @@ function Layout() {
                     <Route path="/actorsAll" element={<AllActors />} />
                     <Route path="/actorsPrivate" element={<PrivateActors />} />
                     <Route path="/sn/:networkId" element={<LiveNettverk />} />
-                    <Route path="/actorNew" element={<NewActor />} />
                     <Route path="/newNetwork" element={<NewNetwork />} />
                     <Route path="/createActor" element={<CreateActor />} />
                     <Route path="/searchDatabase" element={<DatabaseOrg />} />
@@ -66,7 +63,6 @@ function Layout() {
                     <Route path="/actor/:id" element={<AboutActor />} />
                     <Route path="*" element={<Navigate to="/dashboard" />} />
                       </Routes>
-                    <ToastContainer />
       </div>
         </>
     );
