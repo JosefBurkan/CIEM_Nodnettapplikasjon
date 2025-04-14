@@ -11,7 +11,6 @@ import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
 import LiveKHN from './pages/KHN/Live/LiveKHN.jsx';
-import NewActor from './pages/Actors/NewActor.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
@@ -43,7 +42,6 @@ function Layout() {
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
           <Route path="/khn/:networkId" element={<LiveKHN />} />
-          <Route path="/actorNew" element={<NewActor />} />
           <Route path="/newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor />} />
           <Route path="/searchDatabase" element={<DatabaseOrg />} />

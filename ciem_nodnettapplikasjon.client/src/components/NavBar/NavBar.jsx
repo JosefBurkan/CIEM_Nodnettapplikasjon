@@ -27,8 +27,8 @@ function NavBar() {
                     {/* <Link to="/khs" className={styles.navbarLink}>Krisehåndterings-nettverk</Link> */}
                     {/* <Link to="/actors" className={styles.navbarLink}>Aktører</Link> */}
                     <Link
-                        to="/samvirke-nettverk"
-                        className={`${styles.navbarLink} ${isActive("/samvirke-nettverk") ? styles.activeLink : ""}`}>Samvirke-nettverk
+                        to="/krisehandterings-nettverk"
+                        className={`${styles.navbarLink} ${isActive("/krisehandterings-nettverk") ? styles.activeLink : ""}`}>Samvirkenettverk
                     </Link>
                     <Link
                         to="/actors"

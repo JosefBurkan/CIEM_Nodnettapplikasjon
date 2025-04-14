@@ -2,6 +2,7 @@ import React, { useState }from 'react';
 import styles from './CreateActor.module.css';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 
 function CreateActor() {
@@ -11,8 +12,9 @@ function CreateActor() {
     const [successMessage, setSuccessMessage] = useState("");
     const [actorID, setActorID] = useState("");
     const [subActor, setSubActor] = useState("");
+    const [search, setSearch] = useState("");
 
-    const [subaActorFormData, setSubActorFormData] = useState({
+    const [subActorFormData, setSubActorFormData] = useState({
         actorID: 0,
         subActor: ""
     });
@@ -46,13 +48,22 @@ function CreateActor() {
         });
     };
 
+    // Set the sub actor formdata to the value of the sub actor elements
     const handleChangeSubActor = (e) => {
         setSubActorFormData({
-            ...subaActorFormData,
+            ...subActorFormData,
             [e.target.name]: e.target.value,
 
         });
     };
+
+    // Set the sub actor, actorID to the chose actor
+    const handleActorSelect = (actorID) => {
+        setSubActorFormData({
+          ...subActorFormData,
+          actorID: parseInt(actorID, 10),
+        });
+      };
 
     const changeHierachy = (e) => {
         setActorHierachy(e.target.value);
@@ -111,12 +122,14 @@ function CreateActor() {
         e.preventDefault();
     
         const subActorPayLoad = {
-            actorID: subaActorFormData.actorID,
-            subActor: subaActorFormData.subActor
+            actorID: subActorFormData.actorID,
+            subActor: subActorFormData.subActor
         };
+
+        console.log(subActorFormData.subActor);
     
         try {
-            const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/actor/CreateSubActor", {
+            const response = await fetch("https://localhost:5255/api/actor/CreateSubActor", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -244,8 +257,9 @@ function CreateActor() {
         return (
         <div className={styles.container}>
             <h1>Legg til Underliggende aktør</h1>
+
+                <form onSubmit={handleSubmitSubActor} className={styles.form}>
                 
-            <form onSubmit={handleSubmitSubActor} className={styles.form}>
                 {/* Choose hierachy*/}
                 <label htmlFor="actorHierachy">Velg Hieraki:</label>
                 <select
@@ -257,21 +271,24 @@ function CreateActor() {
                 >
                     <option value="Overordnet">Overordnet</option>
                     <option value="Underliggende">Underliggende</option>
-                </select>
-
-                {/* Actor */}
-                <label htmlFor="actorID">Aktør:</label>
-                <select
-                    id="actorID"
-                    name="actorID"
-                    className={styles.textInput}
-                    required
-                    onChange={handleChangeSubActor /* Set ID of chosen actor, to send subactor to that location*/ } 
-                    >
-                    {existingActor.map((actor) => (
-                        <option key={actor.id} value={actor.id}> {actor.name}</option>
-                    ))}
-                </select>
+                    </select>
+                    
+                <br/>
+                    
+                {/*Search for available actors in the database*/}
+                <label htmlFor="actorID">Velg en aktør å legge under:</label>
+                    <SearchBar
+                        id="actorID"
+                        name="actorID"
+                        placeholder="Søk etter aktører"
+                        bgColor="#1A1A1A"
+                        onSearch={handleActorSelect}
+                        value={subActorFormData.actorID}
+                        enableDropdown={true}
+                        actors={existingActor}
+                        searchBarMode="Actors"  // Specify that searchbar is for actors, not the node network
+                    />
+                
 
                 {/* Name */}
                 <label htmlFor="subActor">Navn:</label>
@@ -280,7 +297,7 @@ function CreateActor() {
                     name="subActor"
                     type="text"
                         placeholder="Navn..."
-                    value={subaActorFormData.subActor}
+                    value={subActorFormData.subActor}
                     onChange={handleChangeSubActor}
                     className={styles.textInput}
                     required

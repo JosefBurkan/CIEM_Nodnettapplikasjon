@@ -388,6 +388,7 @@ function LiveKHN() {
             actors={nodeNetwork.nodes || []}
             onSelectActor={focusNode}  // Fokusfunksjonen som sentrerer kameraet på den valgte noden
             // onSearch={handleSearch}    // Om du ønsker live feedback
+            searchBarMode="NetworkSearch"
           />
         </div>
 

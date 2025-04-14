@@ -10,6 +10,7 @@ function SearchBar({
   onSelectActor = () => {},
   actors = [],
   enableDropdown = false,
+  searchBarMode = "",
 }) {
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -62,40 +63,86 @@ function SearchBar({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  return (
-    <div
-      ref={containerRef}
-      className={styles.searchContainer}
-      style={{ backgroundColor: bgColor, width, position: "relative" }}
-    >
-      <div className={styles.searchBar}>
-        <IconSearch className={styles.iconSearch} />
-        <input
-          type="text"
-          placeholder={placeholder}
-          className={styles.searchInput}
-          value={query}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          onFocus={() => { if (enableDropdown) setShowDropdown(true); }}
-        />
-        <IconMenu2 className={styles.menuIcon} />
+  // Changes the searchbar's function depending on its set value
+  if (searchBarMode == "NetworkSearch") {
+    return (
+      <div
+        ref={containerRef}
+        className={styles.searchContainer}
+        style={{ backgroundColor: bgColor, width, position: "relative" }}
+      >
+        <div className={styles.searchBar}>
+          <IconSearch className={styles.iconSearch} />
+          <input
+            type="text"
+            placeholder={placeholder}
+            className={styles.searchInput}
+            value={query}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => { if (enableDropdown) setShowDropdown(true); }}
+          />
+          <IconMenu2 className={styles.menuIcon} />
+        </div>
+        {enableDropdown && showDropdown && filteredActors.length > 0 && (
+          <ul className={styles.dropdown}>
+            {filteredActors.map((actor) => ( // add every actor to a list
+              <li
+                key={actor.nodeID}
+                className={styles.dropdownItem}
+                onClick={() => handleSelect(actor)} // Moves the camera to whichever actor was chosen
+              >
+                {actor.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      {enableDropdown && showDropdown && filteredActors.length > 0 && (
-        <ul className={styles.dropdown}>
-          {filteredActors.map((actor) => (
-            <li
-              key={actor.nodeID}
-              className={styles.dropdownItem}
-              onClick={() => handleSelect(actor)}
-            >
-              {actor.name}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+    );
+  
+  }
+
+  // This is the searchbar for the "new actors" page
+  else if (searchBarMode == "Actors") {
+    return (
+      <div
+        ref={containerRef}
+        className={styles.searchContainer}
+        style={{ backgroundColor: bgColor, width, position: "relative" }}
+      >
+        <div className={styles.searchBar}>
+          <IconSearch className={styles.iconSearch} />
+          <input
+            type="text"
+            placeholder={placeholder}
+            className={styles.searchInput}
+            value={query}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => { if (enableDropdown) setShowDropdown(true); }}
+          />
+          <IconMenu2 className={styles.menuIcon} />
+        </div>
+        {enableDropdown && showDropdown && filteredActors.length > 0 && (
+          <ul className={styles.dropdown}>
+            {filteredActors.map((actor) => (
+              <li
+                key={actor.id}
+                className={styles.dropdownItem}
+                onClick={() => {
+                  setQuery(actor.name);   // holds the objects name
+                  setShowDropdown(false);  
+                  onSearch(actor.id);     // Use the objects id
+                }}
+              >
+                {actor.name /* Shows the name of every actor object */}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
 }
 
 export default SearchBar;
