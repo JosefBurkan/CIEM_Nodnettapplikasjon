@@ -49,7 +49,8 @@ function Layout() {
           <Route path="/nettverks-arkiv" element={<NettverksArkiv />} />
           <Route path="/actor/:id" element={<AboutActor />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
+              </Routes>
+              <ToastContainer />
       </div>
     </>
   );

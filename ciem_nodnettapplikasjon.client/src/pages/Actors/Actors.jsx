@@ -14,7 +14,7 @@ function Actors() {
             <Box title="Frivillige Aktører" boxIconColor="#E8D652" destination="/actorsVol" />
             <Box title="Statlige Aktører" boxIconColor="#FF3F3F" destination="/actorsGov" />
             <Box title="Alle Aktører" boxIconColor="#D2D2D2" destination="/actorsAll" />
-            <Box title="Ny Aktør" boxIconColor="#057A36" destination="/actorNew" />
+            <Box title="Ny Aktør" boxIconColor="#057A36" destination="/createActor" />
         </div>
     );
 }

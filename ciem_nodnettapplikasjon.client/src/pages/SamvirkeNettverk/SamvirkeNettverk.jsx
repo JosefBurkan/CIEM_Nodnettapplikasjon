@@ -33,7 +33,10 @@ function SamvirkeNettverk() {
                                     to={`/sn/${situation.networkId}`}
                                     className={styles.cardLink}
                                 >
-                                    <LiveNetworkWidget title={situation.title} />
+                                    <div style={{ position: "relative" }}>
+                                        <LiveNetworkWidget title={situation.title} />
+                                        <div className={styles.liveIndicator}>LIVE</div>
+                                    </div>
                                 </Link>
                             ))}
                         </div>

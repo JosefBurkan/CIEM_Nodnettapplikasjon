@@ -51,6 +51,27 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         }
 
+        // 3. Archive a specific KHN and move it to ArchivedNetworks
+        [HttpPost("archive/{id}")]
+        public async Task<IActionResult> ArchiveNetwork(int id)
+        {
+            var success = await _nodeNetwork.ArchiveNetwork(id);
+
+            if (!success)
+                return NotFound($"No network found with ID {id}");
+
+            return Ok("Network archived successfully");
+        }
+
+
+        // Delete network
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteNetwork(int id)
+        {
+            await _nodeNetwork.DeleteNodeNetwork(id);
+            return Ok("Network deleted successfully");
+        }
+
 
         // Used by Dashboard.jsx for dynamic logic
         [HttpGet("all-situations")]
