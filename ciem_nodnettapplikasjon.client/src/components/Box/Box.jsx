@@ -8,16 +8,19 @@ function Box({ title, boxIconColor, destination, disableLink = false }) {
         return (
             <Link to={destination} className={styles.boxLink}>
                 <div className={styles.box}>
-                    <div className={styles.boxHeader} >
+                    <div className={styles.boxHeader}>
                         <span>{title}</span>
                     </div>
                     <div className={styles.boxContent}>
-                        <IconUsers alt="profil-ikon" className={styles.boxIcon} style={{ color: boxIconColor }} />
+                        <IconUsers
+                            alt="profil-ikon"
+                            className={styles.boxIcon}
+                            style={{ color: boxIconColor }}
+                        />
                     </div>
                 </div>
             </Link>
         );
-
     } else {
         return (
             <div className={styles.box}>
@@ -25,12 +28,15 @@ function Box({ title, boxIconColor, destination, disableLink = false }) {
                     <span>{title}</span>
                 </div>
                 <div className={styles.boxContent}>
-                    <IconUsers alt="profil-ikon" className={styles.boxIcon} style={{ color: boxIconColor }} />
+                    <IconUsers
+                        alt="profil-ikon"
+                        className={styles.boxIcon}
+                        style={{ color: boxIconColor }}
+                    />
                 </div>
             </div>
         );
     }
 }
-
 
 export default Box;

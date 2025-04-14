@@ -1,12 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.KHN;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
 
-
-namespace CIEM_Nodnettapplikasjon.Server.Services.KHN
+namespace CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk
 {
-
     public class NetworkBuilderService : INetworkBuilderService
     {
         private readonly INetworkBuilderRepository _repository;
@@ -32,6 +30,5 @@ namespace CIEM_Nodnettapplikasjon.Server.Services.KHN
         {
             return await _repository.DeleteNetworkAsync(networkId);
         }
-
     }
 }

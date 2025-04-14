@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { IconSearch, IconMenu2 } from '@tabler/icons-react';
-import styles from "./SearchBar.module.css";
+import styles from './SearchBar.module.css';
 
 function SearchBar({
   placeholder = "Søk...",
@@ -12,56 +12,60 @@ function SearchBar({
   enableDropdown = false,
   searchBarMode = "",
 }) {
-  const [query, setQuery] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const containerRef = useRef(null);
+    const [query, setQuery] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const containerRef = useRef(null);
 
-  // Filter aktører basert på query dersom enableDropdown er true.
-  const filteredActors = useMemo(() => {
-    if (!enableDropdown || !query) return [];
-    return actors.filter(actor =>
-      actor.name?.toLowerCase().includes(query.toLowerCase())
-    );
-  }, [enableDropdown, query, actors]);
+    // Filter aktører basert på query dersom enableDropdown er true.
+    const filteredActors = useMemo(() => {
+        if (!enableDropdown || !query) return [];
+        return actors.filter((actor) =>
+            actor.name?.toLowerCase().includes(query.toLowerCase())
+        );
+    }, [enableDropdown, query, actors]);
 
-  const handleChange = (e) => {
-    setQuery(e.target.value);
-    if (enableDropdown) {
-      setShowDropdown(true);
-    }
-    onSearch(e.target.value);
-  };
-
-  // Ved Enter-tast, velg første match om den finnes.
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (filteredActors.length > 0) {
-        handleSelect(filteredActors[0]);
-      } else {
-        setShowDropdown(false);
-      }
-    }
-  };
-
-  const handleSelect = (actor) => {
-    setQuery(actor.name);
-    setShowDropdown(false);
-    // Debug: log for å se hva som sendes
-    console.log("Selected actor:", actor);
-    onSelectActor(actor);
-  };
-
-  // Lukk dropdown hvis man klikker utenfor komponenten.
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
+    const handleChange = (e) => {
+        setQuery(e.target.value);
+        if (enableDropdown) {
+            setShowDropdown(true);
+        }
+        onSearch(e.target.value);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+
+    // Ved Enter-tast, velg første match om den finnes.
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (filteredActors.length > 0) {
+                handleSelect(filteredActors[0]);
+            } else {
+                setShowDropdown(false);
+            }
+        }
+    };
+
+    const handleSelect = (actor) => {
+        setQuery(actor.name);
+        setShowDropdown(false);
+        // Debug: log for å se hva som sendes
+        console.log('Selected actor:', actor);
+        onSelectActor(actor);
+    };
+
+    // Lukk dropdown hvis man klikker utenfor komponenten.
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(event.target)
+            ) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () =>
+            document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
   // Changes the searchbar's function depending on its set value
   if (searchBarMode == "NetworkSearch") {

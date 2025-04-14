@@ -1,5 +1,5 @@
-.navbar{
-    background-color: #1A1A1A;
+.navbar {
+    background-color: #1a1a1a;
     padding: 0.5rem 1.5rem;
     display: flex;
     align-items: center;
@@ -8,17 +8,18 @@
     width: auto;
     max-width: 100vw;
     height: 3.5rem;
-    overflow:hidden;
+    overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
     z-index: 1000; /* Plasseres øverst. */
-   
 }
 
-.navbarRight, .navbarLeft, .navbarCenter {
-    display:flex;
+.navbarRight,
+.navbarLeft,
+.navbarCenter {
+    display: flex;
     align-items: center;
 }
-.navbarLeft{
+.navbarLeft {
     flex: 1;
     gap: 1rem;
 }
@@ -26,27 +27,33 @@
     flex: 2;
     justify-content: center;
 }
-.navbarRight{
+.navbarRight {
     flex: 1;
     justify-content: flex-end;
     gap: 1rem;
     position: relative;
 }
-.logoContainer{
-    display:flex;
+.logoContainer {
+    display: flex;
     align-items: center;
 }
-.logo{
+.logo {
     max-height: 55px;
     max-width: 55px;
 }
 
-.iconSearch, .menuIcon, .iconMail, .iconUser {
+.iconSearch,
+.menuIcon,
+.iconMail,
+.iconUser {
     color: hsl(0, 0%, 80%);
     font-size: 1.2rem;
     margin: 0 5px;
 }
-.iconSearch:hover, .menuIcon:hover, .iconMail:hover, .iconUser:hover {
+.iconSearch:hover,
+.menuIcon:hover,
+.iconMail:hover,
+.iconUser:hover {
     cursor: pointer;
 }
 
@@ -61,31 +68,34 @@
     font-weight: bold;
     font-size: 1.3rem;
     padding: 0.5rem 1rem;
-    transition:ease-in 0.1s;
+    transition: ease-in 0.1s;
 }
 
 .navbarLink:hover {
     color: hwb(184 0% 25%);
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
-@media (max-width: 768px) { /* Slik at det kan zoomes inn og fortsatt brukes*/
+@media (max-width: 768px) {
+    /* Slik at det kan zoomes inn og fortsatt brukes*/
     .navbar {
         flex-direction: column;
         align-items: flex-start;
         height: auto;
     }
 
-    .navbarLeft, .navbarCenter, .navbarRight {
+    .navbarLeft,
+    .navbarCenter,
+    .navbarRight {
         width: 100%;
         justify-content: space-between;
         margin: 10px 0;
     }
 
-    .searchContainer, .searchBar{
+    .searchContainer,
+    .searchBar {
         width: 100%;
     }
-
 
     .navbarLinks {
         flex-direction: column;
@@ -99,7 +109,7 @@
 }
 
 .activeLink {
-    color: white !important; /* Viser at man er på siden likt som på Figma. Important gjør at den ikke endrer ved hover*/ 
+    color: white !important; /* Viser at man er på siden likt som på Figma. Important gjør at den ikke endrer ved hover*/
     text-decoration: underline;
     text-decoration-color: hsl(17, 100%, 50%);
     text-decoration-thickness: 2px;

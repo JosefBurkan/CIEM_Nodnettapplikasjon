@@ -1,6 +1,6 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import styles from './CreateActor.module.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 
@@ -16,25 +16,25 @@ function CreateActor() {
 
     const [subActorFormData, setSubActorFormData] = useState({
         actorID: 0,
-        subActor: ""
+        subActor: '',
     });
 
     const [actorFormData, setActorFormData] = useState({
-        name: "",
-        category: "",
-        actorType: "",
-        subActors: "",
-        description: ""
+        name: '',
+        category: '',
+        actorType: '',
+        subActors: '',
+        description: '',
     });
-
-
 
     // Fetch actors to use actor names for the drop down meny
     const fetchActors = async () => {
-        const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/actor")
+        const response = await fetch(
+            'https://ciem-nodnettapplikasjon.onrender.com/api/actor'
+        );
         const data = await response.json();
         setExistingActor(data);
-    } 
+    };
 
     useEffect(() => {
         fetchActors();
@@ -44,7 +44,6 @@ function CreateActor() {
         setActorFormData({
             ...actorFormData,
             [e.target.name]: e.target.value,
-
         });
     };
 
@@ -72,89 +71,86 @@ function CreateActor() {
     const handleSubmitActor = async (e) => {
         e.preventDefault();
 
-
         const actorPayload = {
             name: actorFormData.name,
             category: actorFormData.category,
             actorType: actorFormData.actorType,
-            subActors: actorFormData.subActors 
-                ? actorFormData.subActors.split(",").map((s) => s.trim()) // Map to folder, parse at every ','
+            subActors: actorFormData.subActors
+                ? actorFormData.subActors.split(',').map((s) => s.trim()) // Map to folder, parse at every ','
                 : [],
-            description: actorFormData.description
+            description: actorFormData.description,
         };
 
-
         try {
-            const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/actor/CreateActor", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(actorPayload)
-            });
+            const response = await fetch(
+                'https://ciem-nodnettapplikasjon.onrender.com/api/actor/CreateActor',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(actorPayload),
+                }
+            );
 
             if (!response.ok) {
-                throw new Error("Failed to create actor");
+                throw new Error('Failed to create actor');
             }
 
-            setSuccessMessage("New actor created!");
+            setSuccessMessage('New actor created!');
 
             setActorFormData({
-                name: "",
-                category: "",
-                actorType: "",
-                subActor: "",
-                description: ""
+                name: '',
+                category: '',
+                actorType: '',
+                subActor: '',
+                description: '',
             });
 
             setTimeout(() => {
-                navigate("/actorsAll");
+                navigate('/actorsAll');
             }, 2000);
-            
-
         } catch (error) {
-            console.error("Error creating actor:", error);
+            console.error('Error creating actor:', error);
         }
     };
 
     // Create a subactor for an existing actor
     const handleSubmitSubActor = async (e) => {
         e.preventDefault();
-    
+
         const subActorPayLoad = {
             actorID: subActorFormData.actorID,
-            subActor: subActorFormData.subActor
+            subActor: subActorFormData.subActor,
         };
 
-        console.log(subActorFormData.subActor);
-    
         try {
-            const response = await fetch("https://localhost:5255/api/actor/CreateSubActor", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(subActorPayLoad), 
-            });
-    
+            const response = await fetch(
+                'https://localhost:5255/api/actor/CreateSubActor',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(subActorPayLoad),
+                }
+            );
+
             if (!response.ok) {
-                throw new Error("Failed to create sub-actor");
+                throw new Error('Failed to create sub-actor');
             }
-    
-            console.log("Sub-actor created successfully!");
-            
+
+            console.log('Sub-actor created successfully!');
+
             setTimeout(() => {
-                navigate("/actorsAll");
+                navigate('/actorsAll');
             }, 2000);
-    
         } catch (error) {
-            console.error("Could not create sub-actor: ", error);
+            console.error('Could not create sub-actor: ', error);
         }
     };
-    
-    
 
-    if (actorHierachy == "Overordnet") {
+    if (actorHierachy == 'Overordnet') {
         return (
             <div className={styles.container}>
                 <h1>Ny Aktør</h1>
@@ -162,18 +158,19 @@ function CreateActor() {
                 {successMessage && (
                     <div className={styles.successMessage}>
                         {successMessage}
-                    </div>)}
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmitActor} className={styles.form}>
                     {/* Choose hierachy*/}
                     <label htmlFor="actorHierachy">Velg Hierarki:</label>
-                        <select
-                            id="actorHierachy"
-                            name="actorHierachy"
-                            value={"Overordnet"}
-                            onChange={changeHierachy}
-                            className={styles.selectInput}
-                            >
+                    <select
+                        id="actorHierachy"
+                        name="actorHierachy"
+                        value={'Overordnet'}
+                        onChange={changeHierachy}
+                        className={styles.selectInput}
+                    >
                         <option value="Overordnet">Overordnet</option>
                         <option value="Underliggende">Underliggende</option>
                     </select>
@@ -223,7 +220,9 @@ function CreateActor() {
                     </select>
 
                     {/* SubActors (comma-separated) */}
-                    <label htmlFor="subActors">Sub-aktører (kommaseparert):</label>
+                    <label htmlFor="subActors">
+                        Sub-aktører (kommaseparert):
+                    </label>
                     <input
                         id="subActors"
                         name="subActors"
@@ -252,8 +251,7 @@ function CreateActor() {
                 </form>
             </div>
         );
-    } else
-    {
+    } else {
         return (
         <div className={styles.container}>
             <h1>Legg til Underliggende aktør</h1>
@@ -290,12 +288,12 @@ function CreateActor() {
                     />
                 
 
-                {/* Name */}
-                <label htmlFor="subActor">Navn:</label>
-                <input
-                    id="subActor"
-                    name="subActor"
-                    type="text"
+                    {/* Name */}
+                    <label htmlFor="subActor">Navn:</label>
+                    <input
+                        id="subActor"
+                        name="subActor"
+                        type="text"
                         placeholder="Navn..."
                     value={subActorFormData.subActor}
                     onChange={handleChangeSubActor}
@@ -303,17 +301,12 @@ function CreateActor() {
                     required
                     />
 
-                {/* Submit */}
-                <button type="submit" className={styles.createButton}>
-                    Opprett ny Underliggende aktør
-                </button>
-                    
-            </form>
-                
-        </div>
-            
-
-
+                    {/* Submit */}
+                    <button type="submit" className={styles.createButton}>
+                        Opprett ny Underliggende aktør
+                    </button>
+                </form>
+            </div>
         );
     }
 }
