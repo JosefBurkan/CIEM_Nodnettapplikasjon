@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import styles from './CreateActor.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import SearchBar from '../../components/SearchBar/SearchBar';
+
 
 function CreateActor() {
     const navigate = useNavigate();
-    const [actorHierachy, setActorHierachy] = useState('Overordnet');
-    const [existingActor, setExistingActor] = useState(''); // For the dropdown meny, to select an actor from the database
-    const [successMessage, setSuccessMessage] = useState('');
-    const [actorID, setActorID] = useState('');
-    const [subActor, setSubActor] = useState('');
+    const [actorHierachy, setActorHierachy] = useState("Overordnet");
+    const [existingActor, setExistingActor] = useState(""); // For the dropdown meny, to select an actor from the database 
+    const [successMessage, setSuccessMessage] = useState("");
+    const [actorID, setActorID] = useState("");
+    const [subActor, setSubActor] = useState("");
+    const [search, setSearch] = useState("");
 
-    const [subaActorFormData, setSubActorFormData] = useState({
+    const [subActorFormData, setSubActorFormData] = useState({
         actorID: 0,
         subActor: '',
     });
@@ -44,12 +47,22 @@ function CreateActor() {
         });
     };
 
+    // Set the sub actor formdata to the value of the sub actor elements
     const handleChangeSubActor = (e) => {
         setSubActorFormData({
-            ...subaActorFormData,
+            ...subActorFormData,
             [e.target.name]: e.target.value,
+
         });
     };
+
+    // Set the sub actor, actorID to the chose actor
+    const handleActorSelect = (actorID) => {
+        setSubActorFormData({
+          ...subActorFormData,
+          actorID: parseInt(actorID, 10),
+        });
+      };
 
     const changeHierachy = (e) => {
         setActorHierachy(e.target.value);
@@ -107,13 +120,13 @@ function CreateActor() {
         e.preventDefault();
 
         const subActorPayLoad = {
-            actorID: subaActorFormData.actorID,
-            subActor: subaActorFormData.subActor,
+            actorID: subActorFormData.actorID,
+            subActor: subActorFormData.subActor,
         };
 
         try {
             const response = await fetch(
-                'https://ciem-nodnettapplikasjon.onrender.com/api/actor/CreateSubActor',
+                'https://localhost:5255/api/actor/CreateSubActor',
                 {
                     method: 'POST',
                     headers: {
@@ -150,7 +163,7 @@ function CreateActor() {
 
                 <form onSubmit={handleSubmitActor} className={styles.form}>
                     {/* Choose hierachy*/}
-                    <label htmlFor="actorHierachy">Velg Hieraki:</label>
+                    <label htmlFor="actorHierachy">Velg Hierarki:</label>
                     <select
                         id="actorHierachy"
                         name="actorHierachy"
@@ -202,7 +215,7 @@ function CreateActor() {
                         required
                     >
                         <option value="">Velg type</option>
-                        <option value="person">Person</option>
+                        <option value="selvstendig">Selvstendig</option>
                         <option value="organisasjon">Organisasjon</option>
                     </select>
 
@@ -240,41 +253,40 @@ function CreateActor() {
         );
     } else {
         return (
-            <div className={styles.container}>
-                <h1>Legg til Underliggende aktør</h1>
+        <div className={styles.container}>
+            <h1>Legg til Underliggende aktør</h1>
 
                 <form onSubmit={handleSubmitSubActor} className={styles.form}>
-                    {/* Choose hierachy*/}
-                    <label htmlFor="actorHierachy">Velg Hieraki:</label>
-                    <select
-                        id="actorHierachy"
-                        name="actorHierachy"
-                        value={'Underliggende'}
-                        onChange={changeHierachy}
-                        className={styles.selectInput}
-                    >
-                        <option value="Overordnet">Overordnet</option>
-                        <option value="Underliggende">Underliggende</option>
+                
+                {/* Choose hierachy*/}
+                <label htmlFor="actorHierachy">Velg Hieraki:</label>
+                <select
+                    id="actorHierachy"
+                    name="actorHierachy"
+                    value={"Underliggende"}
+                    onChange={changeHierachy}
+                    className={styles.selectInput}
+                >
+                    <option value="Overordnet">Overordnet</option>
+                    <option value="Underliggende">Underliggende</option>
                     </select>
-
-                    {/* Actor */}
-                    <label htmlFor="actorID">Aktør:</label>
-                    <select
+                    
+                <br/>
+                    
+                {/*Search for available actors in the database*/}
+                <label htmlFor="actorID">Velg en aktør å legge under:</label>
+                    <SearchBar
                         id="actorID"
                         name="actorID"
-                        className={styles.textInput}
-                        required
-                        onChange={
-                            handleChangeSubActor /* Set ID of chosen actor, to send subactor to that location*/
-                        }
-                    >
-                        {existingActor.map((actor) => (
-                            <option key={actor.id} value={actor.id}>
-                                {' '}
-                                {actor.name}
-                            </option>
-                        ))}
-                    </select>
+                        placeholder="Søk etter aktører"
+                        bgColor="#1A1A1A"
+                        onSearch={handleActorSelect}
+                        value={subActorFormData.actorID}
+                        enableDropdown={true}
+                        actors={existingActor}
+                        searchBarMode="Actors"  // Specify that searchbar is for actors, not the node network
+                    />
+                
 
                     {/* Name */}
                     <label htmlFor="subActor">Navn:</label>
@@ -283,10 +295,10 @@ function CreateActor() {
                         name="subActor"
                         type="text"
                         placeholder="Navn..."
-                        value={subaActorFormData.subActor}
-                        onChange={handleChangeSubActor}
-                        className={styles.textInput}
-                        required
+                    value={subActorFormData.subActor}
+                    onChange={handleChangeSubActor}
+                    className={styles.textInput}
+                    required
                     />
 
                     {/* Submit */}

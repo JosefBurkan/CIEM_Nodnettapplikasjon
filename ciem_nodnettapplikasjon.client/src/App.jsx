@@ -26,6 +26,7 @@ import NewNetwork from './pages/SamvirkeNettverk/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/SamvirkeNettverk/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/SamvirkeNettverk/QRcode/QRAccessPage.jsx';
+import { ToastContainer } from 'react-toastify';
 
 function Layout() {
     const location = useLocation();
@@ -64,8 +65,9 @@ function Layout() {
                     />
                     <Route path="/actor/:id" element={<AboutActor />} />
                     <Route path="*" element={<Navigate to="/dashboard" />} />
-                </Routes>
-            </div>
+                      </Routes>
+                    <ToastContainer />
+      </div>
         </>
     );
 }
