@@ -12,10 +12,13 @@ import {
 } from "@xyflow/react";
 import dagre from "dagre";
 import "@xyflow/react/dist/style.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./LiveKHN.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import AddActor from "./AddActor";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const proOptions = { hideAttribution: true };
 
@@ -63,6 +66,8 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
 }
 
 function LiveKHN() {
+
+    const navigate = useNavigate();
   const { networkId } = useParams();
 
   const [nodeNetwork, setNodeNetwork] = useState({});
@@ -76,13 +81,16 @@ function LiveKHN() {
 
   const [activeTab, setActiveTab] = useState("actors");
   const [selectedNode, setSelectedNode] = useState(null);
-  const [showAddActorModal, setShowAddActorModal] = useState(false);
+    const [showAddActorModal, setShowAddActorModal] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // Få tak i ReactFlow-instansen for å kunne sentrere kameraet
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
   const clickTimeoutRef = useRef(null);
     const doubleClickFlagRef = useRef(false);
+
+ 
 
 
 
@@ -104,6 +112,25 @@ function LiveKHN() {
       fetchKHN();
     }
   }, [networkId]);
+
+
+    const handleArchiveNetwork = async () => {
+        try {
+            const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
+                method: "POST",
+            });
+
+            if (res.ok) {
+                toast.success("Nettverket ble arkivert!");
+                navigate("/nettverks-arkiv");
+            } else {
+                toast.error("Kunne ikke arkivere nettverket.");
+            }
+        } catch (err) {
+            console.error("Error archiving network:", err);
+            toast.error("En feil oppstod under arkivering.");
+        }
+    };
 
   // Oppdater layout: generer noder og kanter fra nodeNetwork og hidden-sets
   const updateLayout = useCallback(() => {
@@ -398,7 +425,91 @@ function LiveKHN() {
                     Slett node
                   </button>
                 </div>
-              )}
+                          )}
+
+                          {activeTab === "details" && !selectedNode && (
+                              <>
+                              <div>
+                                  <h3>{nodeNetwork.name}</h3>
+                                      <p>Status: {nodeNetwork.status}</p>
+
+                                  <button
+                                      className={styles.archiveButton}
+                                      onClick={async () => {
+                                          try {
+                                              const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
+                                                  method: "POST",
+                                              });
+                                              if (res.ok) {
+                                                  toast.success("Nettverket er arkivert!", {
+                                                      position: "top-right",
+                                                      autoClose: 3000,
+                                                      hideProgressBar: false,
+                                                      closeOnClick: true,
+                                                      pauseOnHover: true,
+                                                      draggable: true,
+                                                  });
+                                                  setTimeout(() => {
+                                                      navigate("/nettverks-arkiv");
+                                                  }, 2000);
+                                              } else {
+                                                  toast.error("Kunne ikke arkivere nettverket.");
+                                              }
+                                          } catch (err) {
+                                              console.error("Error archiving network:", err);
+                                              toast.error("Noe gikk galt...");
+                                          }
+                                      }}
+                                  >
+                                      Arkiver Nettverk
+                                  </button>          
+
+
+                                  <button
+                                      className={styles.deleteNetworkButton}
+                                      onClick={() => setShowDeleteConfirm(true)}
+                                  >
+                                      Slett Nettverk
+                                  </button>
+                                  </div>
+
+                                  {showDeleteConfirm && (
+                                      <div className={styles.confirmModal}>
+                                          <p>Er du sikker på at du vil slette dette nettverket?</p>
+                                          <button
+                                              onClick={async () => {
+                                                  try {
+                                                      const res = await fetch(`https://localhost:5255/api/KHN/delete/${networkId}`, {
+                                                          method: "DELETE",
+                                                      });
+
+                                                      if (res.ok) {
+                                                          toast.success("Nettverket ble slettet!", {
+                                                              position: "top-right",
+                                                              autoClose: 3000,
+                                                          });
+                                                          setTimeout(() => {
+                                                              navigate("/samvirke-nettverk");
+                                                          }, 2000);
+                                                      } else {
+                                                          toast.error("Kunne ikke slette nettverket.");
+                                                      }
+                                                  } catch (err) {
+                                                      console.error("Error deleting network:", err);
+                                                  }
+                                              }}
+                                          >
+                                              Ja, slett
+                                          </button>
+
+                                          <button onClick={() => setShowDeleteConfirm(false)}>
+                                              Avbryt
+                                          </button>
+                                      </div>
+                          )}
+                      </>                             
+)}
+
               {activeTab === "actors" && nodeNetwork.nodes && (
                 <ul>
                   <button

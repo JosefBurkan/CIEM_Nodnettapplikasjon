@@ -20,6 +20,8 @@ import NewNetwork from './pages/KHN/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/KHN/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/KHN/QRcode/QRAccessPage.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Layout() {
   const location = useLocation();
@@ -31,7 +33,7 @@ function Layout() {
       <div className="pageContainer">
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/krisehandterings-nettverk" element={<KHSnettverk />} />
+          <Route path="/samvirke-nettverk" element={<KHSnettverk />} />
                   <Route path="/actors" element={<Actors />} />
                   <Route path="/qr-code" element={<QRcodePage />} />
                   <Route path="/qr-access" element={<QRAccessPage />} />
@@ -49,7 +51,8 @@ function Layout() {
           <Route path="/nettverks-arkiv" element={<NettverksArkiv />} />
           <Route path="/actor/:id" element={<AboutActor />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
+              </Routes>
+              <ToastContainer />
       </div>
     </>
   );

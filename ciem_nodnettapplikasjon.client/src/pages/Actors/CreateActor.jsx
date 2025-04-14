@@ -205,7 +205,7 @@ function CreateActor() {
                         required
                     >
                         <option value="">Velg type</option>
-                        <option value="person">Person</option>
+                        <option value="selvstending">Selvsending</option>
                         <option value="organisasjon">Organisasjon</option>
                     </select>
 
