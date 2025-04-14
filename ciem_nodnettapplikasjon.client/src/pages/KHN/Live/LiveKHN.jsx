@@ -107,6 +107,24 @@ function LiveKHN() {
     }
   };
 
+  // API for deleting a single node
+  const deleteNode = async (nodeID) => {
+    try {
+      const response = await fetch(`https://localhost:5255/api/Nodes/delete/${nodeID}`, {
+        method: "DELETE",
+      });
+  
+      const text = await response.text(); // Don't assume it's JSON
+      console.log("Server response:", text);
+      
+      // Optional: refetch updated data
+      setIsReady(true);
+    } catch (error) {
+      console.error("Failed to delete node:", error);
+    }
+  };
+  
+
   useEffect(() => {
     if (networkId) {
       fetchKHN();
@@ -181,13 +199,17 @@ function LiveKHN() {
     [reactFlowInstance, initialNodes]
   );
 
+  // Delete a selected node
   const handleDeleteNode = useCallback(() => {
     if (!selectedNode) return;
-    const nodeIdToDelete = selectedNode.id;
+    const nodeIdToDelete = selectedNode.id;    
+    deleteNode(selectedNode.id);
+
 
     const updatedNodes = nodeNetwork.nodes.filter(
-      (n) => String(n.nodeID) !== nodeIdToDelete
+      (n) => String(n.nodeID) !== nodeIdToDelete, 
     );
+
     setNodeNetwork((prev) => ({
       ...prev,
       nodes: updatedNodes
