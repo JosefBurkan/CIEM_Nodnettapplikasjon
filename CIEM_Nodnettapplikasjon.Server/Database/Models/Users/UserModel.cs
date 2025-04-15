@@ -14,6 +14,8 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Users
         public string Phone { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+        public string Organisasjon { get; set; }
+        public string Stat { get; set; }
         public string qr_token {  get; set; }
 
         public UserModel() { }
