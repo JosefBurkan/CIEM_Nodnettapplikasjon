@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CIEM_Nodnettapplikasjon.Server.Services.KHN;
+using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
@@ -25,7 +25,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(new { id });
         }
 
-
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteNetwork(int id)
         {
@@ -35,6 +34,5 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
             return NoContent();
         }
-
     }
 }

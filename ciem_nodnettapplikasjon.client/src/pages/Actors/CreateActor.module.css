@@ -41,7 +41,6 @@
 
 .createButton:hover {
     transform: scale(1.05);
-
 }
 
 .successMessage {
@@ -52,4 +51,3 @@
     border-radius: 4px;
     text-align: center;
 }
-

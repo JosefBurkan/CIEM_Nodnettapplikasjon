@@ -1,32 +1,31 @@
-import React, { useState, useEffect } from "react";
-import UpdatesWidget from "../../components/DashboardComponents/UpdatesWidget";
-import CriticalInfoWidget from "../../components/DashboardComponents/CriticalInfoWidget";
-import ActiveActorsWidget from "../../components/DashboardComponents/ActiveActorsWidget";
-import LiveNetworkWidget from "../../components/DashboardComponents/LiveNetworkWidget";
-import styles from "./Dashboard.module.css";
-import Box from "../../components/Box/Box";
-import { WiDaySunny } from "react-icons/wi";
-import { Link } from "react-router-dom";
-
+import React, { useState, useEffect } from 'react';
+import UpdatesWidget from '../../components/DashboardComponents/UpdatesWidget';
+import CriticalInfoWidget from '../../components/DashboardComponents/CriticalInfoWidget';
+import ActiveActorsWidget from '../../components/DashboardComponents/ActiveActorsWidget';
+import LiveNetworkWidget from '../../components/DashboardComponents/LiveNetworkWidget';
+import styles from './Dashboard.module.css';
+import Box from '../../components/Box/Box';
+import { WiDaySunny } from 'react-icons/wi';
+import { Link } from 'react-router-dom';
 
     function Dashboard() {
         const [situations, setSituations] = useState([]);
         const [loading, setLoading] = useState(true);
         const [user, setUser] = useState({});
 
+    useEffect(() => {
+        fetch('https://localhost:5255/api/samvirkeNettverk/all-situations')
+            .then((res) => res.json())
+            .then((data) => {
+                setSituations(data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error('Failed to fetch situations:', err);
+                setLoading(false);
+            });
+    }, []);
 
-        useEffect(() => {
-            fetch("https://localhost:5255/api/khn/all-situations")
-                .then((res) => res.json())
-                .then((data) => {
-                    setSituations(data); 
-                    setLoading(false); 
-                })
-                .catch((err) => {
-                    console.error("Failed to fetch situations:", err);
-                    setLoading(false);
-                });
-        }, [])
 
         useEffect(() => {
             const username = localStorage.getItem("username"); 
@@ -50,9 +49,9 @@ import { Link } from "react-router-dom";
 
         const hasLiveSituations = situations.some(s => s.status === "Live");
 
-    if (hasLiveSituations) {
 
-        // Live KHN
+    if (hasLiveSituations) {
+        // Live SamvirkeNettverk
         return (
             <div className={styles.dashboard}>
                 <div className={styles.leftColumn}>
@@ -71,7 +70,7 @@ import { Link } from "react-router-dom";
         );
     }
 
-    // No Live KHN
+    // No Live SamvirkeNettverk
     return (
         <div className={styles.noCrisisContainer}>
             <div className={styles.welcomeBox}>
@@ -87,9 +86,8 @@ import { Link } from "react-router-dom";
                     )}
                 </div>
                 <div className={styles.rightText}>
-                    <p>Ingen pågående kriser er registrert</p>
+                    <p>Ingen pågående hendelser er registrert</p>
                     <WiDaySunny className={styles.sunIcon} />
-
                 </div>
             </div>
 

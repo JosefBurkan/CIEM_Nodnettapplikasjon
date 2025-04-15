@@ -1,39 +1,59 @@
-import React from "react";
-import styles from "./CriticalInfoWidget.module.css";
+import React from 'react';
+import styles from './CriticalInfoWidget.module.css';
 
 const CriticalInfoWidget = () => {
     const infoBoxes = [
         {
-            time: "19:16",
-            content: [{ label: "Antall", value: "Skadde: 6 | Døde: 0 | Uskadde: 16 | Uvisst: 5" }],
-        },
-        {
-            time: "19:16",
-            content: [{ label: "Antall", value: "Skadde: 6 | Døde: 0 | Uskadde: 16 | Uvisst: 5" }],
-        },
-        {
-            time: "19:12",
-            content: [{ label: "Evakuering", value: "Evakuert: 18 | Gjenværende: 4 | Savnet: 5" }],
-        },
-        {
-            time: "19:12",
-            content: [{ label: "Evakuering", value: "Evakuert: 18 | Gjenværende: 4 | Savnet: 5" }],
-        },
-        {
-            time: "19:10",
+            time: '19:16',
             content: [
-                { label: "Sikkerhet", value: "Område: " },
-                { label: "Struktur", value: "🟢🟢🟢🟢🟢" },
-                { label: "Fare for eskalering", value: "🟢🟢🟢🟢🟢" },
+                {
+                    label: 'Antall',
+                    value: 'Skadde: 6 | Døde: 0 | Uskadde: 16 | Uvisst: 5',
+                },
             ],
         },
         {
-            time: "19:12",
+            time: '19:16',
             content: [
-                { label: "Tilgjengelighet", value: "" },
-                { label: "Kjøretøy", value: "🟠🟠🟠🟠🟠" },
-                { label: "Droner", value: "⚫⚫⚫⚫⚫" },
-                { label: "Letehund", value: "⚫⚫⚫⚫⚫" },
+                {
+                    label: 'Antall',
+                    value: 'Skadde: 6 | Døde: 0 | Uskadde: 16 | Uvisst: 5',
+                },
+            ],
+        },
+        {
+            time: '19:12',
+            content: [
+                {
+                    label: 'Evakuering',
+                    value: 'Evakuert: 18 | Gjenværende: 4 | Savnet: 5',
+                },
+            ],
+        },
+        {
+            time: '19:12',
+            content: [
+                {
+                    label: 'Evakuering',
+                    value: 'Evakuert: 18 | Gjenværende: 4 | Savnet: 5',
+                },
+            ],
+        },
+        {
+            time: '19:10',
+            content: [
+                { label: 'Sikkerhet', value: 'Område: ' },
+                { label: 'Struktur', value: '🟢🟢🟢🟢🟢' },
+                { label: 'Fare for eskalering', value: '🟢🟢🟢🟢🟢' },
+            ],
+        },
+        {
+            time: '19:12',
+            content: [
+                { label: 'Tilgjengelighet', value: '' },
+                { label: 'Kjøretøy', value: '🟠🟠🟠🟠🟠' },
+                { label: 'Droner', value: '⚫⚫⚫⚫⚫' },
+                { label: 'Letehund', value: '⚫⚫⚫⚫⚫' },
             ],
         },
     ];

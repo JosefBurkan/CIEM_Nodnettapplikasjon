@@ -1,8 +1,7 @@
-
 .container {
-    background-color: #1A1A1A;
+    background-color: #1a1a1a;
     color: #fff;
-    min-height: 100vh; 
+    min-height: 100vh;
     padding: 2rem;
     box-sizing: border-box;
 }
@@ -13,14 +12,12 @@
     margin-bottom: 2rem;
 }
 
-
 .controls {
     display: flex;
     gap: 1rem;
     justify-content: center;
     margin-bottom: 2rem;
 }
-
 
 .inputField {
     padding: 0.5rem;
@@ -42,18 +39,16 @@
     transition: transform 0.2s;
 }
 
-    .createButton:hover {
-        transform: scale(1.05);
-    }
-
+.createButton:hover {
+    transform: scale(1.05);
+}
 
 .grid {
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    justify-items: center; 
+    justify-items: center;
 }
-
 
 .networkCard {
     width: 140px;
@@ -70,22 +65,21 @@
     text-align: center;
 }
 
-    .networkCard:hover {
-        transform: scale(1.05);
-    }
+.networkCard:hover {
+    transform: scale(1.05);
+}
 
-  
-    .networkCard img {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 0.5rem;
-    }
+.networkCard img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+}
 
-    .cardIcon {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 0.5rem;
-    }
+.cardIcon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+}
 
 .networkName {
     font-size: 1rem;
