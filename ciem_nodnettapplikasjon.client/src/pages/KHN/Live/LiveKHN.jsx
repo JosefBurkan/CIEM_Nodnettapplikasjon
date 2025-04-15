@@ -82,6 +82,7 @@ function LiveKHN() {
   const [activeTab, setActiveTab] = useState("actors");
   const [selectedNode, setSelectedNode] = useState(null);
   const [showAddActorModal, setShowAddActorModal] = useState(false);
+  const [addActorStep, setAddActorStep] = useState("choose"); // For å håndtere trinnene i AddActor-komponenten
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // ReactFlow-instansen (for setCenter)
@@ -526,7 +527,10 @@ function LiveKHN() {
                 <ul>
                   <button
                     className={styles.addActorButton}
-                    onClick={() => setShowAddActorModal(true)}
+                    onClick={() => {
+                      setAddActorStep("choose");
+                      setShowAddActorModal(true);
+                    }}
                   >
                     + Ny Aktør
                   </button>
