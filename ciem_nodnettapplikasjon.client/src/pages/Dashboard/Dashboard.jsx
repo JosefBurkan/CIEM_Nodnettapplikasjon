@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
     function Dashboard() {
         const [situations, setSituations] = useState([]);
         const [loading, setLoading] = useState(true);
+        const [user, setUser] = useState({});
+
 
         useEffect(() => {
             fetch("https://localhost:5255/api/khn/all-situations")
@@ -25,6 +27,24 @@ import { Link } from "react-router-dom";
                     setLoading(false);
                 });
         }, [])
+
+        useEffect(() => {
+            const username = localStorage.getItem("username"); 
+
+            const fetchUser = async () => {
+                try {
+                    const res = await fetch(`https://localhost:5255/api/User/current/${username}`);
+                    if (!res.ok) throw new Error("User not found");
+                    const data = await res.json();
+                    setUser(data);
+                } catch (err) {
+                    console.error("Failed to fetch user:", err);
+                }
+            };
+
+            fetchUser();
+        }, []);
+
 
         if (loading) return <div>Laster inn...</div>;
 
@@ -57,8 +77,14 @@ import { Link } from "react-router-dom";
             <div className={styles.welcomeBox}>
                 <div className={styles.leftText}>
                     <h2>Velkommen!</h2>
-                    <p className={styles.userName}>Ola Nordmann</p>
-                    <p>Operasjonsleder<br />Politiet Agder</p>
+                    {user.username ? (
+                    <>
+                    <p className={styles.userName}>{user.username}</p>
+                    <p>{user.role} <br />{ user.organisasjon } | {user.stat}</p>
+                    </>
+                    ) : (
+                        <p>Laster brukerdata...</p>  
+                    )}
                 </div>
                 <div className={styles.rightText}>
                     <p>Ingen pågående kriser er registrert</p>

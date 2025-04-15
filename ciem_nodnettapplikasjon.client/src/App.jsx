@@ -25,14 +25,17 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Layout() {
   const location = useLocation();
-    const hideNavBar = location.pathname === "/"; 
+    const hideNavBar = location.pathname === "/login";
+
+
 
   return (
     <>
-      <NavBar />
+          {!hideNavBar && <NavBar />}
       <div className="pageContainer">
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/login" element={<Login />} />
           <Route path="/samvirke-nettverk" element={<KHSnettverk />} />
                   <Route path="/actors" element={<Actors />} />
                   <Route path="/qr-code" element={<QRcodePage />} />
