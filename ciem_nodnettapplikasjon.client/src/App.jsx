@@ -25,14 +25,14 @@ import NewNetwork from './pages/SamvirkeNettverk/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/SamvirkeNettverk/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/SamvirkeNettverk/QRcode/QRAccessPage.jsx';
+import SivilSide from './pages/SamvirkeNettverk/SivilSide/SivilSide.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Layout() {
   const location = useLocation();
-    const hideNavBar = location.pathname === "/login";
-
-
+    const hideNavBarRoutes = ['/qr-access', '/civilianPage', '/login'];
+    const hideNavBar = hideNavBarRoutes.includes(location.pathname);
 
   return (
     <>
@@ -45,6 +45,7 @@ function Layout() {
                   <Route path="/actors" element={<Actors />} />
                   <Route path="/qr-code" element={<QRcodePage />} />
                   <Route path="/qr-access" element={<QRAccessPage />} />
+                  <Route path="/civilianPage" element={<SivilSide />} />
           <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
           <Route path="/actorsVol" element={<VolActors />} />

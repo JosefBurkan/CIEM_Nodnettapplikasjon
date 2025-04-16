@@ -1,0 +1,90 @@
+/* SivilSide.module.css */
+
+/* Overall container (similar to QRAccessPage) */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+    background-color: #d1d1d1;
+    color: white;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Navbar (same style as QRAccessPage) */
+.navbar {
+    width: 100%;
+    background-color: #1A1A1A;
+    color: white;
+    padding: 1rem 2rem; /* Add some horizontal padding */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.navbar img {
+    height: 40px;
+}
+
+.dateTime {
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+/* 'Hjelp' button top-right */
+.helpButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.helpButton:hover {
+    background-color: #ff7878;
+}
+
+/* Main content area, leaving room for fixed navbar */
+.contentContainer {
+    margin-top: 6rem; /* same as in QRAccessPage to avoid overlap */
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Top info panel for Lokasjon, Nivå, Hendelse */
+.topInfo {
+    background-color: #333;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.topInfo h2 {
+    margin-bottom: 1rem;
+}
+
+/* InfoItems container below the top panel */
+.infoItemsContainer {
+    display: grid;
+    grid-gap: 1rem;
+}
+
+/* Each InfoItem card */
+.infoItem {
+    background-color: #333;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
