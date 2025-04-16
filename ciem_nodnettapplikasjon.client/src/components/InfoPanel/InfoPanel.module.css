@@ -1,0 +1,174 @@
+/* Overall container for the InfoPanel (formerly Infosjekkliste) */
+.infoSjekkContainer {
+    flex: 1;
+    min-width: 300px;
+    background-color: #1d1d1d;
+    border-radius: 8px;
+    padding: 20px;
+    color: #fff;
+  }
+  
+  /* Header section with icon, title, and edit button */
+  .infoHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  /* Optional title wrapper if you want to group an icon and title */
+  .titleWithIcon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* Icon styling (use your checklist icon) */
+  .infoIcon {
+    width: 48px;
+    height: 48px;
+  }
+  
+  /* Edit mode button (for toggling edit mode) */
+  .editModeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 4px;
+    color: #fff;
+  }
+  
+  /* Common styling for buttons used in edit form */
+  .editButtons button {
+    margin-right: 5px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .saveChangesButton {
+    background-color: #5cb85c;
+  }
+  .cancelChangesButton {
+    background-color: #d9534f;
+  }
+  
+  /* Default horizontal layout for the main content area */
+  .infoSjekkContent {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* NEW: Vertical layout version for the main content area */
+  .infoSjekkContentVertical {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 30px;   /* Increased top padding */
+    padding-bottom: 30px; /* Increased bottom padding */
+  }
+  
+  /* LEFT SIDE: Editable fields for event details */
+  .infoLeft {
+    flex: 1;
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .infoField label {
+    font-weight: bold;
+  }
+  
+  .infoField textarea,
+  .infoField input {
+    width: 100%;
+    padding: 6px;
+  }
+  
+  /* RIGHT SIDE: Grid of InfoItems for horizontal layout */
+  .infoRightGrid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  /* NEW: Vertical stacking for InfoItems */
+  .infoRightVertical {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Communication row for the timestamp update below the main content */
+  .kommunikasjonRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  
+  .gittTime {
+    font-weight: bold;
+  }
+  
+  .timestampButton {
+    background-color: #51aad3;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  
+  /* InfoItem styles (if you wish to include or override any InfoItem specifics) */
+  .infoItem {
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  .infoItemEditButton {
+    padding: 6px 10px;
+    background-color: #51aad3;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .editField {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .displayValues {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: #ddd;
+  }
+  
+  /* Media query fallback: For screens under 600px, switch to vertical layout */
+  @media (max-width: 600px) {
+    .infoSjekkContent {
+      flex-direction: column;
+    }
+    
+    /* Optionally, for the grid, switch to vertical stacking */
+    .infoRightGrid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  
