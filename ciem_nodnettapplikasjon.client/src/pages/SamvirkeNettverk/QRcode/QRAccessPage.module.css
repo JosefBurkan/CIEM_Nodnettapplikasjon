@@ -1,0 +1,149 @@
+/* General container styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+    background-color: #d1d1d1; /* Dark background */
+    color: white;
+    min-height: 100vh;
+}
+
+/* Navbar styles */
+.navbar {
+    width: 100%;
+    background-color: #1A1A1A;
+    color: white;
+    padding: 2.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 5%;
+    box-sizing: border-box;
+}
+
+.navbar img {
+    height: 40px;
+}
+
+.navbar .date-time {
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+/* Form container styles */
+/* Form container styles */
+.formContainer {
+    margin-top: 6rem; /* Space for the navbar */
+    background-color: #333;
+    border-radius: 20px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.formContainer h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.formContainer p {
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    color: #ccc;
+}
+
+/* Form styles */
+/* Form styles */
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center child elements */
+    gap: 1rem;
+    width: 100%;
+}
+
+.form input,
+.form button,
+.form textarea {
+    width: 100%; /* Ensure full width for input and button */
+    max-width: 100%;
+}
+
+
+.form input {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #444; /* Darker gray background */
+    color: white;
+    outline: none;
+    width: 100%;
+}
+
+.form input::placeholder {
+    color: #aaa; /* Light gray placeholder text */
+}
+
+.form button {
+    padding: 0.8rem;
+    font-size: 1rem;
+    background-color: black;
+    color: white;
+    border: 2px solid red;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form button:hover {
+    background-color: red;
+    color: black;
+}
+
+/* Success message styles */
+.success {
+    text-align: center;
+    margin-top: 5rem;
+    font-size: 1.5rem;
+    color: #28a745;
+}
+
+/* Error message styles */
+.error {
+    text-align: center;
+    margin-top: 5rem;
+    font-size: 1.5rem;
+    color: #dc3545;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .formContainer {
+        padding: 1.5rem;
+    }
+
+    .navbar {
+        font-size: 0.9rem;
+    }
+
+    .navbar img {
+        height: 30px;
+    }
+}

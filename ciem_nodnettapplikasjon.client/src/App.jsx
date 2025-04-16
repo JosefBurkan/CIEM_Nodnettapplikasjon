@@ -25,14 +25,20 @@ import NewNetwork from './pages/SamvirkeNettverk/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/SamvirkeNettverk/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/SamvirkeNettverk/QRcode/QRAccessPage.jsx';
+import SivilSide from './pages/SamvirkeNettverk/SivilSide/SivilSide.jsx';
+
 
 function Layout() {
     const location = useLocation();
-    const hideNavBar = location.pathname === '/';
+
+    // Define routes where the NavBar should be hidden
+    const hideNavBarRoutes = ['/qr-access', '/civilianPage'];
+    const hideNavBar = hideNavBarRoutes.includes(location.pathname);
 
     return (
         <>
-            <NavBar />
+            {/* Conditionally render the NavBar */}
+            {!hideNavBar && <NavBar />}
             <div className="pageContainer">
                 <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
@@ -43,6 +49,7 @@ function Layout() {
                     <Route path="/actors" element={<Actors />} />
                     <Route path="/qr-code" element={<QRcodePage />} />
                     <Route path="/qr-access" element={<QRAccessPage />} />
+                    <Route path="/civilianPage" element={<SivilSide />} />
                     <Route path="/actorInfo" element={<ActorInfo />} />
                     <Route path="/actorsGov" element={<GovActors />} />
                     <Route path="/actorsVol" element={<VolActors />} />
@@ -62,8 +69,8 @@ function Layout() {
                     />
                     <Route path="/actor/:id" element={<AboutActor />} />
                     <Route path="*" element={<Navigate to="/dashboard" />} />
-                      </Routes>
-      </div>
+                </Routes>
+            </div>
         </>
     );
 }

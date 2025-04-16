@@ -9,7 +9,7 @@ const LiveNetworkWidget = ({ large, title }) => {
             }
         >
             <div className={large ? styles.largeHeader : styles.header}>
-                {title || 'LIVE KHN'}
+                {title || 'LIVE Nettverk'}
             </div>
             <div className={styles.chartContainer}>
                 <svg viewBox="0 0 300 200" className={styles.chart}>
