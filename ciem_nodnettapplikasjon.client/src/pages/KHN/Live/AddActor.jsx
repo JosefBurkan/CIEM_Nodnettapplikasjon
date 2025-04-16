@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./AddActor.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 
 function AddActor({ onClose, onActorAdded, existingActors, defaultParent, networkID }) {
   const [step, setStep] = useState("choose"); // "choose" eller "create"
+  // Denne staten skal inneholde alle aktører som ligger i databasen – samme logikk som i CreateActor
+  const [dbActors, setDbActors] = useState([]);
+  
   const [formData, setFormData] = useState({
     hierarchy: "Overordnet",
     name: "",
@@ -14,6 +17,24 @@ function AddActor({ onClose, onActorAdded, existingActors, defaultParent, networ
     parentID: defaultParent?.nodeID || ""
   });
   const [error, setError] = useState("");
+
+  // Hent aktører direkte fra DB når modalen lastes
+  useEffect(() => {
+    const fetchDbActors = async () => {
+      try {
+        const res = await fetch("https://localhost:5255/api/actor");
+        if (res.ok) {
+          const data = await res.json();
+          setDbActors(data);
+        } else {
+          console.error("Klarte ikke hente aktører fra databasen");
+        }
+      } catch (err) {
+        console.error("Feil ved henting av DB-aktører:", err);
+      }
+    };
+    fetchDbActors();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -72,20 +93,29 @@ function AddActor({ onClose, onActorAdded, existingActors, defaultParent, networ
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <button onClick={() => { onClose(); setStep("choose"); }} className={styles.closeButton}>
+        <button
+          onClick={() => {
+            onClose();
+            setStep("choose");
+          }}
+          className={styles.closeButton}
+        >
           X
         </button>
 
         {step === "choose" && (
           <>
             <h2>Ny Aktør</h2>
-            <p>Søk etter eksisterende aktør:</p>
-
+            <p>Søk etter eksisterende aktør fra databasen:</p>
+            {/* Bruk dbActors her – logikken for søkeresultatene er det samme som i CreateActor */}
             <SearchBar
-              actors={existingActors}
+              actors={dbActors}
               onSelectActor={(actor) => {
+                // Her kan du velge å enten:
+                // 1. Direkte sende tilbake aktøren slik at den legges inn i nettverket
+                // 2. Eller åpne en videre prosess for å velge parent (for underaktør-flyten)
+                onActorAdded(actor);
                 onClose();
-                onActorAdded(actor); // eller focusNode(actor) hvis du heller vil det
               }}
               enableDropdown={true}
               placeholder="Søk etter aktør..."

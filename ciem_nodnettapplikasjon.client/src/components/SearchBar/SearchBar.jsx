@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { IconSearch, IconMenu2 } from '@tabler/icons-react';
+import { IconSearch, IconMenu2 } from "@tabler/icons-react";
 import styles from "./SearchBar.module.css";
 
 function SearchBar({
@@ -8,30 +8,54 @@ function SearchBar({
   width = "18rem",
   onSearch = () => {},
   onSelectActor = () => {},
+  // Dersom en liste med aktører sendes inn, brukes denne.
+  // Om ikke, og fetchActors er true, hentes aktører direkte fra databasen.
   actors = [],
   enableDropdown = false,
+  // Ny prop for å indikere om aktører skal hentes fra API-databasen
+  fetchActors = false,
 }) {
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [internalActors, setInternalActors] = useState([]);
   const containerRef = useRef(null);
 
-  // Filter aktører basert på query dersom enableDropdown er true.
+  // Hvis fetchActors er true, hentes aktører fra API-et (for eksempel '/api/actors')
+  useEffect(() => {
+    if (fetchActors) {
+      async function fetchFromDb() {
+        try {
+          const response = await fetch("/api/actors"); // Pass på at URL-en stemmer med ditt oppsett
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setInternalActors(data);
+        } catch (error) {
+          console.error("Failed to fetch actors", error);
+        }
+      }
+      fetchFromDb();
+    }
+  }, [fetchActors]);
+
+  // Bruk den sendte inn actor-lista dersom den finnes, ellers den vi har hentet internt
+  const actorList = actors && actors.length > 0 ? actors : internalActors;
+
+  // Filter aktører basert på søkeordet dersom enableDropdown er aktivert
   const filteredActors = useMemo(() => {
     if (!enableDropdown || !query) return [];
-    return actors.filter(actor =>
+    return actorList.filter((actor) =>
       actor.name?.toLowerCase().includes(query.toLowerCase())
     );
-  }, [enableDropdown, query, actors]);
+  }, [enableDropdown, query, actorList]);
 
   const handleChange = (e) => {
     setQuery(e.target.value);
-    if (enableDropdown) {
-      setShowDropdown(true);
-    }
+    if (enableDropdown) setShowDropdown(true);
     onSearch(e.target.value);
   };
 
-  // Ved Enter-tast, velg første match om den finnes.
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -46,20 +70,23 @@ function SearchBar({
   const handleSelect = (actor) => {
     setQuery(actor.name);
     setShowDropdown(false);
-    // Debug: log for å se hva som sendes
     console.log("Selected actor:", actor);
     onSelectActor(actor);
   };
 
-  // Lukk dropdown hvis man klikker utenfor komponenten.
+  // Lukker dropdown ved klikk utenfor komponenten
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setShowDropdown(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -77,7 +104,9 @@ function SearchBar({
           value={query}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          onFocus={() => { if (enableDropdown) setShowDropdown(true); }}
+          onFocus={() => {
+            if (enableDropdown) setShowDropdown(true);
+          }}
         />
         <IconMenu2 className={styles.menuIcon} />
       </div>
@@ -85,7 +114,7 @@ function SearchBar({
         <ul className={styles.dropdown}>
           {filteredActors.map((actor) => (
             <li
-              key={actor.nodeID}
+              key={actor.nodeID || actor.id}
               className={styles.dropdownItem}
               onClick={() => handleSelect(actor)}
             >
