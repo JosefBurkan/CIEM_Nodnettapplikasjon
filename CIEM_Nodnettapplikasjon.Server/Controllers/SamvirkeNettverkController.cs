@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
     [ApiController]
-    [Route("api/samvirkeNettverk")]
+    [Route("api/samvirkeNettverk")] // Route base: api/samvirkeNettverk
     public class SamvirkeNettverkController : ControllerBase
     {
         private readonly INodeNetworkRepository _nodeNetwork;
@@ -18,7 +18,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _nodeNetwork = nodeNetwork;
         }
 
-        // 1. GET a specific SamvirkeNettverk by networkId (used in detail view)
+       // GET: api/samvirkeNettverk/GetNodeNetwork/{id} (Retrieves a single node network by ID including its related nodes)
         [HttpGet("GetNodeNetwork/{id}")]
         public async Task<ActionResult<NodeNetworksModel>> GetNodeNetwork(int id)
         {
@@ -31,7 +31,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(nodeNetwork);
         }
 
-        // 2. GET all SamvirkeNettverk (used for the grid overview)
+       // GET: api/samvirkeNettverk/situations (Retrieves all live situations)
         [HttpGet("situations")]
         public async Task<IActionResult> GetAllSituations()
         {
@@ -48,7 +48,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(result);
         }
 
-        // 3. Archive a specific Samvirke Nettverk and move it to ArchivedNetworks
+       // POST: api/samvirkeNettverk/archive/{id} (Archives a given node network by ID)
         [HttpPost("archive/{id}")]
         public async Task<IActionResult> ArchiveNetwork(int id)
         {
@@ -60,8 +60,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok("Network archived successfully");
         }
 
-
-        // Delete network
+        // DELETE: api/samvirkeNettverk/delete({id} (Deletes a node network by ID)
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteNetwork(int id)
         {
@@ -69,8 +68,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok("Network deleted successfully");
         }
 
-
-        // Used by Dashboard.jsx for dynamic logic
+       // GET: api/samvirkeNettverk/all-situations (Used by dashboard.jsx to dynamically fetch all live node networks)
         [HttpGet("all-situations")]
         public async Task<IActionResult> GetAllSituationsWithStatus()
         {

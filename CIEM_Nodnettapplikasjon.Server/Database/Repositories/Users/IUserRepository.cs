@@ -10,5 +10,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
         void DeleteUser(int userID);
         UserModel ViewUser(int userID);
         UserModel? GetUserByUsername(string username);
+        Task<UserModel?> GetUserByUsernameAsync(string username);
+
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // Route base: api/actor
     public class ActorController : ControllerBase
     {
         private readonly IActorRepository _actorRepository;
@@ -17,6 +17,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _actorRepository = actorRepository;
         }
 
+        // GET: api/actor (Retrieves all actors in the database)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActorModel>>> GetActors()
         {
@@ -25,6 +26,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
         }
 
 
+        // GET: api/actor/id (Retrieves a single actor by ID)
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorModel>> GetActor(int id)
         {
@@ -34,6 +36,8 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(actor);
         }
 
+
+        // POST: api/actor/CreateActor (Creates a new actor)
         [HttpPost("CreateActor")]
         public async Task<ActionResult<ActorModel>> CreateActor([FromBody] ActorModel newActor)
         {
@@ -41,6 +45,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return CreatedAtAction(nameof(GetActor), new { id = newActor.Id }, newActor);
         }
 
+        // POST: api/actor/CreateSubActor (Adds a subactor to an exisiting actor by ID)
         [HttpPost("CreateSubActor")]
         public async Task<ActionResult> CreateSubActor([FromBody] AddSubActor newSubActor)
         {
@@ -54,6 +59,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(updatedActor);
         }
 
+        // DELETE: api/actor/{id} (Deletes an actor by ID)
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteActor(int id)
         {

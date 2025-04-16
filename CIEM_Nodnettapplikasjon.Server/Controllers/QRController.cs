@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using CIEM_Nodnettapplikasjon.Server.Database;
 using System.Threading.Tasks;
@@ -7,16 +9,20 @@ using Microsoft.EntityFrameworkCore;
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // Route base: api/qr
     public class QRController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IQRRepository _qrRepository;
 
-        public QRController(ApplicationDbContext context)
+
+        public QRController(ApplicationDbContext context, IQRRepository qRRepository)
         {
             _context = context;
+            _qrRepository = qRRepository;
         }
 
+        // POST: api/qr/add-node (Creates a new node via QR token authorization)
         [HttpPost("add-node")]
         public async Task<IActionResult> AddNode([FromBody] QRNodeDto dto)
         {
@@ -25,52 +31,12 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
                 return BadRequest("Ugyldig data.");
             }
 
-            // Validate the token from the user
-            var parentUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.qr_token == dto.Token);
+            var newNode = await _qrRepository.AddNodeViaQRAsync(dto);
 
-            if (parentUser == null)
-            {
-                return Unauthorized("Ugyldig token eller parentID.");
-            }
-
-            var parentNode = await _context.Nodes
-                .FirstOrDefaultAsync(n => n.nodeID == dto.ParentId && n.UserID == parentUser.UserID);
-
-            if (parentNode == null)
-            {
-                return BadRequest("Kunne ikke finne noden til tilhørende bruker.");
-            }
-
-
-            // Create and add new node
-            var newNode = new NodesModel
-            {
-                name = dto.Name,
-                phone = dto.Phone,
-                beskrivelse = dto.Beskrivelse,
-                parentID = dto.ParentId,
-                networkID = parentNode?.networkID ?? dto.ParentId, // fallback to parentId
-
-            // Auto filling the rest
-            category = "Frivillige",
-            type = "Selvstendig",
-            hierarchy_level = "Underaktør"
-            };
-
-            _context.Nodes.Add(newNode);
-            await _context.SaveChangesAsync();
+            if (newNode == null)
+                return Unauthorized("Kunne ikke validere bruker eller node.");
 
             return Ok(newNode);
         }
-    }
-
-    public class QRNodeDto
-    {
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public int ParentId { get; set; }
-        public string Token { get; set; }
-        public string Beskrivelse { get; set; }
     }
 }
