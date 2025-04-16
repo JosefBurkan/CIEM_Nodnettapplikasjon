@@ -1,99 +1,106 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
-import { IconSearch, IconMenu2 } from "@tabler/icons-react";
-import styles from "./SearchBar.module.css";
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { IconSearch, IconMenu2 } from '@tabler/icons-react';
+import styles from './SearchBar.module.css';
 
 function SearchBar({
-  placeholder = "Søk...",
-  bgColor = "#4F4F4F",
-  width = "18rem",
+  placeholder = 'Søk...',
+  bgColor = '#4F4F4F',
+  width = '18rem',
   onSearch = () => {},
   onSelectActor = () => {},
-  // Dersom en liste med aktører sendes inn, brukes denne.
-  // Om ikke, og fetchActors er true, hentes aktører direkte fra databasen.
   actors = [],
   enableDropdown = false,
-  // Ny prop for å indikere om aktører skal hentes fra API-databasen
   fetchActors = false,
+  searchBarMode = '', // e.g. 'Actors' or 'NetworkSearch'
 }) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [internalActors, setInternalActors] = useState([]);
   const containerRef = useRef(null);
 
-  // Hvis fetchActors er true, hentes aktører fra API-et (for eksempel '/api/actors')
+  // Fetch actors from API if needed
   useEffect(() => {
     if (fetchActors) {
-      async function fetchFromDb() {
+      (async () => {
         try {
-          const response = await fetch("/api/actors"); // Pass på at URL-en stemmer med ditt oppsett
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
+          const res = await fetch('/api/actors');
+          if (!res.ok) throw new Error('Network response was not ok');
+          const data = await res.json();
           setInternalActors(data);
-        } catch (error) {
-          console.error("Failed to fetch actors", error);
+        } catch (err) {
+          console.error('Failed to fetch actors', err);
         }
-      }
-      fetchFromDb();
+      })();
     }
   }, [fetchActors]);
 
-  // Bruk den sendte inn actor-lista dersom den finnes, ellers den vi har hentet internt
-  const actorList = actors && actors.length > 0 ? actors : internalActors;
+  // Determine source list: prop or fetched
+  const actorList = actors.length > 0 ? actors : internalActors;
 
-  // Filter aktører basert på søkeordet dersom enableDropdown er aktivert
+  // Filter actors based on query
   const filteredActors = useMemo(() => {
     if (!enableDropdown || !query) return [];
-    return actorList.filter((actor) =>
+    return actorList.filter(actor =>
       actor.name?.toLowerCase().includes(query.toLowerCase())
     );
   }, [enableDropdown, query, actorList]);
 
-  const handleChange = (e) => {
-    setQuery(e.target.value);
+  // Handle input change
+  const handleChange = e => {
+    const val = e.target.value;
+    setQuery(val);
     if (enableDropdown) setShowDropdown(true);
-    onSearch(e.target.value);
+    onSearch(val);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+  // Handle Enter key
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') {
       e.preventDefault();
       if (filteredActors.length > 0) {
-        handleSelect(filteredActors[0]);
+        handleItemClick(filteredActors[0]);
       } else {
         setShowDropdown(false);
       }
     }
   };
 
-  const handleSelect = (actor) => {
+  // Default select: invoke onSelectActor
+  const handleSelect = actor => {
     setQuery(actor.name);
     setShowDropdown(false);
-    console.log("Selected actor:", actor);
     onSelectActor(actor);
   };
 
-  // Lukker dropdown ved klikk utenfor komponenten
+  // Decide click action based on mode
+  const handleItemClick = actor => {
+    if (searchBarMode === 'Actors') {
+      setQuery(actor.name);
+      setShowDropdown(false);
+      // use onSearch to send back selected actor ID
+      const id = actor.id ?? actor.nodeID;
+      onSearch(id);
+    } else {
+      handleSelect(actor);
+    }
+  };
+
+  // Close dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
-      ) {
+    const onClickOutside = e => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
   }, []);
 
   return (
     <div
       ref={containerRef}
       className={styles.searchContainer}
-      style={{ backgroundColor: bgColor, width, position: "relative" }}
+      style={{ backgroundColor: bgColor, width, position: 'relative' }}
     >
       <div className={styles.searchBar}>
         <IconSearch className={styles.iconSearch} />
@@ -104,19 +111,18 @@ function SearchBar({
           value={query}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          onFocus={() => {
-            if (enableDropdown) setShowDropdown(true);
-          }}
+          onFocus={() => enableDropdown && setShowDropdown(true)}
         />
         <IconMenu2 className={styles.menuIcon} />
       </div>
+
       {enableDropdown && showDropdown && filteredActors.length > 0 && (
         <ul className={styles.dropdown}>
-          {filteredActors.map((actor) => (
+          {filteredActors.map(actor => (
             <li
-              key={actor.nodeID || actor.id}
+              key={actor.id ?? actor.nodeID}
               className={styles.dropdownItem}
-              onClick={() => handleSelect(actor)}
+              onClick={() => handleItemClick(actor)}
             >
               {actor.name}
             </li>

@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CIEM_Nodnettapplikasjon.Server.Services.KHN;
+using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController] // Base route: api/NetworkBuilder
     public class NetworkBuilderController : ControllerBase
     {
         private readonly INetworkBuilderService _service;
@@ -15,6 +15,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _service = service;
         }
 
+        // POST: api/NetworkBuilder/create (Creates a new network by name)
         [HttpPost("create")]
         public async Task<IActionResult> CreateNetwork([FromBody] CreateNetworkDto dto)
         {
@@ -25,7 +26,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(new { id });
         }
 
-
+        // DELETE: api/NetworkBuilder/delete/{id} (Deletes an existing network by ID)
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteNetwork(int id)
         {
@@ -35,6 +36,5 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
             return NoContent();
         }
-
     }
 }

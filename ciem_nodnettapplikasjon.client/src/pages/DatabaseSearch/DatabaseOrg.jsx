@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../Actors/NewActor.module.css'; 
 
 const DatabaseOrg = () => {
     const navigate = useNavigate();
@@ -12,16 +11,28 @@ const DatabaseOrg = () => {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <button className={styles.button} onClick={() => handleCategoryClick('nodetater')}>
+                <button
+                    className={styles.button}
+                    onClick={() => handleCategoryClick('nodetater')}
+                >
                     N�detatene
                 </button>
-                <button className={styles.button} onClick={() => handleCategoryClick('rednings')}>
+                <button
+                    className={styles.button}
+                    onClick={() => handleCategoryClick('rednings')}
+                >
                     Redningsakt�rer
                 </button>
-                <button className={styles.button} onClick={() => handleCategoryClick('frivillige')}>
+                <button
+                    className={styles.button}
+                    onClick={() => handleCategoryClick('frivillige')}
+                >
                     Frivillige Organisasjoner
                 </button>
-                <button className={styles.button} onClick={() => handleCategoryClick('private')}>
+                <button
+                    className={styles.button}
+                    onClick={() => handleCategoryClick('private')}
+                >
                     Private Akt�rer
                 </button>
             </div>

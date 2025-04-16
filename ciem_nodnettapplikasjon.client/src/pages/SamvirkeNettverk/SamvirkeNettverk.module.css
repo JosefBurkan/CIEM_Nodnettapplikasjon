@@ -1,0 +1,128 @@
+/* Page Background */
+.container {
+    background-color: rgb(5, 107, 107); /* Dark mode background */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+/* Header */
+.header {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* ✅ Prevents overlapping */
+    width: 100%;
+}
+
+/* Left Section */
+.leftSection {
+    width: 60%; /* ✅ Matches right section */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Edit Button */
+.editButton {
+    background: #020202;
+    color: white;
+    padding: 10px 15px;
+    border: 30px;
+    border-color: red;
+    border-radius: 30px;
+    width: 200px;
+    height: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Right Section - Box Widgets */
+.rightSection {
+    background: rgb(170, 170, 170); /* Gray background */
+    padding: 20px;
+    border-radius: 15px;
+    width: 35%; /* ✅ Expands to half the screen */
+    height: 100vh; /* ✅ Ensures it takes full height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 200px; /* ✅ Adds spacing between the boxes */
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 1024px) {
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rightSection {
+        margin-top: 20px;
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    justify-items: center;
+    margin-top: 40px;
+}
+
+.cardLink {
+    text-decoration: none;
+}
+
+.noBox {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-top: 80px;
+}
+
+.liveIndicator {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+    z-index: 10;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+

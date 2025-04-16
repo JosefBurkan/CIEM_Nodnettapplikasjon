@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CIEM_Nodnettapplikasjon.Server.Database;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -7,39 +9,29 @@ using Microsoft.EntityFrameworkCore;
 
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]")] // Route base: api/nodes
 public class NodesController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly INodeRepository _nodeRepo;
 
-    public NodesController(ApplicationDbContext context)
+    public NodesController(ApplicationDbContext context, INodeRepository nodeRepo)
     {
         _context = context;
+        _nodeRepo = nodeRepo;
     }
 
+    // POST: api/nodes/add (Creates a new node)
     [HttpPost("add")]
     public async Task<IActionResult> AddNode([FromBody] NodeDto dto)
     {
         if (dto == null) return BadRequest("Ugyldig data.");
 
-        var newNode = new NodesModel
-        {
-            name = dto.Name,
-            phone = dto.Phone,
-            beskrivelse = dto.Beskrivelse,
-            parentID = dto.ParentID ?? 0,
-            networkID = dto.NetworkID,
-            category = dto.Category,
-            type = dto.Type,
-            hierarchy_level = dto.HierarchyLevel,
-        };
-
-        _context.Nodes.Add(newNode);
-        await _context.SaveChangesAsync();
-
-        return Ok(newNode);
+        var createdNode = await _nodeRepo.AddNodeAsync(dto);
+        return Ok(createdNode);
     }
 
+    // GET: api/nodes/user/{userID} (Retrieves a single node by associated userID)
     [HttpGet("user/{userID}")]
     public async Task<IActionResult> GetNodeByUserId(int UserID)
     {
@@ -52,7 +44,7 @@ public class NodesController : ControllerBase
         return Ok(node);
     }
 
-    // Delete a node
+    // DELETE: api/nodes/delete/{nodeID} (Deletes a node by ID)
     [HttpDelete("delete/{nodeID}")]
     public async Task<IActionResult> RemoveNodeByUserId(int nodeID)
     {
@@ -72,21 +64,4 @@ public class NodesController : ControllerBase
 
         return Ok(node);
     }
-
-
-
-
-
-    public class NodeDto
-    {
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public string Beskrivelse { get; set; }
-        public int? ParentID { get; set; }
-        public int NetworkID { get; set; }
-        public string Category { get; set; }
-        public string Type { get; set; }
-        public string HierarchyLevel { get; set; }
-    }
-
 }
