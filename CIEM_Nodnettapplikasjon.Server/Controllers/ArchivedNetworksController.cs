@@ -10,7 +10,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Models.Archive;
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // Base route: api/ArchivedNetworks
     public class ArchivedNetworksController : ControllerBase
     {
         private readonly INodeNetworkRepository _nodeNetwork;
@@ -20,7 +20,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _nodeNetwork = nodeNetwork;
         }
 
-        // GET: api/ArchivedNetworks
+        // GET: api/ArchivedNetworks (Retrieves all archived networks from the database)
         [HttpGet]
         public async Task<ActionResult<ArchivedNetworksModel>> GetArchivedNetworks()
         {

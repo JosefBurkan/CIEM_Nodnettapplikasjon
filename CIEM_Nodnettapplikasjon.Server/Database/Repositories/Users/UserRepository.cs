@@ -39,6 +39,13 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
             return user;
         }
 
+        // 
+        public async Task<UserModel?> GetUserByUsernameAsync(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
+        }
+
+
         // Add User
         public void AddUser(string username, string email, string phone, string password, string role)
         {

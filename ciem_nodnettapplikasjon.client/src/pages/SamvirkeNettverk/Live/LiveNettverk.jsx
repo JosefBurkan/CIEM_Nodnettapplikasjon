@@ -79,6 +79,7 @@ function LiveNettverk() {
     const [selectedNode, setSelectedNode] = useState(null);
     const [showAddActorModal, setShowAddActorModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [showArchiveConfirm, setShowArchiveConfirm] = useState(false);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
     const clickTimeoutRef = useRef(null);
@@ -435,49 +436,72 @@ function LiveNettverk() {
                                 </div>
                             )}
 
+
                             {activeTab === "details" && !selectedNode && (
                                 <>
                                     <div>
                                         <h3>{nodeNetwork.name}</h3>
                                         <p>Status: {nodeNetwork.status}</p>
+
+                                        {/* Archive Button triggers confirmation modal */}
                                         <button
                                             className={styles.archiveButton}
-                                            onClick={async () => {
-                                                try {
-                                                    const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
-                                                        method: "POST",
-                                                    });
-                                                    if (res.ok) {
-                                                        toast.success("Nettverket er arkivert!", {
-                                                            position: "top-right",
-                                                            autoClose: 3000,
-                                                            hideProgressBar: false,
-                                                            closeOnClick: true,
-                                                            pauseOnHover: true,
-                                                            draggable: true,
-                                                        });
-                                                        setTimeout(() => {
-                                                            navigate("/nettverks-arkiv");
-                                                        }, 2000);
-                                                    } else {
-                                                        toast.error("Kunne ikke arkivere nettverket.");
-                                                    }
-                                                } catch (err) {
-                                                    console.error("Error archiving network:", err);
-                                                    toast.error("Noe gikk galt...");
-                                                }
+                                            onClick={() => { 
+                                            setShowArchiveConfirm(true)
+                                            setShowDeleteConfirm(false);
                                             }}
                                         >
                                             Arkiver Nettverk
                                         </button>
 
+                                        {/* Delete Button triggers confirmation modal */}
                                         <button
                                             className={styles.deleteNetworkButton}
-                                            onClick={() => setShowDeleteConfirm(true)}
+                                        onClick={() => { 
+                                            setShowDeleteConfirm(true);
+                                            setShowArchiveConfirm(false);   
+                                             }}
                                         >
                                             Slett Nettverk
                                         </button>
                                     </div>
+
+                                    {/* Archive Confirmation Modal */}
+                                    {showArchiveConfirm && (
+                                        <div className={styles.confirmModal}>
+                                            <p>Er du sikker på at du vil arkivere dette nettverket?</p>
+                                            <button
+                                                onClick={async () => {
+                                                    try {
+                                                        const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
+                                                            method: "POST",
+                                                        });
+                                                        if (res.ok) {
+                                                            toast.success("Nettverket ble arkivert!", {
+                                                                position: "top-right",
+                                                                autoClose: 3000,
+                                                            });
+                                                            setTimeout(() => {
+                                                                navigate("/nettverks-arkiv");
+                                                            }, 2000);
+                                                        } else {
+                                                            toast.error("Kunne ikke arkivere nettverket.");
+                                                        }
+                                                    } catch (err) {
+                                                        console.error("Error archiving network:", err);
+                                                    }
+                                                }}
+                                            >
+                                                Ja, arkiver
+                                            </button>
+                                            <button onClick={() => setShowArchiveConfirm(false)}>
+                                                Avbryt
+                                            </button>
+                                        </div>
+                                    )}
+
+
+
 
                                     {showDeleteConfirm && (
                                         <div className={styles.confirmModal}>
@@ -494,7 +518,7 @@ function LiveNettverk() {
                                                                 autoClose: 3000,
                                                             });
                                                             setTimeout(() => {
-                                                                navigate("/samvirke-nettverk");
+                                                                navigate("/samvirkeNettverk");
                                                             }, 2000);
                                                         } else {
                                                             toast.error("Kunne ikke slette nettverket.");

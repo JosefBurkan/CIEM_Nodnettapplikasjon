@@ -26,6 +26,9 @@ builder.Services.AddScoped<INodeNetworkRepository, NodeNetworksRepository>();
 builder.Services.AddScoped<ISamvirkeNettverkService, SamvirkeNettverkService>();
 builder.Services.AddScoped<INetworkBuilderRepository, NetworkBuilderRepository>();
 builder.Services.AddScoped<INetworkBuilderService, NetworkBuilderService>();
+builder.Services.AddScoped<INodeRepository, NodeRepository>();
+builder.Services.AddScoped<IQRRepository, QRRepository>();
+
 
 // Cors setup
 builder.Services.AddCors(options =>
