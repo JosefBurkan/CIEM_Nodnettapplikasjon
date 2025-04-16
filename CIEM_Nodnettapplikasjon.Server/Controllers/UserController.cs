@@ -4,6 +4,8 @@ using CIEM_Nodnettapplikasjon.Server.Database.Models.Users;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
@@ -51,7 +53,17 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             });
         }
 
+        // Brukerlogin
+        [HttpGet("current/{username}")]
+        public async Task<IActionResult> GetCurrentUser(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
 
         // Add a new user (Create)
         [HttpPost("add")]

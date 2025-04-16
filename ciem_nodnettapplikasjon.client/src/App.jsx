@@ -26,51 +26,42 @@ import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/SamvirkeNettverk/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/SamvirkeNettverk/QRcode/QRAccessPage.jsx';
 import SivilSide from './pages/SamvirkeNettverk/SivilSide/SivilSide.jsx';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Layout() {
-    const location = useLocation();
-
-    // Define routes where the NavBar should be hidden
-    const hideNavBarRoutes = ['/qr-access', '/civilianPage'];
+  const location = useLocation();
+    const hideNavBarRoutes = ['/qr-access', '/civilianPage', '/login'];
     const hideNavBar = hideNavBarRoutes.includes(location.pathname);
 
-    return (
-        <>
-            {/* Conditionally render the NavBar */}
-            {!hideNavBar && <NavBar />}
-            <div className="pageContainer">
-                <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route
-                        path="/samvirkeNettverk"
-                        element={<SamvirkeNettverk />}
-                    />
-                    <Route path="/actors" element={<Actors />} />
-                    <Route path="/qr-code" element={<QRcodePage />} />
-                    <Route path="/qr-access" element={<QRAccessPage />} />
-                    <Route path="/civilianPage" element={<SivilSide />} />
-                    <Route path="/actorInfo" element={<ActorInfo />} />
-                    <Route path="/actorsGov" element={<GovActors />} />
-                    <Route path="/actorsVol" element={<VolActors />} />
-                    <Route path="/actorsAll" element={<AllActors />} />
-                    <Route path="/actorsPrivate" element={<PrivateActors />} />
-                    <Route path="/sn/:networkId" element={<LiveNettverk />} />
-                    <Route path="/newNetwork" element={<NewNetwork />} />
-                    <Route path="/createActor" element={<CreateActor />} />
-                    <Route path="/searchDatabase" element={<DatabaseOrg />} />
-                    <Route
-                        path="/searchDatabase/:category"
-                        element={<ActorsListWrapper />}
-                    />
-                    <Route
-                        path="/nettverks-arkiv"
-                        element={<NettverksArkiv />}
-                    />
-                    <Route path="/actor/:id" element={<AboutActor />} />
-                    <Route path="*" element={<Navigate to="/dashboard" />} />
-                </Routes>
-            </div>
+  return (
+    <>
+          {!hideNavBar && <NavBar />}
+          <div className="pageContainer">
+        <Routes>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/login" element={<Login />} />
+          <Route path="/samvirkeNettverk" element={<SamvirkeNettverk />} />
+                  <Route path="/actors" element={<Actors />} />
+                  <Route path="/qr-code" element={<QRcodePage />} />
+                  <Route path="/qr-access" element={<QRAccessPage />} />
+                  <Route path="/civilianPage" element={<SivilSide />} />
+          <Route path="/actorInfo" element={<ActorInfo />} />
+          <Route path="/actorsGov" element={<GovActors />} />
+          <Route path="/actorsVol" element={<VolActors />} />
+          <Route path="/actorsAll" element={<AllActors />} />
+          <Route path="/actorsPrivate" element={<PrivateActors />} />
+          <Route path="/sn/:networkId" element={<LiveNettverk />} />
+          <Route path="/newNetwork" element={<NewNetwork />} />
+          <Route path="/createActor" element={<CreateActor />} />
+          <Route path="/searchDatabase" element={<DatabaseOrg />} />
+          <Route path="/searchDatabase/:category" element={<ActorsListWrapper />} />
+          <Route path="/nettverks-arkiv" element={<NettverksArkiv />} />
+          <Route path="/actor/:id" element={<AboutActor />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+              </Routes>
+              <ToastContainer />
+      </div>
         </>
     );
 }

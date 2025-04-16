@@ -25,7 +25,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
                 Console.WriteLine($"Found user: {u.Username}");
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+            var user = _context.Users.FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
 
             if (user == null)
             {

@@ -29,7 +29,10 @@ function Login() {
 
         if (response.ok) {
             const result = await response.json();
-            localStorage.setItem('user', JSON.stringify(result));
+
+            localStorage.setItem("user", JSON.stringify(result));
+            localStorage.setItem("username", result.username);  
+
 
             showMessage('', `Velkommen inn ${username}`);
             sessionStorage.setItem('isAuthenticated', 'true');

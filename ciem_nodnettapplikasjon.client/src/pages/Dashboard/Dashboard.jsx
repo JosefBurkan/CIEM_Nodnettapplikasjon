@@ -8,9 +8,10 @@ import Box from '../../components/Box/Box';
 import { WiDaySunny } from 'react-icons/wi';
 import { Link } from 'react-router-dom';
 
-function Dashboard() {
-    const [situations, setSituations] = useState([]);
-    const [loading, setLoading] = useState(true);
+    function Dashboard() {
+        const [situations, setSituations] = useState([]);
+        const [loading, setLoading] = useState(true);
+        const [user, setUser] = useState({});
 
     useEffect(() => {
         fetch('https://localhost:5255/api/samvirkeNettverk/all-situations')
@@ -25,9 +26,29 @@ function Dashboard() {
             });
     }, []);
 
-    if (loading) return <div>Laster inn...</div>;
 
-    const hasLiveSituations = situations.some((s) => s.status === 'Live');
+        useEffect(() => {
+            const username = localStorage.getItem("username"); 
+
+            const fetchUser = async () => {
+                try {
+                    const res = await fetch(`https://localhost:5255/api/User/current/${username}`);
+                    if (!res.ok) throw new Error("User not found");
+                    const data = await res.json();
+                    setUser(data);
+                } catch (err) {
+                    console.error("Failed to fetch user:", err);
+                }
+            };
+
+            fetchUser();
+        }, []);
+
+
+        if (loading) return <div>Laster inn...</div>;
+
+        const hasLiveSituations = situations.some(s => s.status === "Live");
+
 
     if (hasLiveSituations) {
         // Live SamvirkeNettverk
@@ -55,12 +76,14 @@ function Dashboard() {
             <div className={styles.welcomeBox}>
                 <div className={styles.leftText}>
                     <h2>Velkommen!</h2>
-                    <p className={styles.userName}>Ola Nordmann</p>
-                    <p>
-                        Operasjonsleder
-                        <br />
-                        Politiet Agder
-                    </p>
+                    {user.username ? (
+                    <>
+                    <p className={styles.userName}>{user.username}</p>
+                    <p>{user.role} <br />{ user.organisasjon } | {user.stat}</p>
+                    </>
+                    ) : (
+                        <p>Laster brukerdata...</p>  
+                    )}
                 </div>
                 <div className={styles.rightText}>
                     <p>Ingen pågående hendelser er registrert</p>
