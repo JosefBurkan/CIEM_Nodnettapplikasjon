@@ -27,7 +27,7 @@ import QRcodePage from './pages/SamvirkeNettverk/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/SamvirkeNettverk/QRcode/QRAccessPage.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import LiveNettverkPreview from './pages/SamvirkeNettverk/Live/LiveNettverkPreview.jsx';
 function Layout() {
   const location = useLocation();
     const hideNavBar = location.pathname === "/login";
@@ -58,6 +58,8 @@ function Layout() {
           <Route path="/nettverks-arkiv" element={<NettverksArkiv />} />
           <Route path="/actor/:id" element={<AboutActor />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="/sn/:networkId/preview" element={<LiveNettverkPreview />} />
+
               </Routes>
               <ToastContainer />
       </div>

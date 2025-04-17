@@ -84,4 +84,65 @@
 .networkName {
     font-size: 1rem;
     font-weight: bold;
-}
+  }
+  
+  .tab {
+    background-color: #ff4c4c;
+    color: black;
+    font-weight: bold;
+    padding: 0.8rem 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto 0 auto;
+    position: relative;
+    top: 25px;
+    z-index: 3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .cardWrapper {
+    background-color: #0d0d0d;
+    padding: 3rem 2rem 2rem 2rem;
+    border-radius: 20px;
+    max-width: 1000px;
+    margin: 2rem auto 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 1;
+  }
+  
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+    justify-items: center;
+  }
+  
+  .networkCard {
+    background-color: #ccc;
+    color: black;
+    border-radius: 12px;
+    padding: 1rem;
+    width: 120px;
+    text-align: center;
+    box-shadow: 0 0 5px #888;
+    transition: transform 0.2s;
+  }
+  
+  .networkCard:hover {
+    transform: scale(1.05);
+  }
+  
+  .cardIcon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .networkName {
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
