@@ -13,6 +13,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
             _context = context;
         }
 
+        // Adds a new node to the database
         public async Task<NodesModel> AddNodeAsync(NodeDto dto)
         {
             var newNode = new NodesModel
