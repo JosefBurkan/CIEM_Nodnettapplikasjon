@@ -20,6 +20,7 @@
     width: 70vw;
     height: 65vh;
     border: 1px solid white;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .infoBox {
@@ -93,6 +94,10 @@ ul {
     padding: 10px;
     border-radius: 15px;
 }
+.actorList:hover {
+    background-color: hsl(0, 0%, 80%);
+}
+
 .tabContent {
     list-style-type: none;
     width: 90%;

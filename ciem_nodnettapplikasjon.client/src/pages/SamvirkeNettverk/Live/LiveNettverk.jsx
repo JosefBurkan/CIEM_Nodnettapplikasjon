@@ -186,6 +186,63 @@ function LiveNettverk() {
     [reactFlowInstance, initialNodes]
   );
 
+  // Viser kun stien (ancestors + noden selv)
+  const showPath = useCallback(
+    (actor) => {
+      if (!reactFlowInstance || !actor) return;
+      // <-- Denne linjen endret:
+      const targetId = actor.id || String(actor.nodeID);
+  
+      // Finn alle ancestor-IDer
+      const ancestors = [];
+      let curr = nodeNetwork.nodes.find(n => String(n.nodeID) === targetId);
+      while (curr?.parentID) {
+        const pid = String(curr.parentID);
+        ancestors.push(pid);
+        curr = nodeNetwork.nodes.find(n => String(n.nodeID) === pid);
+      }
+      const pathIds = new Set([...ancestors, targetId]);
+  
+      // Skjul alt utenfor path
+      setHiddenNodes(new Set(
+        initialNodes.map(n => n.id).filter(id => !pathIds.has(id))
+      ));
+      const visibleEdgeIds = nodeNetwork.nodes
+        .filter(n =>
+          n.parentID != null &&
+          pathIds.has(String(n.nodeID)) &&
+          pathIds.has(String(n.parentID))
+        )
+        .map(n => `edge-${n.parentID}-${n.nodeID}`);
+      setHiddenEdges(new Set(
+        combinedEdges.map(e => e.id).filter(id => !visibleEdgeIds.includes(id))
+      ));
+  
+      // Re-layout og sentrering
+      updateLayout();
+      setTimeout(() => {
+        const node = initialNodes.find(n => n.id === targetId);
+        if (!node) return;
+        reactFlowInstance.setCenter(
+          node.position.x + 90,
+          node.position.y + 25,
+          1.5
+        );
+        setActiveTab("details");
+        setSelectedNode(node);
+      }, 0);
+    },
+    [
+      reactFlowInstance,
+      nodeNetwork,
+      initialNodes,
+      combinedEdges,
+      updateLayout
+    ]
+  );
+  
+
+
   // onConnect: Når en ny forbindelse opprettes manuelt
   const onConnect = useCallback(
     (params) => {
@@ -431,6 +488,13 @@ function LiveNettverk() {
                   <h3>{selectedNode.data.label}</h3>
                   <p>{selectedNode.data.info}</p>
                   <p>Fyll inn mer detaljer her...</p>
+
+                  <button
+                    className={styles.showPathButton}
+                    onClick={() => showPath(selectedNode)}
+                    >
+                      Vis sti
+                  </button>
                   <button className={styles.deleteButton} onClick={handleDeleteNode}>
                     Slett node
                   </button>

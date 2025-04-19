@@ -58,16 +58,20 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
       setError("Ingen aktør valgt");
       return;
     }
+    if (!details.parentID) {
+      setError("Velg en overordnet aktør");
+      return;
+    }
     try {
       const payload = {
         name: selectedActor.name,
         phone: selectedActor.phone || "",
         beskrivelse: details.description,
-        parentID: details.parentID ? parseInt(details.parentID, 10) : null,
+        parentID: parseInt(details.parentID, 10),
         networkID,
         category: selectedActor.category || "",
         type: selectedActor.type || "",
-        hierarchyLevel: details.parentID ? "Underaktør" : "Overordnet",
+        hierarchyLevel: "Underaktør",
       };
       const res = await fetch("https://localhost:5255/api/nodes/add", {
         method: "POST",
@@ -154,7 +158,7 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
                 <p><strong>Valgt aktør:</strong> {selectedActor.name}</p>
                 <label>Underaktør til:</label>
                 <select name="parentID" value={details.parentID} onChange={handleDetailChange}>
-                  <option value="">Ingen (øverst)</option>
+                  <option value="">Velg overordnet aktør</option>
                   {existingActors.map(a => (
                     <option key={a.nodeID || a.id} value={a.nodeID || a.id}>
                       {a.name}
@@ -169,7 +173,7 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
                   placeholder="Beskrivelse..."
                 />
                 {error && <p className={styles.errorMessage}>{error}</p>}
-                <button onClick={handleAddExisting}>Legg til aktør</button>
+                <button onClick={handleAddExisting} disabled={!details.parentID}>Legg til aktør</button>
               </div>
             )}
             <hr />
