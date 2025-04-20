@@ -19,6 +19,7 @@ import AddActor from "./AddActor";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getTemplateNodes } from "../../../components/TemplateHandler"; 
+import { useScreenshot } from "use-react-screenshot"; // legg til øverst!
 
 const proOptions = { hideAttribution: true };
 
@@ -82,9 +83,27 @@ function LiveNettverk() {
   const [addActorStep, setAddActorStep] = useState("choose");
   const [isReady, setIsReady] = useState(false);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-
+  
+const [image, takeScreenshot] = useScreenshot();
+const reactFlowWrapperRef = useRef(null); 
+useEffect(() => {
+    if (reactFlowInstance && isReady) {
+      setTimeout(() => {
+        if (reactFlowWrapperRef.current) {
+          takeScreenshot(reactFlowWrapperRef.current).then((img) => {
+            if (img && networkId) {
+              localStorage.setItem(`screenshot-${networkId}`, img);
+              console.log("Screenshot lagret!");
+            }
+          });
+        }
+      }, 1000); // Vente 1 sekund slik at grafen rekker å tegnes
+    }
+  }, [reactFlowInstance, isReady, networkId]);
+  
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
+
 
   const fetchSamvirkeNettverk = async () => {
     try {
@@ -386,201 +405,211 @@ function LiveNettverk() {
   
   return (
     <ReactFlowProvider>
-      <div className={styles.container}>
-        <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
-  
-        <div className={styles.searchBarContainer}>
-          <SearchBar
-            placeholder="Søk etter aktør"
-            bgColor="#1A1A1A"
-            width="25rem"
-            enableDropdown={true}
-            actors={nodeNetwork.nodes || []}
-            onSelectActor={focusNode}
-          />
+  <div className={styles.container}>
+    <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
+
+    <div className={styles.searchBarContainer}>
+      <SearchBar
+        placeholder="Søk etter aktør"
+        bgColor="#1A1A1A"
+        width="25rem"
+        enableDropdown={true}
+        actors={nodeNetwork.nodes || []}
+        onSelectActor={focusNode}
+      />
+    </div>
+
+    <div className={styles.content}>
+      <div className={styles.networkContainer} ref={reactFlowWrapperRef}>
+        <ReactFlow
+          proOptions={proOptions}
+          nodes={initialNodes}
+          edges={combinedEdges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onNodeClick={handleNodeClick}
+          onNodeDoubleClick={handleNodeDoubleClick}
+          onEdgeClick={handleEdgeClick}
+          fitView
+          panOnDrag
+          zoomOnScroll
+          zoomOnDoubleClick
+          onInit={setReactFlowInstance}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <MiniMap pannable zoomable />
+          <Controls />
+          <Background />
+        </ReactFlow>
+      </div>
+
+      <div className={styles.infoBox}>
+        <div className={styles.tabContainer}>
+          <button
+            className={`${styles.tabButton} ${activeTab === "details" ? styles.activeTab : ""}`}
+            onClick={() => setActiveTab("details")}
+          >
+            Detaljer
+          </button>
+          <button
+            className={`${styles.tabButton} ${activeTab === "actors" ? styles.activeTab : ""}`}
+            onClick={() => setActiveTab("actors")}
+          >
+            Aktører
+          </button>
+          <button
+            className={`${styles.tabButton} ${activeTab === "info" ? styles.activeTab : ""}`}
+            onClick={() => setActiveTab("info")}
+          >
+            Info kontroll
+          </button>
         </div>
-  
-        <div className={styles.content}>
-          <div className={styles.networkContainer}>
-            <ReactFlow
-              proOptions={proOptions}
-              nodes={initialNodes}
-              edges={combinedEdges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              onNodeClick={handleNodeClick}
-              onNodeDoubleClick={handleNodeDoubleClick}
-              onEdgeClick={handleEdgeClick}
-              fitView
-              style={{ width: "100%", height: "100%" }}
-              panOnDrag
-              zoomOnScroll
-              zoomOnDoubleClick
-              onInit={setReactFlowInstance}
-            >
-              <MiniMap pannable zoomable />
-              <Controls />
-              <Background />
-            </ReactFlow>
-          </div>
-  
-          <div className={styles.infoBox}>
-            <div className={styles.tabContainer}>
-              <button
-                className={`${styles.tabButton} ${activeTab === "details" ? styles.activeTab : ""}`}
-                onClick={() => setActiveTab("details")}
-              >
-                Detaljer
-              </button>
-              <button
-                className={`${styles.tabButton} ${activeTab === "actors" ? styles.activeTab : ""}`}
-                onClick={() => setActiveTab("actors")}
-              >
-                Aktører
-              </button>
-              <button
-                className={`${styles.tabButton} ${activeTab === "info" ? styles.activeTab : ""}`}
-                onClick={() => setActiveTab("info")}
-              >
-                Info kontroll
+
+        <div className={styles.tabContent}>
+          {/* Detaljer */}
+          {activeTab === "details" && selectedNode && (
+            <div>
+              <h3>{selectedNode.data.label}</h3>
+              <p>{selectedNode.data.info}</p>
+              <p>Fyll inn mer detaljer her...</p>
+              <button className={styles.deleteButton} onClick={handleDeleteNode}>
+                Slett node
               </button>
             </div>
-  
-            <div className={styles.tabContent}>
-              {activeTab === "details" && selectedNode && (
-                <div>
-                  <h3>{selectedNode.data.label}</h3>
-                  <p>{selectedNode.data.info}</p>
-                  <p>Fyll inn mer detaljer her...</p>
-                  <button className={styles.deleteButton} onClick={handleDeleteNode}>
-                    Slett node
-                  </button>
-                </div>
-              )}
-  
-              {activeTab === "details" && !selectedNode && (
-                <>
-                  <div>
-                    <h3>{nodeNetwork.name}</h3>
-                    <p>Status: {nodeNetwork.status}</p>
-  
-                    <button
-                      className={styles.archiveButton}
-                      onClick={() => {
-                        setShowArchiveConfirm(true);
-                        setShowDeleteConfirm(false);
-                      }}
-                    >
-                      Arkiver Nettverk
-                    </button>
-  
-                    <button
-                      className={styles.deleteNetworkButton}
-                      onClick={() => {
-                        setShowDeleteConfirm(true);
-                        setShowArchiveConfirm(false);
-                      }}
-                    >
-                      Slett Nettverk
-                    </button>
-                  </div>
-  
-                  {showArchiveConfirm && (
-                    <div className={styles.confirmModal}>
-                      <p>Er du sikker på at du vil arkivere dette nettverket?</p>
-                      <button
-                        onClick={async () => {
-                          try {
-                            const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
-                              method: "POST",
-                            });
-                            if (res.ok) {
-                              toast.success("Nettverket ble arkivert!", { position: "top-right", autoClose: 3000 });
-                              setTimeout(() => {
-                                navigate("/nettverks-arkiv");
-                              }, 2000);
-                            } else {
-                              toast.error("Kunne ikke arkivere nettverket.");
-                            }
-                          } catch (err) {
-                            console.error("Error archiving network:", err);
-                          }
-                        }}
-                      >
-                        Ja, arkiver
-                      </button>
-                      <button onClick={() => setShowArchiveConfirm(false)}>Avbryt</button>
-                    </div>
-                  )}
-  
-                  {showDeleteConfirm && (
-                    <div className={styles.confirmModal}>
-                      <p>Er du sikker på at du vil slette dette nettverket?</p>
-                      <button
-                        onClick={async () => {
-                          try {
-                            const res = await fetch(`https://localhost:5255/api/KHN/delete/${networkId}`, {
-                              method: "DELETE",
-                            });
-                            if (res.ok) {
-                              toast.success("Nettverket ble slettet!", { position: "top-right", autoClose: 3000 });
-                              setTimeout(() => {
-                                navigate("/samvirkeNettverk");
-                              }, 2000);
-                            } else {
-                              toast.error("Kunne ikke slette nettverket.");
-                            }
-                          } catch (err) {
-                            console.error("Error deleting network:", err);
-                          }
-                        }}
-                      >
-                        Ja, slett
-                      </button>
-                      <button onClick={() => setShowDeleteConfirm(false)}>Avbryt</button>
-                    </div>
-                  )}
-                </>
-              )}
-  
-              {activeTab === "actors" && nodeNetwork.nodes && (
-                <ul>
+          )}
+
+          {activeTab === "details" && !selectedNode && (
+            <>
+              <div>
+                <h3>{nodeNetwork.name}</h3>
+                <p>Status: {nodeNetwork.status}</p>
+
+                <button
+                  className={styles.archiveButton}
+                  onClick={() => {
+                    setShowArchiveConfirm(true);
+                    setShowDeleteConfirm(false);
+                  }}
+                >
+                  Arkiver Nettverk
+                </button>
+
+                <button
+                  className={styles.deleteNetworkButton}
+                  onClick={() => {
+                    setShowDeleteConfirm(true);
+                    setShowArchiveConfirm(false);
+                  }}
+                >
+                  Slett Nettverk
+                </button>
+              </div>
+
+              {/* Archive Confirm Modal */}
+              {showArchiveConfirm && (
+                <div className={styles.confirmModal}>
+                  <p>Er du sikker på at du vil arkivere dette nettverket?</p>
                   <button
-                    className={styles.addActorButton}
-                    onClick={() => {
-                      setAddActorStep("choose");
-                      setShowAddActorModal(true);
+                    onClick={async () => {
+                      try {
+                        const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
+                          method: "POST",
+                        });
+                        if (res.ok) {
+                          toast.success("Nettverket ble arkivert!", { position: "top-right", autoClose: 3000 });
+                          setTimeout(() => {
+                            navigate("/nettverks-arkiv");
+                          }, 2000);
+                        } else {
+                          toast.error("Kunne ikke arkivere nettverket.");
+                        }
+                      } catch (err) {
+                        console.error("Error archiving network:", err);
+                      }
                     }}
                   >
-                    + Ny Aktør
+                    Ja, arkiver
                   </button>
-                  {nodeNetwork.nodes.map((node) => (
-                    <button
-                      key={node.nodeID}
-                      className={styles.actorList}
-                      onClick={() => focusNode(node)}
-                    >
-                      {node.name}
-                    </button>
-                  ))}
-                </ul>
+                  <button onClick={() => setShowArchiveConfirm(false)}>Avbryt</button>
+                </div>
               )}
-              {activeTab === "info" && <p>Kritisk informasjon om nettverket og tilstand...</p>}
-            </div>
-          </div>
+
+              {/* Delete Confirm Modal */}
+              {showDeleteConfirm && (
+                <div className={styles.confirmModal}>
+                  <p>Er du sikker på at du vil slette dette nettverket?</p>
+                  <button
+                    onClick={async () => {
+                      try {
+                        const res = await fetch(`https://localhost:5255/api/KHN/delete/${networkId}`, {
+                          method: "DELETE",
+                        });
+                        if (res.ok) {
+                          toast.success("Nettverket ble slettet!", { position: "top-right", autoClose: 3000 });
+                          setTimeout(() => {
+                            navigate("/samvirkeNettverk");
+                          }, 2000);
+                        } else {
+                          toast.error("Kunne ikke slette nettverket.");
+                        }
+                      } catch (err) {
+                        console.error("Error deleting network:", err);
+                      }
+                    }}
+                  >
+                    Ja, slett
+                  </button>
+                  <button onClick={() => setShowDeleteConfirm(false)}>Avbryt</button>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Aktører */}
+          {activeTab === "actors" && nodeNetwork.nodes && (
+            <ul>
+              <button
+                className={styles.addActorButton}
+                onClick={() => {
+                  setAddActorStep("choose");
+                  setShowAddActorModal(true);
+                }}
+              >
+                + Ny Aktør
+              </button>
+              {nodeNetwork.nodes.map((node) => (
+                <button
+                  key={node.nodeID}
+                  className={styles.actorList}
+                  onClick={() => focusNode(node)}
+                >
+                  {node.name}
+                </button>
+              ))}
+            </ul>
+          )}
+
+          {/* Info Kontroll */}
+          {activeTab === "info" && (
+            <p>Kritisk informasjon om nettverket og tilstand...</p>
+          )}
         </div>
-  
-        {showAddActorModal && (
-          <AddActor
-            onClose={() => setShowAddActorModal(false)}
-            onActorAdded={handleActorAdded}
-            existingActors={nodeNetwork.nodes}
-            networkID={parseInt(networkId)}
-          />
-        )}
       </div>
-    </ReactFlowProvider>
+    </div>
+
+    {/* AddActor Modal */}
+    {showAddActorModal && (
+      <AddActor
+        onClose={() => setShowAddActorModal(false)}
+        onActorAdded={handleActorAdded}
+        existingActors={nodeNetwork.nodes}
+        networkID={parseInt(networkId)}
+      />
+    )}
+  </div>
+</ReactFlowProvider>
+
   );
   
 }

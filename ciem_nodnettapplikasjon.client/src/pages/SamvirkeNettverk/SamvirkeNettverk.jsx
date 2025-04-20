@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './SamvirkeNettverk.module.css';
-import LiveNetworkWidget from '../../components/DashboardComponents/LiveNetworkWidget';
 import Box from '../../components/Box/Box';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 function SamvirkeNettverk() {
     const [situations, setSituations] = useState([]);
@@ -22,22 +20,38 @@ function SamvirkeNettverk() {
                 <div className={styles.leftSection}>
                     {liveSituations.length === 0 ? (
                         <div className={styles.noBox}>
-                            <p> Ingen pågående hendelser registrert</p>
+                            <p>Ingen pågående hendelser registrert</p>
                         </div>
                     ) : (
                         <div className={styles.grid}>
-                            {liveSituations.map((situation) => (
-                                <Link
-                                    key={situation.networkId}
-                                    to={`/sn/${situation.networkId}`}
-                                    className={styles.cardLink}
-                                >
-                                    <div style={{ position: "relative" }}>
-                                        <LiveNetworkWidget title={situation.title} />
-                                        <div className={styles.liveIndicator}>LIVE</div>
-                                    </div>
-                                </Link>
-                            ))}
+                            {liveSituations.map((situation) => {
+                                const screenshot = localStorage.getItem(`screenshot-${situation.networkId}`);
+                                return (
+                                    <Link
+                                        key={situation.networkId}
+                                        to={`/sn/${situation.networkId}`}
+                                        className={styles.cardLink}
+                                    >
+                                        <div className={styles.card}>
+                                            {screenshot ? (
+                                                <img
+                                                    src={screenshot}
+                                                    alt="Nettverksbilde"
+                                                    className={styles.networkImage}
+                                                />
+                                            ) : (
+                                                <div className={styles.placeholderImage}>
+                                                    Ingen bilde tilgjengelig
+                                                </div>
+                                            )}
+                                            <div className={styles.cardContent}>
+                                                <h3>{situation.title}</h3>
+                                                <div className={styles.liveIndicator}>LIVE</div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -47,15 +61,8 @@ function SamvirkeNettverk() {
                         <Box title="Nytt Nettverk" icon="grid-add" />
                     </Link>
 
-                    <Link
-                        to="/nettverks-arkiv"
-                        style={{ textDecoration: 'none' }}
-                    >
-                        <Box
-                            title="Nettverks Arkiv"
-                            boxIconColor="red"
-                            disableLink
-                        />
+                    <Link to="/nettverks-arkiv" style={{ textDecoration: 'none' }}>
+                        <Box title="Nettverks Arkiv" boxIconColor="red" disableLink />
                     </Link>
                 </div>
             </div>
