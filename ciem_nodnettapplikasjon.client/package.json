@@ -1,3 +1,4 @@
+
 {
     "name": "ciem_nodnettapplikasjon.client",
     "private": true,
@@ -26,7 +27,6 @@
         "react-toastify": "^11.0.5",
         "reactflow": "^11.11.4",
         "use-react-screenshot": "^4.0.0"
-        "toastify": "^2.0.1"
     },
     "devDependencies": {
         "@eslint/js": "^9.0.0",
