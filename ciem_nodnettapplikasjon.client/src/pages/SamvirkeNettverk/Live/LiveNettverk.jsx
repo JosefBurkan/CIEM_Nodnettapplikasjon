@@ -46,6 +46,7 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
       dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
     }
   });
+
   edges.forEach((edge) => {
     dagreGraph.setEdge(edge.source, edge.target);
   });
@@ -218,6 +219,7 @@ useEffect(() => {
         console.log("Fant ikke node for actor:", actor);
         return;
       }
+      
       const x = node.position.x + 90;
       const y = node.position.y + 25;
       reactFlowInstance.setCenter(x, y, 1.5);
@@ -226,6 +228,7 @@ useEffect(() => {
     },
     [reactFlowInstance, initialNodes]
   );
+
 
   // onConnect: Når en ny forbindelse opprettes manuelt
   const onConnect = useCallback(
@@ -300,6 +303,7 @@ useEffect(() => {
     while (stack.length > 0) {
       const current = stack.pop();
       const children = getOutgoers(current, allNodes, allEdges);
+
       children.forEach(child => {
         if (!visited.has(child.id)) {
           visited.add(child.id);
@@ -388,6 +392,39 @@ useEffect(() => {
     },
     [initialNodes, initialEdges, hiddenNodes, hiddenEdges, updateLayout]
   );
+
+
+  // onConnect: Når en ny forbindelse lages manuelt
+  const onConnect = useCallback(
+    (params) => {
+      const targetNode = nodeNetwork.nodes.find(
+        (n) => String(n.nodeID) === params.target
+      );
+      let newEdge = {};
+      if (targetNode && String(targetNode.parentID) === params.source) {
+        newEdge = { ...params, animated: false, hierarchical: true };
+      } else {
+        newEdge = { ...params, animated: true, hierarchical: false };
+      }
+      setInitialEdges((eds) => addEdge(newEdge, eds));
+    },
+    [nodeNetwork]
+  );
+
+  const onNodesChange = useCallback(
+    (changes) => {
+      setInitialNodes((nds) => applyNodeChanges(changes, nds));
+    },
+    []
+  );
+
+  const onEdgesChange = useCallback(
+    (changes) => {
+      setInitialEdges((eds) => applyEdgeChanges(changes, eds));
+    },
+    []
+  );
+
 
   // Når en ny aktør legges til via AddActor
   const handleActorAdded = (newActor) => {

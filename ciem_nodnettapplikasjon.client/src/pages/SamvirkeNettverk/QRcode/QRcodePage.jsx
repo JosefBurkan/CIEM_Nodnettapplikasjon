@@ -10,6 +10,7 @@ function QRcodePage() {
     const [userNode, setUserNode] = useState(null);
     const [error, setError] = useState('');
 
+
     useEffect(() => {
         const fetchUserNode = async () => {
             try {
@@ -58,3 +59,4 @@ function QRcodePage() {
 }
 
 export default QRcodePage;
+
