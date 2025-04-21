@@ -12,12 +12,14 @@
     margin-bottom: 2rem;
 }
 
+
 .controls {
     display: flex;
     gap: 1rem;
     justify-content: center;
     margin-bottom: 2rem;
 }
+
 
 .inputField {
     padding: 0.5rem;
@@ -50,6 +52,7 @@
     justify-items: center;
 }
 
+
 .networkCard {
     width: 140px;
     height: 140px;
@@ -64,6 +67,7 @@
     transition: transform 0.3s;
     text-align: center;
 }
+
 
 .networkCard:hover {
     transform: scale(1.05);

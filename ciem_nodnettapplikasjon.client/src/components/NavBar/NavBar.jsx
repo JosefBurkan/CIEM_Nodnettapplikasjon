@@ -30,7 +30,7 @@ function NavBar() {
                         />
                     </Link>
                 </div>
-                <SearchBar />
+                {/* <SearchBar /> */}
             </div>
             <div className={styles.navbarCenter}>
                 <div className={styles.navbarLinks}>
