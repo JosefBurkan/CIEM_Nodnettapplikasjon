@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Archive;
+
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
@@ -20,9 +22,9 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         // GET: api/ArchivedNetworks
         [HttpGet]
-        public async Task<ActionResult<NodeNetworksModel>> GetArchivedNetworks()
+        public async Task<ActionResult<ArchivedNetworksModel>> GetArchivedNetworks()
         {
-            var networks = await _nodeNetwork.GetAllNodeNetworks();
+            var networks = await _nodeNetwork.GetAllArchivedNetworks();
             return Ok(networks);
         }
     }

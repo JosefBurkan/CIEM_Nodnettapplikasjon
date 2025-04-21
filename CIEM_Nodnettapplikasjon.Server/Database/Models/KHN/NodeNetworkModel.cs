@@ -18,6 +18,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
         // Connects the class to the Nodes table
         public List<NodesModel> Nodes { get; set; } = new();
 
+        public bool IsArchived { get; set; } = false;
 
 
     }

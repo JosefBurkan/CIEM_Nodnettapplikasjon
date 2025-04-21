@@ -50,6 +50,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         }
 
+
         // Used by Dashboard.jsx for dynamic logic
         [HttpGet("all-situations")]
         public async Task<IActionResult> GetAllSituationsWithStatus()
