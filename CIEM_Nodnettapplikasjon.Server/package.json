@@ -2,6 +2,7 @@
   "dependencies": {
     "@microsoft/signalr": "^8.0.7",
     "@tabler/icons-react": "^3.31.0",
-    "dagre": "^0.8.5"
+    "dagre": "^0.8.5",
+    "react-toastify": "^11.0.5"
   }
 }
