@@ -393,39 +393,6 @@ useEffect(() => {
     [initialNodes, initialEdges, hiddenNodes, hiddenEdges, updateLayout]
   );
 
-
-  // onConnect: Når en ny forbindelse lages manuelt
-  const onConnect = useCallback(
-    (params) => {
-      const targetNode = nodeNetwork.nodes.find(
-        (n) => String(n.nodeID) === params.target
-      );
-      let newEdge = {};
-      if (targetNode && String(targetNode.parentID) === params.source) {
-        newEdge = { ...params, animated: false, hierarchical: true };
-      } else {
-        newEdge = { ...params, animated: true, hierarchical: false };
-      }
-      setInitialEdges((eds) => addEdge(newEdge, eds));
-    },
-    [nodeNetwork]
-  );
-
-  const onNodesChange = useCallback(
-    (changes) => {
-      setInitialNodes((nds) => applyNodeChanges(changes, nds));
-    },
-    []
-  );
-
-  const onEdgesChange = useCallback(
-    (changes) => {
-      setInitialEdges((eds) => applyEdgeChanges(changes, eds));
-    },
-    []
-  );
-
-
   // Når en ny aktør legges til via AddActor
   const handleActorAdded = (newActor) => {
     setNodeNetwork(prev => ({
