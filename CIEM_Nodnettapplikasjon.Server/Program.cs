@@ -1,9 +1,9 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
-using CIEM_Nodnettapplikasjon.Server.Services.KHN;
+using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.KHN;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
@@ -23,9 +23,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<INodeNetworkRepository, NodeNetworksRepository>();
-builder.Services.AddScoped<IKHNService, KHNService>();
+builder.Services.AddScoped<ISamvirkeNettverkService, SamvirkeNettverkService>();
 builder.Services.AddScoped<INetworkBuilderRepository, NetworkBuilderRepository>();
 builder.Services.AddScoped<INetworkBuilderService, NetworkBuilderService>();
+builder.Services.AddScoped<INodeRepository, NodeRepository>();
+builder.Services.AddScoped<IQRRepository, QRRepository>();
+
 
 // Cors setup
 builder.Services.AddCors(options =>
@@ -94,7 +97,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseRouting(); 
+app.UseRouting();
 app.UseCors("AllowFrontend");  // Allow frontend and backend to work together
 app.UseAuthorization();
 

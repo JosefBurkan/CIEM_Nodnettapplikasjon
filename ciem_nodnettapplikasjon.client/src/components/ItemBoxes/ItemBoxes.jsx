@@ -1,7 +1,7 @@
-import { useEffect } from "react"
+import { useEffect } from 'react';
 
-function ItemBoxes(){
-    return(<>Placeholder text</>);
+function ItemBoxes() {
+    return <>Placeholder text</>;
 }
 
-export default ItemBoxes
+export default ItemBoxes;

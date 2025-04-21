@@ -6,8 +6,7 @@
     width: 100%;
     max-width: 300px;
     margin-left: 5px;
-    margin-top: 40px
-
+    margin-top: 40px;
 }
 
 .header {
@@ -26,7 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 75%; 
+    width: 75%;
     white-space: nowrap; /* Prevent wrapping */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }

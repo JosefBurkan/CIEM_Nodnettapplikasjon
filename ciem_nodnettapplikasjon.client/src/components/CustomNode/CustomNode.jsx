@@ -6,9 +6,7 @@ const CustomNode = ({ data }) => {
     return (
         <div className={styles.nodeContainer}>
             <Handle type="target" position={Position.Top} />
-            <div className={styles.nodeContent}>
-                {data.label}
-            </div>
+            <div className={styles.nodeContent}>{data.label}</div>
             <Handle type="source" position={Position.Bottom} />
         </div>
     );

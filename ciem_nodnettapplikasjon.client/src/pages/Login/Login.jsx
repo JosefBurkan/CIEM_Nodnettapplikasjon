@@ -4,49 +4,52 @@ import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
-
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [correctMessage, setCorrectMessage] = useState("");
-    const isDisabled = (!username || !password);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [correctMessage, setCorrectMessage] = useState('');
+    const isDisabled = !username || !password;
     const navigate = useNavigate();
 
-    const showMessage = (error = "", success = "",) => {
+    const showMessage = (error = '', success = '') => {
         setErrorMessage(error);
         setCorrectMessage(success);
-    }
-
+    };
 
     const Login = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("https://localhost:5255/api/user/login", {
-            method: "POST",
+        const response = await fetch('https://localhost:5255/api/user/login', {
+            method: 'POST',
             headers: {
-                'Content-Type': "application/json",
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({ username, password }),
         });
 
         if (response.ok) {
             const result = await response.json();
+
             localStorage.setItem("user", JSON.stringify(result));
+            localStorage.setItem("username", result.username);  
 
-            showMessage("", `Velkommen inn ${username}`);
-            sessionStorage.setItem("isAuthenticated", "true");
-            console.log("Authentication flag set in sessionStorage:", sessionStorage.getItem("isAuthenticated"));
-   
-            setTimeout(() => navigate("/dashboard"), 500);
+
+            showMessage('', `Velkommen inn ${username}`);
+            sessionStorage.setItem('isAuthenticated', 'true');
+            console.log(
+                'Authentication flag set in sessionStorage:',
+                sessionStorage.getItem('isAuthenticated')
+            );
+
+            setTimeout(() => navigate('/dashboard'), 500);
         } else {
-            console.error("Error: ", response.statusText);
-            console.log("Feil brukernavn eller passord");
-            showMessage("Feil brukernavn eller passord, prøv igjen");
-        } 
+            console.error('Error: ', response.statusText);
+            console.log('Feil brukernavn eller passord');
+            showMessage('Feil brukernavn eller passord, prøv igjen');
+        }
 
-
-        setPassword("");
-        setUsername("");
+        setPassword('');
+        setUsername('');
     };
 
     return (
@@ -71,14 +74,21 @@ function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit" className={styles.loginButton} disabled={isDisabled}>LOGIN</button>
+                <button
+                    type="submit"
+                    className={styles.loginButton}
+                    disabled={isDisabled}
+                >
+                    LOGIN
+                </button>
             </form>
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            {correctMessage && <p style={{ color: "green" }}>{correctMessage}</p>}
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {correctMessage && (
+                <p style={{ color: 'green' }}>{correctMessage}</p>
+            )}
             <p className={styles.helpBox}>Hjelp ⓘ</p>
         </div>
-
     );
 }
 
-export default Login;  
+export default Login;

@@ -9,9 +9,10 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-  }
-  
-  .modalContent {
+}
+
+.modalContent {
+
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -19,9 +20,9 @@
     width: 90%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: relative;
-  }
-  
-  .closeButton {
+}
+
+.closeButton {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -29,31 +30,32 @@
     background: none;
     font-size: 1.5rem;
     cursor: pointer;
-  }
-  
-  .errorMessage {
+
+}
+
+.errorMessage {
     color: red;
     margin-bottom: 10px;
-  }
-  
-  .form label {
+}
+
+.form label {
     display: block;
     margin: 10px 0 5px;
-  }
-  
-  .form input,
-  .form textarea,
-  .form select {
+}
+
+.form input,
+.form textarea,
+.form select {
+
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     margin-bottom: 10px;
     border-radius: 5px;
     background-color: hsl(0, 0%, 90%);
-  }
-  
-  .form button {
+}
+
+.form button {
     padding: 10px 20px;
     cursor: pointer;
-  }
-  
+}

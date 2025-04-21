@@ -3,7 +3,7 @@ import styles from './NettverksArkiv.module.css';
 
 function NettverksArkiv() {
     const [networks, setNetworks] = useState([]);
-    const [newNetworkName, setNewNetworkName] = useState("");
+    const [newNetworkName, setNewNetworkName] = useState('');
 
     useEffect(() => {
         fetchArchivedNetworks();
@@ -11,34 +11,41 @@ function NettverksArkiv() {
 
     async function fetchArchivedNetworks() {
         try {
-            const response = await fetch("https://localhost:5255/api/ArchivedNetworks");
+
+            const response = await fetch(
+                'https://localhost:5255/api/samvirkeNettverk/ArchivedNetworks'
+            );
             if (!response.ok) {
-                throw new Error("Failed to fetch archived networks");
+                throw new Error('Failed to fetch archived networks');
+
             }
             const data = await response.json();
             setNetworks(data);
         } catch (error) {
-            console.error("Error fetching networks:", error);
+            console.error('Error fetching networks:', error);
         }
     }
     // "api/actor/CreateActor"
     // "api/CreateActor"
     async function CreateNetwork() {
         try {
-            const response = await fetch("https://localhost:5255/api/GetArchivedNetworks", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: newNetworkName })
-            });
+            const response = await fetch(
+                'https://localhost:5255/api/GetArchivedNetworks',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: newNetworkName }),
+                }
+            );
             if (!response.ok) {
-                throw new Error("Failed to create network");
+                throw new Error('Failed to create network');
             }
 
             // Refresh the list
             fetchArchivedNetworks();
-            setNewNetworkName("");
+            setNewNetworkName('');
         } catch (error) {
-            console.error("Error creating network:", error);
+            console.error('Error creating network:', error);
         }
     }
 
