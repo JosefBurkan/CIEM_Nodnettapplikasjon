@@ -18,7 +18,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _nodeNetwork = nodeNetwork;
         }
 
-
         // 1. GET a specific KHN by networkId (used in detail view)
         [HttpGet("GetNodeNetwork/{id}")]
         public async Task<ActionResult<NodeNetworksModel>> GetNodeNetwork(int id)
@@ -51,7 +50,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
         }
 
-
         // Used by Dashboard.jsx for dynamic logic
         [HttpGet("all-situations")]
         public async Task<IActionResult> GetAllSituationsWithStatus()
@@ -67,9 +65,5 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
 
             return Ok(result);
         }
-
-
-
     }
-
 }

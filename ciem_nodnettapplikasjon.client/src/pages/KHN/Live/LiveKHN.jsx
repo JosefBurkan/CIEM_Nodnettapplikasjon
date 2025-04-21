@@ -133,12 +133,13 @@ function LiveKHN() {
         position: { x: 0, y: 0 },
       }));
 
+      // Generate connection lines between nodes
       const edges = nodeNetwork.nodes
         .filter((n) => n.parentID != null && n.parentID !== 0)
         .map((n) => ({
-          id: `edge-${n.parentID}-${n.nodeID}`,
-          source: String(n.parentID),
-          target: String(n.nodeID),
+          id: `edge-${n.parentID}-${n.nodeID}`, 
+          source: String(n.parentID), // Create a node from the parent node
+          target: String(n.nodeID), // to the current node
           animated: true,
           hierarchical: true,
           hidden: hiddenEdges.has(`edge-${n.parentID}-${n.nodeID}`),
@@ -408,7 +409,7 @@ function LiveKHN() {
                 className={`${styles.tabButton} ${activeTab === "info" ? styles.activeTab : ""}`}
                 onClick={() => setActiveTab("info")}
               >
-                Info kontroll
+                Infokontroll
               </button>
             </div>
             <div className={styles.tabContent}>
