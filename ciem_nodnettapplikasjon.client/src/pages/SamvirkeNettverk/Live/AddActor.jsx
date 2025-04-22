@@ -13,6 +13,7 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
   const [formData, setFormData] = useState({
     hierarchy: "Overordnet",
     name: "",
+
     phone: "",
     category: "",
     actorType: "",
@@ -137,6 +138,7 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
       console.error(e);
       setError(e.message || "Noe gikk galt");
     }
+
   };
 
   return (

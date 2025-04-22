@@ -14,7 +14,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
             _context = context;
         }
 
-        // Username authentication
+        // Retrieves a user by username and logs info to console
         public UserModel? GetUserByUsername(string username)
         {
   
@@ -39,14 +39,14 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
             return user;
         }
 
-        // 
+        // Asynchronously retrieves a user by username
         public async Task<UserModel?> GetUserByUsernameAsync(string username)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
         }
 
 
-        // Add User
+        // Adds a new user to the database
         public void AddUser(string username, string email, string phone, string password, string role)
         {
             var newUser = new UserModel
@@ -63,8 +63,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
         }
 
 
-
-        // Modify User
+        // Modifies an existing user’s details based on userID
         public void ModifyUser(int userID, string newUsername, string newEmail, string newPhone, string newRole)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == userID);
@@ -79,7 +78,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
             }
         }
 
-        // Delete User 
+        //  // Deletes a user from the database by userID 
         public void DeleteUser(int userID)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == userID);
@@ -90,7 +89,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
             }
         }
 
-        // View User
+        // Retrieves a user by ID; returns a default user if not found
         public UserModel ViewUser(int userID)
         {
             return _context.Users.FirstOrDefault(u => u.UserID == userID) 

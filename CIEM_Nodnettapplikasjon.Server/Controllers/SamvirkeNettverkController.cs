@@ -18,7 +18,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _nodeNetwork = nodeNetwork;
         }
 
-       // GET: api/samvirkeNettverk/GetNodeNetwork/{id} (Retrieves a single node network by ID including its related nodes)
         [HttpGet("GetNodeNetwork/{id}")]
         public async Task<ActionResult<NodeNetworksModel>> GetNodeNetwork(int id)
         {
