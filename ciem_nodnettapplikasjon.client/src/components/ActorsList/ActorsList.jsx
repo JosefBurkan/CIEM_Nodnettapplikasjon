@@ -109,13 +109,8 @@ function ActorsList({ category }) {
                         <option value="Person">Person</option>
                         <option value="Organisasjon">Organisasjon</option>
                     </select>
-                </div>
-                <button>
-                    <IconMail className={styles.mailIcon} />
-                </button>
-                <button>
-                    <IconUser className={styles.userIcon} />
-                </button>
+                    </div>
+                
             </div>
 
             <div className={styles.headerBoxContainer}>

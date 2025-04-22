@@ -88,21 +88,21 @@
 /* Innholdsområde hvor aktørene vises */
 .contentContainer {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start; /* Align content to the left */
+    justify-content: flex-start;
     padding: 1rem;
     width: 92vw;
     height: 47vh;
-    margin: auto;
     background-color: #1a1a1a;
-    border: 3px solid #0a77a6; /* blå ramme */
+    border: 3px solid #0a77a6;
     color: hsl(0, 0%, 93%);
     border-radius: 35px;
-    overflow-y: scroll; /* scroll hvis for mye innhold */
-    scrollbar-width: none; /* skjul scrollbar i Firefox */
-    padding-left: 2rem; /* <-- Legg til dette */
+    overflow-y: scroll;
+    scrollbar-width: none;
+    margin: 2rem 0 2rem 2rem; /* Flytt den mot venstre med margin-left */
 }
+
 
 /* Hover-effekter for spesifikke knapper */
 .selectAllButton:hover,
@@ -152,15 +152,20 @@
 /* Liste uten prikker */
 .actorsList {
     list-style: none;
-}
+    padding-left: 0; /* Fjern innrykk */
+    margin-left: 0;  /* Fjern margin */
+    text-align: left; /* Juster teksten til venstre */
+    width: 100%; /* Sørg for at listen fyller containerens bredde */
+
 
 .actorListContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    border-bottom: 1px solid white; /* <-- Legg linjen her */
+    border-bottom: 1px solid rgb(200, 46, 46); /* <-- Legg linjen her */
     padding: 0.5rem 0;
+    margin-left: 0; /* VIKTIG! Sett denne til 0 */
 }
 
 
@@ -280,4 +285,5 @@ select:focus {
     height: 0.6rem;
     background-color: #00b3b3; /* Turkis farge */
     border-radius: 50%;
+}
 }
