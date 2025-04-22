@@ -9,6 +9,7 @@ import {
   addEdge,
   applyNodeChanges,
   applyEdgeChanges,
+  MarkerType,
 } from "@xyflow/react";
 import dagre from "dagre";
 import "@xyflow/react/dist/style.css";
@@ -35,21 +36,22 @@ function guessTemplateFromName(name) {
 
 // Auto-layout-funksjon
 function getLayoutedElements(nodes, edges, direction = "TB") {
+  const hierEdges = edges.filter(e => e.hierarchical);
+  const commEdges = edges.filter(e => !e.hierarchical);
+
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
+  dagreGraph.setGraph({ rankdir: direction, ranksep: 100, nodeSep: 30, edgeSep: 50 });
 
   const nodeWidth = 180;
   const nodeHeight = 50;
-
-  dagreGraph.setGraph({ rankdir: direction, ranksep: 100, nodeSep: 80, edgeSep: 50 });
-
   nodes.forEach((node) => {
     if (!node.hidden) {
       dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
     }
   });
 
-  edges.forEach((edge) => {
+  hierEdges.forEach((edge) => {
     dagreGraph.setEdge(edge.source, edge.target);
   });
 
@@ -69,7 +71,14 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
     return node;
   });
 
-  return { nodes: layoutedNodes, edges };
+  const layoutedHierEdges = hierEdges.map(edge => ({
+    ...edge,
+  }));
+
+  return { 
+    nodes: layoutedNodes, 
+    edges: [...layoutedHierEdges, ...commEdges],
+  };
 }
 
 function LiveNettverk() {
@@ -157,46 +166,58 @@ useEffect(() => {
         data: { label: node.name, info: `Detaljert info om ${node.name}` },
         hidden: hiddenNodes.has(String(node.nodeID)),
         position: { x: 0, y: 0 },
+        
+        sourcePosition: 'right',  // kanten “går ut” til høyre
+        targetPosition: 'left',   // kanten “kommer inn” fra venstre
       }));
 
-      const edges = nodeNetwork.nodes
-      .filter((n) => n.parentID != null && n.parentID !== 0)
-      .flatMap((n) => {
-        const edgeList = [];
+      const allEdges = nodeNetwork.nodes.flatMap(node => {
+      const edges = [];
     
-        // Generate manually created connection lines
-        if (n.connectionID != null) {
-          n.connectionID.forEach((connID) => {
-            edgeList.push({
-              id: `edge-${n.parentID}-${connID}`,
-              source: String(n.nodeID),
-              target: String(connID),
-              animated: true,
-            });
-          });
-        }
-
-        // Generate automatically created connection lines 
-        if (n.nodeID) {
-          edgeList.push({
-            id: `edge-${n.parentID}-${n.nodeID}`,
-            source: String(n.parentID),
-            target: String(n.nodeID),
-            animated: false,
-            hierarchical: true,
-            hidden: hiddenEdges.has(`edge-${n.parentID}-${n.nodeID}`),
-            style: { strokeWidth: 2.5, stroke: "#888" },
-          });
-        }
     
-        return edgeList;
+        // Hierarkiske kanter. Parent til child.
+    if (node.parentID != null && node.parentID !== 0) {
+      edges.push({
+        id: `edge-${node.parentID}-${node.nodeID}`,
+        source: String(node.parentID),
+        target: String(node.nodeID),
+        hierarchical: true,
+        hidden: hiddenEdges.has(`edge-${node.parentID}-${node.nodeID}`),
+        animated: false,
+        style: { strokeWidth: 2.5, stroke: "#888" },
       });
+    }
+
+    // B) Manuelt tegnet kommunikasjons‑kanter
+    (node.connectionID || []).forEach(connID => {
+      edges.push({
+        id: `comm-${node.nodeID}-${connID}`,
+        source: String(node.nodeID),
+        target: String(connID),
+        hierarchical: false,
+        animated: true,
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+        },
+        markerStart: {
+          type: MarkerType.ArrowClosed,
+          orient: 'auto-start-reverse',
+        },
+        style: { strokeWidth: 1.5, strokeDasharray: "4 2" },
+      });
+    });
+
+    return edges;
+    });
     
 
-      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, "TB");
-      setInitialNodes(layoutedNodes);
-      setInitialEdges(layoutedEdges);
-    }
+    const { nodes: layoutedNodes, edges: layoutedEdges } =
+      getLayoutedElements(nodes, allEdges, "LR");
+
+    setInitialNodes(layoutedNodes);
+    setInitialEdges(layoutedEdges.filter(e => e.hierarchical));
+    setCommunicationEdges(layoutedEdges.filter(e => !e.hierarchical));
+  };
   }, [nodeNetwork, hiddenNodes, hiddenEdges]);
 
   useEffect(() => {
@@ -366,7 +387,14 @@ useEffect(() => {
             animated: true,
             hierarchical: false,
             manual: true,
-            style: { strokeWidth: 2 },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+            },
+            markerStart: {
+              type: MarkerType.ArrowClosed,
+              orient: 'auto-start-reverse',
+            },
+            style: { strokeWidth: 1.5 },
           };
           setCommunicationEdges(prev => addEdge(newCommEdge, prev));
         } catch (error) {
@@ -396,7 +424,6 @@ useEffect(() => {
   const handleDeleteNode = useCallback(async () => {
     if (!selectedNode) return;
     const nodeIdToDelete = selectedNode.id; 
-    
     // Vent til deleteNode har kjørt
     const deletionSucceeded = await deleteNode(selectedNode.id);
     if (!deletionSucceeded) {
@@ -449,27 +476,44 @@ useEffect(() => {
 
   const toggleCollapseExpand = useCallback(
     (node) => {
-      const descendants = getDescendantNodes(node, initialNodes, initialEdges);
+      const descendants     = getDescendantNodes(node, initialNodes, initialEdges);
       const descendantEdges = getDescendantEdges(node, initialNodes, initialEdges);
       const updatedHiddenNodes = new Set(hiddenNodes);
       const updatedHiddenEdges = new Set(hiddenEdges);
       const shouldHide = descendants.some(desc => !hiddenNodes.has(desc.id));
+  
       descendants.forEach(desc => {
         if (shouldHide) updatedHiddenNodes.add(desc.id);
-        else updatedHiddenNodes.delete(desc.id);
+        else            updatedHiddenNodes.delete(desc.id);
       });
       descendantEdges.forEach(edge => {
         if (edge.hierarchical) {
           if (shouldHide) updatedHiddenEdges.add(edge.id);
-          else updatedHiddenEdges.delete(edge.id);
+          else            updatedHiddenEdges.delete(edge.id);
         }
       });
+  
       setHiddenNodes(updatedHiddenNodes);
       setHiddenEdges(updatedHiddenEdges);
+  
+      // 3) Oppdater label på akkurat denne noden med antall descendants
+      const count = descendants.length;
+      setNodeNetwork(prev => ({
+        ...prev,
+        nodes: prev.nodes.map(n => {
+          if (String(n.nodeID) !== node.id) return n;
+          const base = n.name.includes(' (') ? n.name.split(' (')[0] : n.name;
+          return {
+            ...n,
+            name: shouldHide ? `${base} (${count})` : base,
+          };
+        }),
+      }));
       updateLayout();
     },
     [hiddenNodes, hiddenEdges, initialNodes, initialEdges, updateLayout]
   );
+  
 
   const handleNodeClick = useCallback(
     (event, node) => {
@@ -556,7 +600,7 @@ useEffect(() => {
             <ReactFlow
               proOptions={proOptions}
               nodes={initialNodes}
-              edges={combinedEdges}  // Bruker den kombinerte listen med kanter
+              edges={[...initialEdges, ...communicationEdges]}  // Bruker den kombinerte listen med kanter
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}

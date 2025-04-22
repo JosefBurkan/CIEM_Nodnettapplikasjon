@@ -19,7 +19,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes
         public string? type { get; set; }
         public string? hierarchy_level { get; set; }
         public string? category { get; set; }
-        public List<int> connectionID {get; set; }
+        public List<int>? connectionID {get; set; }
 
         // NetworkID is FK for NodesModel
         [ForeignKey("NodeNetwork")]
