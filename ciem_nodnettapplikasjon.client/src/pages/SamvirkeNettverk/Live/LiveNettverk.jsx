@@ -37,8 +37,10 @@ function guessTemplateFromName(name) {
 function getLayoutedElements(nodes, edges, direction = "TB") {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
+
   const nodeWidth = 180;
   const nodeHeight = 50;
+
   dagreGraph.setGraph({ rankdir: direction, ranksep: 100, nodeSep: 80, edgeSep: 50 });
 
   nodes.forEach((node) => {
@@ -53,16 +55,21 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
 
   dagre.layout(dagreGraph);
 
-  return {
-    nodes: nodes.map((node) => {
-      const dagreNode = dagreGraph.node(node.id);
+  const layoutedNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    if (nodeWithPosition) {
       return {
         ...node,
-        position: { x: dagreNode.x - nodeWidth / 2, y: dagreNode.y - nodeHeight / 2 },
+        position: {
+          x: nodeWithPosition.x - nodeWidth / 2,
+          y: nodeWithPosition.y - nodeHeight / 2,
+        },
       };
-    }),
-    edges,
-  };
+    }
+    return node;
+  });
+
+  return { nodes: layoutedNodes, edges };
 }
 
 function LiveNettverk() {
