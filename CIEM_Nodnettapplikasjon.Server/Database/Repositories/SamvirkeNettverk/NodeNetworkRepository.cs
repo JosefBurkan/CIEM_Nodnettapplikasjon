@@ -15,7 +15,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
             _context = context;
         }
 
-        // Get all nodenetworks
+        // Retrieves all node networks that are not archived
         public async Task<IEnumerable<NodeNetworksModel>> GetAllNodeNetworks() {
 
          return await _context.NodeNetworks
@@ -24,7 +24,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 
         }
 
-        // Grab a specific nodenetwork, and only the nodes witch matches the foreign key of Nodes
+        // Grabs a specific nodenetwork, and only the nodes witch matches the foreign key of Nodes
         public async Task<NodeNetworksModel> GetNodeNetworkByID(int id)
         {
             return await _context.NodeNetworks
@@ -34,7 +34,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
         }
 
 
-        // Create a new nodenetwork
+        // Create a new node network
         public async Task<NodeNetworksModel> CreateNodeNetwork(NodeNetworksModel newNodeNetwork) {
 
             _context.NodeNetworks.Add(newNodeNetwork);
@@ -42,12 +42,13 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
             return newNodeNetwork;
         }
 
-        // Get all Archived Networks
+        // Retrieves all Archived Networks
         public async Task<IEnumerable<ArchivedNetworksModel>> GetAllArchivedNetworks()
         {
             return await _context.ArchivedNetworks.ToListAsync();
         }
 
+        // Archives a node network by its ID
         public async Task<bool> ArchiveNetwork(int id)
         {
             var network = await _context.NodeNetworks.FindAsync(id);

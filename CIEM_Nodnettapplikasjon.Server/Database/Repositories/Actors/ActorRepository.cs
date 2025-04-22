@@ -16,16 +16,19 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
             _context = context;
         }
 
+        // Retrieves all actors from the database
         public async Task<IEnumerable<ActorModel>> GetAllActorsAsync()
         {
             return await _context.Actors.ToListAsync();
         }
-        
+
+        // Retrieves a single actor by ID 
         public async Task<ActorModel> GetActorByIdAsync(int id)
         {
             return await _context.Actors.FindAsync(id);
         }
 
+        // Adds a new actor to the database
         public async Task<ActorModel> CreateActorAsync(ActorModel newActor)
         {
             _context.Actors.Add(newActor);
@@ -33,6 +36,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
             return newActor;
         }
 
+        // Adds a new sub-actor (string) to an existing actor's SubActors list
         public async Task<ActorModel> CreateSubActorAsync(int actorID, string newSubActor) 
         {
             var actor = await GetActorByIdAsync(actorID);
@@ -45,6 +49,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
 
         }
 
+        // Deletes an actor by ID if it exists in the database
         public async Task DeleteActorAsync(int id)
         {
             var actor = await _context.Actors.FindAsync(id);

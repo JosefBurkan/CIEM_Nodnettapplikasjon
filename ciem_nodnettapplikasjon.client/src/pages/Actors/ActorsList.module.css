@@ -1,0 +1,129 @@
+/* * {
+    outline: 1px solid gold;
+} */
+.actorsListContainer{
+    font-family: Arial, Helvetica, sans-serif;
+    /* background-color: blue; */
+    border:1px solid black;
+    /* padding: 20px; */
+}
+.midlertidigBtn, .filterButton, .selectAllButton, .showSelectionButton{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+    cursor:pointer;
+    color: hsl(0, 0%, 83%);
+    background-color: #1A1A1A;
+}
+
+.topSection {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 1rem 4rem;
+    width: 20%;
+    gap: 1rem; /* Hindrer at de blir for tett sammen */
+    border: 1px solid
+}
+.btnContainer {
+    border: 1px solid black;
+    display: flex;
+    gap: 0.5rem;
+}
+/* .searchBarContainer{
+
+} */
+/* .filterBtnContainer{
+    border: 1px solid black;
+    display: flex;
+    justify-content: flex-end; 
+} */
+.midlertidigBtn{
+    border: 2px solid rgb(165, 31, 31);
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.midlertidigBtn:hover {
+    background-color: red;
+    color: black;
+}
+
+.filterButton{
+    text-align: center;
+    border-radius: 15px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    width: 150px;
+    border:none;
+    outline: none;
+    transition: 0.3s;
+}
+.filterButton:hover{
+    background-color: #006C74;
+    color: white;
+}
+
+.headerBox{
+    /* display:flex;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #1A1A1A;
+    color: hsl(0, 0%, 93%);
+    border-radius: 15px;
+    width: 10%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+    width: 250px;
+    margin: auto;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.contentContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 1rem;
+    padding: 1rem;
+    width: 92vw;
+    height: 50vh;
+    margin: auto;
+    background-color: #1A1A1A;
+    color: hsl(0, 0%, 93%);
+    border-radius: 35px;
+}
+
+
+.selectAllButton:hover, .showSelectionButton:hover{
+    background-color: #FF3F3F;
+    color: white;
+}
+.selectAllButton, .showSelectionButton{
+    text-align: center;
+    border-radius: 15px;
+    border: 2px solid #FF3F3F;
+}
+.selectAllButton{
+    padding: 0.6rem;
+    width: 150px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    position: relative;
+    left: 2.8vw;
+}
+
+.bottomSection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}

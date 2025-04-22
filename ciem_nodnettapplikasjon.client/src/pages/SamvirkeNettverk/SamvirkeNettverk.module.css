@@ -1,10 +1,8 @@
 .container {
-  background-color: #056b6b;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
+    background-color: rgb(5, 107, 107); /* Dark mode background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dashboard {
@@ -21,16 +19,29 @@
 }
 
 .rightSection {
-  background: rgb(170, 170, 170);
-  padding: 20px;
-  border-radius: 15px;
-  width: 35%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 200px;
+    background: rgb(170, 170, 170); /* Gray background */
+    padding: 20px;
+    border-radius: 15px 0 0 15px; /* Rounded corners */
+    width: 35%; /* ✅ Expands to half the screen */
+    height: 100vh; /* ✅ Ensures it takes full height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 200px; /* ✅ Adds spacing between the boxes */
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 1024px) {
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rightSection {
+        margin-top: 20px;
+    }
 }
 
 .grid {

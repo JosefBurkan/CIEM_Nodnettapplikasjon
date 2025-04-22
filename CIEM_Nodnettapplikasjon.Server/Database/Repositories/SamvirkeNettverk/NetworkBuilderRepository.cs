@@ -3,7 +3,7 @@ using CIEM_Nodnettapplikasjon.Server.Database;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk; // Add the correct namespace for INetworkBuilderService
+using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk; 
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
 {
@@ -16,12 +16,14 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
             _context = context;
         }
 
+        // Inserts a new node network into the database
         public async Task InsertAsync(NodeNetworksModel network)
         {
             _context.NodeNetworks.Add(network);
             await _context.SaveChangesAsync();
         }
 
+        // Deletes a node network and all associated nodes by network ID
         public async Task<bool> DeleteNetworkAsync(int networkId)
         {
             var network = await _context.NodeNetworks
@@ -39,6 +41,30 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
 
             await _context.SaveChangesAsync();
             return true;
+        }
+    }
+
+    [Route("api/samvirkeNettverk")]
+    [ApiController]
+    public class NetworkBuilderController : ControllerBase
+    {
+        private readonly INetworkBuilderService _service;
+
+        public NetworkBuilderController(INetworkBuilderService service)
+        {
+            _service = service;
+        }
+
+        // POST: api/samvirkeNettverk/create
+        // Creates a new node network
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateNetwork([FromBody] CreateNetworkDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Name))
+                return BadRequest("Name is required.");
+
+            var id = await _service.CreateNetworkAsync(dto.Name);
+            return Ok(new { id });
         }
     }
 }

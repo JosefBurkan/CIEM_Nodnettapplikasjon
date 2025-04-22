@@ -5,7 +5,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Actors
         public int Id { get; set; }
         public string Name { get; set; }
         public string Category { get; set; } // Private, frivillige or statlige
-        public string ActorType { get; set; } // For filtrering - Selvstendig eller organisasjon
+        public string ActorType { get; set; } // For filtering - Selvstendig eller organisasjon
         public List<string>? SubActors { get; set; }
         public string? Description { get; set; }
     }
