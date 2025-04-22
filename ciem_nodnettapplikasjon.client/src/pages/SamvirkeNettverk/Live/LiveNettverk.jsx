@@ -122,6 +122,7 @@ useEffect(() => {
           nodeID: node.id,
           name: node.data.label,
           parentID: null,
+          connectionID: node.connectionID,
         }));
 
         setNodeNetwork({
@@ -152,16 +153,38 @@ useEffect(() => {
       }));
 
       const edges = nodeNetwork.nodes
-        .filter((n) => n.parentID != null && n.parentID !== 0)
-        .map((n) => ({
-          id: `edge-${n.parentID}-${n.nodeID}`,
-          source: String(n.parentID),
-          target: String(n.nodeID),
-          animated: false,
-          hierarchical: true,
-          hidden: hiddenEdges.has(`edge-${n.parentID}-${n.nodeID}`),
-          style: { strokeWidth: 2.5, stroke: "#888" },
-        }));
+      .filter((n) => n.parentID != null && n.parentID !== 0)
+      .flatMap((n) => {
+        const edgeList = [];
+    
+        // Generate manually created connection lines
+        if (n.connectionID != null) {
+          n.connectionID.forEach((connID) => {
+            edgeList.push({
+              id: `edge-${n.parentID}-${connID}`,
+              source: String(n.nodeID),
+              target: String(connID),
+              animated: true,
+            });
+          });
+        }
+
+        // Generate automatically created connection lines 
+        if (n.nodeID) {
+          edgeList.push({
+            id: `edge-${n.parentID}-${n.nodeID}`,
+            source: String(n.parentID),
+            target: String(n.nodeID),
+            animated: false,
+            hierarchical: true,
+            hidden: hiddenEdges.has(`edge-${n.parentID}-${n.nodeID}`),
+            style: { strokeWidth: 2.5, stroke: "#888" },
+          });
+        }
+    
+        return edgeList;
+      });
+    
 
       const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges, "TB");
       setInitialNodes(layoutedNodes);
@@ -232,27 +255,50 @@ useEffect(() => {
 
   // onConnect: Når en ny forbindelse opprettes manuelt
   const onConnect = useCallback(
-    (params) => {
+    async (params) => {
       // Sjekk om forbindelsen er hierarkisk basert på parentID
       const targetNode = nodeNetwork.nodes.find(
         (n) => String(n.nodeID) === params.target
       );
+  
+
       if (targetNode && String(targetNode.parentID) === params.source) {
         console.log("Hierarkisk edge - ignorer manuell oppretting");
       } else {
-        // Dette er en manuell kommunikasjonsedge
-        const newCommEdge = {
-          ...params,
-          animated: true,
-          hierarchical: false,
-          manual: true,
-          style: { strokeWidth: 2 } 
-        };
-        setCommunicationEdges(prev => addEdge(newCommEdge, prev));
+        try {
+          // Send data to "conenctionID"
+          const response = await fetch("https://localhost:5255/api/nodes/connect", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              NodeID: params.source,
+              ConnectionID: params.target,
+            }),
+          });
+  
+          if (!response.ok) {
+            throw new Error("Failed to save connection");
+          }
+  
+          // Dette er en manuell kommunikasjonsedge
+          const newCommEdge = {
+            ...params,
+            animated: true,
+            hierarchical: false,
+            manual: true,
+            style: { strokeWidth: 2 },
+          };
+          setCommunicationEdges(prev => addEdge(newCommEdge, prev));
+        } catch (error) {
+          console.error("Error saving connection:", error);
+        }
       }
     },
     [nodeNetwork]
   );
+  
 
   const onNodesChange = useCallback(
     (changes) => {

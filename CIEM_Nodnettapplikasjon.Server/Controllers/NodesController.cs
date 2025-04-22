@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 
-
 [ApiController]
 [Route("api/[controller]")] // Route base: api/nodes
 public class NodesController : ControllerBase
@@ -63,5 +62,13 @@ public class NodesController : ControllerBase
         }
 
         return Ok(node);
+    }
+
+    // Save node connections
+    [HttpPut("connect")]
+    public async Task<IActionResult> AddNodeConnection([FromBody] NodeConnection connectionData)
+    {
+        var saveConnection = await _nodeRepo.SaveNodeConnection(connectionData.NodeID, connectionData.ConnectionID);
+        return Ok(saveConnection);
     }
 }
