@@ -4,6 +4,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.InfoControl;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
@@ -28,6 +29,7 @@ builder.Services.AddScoped<INetworkBuilderRepository, NetworkBuilderRepository>(
 builder.Services.AddScoped<INetworkBuilderService, NetworkBuilderService>();
 builder.Services.AddScoped<INodeRepository, NodeRepository>();
 builder.Services.AddScoped<IQRRepository, QRRepository>();
+builder.Services.AddScoped<IInfoControlRepository, InfoControlRepository>();
 
 
 // Cors setup

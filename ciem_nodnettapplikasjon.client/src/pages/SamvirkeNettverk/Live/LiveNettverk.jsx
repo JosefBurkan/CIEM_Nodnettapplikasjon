@@ -91,10 +91,12 @@ function LiveNettverk() {
   const [addActorStep, setAddActorStep] = useState("choose");
   const [isReady, setIsReady] = useState(false);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  
-const [image, takeScreenshot] = useScreenshot();
-const reactFlowWrapperRef = useRef(null); 
-useEffect(() => {
+  const [infoControl, setInfoControl] = useState([]);
+
+  // Skriv kommentar her
+  const [image, takeScreenshot] = useScreenshot();
+  const reactFlowWrapperRef = useRef(null); 
+  useEffect(() => {
     if (reactFlowInstance && isReady) {
       setTimeout(() => {
         if (reactFlowWrapperRef.current) {
@@ -112,7 +114,7 @@ useEffect(() => {
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
 
-
+  // Fetch the network and all of its nodes
   const fetchSamvirkeNettverk = async () => {
     try {
       const response = await fetch(`https://localhost:5255/api/samvirkeNettverk/GetNodeNetwork/${networkId}`);
@@ -149,6 +151,25 @@ useEffect(() => {
   useEffect(() => {
     if (networkId) fetchSamvirkeNettverk();
   }, [networkId]);
+
+  // Fetch the 'Info Control' data
+  const getInfoControl = async () =>
+  {
+    try
+    {
+      const response = await fetch("https://localhost:5255/api/infoControl/retrieveInfoControl");
+      const data = await response.json();
+      setInfoControl(data);
+    }
+    catch (error)
+    {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getInfoControl();
+  }, [])
 
   const updateLayout = useCallback(() => {
     if (nodeNetwork && nodeNetwork.nodes) {
@@ -533,88 +554,86 @@ useEffect(() => {
   
   return (
     <ReactFlowProvider>
-      <div className={styles.container}>
-        <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
-  
-        <div className={styles.searchBarContainer}>
-          <SearchBar
-            placeholder="Søk etter aktør"
-            bgColor="#1A1A1A"
-            width="25rem"
-            enableDropdown={true}
-            actors={nodeNetwork.nodes || []}
-            onSelectActor={focusNode}  // Fokusfunksjonen som sentrerer kameraet
-            // onSearch={handleSearch}    // Live feedback om ønskelig
-          />
-            <button className={styles.showAllButton} onClick={handleShowAll}>
-                Vis hele nettverket
-            </button>
-        </div>
-  
-        <div className={styles.content}>
-          <div className={styles.networkContainer}>
-            <ReactFlow
-              proOptions={proOptions}
-              nodes={initialNodes}
-              edges={combinedEdges}  // Bruker den kombinerte listen med kanter
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              onNodeClick={handleNodeClick}
-              onNodeDoubleClick={handleNodeDoubleClick}
-              onEdgeClick={handleEdgeClick}
-              fitView
-              style={{ width: "100%", height: "100%" }}
-              panOnDrag
-              zoomOnScroll
-              zoomOnDoubleClick
-              onInit={setReactFlowInstance}
-            >
-              <MiniMap pannable zoomable />
-              <Controls />
-              <Background />
-            </ReactFlow>
-          </div>
-  
-          <div className={styles.infoBox}>
-            <div className={styles.tabContainer}>
-              <button
-                className={`${styles.tabButton} ${activeTab === "details" ? styles.activeTab : ""}`}
-                onClick={() => setActiveTab("details")}
-              >
-                Detaljer
-              </button>
-              <button
-                className={`${styles.tabButton} ${activeTab === "actors" ? styles.activeTab : ""}`}
-                onClick={() => setActiveTab("actors")}
-              >
-                Aktører
-              </button>
-              <button
-                className={`${styles.tabButton} ${activeTab === "info" ? styles.activeTab : ""}`}
-                onClick={() => setActiveTab("info")}
-              >
-                Info kontroll
-              </button>
-            </div>
-            <div className={styles.tabContent}>
-              {activeTab === "details" && selectedNode && (
-                <div>
-                  <h3>{selectedNode.data.label}</h3>
-                  <p>{selectedNode.data.info}</p>
-                  <p>Fyll inn mer detaljer her...</p>
+  <div className={styles.container}>
+    <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
 
-                  <button
-                    className={styles.showPathButton}
-                    onClick={() => showPath(selectedNode)}
-                    >
-                      Vis sti
-                  </button>
-                  <button className={styles.deleteButton} onClick={handleDeleteNode}>
-                    Slett node
-                  </button>
-                </div>
-              )}
+    <div className={styles.searchBarContainer}>
+      <SearchBar
+        placeholder="Søk etter aktør"
+        bgColor="#1A1A1A"
+        width="25rem"
+        enableDropdown={true}
+        actors={nodeNetwork.nodes || []}
+        onSelectActor={focusNode}
+      />
+    </div>
+
+    <div className={styles.content}>
+      <div className={styles.networkContainer} ref={reactFlowWrapperRef}>
+        <ReactFlow
+          proOptions={proOptions}
+          nodes={initialNodes}
+          edges={combinedEdges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onNodeClick={handleNodeClick}
+          onNodeDoubleClick={handleNodeDoubleClick}
+          onEdgeClick={handleEdgeClick}
+          fitView
+          panOnDrag
+          zoomOnScroll
+          zoomOnDoubleClick
+          onInit={setReactFlowInstance}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <MiniMap pannable zoomable />
+          <Controls />
+          <Background />
+        </ReactFlow>
+      </div>
+
+      <div className={styles.infoBox}>
+        <div className={styles.tabContainer}>
+          <button
+            className={`${styles.tabButton} ${activeTab === "details" ? styles.activeTab : ""}`}
+            onClick={() => setActiveTab("details")}
+          >
+            Detaljer
+          </button>
+          <button
+            className={`${styles.tabButton} ${activeTab === "actors" ? styles.activeTab : ""}`}
+            onClick={() => setActiveTab("actors")}
+          >
+            Aktører
+          </button>
+          <button
+            className={`${styles.tabButton} ${activeTab === "info" ? styles.activeTab : ""}`}
+                onClick={async () => {
+                  setActiveTab("info");
+                }}
+              >
+            Infokontroll
+          </button>
+        </div>
+          <div className={styles.tabContent}>
+            {activeTab === "details" && selectedNode && (
+              <div>
+                <h3>{selectedNode.data.label}</h3>
+                <p>{selectedNode.data.info}</p>
+                <p>Fyll inn mer detaljer her...</p>
+
+                <button
+                  className={styles.showPathButton}
+                  onClick={() => showPath(selectedNode)}
+                  >
+                    Vis sti
+                </button>
+                <button className={styles.deleteButton} onClick={handleDeleteNode}>
+                  Slett node
+                </button>
+              </div>
+            )}
 
           {activeTab === "details" && !selectedNode && (
             <>
@@ -728,9 +747,21 @@ useEffect(() => {
           )}
 
           {/* Info Kontroll */}
-          {activeTab === "info" && (
-            <p>Kritisk informasjon om nettverket og tilstand...</p>
-          )}
+            {activeTab === "info" && (
+                <div>
+                  <p>HENSPE</p>
+                {infoControl.map((info, index) => (
+                  <p key={index}>
+                    Hendelse: {info.eventName} <br/>
+                    Eksakt posisjon: {info.exactPosition} <br/>
+                    Nivå: {info.level} <br/>
+                    Sikkerhet: {info.security} <br/>
+                    Pasienter: {info.patients} <br/>
+                    Evakuering: {info.evacuation} <br/>
+                  </p>
+                ))}
+              </div>
+            )}
         </div>
       </div>
     </div>
