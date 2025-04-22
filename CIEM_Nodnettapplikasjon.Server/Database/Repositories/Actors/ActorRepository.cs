@@ -20,7 +20,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
         {
             return await _context.Actors.ToListAsync();
         }
-
+        
         public async Task<ActorModel> GetActorByIdAsync(int id)
         {
             return await _context.Actors.FindAsync(id);

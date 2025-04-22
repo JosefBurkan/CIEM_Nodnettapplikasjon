@@ -41,26 +41,4 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
             return true;
         }
     }
-
-    [Route("api/samvirkeNettverk")]
-    [ApiController]
-    public class NetworkBuilderController : ControllerBase
-    {
-        private readonly INetworkBuilderService _service;
-
-        public NetworkBuilderController(INetworkBuilderService service)
-        {
-            _service = service;
-        }
-
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateNetwork([FromBody] CreateNetworkDto dto)
-        {
-            if (string.IsNullOrWhiteSpace(dto.Name))
-                return BadRequest("Name is required.");
-
-            var id = await _service.CreateNetworkAsync(dto.Name);
-            return Ok(new { id });
-        }
-    }
 }

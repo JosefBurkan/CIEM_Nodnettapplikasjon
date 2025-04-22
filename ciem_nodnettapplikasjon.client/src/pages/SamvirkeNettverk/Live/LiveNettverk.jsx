@@ -91,10 +91,12 @@ function LiveNettverk() {
   const [addActorStep, setAddActorStep] = useState("choose");
   const [isReady, setIsReady] = useState(false);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  
-const [image, takeScreenshot] = useScreenshot();
-const reactFlowWrapperRef = useRef(null); 
-useEffect(() => {
+  const [infoControl, setInfoControl] = useState([]);
+
+  // Skriv kommentar her
+  const [image, takeScreenshot] = useScreenshot();
+  const reactFlowWrapperRef = useRef(null); 
+  useEffect(() => {
     if (reactFlowInstance && isReady) {
       setTimeout(() => {
         if (reactFlowWrapperRef.current) {
@@ -112,7 +114,7 @@ useEffect(() => {
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
 
-
+  // Fetch the network and all of its nodes
   const fetchSamvirkeNettverk = async () => {
     try {
       const response = await fetch(`https://localhost:5255/api/samvirkeNettverk/GetNodeNetwork/${networkId}`);
@@ -149,6 +151,25 @@ useEffect(() => {
   useEffect(() => {
     if (networkId) fetchSamvirkeNettverk();
   }, [networkId]);
+
+  // Fetch the 'Info Control' data
+  const getInfoControl = async () =>
+  {
+    try
+    {
+      const response = await fetch("https://localhost:5255/api/infoControl/retrieveInfoControl");
+      const data = await response.json();
+      setInfoControl(data);
+    }
+    catch (error)
+    {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getInfoControl();
+  }, [])
 
   const updateLayout = useCallback(() => {
     if (nodeNetwork && nodeNetwork.nodes) {
@@ -517,9 +538,11 @@ useEffect(() => {
           </button>
           <button
             className={`${styles.tabButton} ${activeTab === "info" ? styles.activeTab : ""}`}
-            onClick={() => setActiveTab("info")}
-          >
-            Info kontroll
+                onClick={async () => {
+                  setActiveTab("info");
+                }}
+              >
+            Infokontroll
           </button>
         </div>
 
@@ -648,9 +671,21 @@ useEffect(() => {
           )}
 
           {/* Info Kontroll */}
-          {activeTab === "info" && (
-            <p>Kritisk informasjon om nettverket og tilstand...</p>
-          )}
+            {activeTab === "info" && (
+                <div>
+                  <p>HENSPE</p>
+                {infoControl.map((info, index) => (
+                  <p key={index}>
+                    Hendelse: {info.eventName} <br/>
+                    Eksakt posisjon: {info.exactPosition} <br/>
+                    Nivå: {info.level} <br/>
+                    Sikkerhet: {info.security} <br/>
+                    Pasienter: {info.patients} <br/>
+                    Evakuering: {info.evacuation} <br/>
+                  </p>
+                ))}
+              </div>
+            )}
         </div>
       </div>
     </div>
