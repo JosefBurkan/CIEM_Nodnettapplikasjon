@@ -1,98 +1,91 @@
-/* * {
+/* Dette gjelder for hele siden, men er kommentert ut */
+ /* * {
     outline: 1px solid gold;
 } */
+
+/* Bruk Arial/Helvetica font i hele prosjektet */
 .x {
     font-family: Arial, Helvetica, sans-serif;
     /* background-color: blue; */
 }
+
+/* Felles stil for alle knapper (midlertidigBtn, filterButton, osv) */
 .midlertidigBtn,
 .filterButton,
 .selectAllButton,
 .showSelectionButton {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    border-radius: 15px;
-    border: none;
+    font-family: Arial, Helvetica, sans-serif; /* font */
+    font-weight: bold; /* fet tekst */
+    border-radius: 25px; /* runde hjørner */
+    border: none; /* ingen ramme */
     outline: none;
-    transition: 0.3s;
-    cursor: pointer;
-    color: hsl(0, 0%, 83%);
-    background-color: #1a1a1a;
+    transition: 0.3s; /* myk overgang */
+    cursor: pointer; /* musepekeren blir "hånd" */
+    color: white; /* hvit tekst */
+    background-color: #1a1a1a; /* mørk bakgrunn */
+    padding: 0.6rem 1.2rem; /* innvendig spacing */
+    font-size: 1rem; /* skriftstørrelse */
 }
 
+/* Hover-effekt: når man holder mus over knappene */
+.midlertidigBtn:hover,
+.filterButton:hover,
+.selectAllButton:hover,
+.showSelectionButton:hover {
+    background-color: #333; /* litt lysere svart */
+    color: white;
+}
+
+/* Øverste seksjon med knappene */
 .topSection {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: flex; /* flex layout */
+    flex-wrap: wrap; /* bryt til ny linje hvis nødvendig */
+    align-items: center; /* midtstill vertikalt */
     padding: 1rem 4rem;
     width: 20%;
     gap: 1rem;
     /* border: 1px solid */
 }
+
+/* Container rundt knappene */
 .btnContainer {
     /* border: 1px solid black; */
     display: flex;
-    gap: 0.5rem;
+    gap: 0.5rem; /* avstand mellom knappene */
 }
 
+/* Kommentarert ut container for filtre (hvis du trenger det senere) */
 /* .filterBtnContainer{
   border: 1px solid black;
   display: flex;
   justify-content: flex-end; 
 } */
-.midlertidigBtn {
-    border: 2px solid rgb(165, 31, 31);
-    padding: 10px 15px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-.midlertidigBtn:hover {
-    background-color: red;
-    color: black;
-}
 
-.filterButton {
-    text-align: center;
-    border-radius: 15px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    width: 150px;
-    border: none;
-    outline: none;
-    transition: 0.3s;
-}
-.filterButton:hover {
-    background-color: #006c74;
-    color: white;
-}
+/* Container for overskriftsboksen "Frivillige aktører" */
 .headerBoxContainer {
     position: absolute;
-    top: 3rem;
-    margin-left: 20%;
-    width: 20%;
+    top: calc(50% - 40vh); /* justerer plasseringen relativt til midten */
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
 .headerBox {
-    /* display:flex;
-  justify-content: center;
-  padding: 1rem;
-  background-color: #1A1A1A;
-  color: hsl(0, 0%, 93%);
-  border-radius: 15px;
-  width: 10%; */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    background-color: #1a1a1a;
-    color: #d2d2d2;
-    border-radius: 15px;
-    width: 12rem;
+    background-color: #1a1a1a; /* mørk bakgrunn */
+    color: #d2d2d2; /* lys tekst */
+    border-radius: 30px;
+    width: 16rem;
     height: 3rem;
     margin: auto;
     font-size: 1.2rem;
     font-weight: bold;
 }
 
+
+/* Innholdsområde hvor aktørene vises */
 .contentContainer {
     display: flex;
     flex-wrap: wrap;
@@ -103,24 +96,30 @@
     height: 47vh;
     margin: auto;
     background-color: #1a1a1a;
-    border: 3px solid #0a77a6;
+    border: 3px solid #0a77a6; /* blå ramme */
     color: hsl(0, 0%, 93%);
-    border-radius: 50px;
-    overflow-y: scroll;
-    scrollbar-width: none;
+    border-radius: 35px;
+    overflow-y: scroll; /* scroll hvis for mye innhold */
+    scrollbar-width: none; /* skjul scrollbar i Firefox */
+    padding-left: 2rem; /* <-- Legg til dette */
 }
 
+/* Hover-effekter for spesifikke knapper */
 .selectAllButton:hover,
 .showSelectionButton:hover {
-    background-color: #ff3f3f;
+    background-color: #ff3f3f; /* rød hover */
     color: white;
 }
+
+/* Grunnstil for select/show-knapper */
 .selectAllButton,
 .showSelectionButton {
     text-align: center;
     border-radius: 25px;
-    border: 3px solid #ff3f3f;
+    border: 3px solid #ff3f3f; /* rød kant */
 }
+
+/* Stil for "Velg alle"-knappen */
 .selectAllButton {
     padding: 0.6rem;
     width: 150px;
@@ -130,6 +129,8 @@
     left: 2.8vw;
     margin-top: 20px;
 }
+
+/* Stil for "Vis valgte"-knappen */
 .showSelectionButton {
     padding: 1rem;
     width: 17rem;
@@ -140,54 +141,143 @@
     margin-top: 40px;
 }
 
+/* Bunnseksjon (for evt. knapper eller info nederst) */
 .bottomSection {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
 }
+
+/* Liste uten prikker */
 .actorsList {
     list-style: none;
 }
+
 .actorListContainer {
     display: flex;
-    margin-top: 10px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid white; /* <-- Legg linjen her */
+    padding: 0.5rem 0;
 }
+
+
+/* Stil for checkbox ved hver aktør */
 .actorCheckbox {
-    width: 1.3em;
-    height: 1.3em;
-    background-color: white;
+    width: 1.5em;
+    height: 1.5em;
+    background-color: lightgray; /* Grå bakgrunn inni sirkelen */
+    border: none; /* Ingen kantlinje */
+    border-radius: 50%; /* Rund form */
+    cursor: pointer;
+    appearance: none; /* Fjern standard-stil */
+    position: relative;
+}
+
+/* Når valgt (trykket) */
+.actorCheckbox:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.9em; /* Liten prikk */
+    height: 0.9em;
+    background-color: black; /* Svart prikk */
     border-radius: 50%;
-    border: none;
-    backface-visibility: hidden;
-    vertical-align: middle;
-    appearance: none;
-    /* outline: 3px solid white; */
-    cursor: pointer;
-    box-shadow: none;
+    transform: translate(-50%, -50%); /* Midtstiller prikken */
 }
-.actorCheckbox:checked {
-    background-color: gray;
-    cursor: pointer;
-}
+
 
 .actorBtn {
     width: 60vw;
     text-align: end;
     display: flex;
     justify-content: space-between;
-    border: none;
+    border: none; /* <-- VIKTIG: Ingen border her */
     color: white;
-    background-color: hsla(0, 0%, 0%, 0);
+    background-color: transparent;
     font-size: 1.3rem;
-    border-bottom: 1.5px solid #ffffff;
     margin-bottom: 5px;
+    padding-left: 0.5rem;
+    text-decoration: underline; /* Hvis du vil ha strek under teksten */
 }
 
+
+
+/* Når dropdown er aktiv */
 .activeDropdown {
-    border-bottom: 2px solid #ff3f3f;
+    border-bottom: 2px solid #ff3f3f; /* rød linje */
     font-weight: bold;
 }
+
+/* Når pil er aktiv (rød) */
 .activeArrow {
     color: #ff3f3f;
+}
+
+
+select {
+    background-color: #1a1a1a; /* Svart bakgrunn */
+    color: white; /* Hvit tekst */
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+    border: 2px solid #1a1a1a; /* Samme farge som bakgrunn, kan justeres */
+    border-radius: 20px; /* Fine avrundede hjørner */
+    appearance: none; /* Fjerner default browser-pil */
+    cursor: pointer;
+    outline: none;
+    margin-right: 0.4rem; /* <-- legger avstand til neste select */
+}
+
+/* Når musen holdes over */
+select:hover {
+    border-color: #0a77a6; /* Lys blå kant når du hover */
+}
+
+/* Når select-feltet er fokusert (klikket på) */
+select:focus {
+    border-color: #ff3f3f; /* Rød kant når fokus */
+}
+
+.arrow svg {
+    transition: transform 0.3s ease;
+}
+
+.rotatedIcon {
+    transform: rotate(180deg);
+}
+
+.subActors {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding-left: 2rem;
+    margin-top: 0.5rem;
+}
+
+.subActor {
+    position: relative;
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    padding-bottom: 0.5rem;
+    width: 90%; /* Gjør linjene lange! Endre dette tallet om du vil ha dem enda lengre */
+    border-bottom: 1px solid #555; /* Linje under hver sub-aktor */
+}
+
+
+/* Lager en mørk turkis sirkel før teksten */
+.subActor::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%; /* Plasserer den på 50% av høyden */
+    transform: translateY(-50%); /* Skyver prikken opp så den er midtstilt */
+    width: 0.6rem;
+    height: 0.6rem;
+    background-color: #00b3b3; /* Turkis farge */
+    border-radius: 50%;
 }

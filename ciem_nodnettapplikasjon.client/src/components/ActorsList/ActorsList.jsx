@@ -161,15 +161,16 @@ function ActorsList({ category }) {
                                 actor.subActors &&
                                 actor.subActors.length > 0 && (
                                     <ul className={styles.subActors}>
-                                        {actor.subActors.map((sub, index) => (
-                                            <li
-                                                key={index}
-                                                className={styles.subActor}
-                                            >
-                                                {sub}
-                                            </li>
-                                        ))}
-                                    </ul>
+  {actor.subActors &&
+    actor.subActors
+      .toString()
+      .split(',')
+      .map((sub, index) => (
+        <li key={index} className={styles.subActor}>
+          {sub.trim()}
+        </li>
+      ))}
+</ul>
                                 )}
                         </li>
                     ))}
