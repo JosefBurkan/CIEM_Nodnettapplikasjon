@@ -78,10 +78,7 @@ function LiveNettverk() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showArchiveConfirm, setShowArchiveConfirm] = useState(false);
   const [addActorStep, setAddActorStep] = useState("choose"); // For å håndtere trinnene i AddActor-komponenten
-
-  // ReactFlow-instansen (for setCenter)
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
 
@@ -186,11 +183,25 @@ function LiveNettverk() {
     [reactFlowInstance, initialNodes]
   );
 
+    // Knapp for å vise alle noder.
+  const handleShowAll = useCallback(() => {
+    setHiddenEdges(new Set());
+    setHiddenNodes(new Set());
+    setSelectedNode(null);
+    setActiveTab("actors"); // Tilbakestill til aktør-fanen og null valgt node. Viser alle lukkede noder.
+
+    setTimeout(() => {
+        if (reactFlowInstance) {
+            reactFlowInstance.fitView();
+        }
+    }, 0);
+  }, [reactFlowInstance, updateLayout]);
+
+
   // Viser kun stien (ancestors + noden selv)
   const showPath = useCallback(
     (actor) => {
       if (!reactFlowInstance || !actor) return;
-      // <-- Denne linjen endret:
       const targetId = actor.id || String(actor.nodeID);
   
       // Finn alle ancestor-IDer
@@ -434,6 +445,9 @@ function LiveNettverk() {
             onSelectActor={focusNode}  // Fokusfunksjonen som sentrerer kameraet
             // onSearch={handleSearch}    // Live feedback om ønskelig
           />
+            <button className={styles.showAllButton} onClick={handleShowAll}>
+                Vis hele nettverket
+            </button>
         </div>
   
         <div className={styles.content}>

@@ -147,12 +147,14 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
         {step === "choose" ? (
           <>
             <h2>Legg til eksisterende aktør</h2>
-            <SearchBar
-              actors={dbActors}
-              enableDropdown
-              placeholder="Søk etter aktør"
-              onSelectActor={handleSelectActor}
-            />
+            <div className={styles.searchContainer}>
+              <SearchBar
+                actors={dbActors}
+                enableDropdown
+                placeholder="Søk etter aktør"
+                onSelectActor={handleSelectActor}
+              />
+            </div>
             {selectedActor && (
               <div className={styles.details}>
                 <p><strong>Valgt aktør:</strong> {selectedActor.name}</p>
