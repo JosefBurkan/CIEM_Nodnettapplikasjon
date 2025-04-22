@@ -8,5 +8,10 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
     {
         // Adds a new node to the network
         Task<NodesModel> AddNodeAsync(NodeDto dto);
+
+        Task<NodesModel?> GetNodeByUserIdAsync(int userId);
+
+        Task<bool> RemoveNodeByIdAsync(int nodeId);
+
     }
 }

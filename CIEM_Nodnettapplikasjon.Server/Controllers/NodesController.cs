@@ -12,12 +12,10 @@ using Microsoft.EntityFrameworkCore;
 [Route("api/[controller]")] // Route base: api/nodes
 public class NodesController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
     private readonly INodeRepository _nodeRepo;
 
-    public NodesController(ApplicationDbContext context, INodeRepository nodeRepo)
+    public NodesController(INodeRepository nodeRepo)
     {
-        _context = context;
         _nodeRepo = nodeRepo;
     }
 
@@ -33,10 +31,9 @@ public class NodesController : ControllerBase
 
     // GET: api/nodes/user/{userID} (Retrieves a single node by associated userID)
     [HttpGet("user/{userID}")]
-    public async Task<IActionResult> GetNodeByUserId(int UserID)
+    public async Task<IActionResult> GetNodeByUserId(int userID)
     {
-        var node = await _context.Nodes
-            .FirstOrDefaultAsync(n => n.UserID == UserID);
+        var node = await _nodeRepo.GetNodeByUserIdAsync(userID);
 
         if (node == null)
             return NotFound("Ingen node funnet for denne brukeren.");
@@ -48,20 +45,13 @@ public class NodesController : ControllerBase
     [HttpDelete("delete/{nodeID}")]
     public async Task<IActionResult> RemoveNodeByUserId(int nodeID)
     {
-        var node = await _context.Nodes
-            .FirstOrDefaultAsync(n => n.nodeID == nodeID);
-        
-        if (node == null) 
-        {
-            return NotFound("Ingen node funnet med denne id'en");
-        }
-        else
-        {
-            Console.WriteLine("Noden har blitt fjernet!");
-            _context.Nodes.Remove(node);
-            await _context.SaveChangesAsync();
-        }
+        var success = await _nodeRepo.RemoveNodeByIdAsync(nodeID);
 
-        return Ok(node);
+        if (!success)
+            return NotFound("Ingen node funnet med denne id'en");
+
+        Console.WriteLine("Noden har blitt fjernet!");
+        return Ok($"Node med ID {nodeID} ble fjernet.");
     }
 }
+

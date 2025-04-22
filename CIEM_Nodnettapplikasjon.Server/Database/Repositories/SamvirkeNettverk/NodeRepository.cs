@@ -1,6 +1,8 @@
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
 {
@@ -32,6 +34,23 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
             await _context.SaveChangesAsync();
 
             return newNode;
+        }
+
+        public async Task<NodesModel?> GetNodeByUserIdAsync(int userId)
+        {
+            return await _context.Nodes.FirstOrDefaultAsync(n => n.UserID == userId);
+        }
+
+
+        public async Task<bool> RemoveNodeByIdAsync(int nodeId)
+        {
+            var node = await _context.Nodes.FirstOrDefaultAsync(n => n.nodeID == nodeId);
+            if (node == null)
+                return false;
+
+            _context.Nodes.Remove(node);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
