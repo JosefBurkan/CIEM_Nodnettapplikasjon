@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 
-
 [ApiController]
 [Route("api/[controller]")] // Route base: api/nodes
 public class NodesController : ControllerBase
@@ -52,6 +51,14 @@ public class NodesController : ControllerBase
 
         Console.WriteLine("Noden har blitt fjernet!");
         return Ok($"Node med ID {nodeID} ble fjernet.");
+    }
+
+    // Save node connections
+    [HttpPut("connect")]
+    public async Task<IActionResult> AddNodeConnection([FromBody] NodeConnection connectionData)
+    {
+        var saveConnection = await _nodeRepo.SaveNodeConnection(connectionData.NodeID, connectionData.ConnectionID);
+        return Ok(saveConnection);
     }
 }
 

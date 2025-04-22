@@ -13,5 +13,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
 
         Task<bool> RemoveNodeByIdAsync(int nodeId);
 
+        Task<NodesModel> SaveNodeConnection(int selectedNodeID, int connectionIDs);
     }
 }

@@ -8,5 +8,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
     {
         // Adds a node to the network using QR token validation
         Task<NodesModel?> AddNodeViaQRAsync(QRNodeDto dto);
+
     }
 }
