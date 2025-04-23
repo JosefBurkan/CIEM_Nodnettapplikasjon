@@ -719,92 +719,14 @@ function LiveNettverk() {
               </div>
             )}
 
-          {activeTab === "details" && !selectedNode && (
-            <>
-              <div>
-                <h3>{nodeNetwork.name}</h3>
-                <p>Status: {nodeNetwork.status}</p>
-
-                <button
-                  className={styles.archiveButton}
-                  onClick={() => {
-                    setShowArchiveConfirm(true);
-                    setShowDeleteConfirm(false);
-                  }}
-                >
-                  Arkiver Nettverk
-                </button>
-
-                <button
-                  className={styles.deleteNetworkButton}
-                  onClick={() => {
-                    setShowDeleteConfirm(true);
-                    setShowArchiveConfirm(false);
-                  }}
-                >
-                  Slett Nettverk
-                </button>
-              </div>
-
-              {/* Archive Confirm Modal */}
-              {showArchiveConfirm && (
-                <div className={styles.confirmModal}>
-                  <p>Er du sikker på at du vil arkivere dette nettverket?</p>
-                  <button
-                    onClick={async () => {
-                      try {
-                        const res = await fetch(`https://localhost:5255/api/KHN/archive/${networkId}`, {
-                          method: "POST",
-                        });
-                        if (res.ok) {
-                          toast.success("Nettverket ble arkivert!", { position: "top-right", autoClose: 3000 });
-                          setTimeout(() => {
-                            navigate("/nettverks-arkiv");
-                          }, 2000);
-                        } else {
-                          toast.error("Kunne ikke arkivere nettverket.");
-                        }
-                      } catch (err) {
-                        console.error("Error archiving network:", err);
-                      }
-                    }}
-                  >
-                    Ja, arkiver
-                  </button>
-                  <button onClick={() => setShowArchiveConfirm(false)}>Avbryt</button>
-                </div>
-              )}
-
-              {/* Delete Confirm Modal */}
-              {showDeleteConfirm && (
-                <div className={styles.confirmModal}>
-                  <p>Er du sikker på at du vil slette dette nettverket?</p>
-                  <button
-                    onClick={async () => {
-                      try {
-                        const res = await fetch(`https://localhost:5255/api/KHN/delete/${networkId}`, {
-                          method: "DELETE",
-                        });
-                        if (res.ok) {
-                          toast.success("Nettverket ble slettet!", { position: "top-right", autoClose: 3000 });
-                          setTimeout(() => {
-                            navigate("/samvirkeNettverk");
-                          }, 2000);
-                        } else {
-                          toast.error("Kunne ikke slette nettverket.");
-                        }
-                      } catch (err) {
-                        console.error("Error deleting network:", err);
-                      }
-                    }}
-                  >
-                    Ja, slett
-                  </button>
-                  <button onClick={() => setShowDeleteConfirm(false)}>Avbryt</button>
-                </div>
-              )}
-            </>
-          )}
+                          {activeTab === "details" && !selectedNode && (
+                              <>
+                                  <div>
+                                      <h3>{nodeNetwork.name}</h3>
+                                      <p>Status: {nodeNetwork.status}</p>
+                                  </div>
+                              </>
+                          )}
 
           {/* Aktører */}
           {activeTab === "actors" && nodeNetwork?.nodes && (
@@ -858,12 +780,90 @@ function LiveNettverk() {
         existingActors={nodeNetwork.nodes}
         networkID={parseInt(networkId)}
       />
-    )}
-  </div>
-</ReactFlowProvider>
+                  )}
 
+  {/* Archive and delete button */}
+                  <div className={styles.fixedBottomRight}>
+                      <button
+                          className={styles.archiveButton}
+                          onClick={() => {
+                              setShowArchiveConfirm(true);
+                              setShowDeleteConfirm(false);
+                          }}
+                      >
+                          Arkiver Nettverk
+                      </button>
+
+                      <button
+                          className={styles.deleteNetworkButton}
+                          onClick={() => {
+                              setShowDeleteConfirm(true);
+                              setShowArchiveConfirm(false);
+                          }}
+                      >
+                          Slett Nettverk
+                      </button>
+                  </div>
+
+                  {showArchiveConfirm && (
+                      <div className={styles.confirmModal}>
+                          <p>Er du sikker på at du vil arkivere dette nettverket?</p>
+                          <button
+                              onClick={async () => {
+                                  try {
+                                      const res = await fetch(`https://localhost:5255/api/samvirkeNettverk/archive/${networkId}`, {
+                                          method: "POST",
+                                      });
+                                      if (res.ok) {
+                                          toast.success("Nettverket ble arkivert!", { position: "top-right", autoClose: 3000 });
+                                          setTimeout(() => {
+                                              navigate("/nettverks-arkiv");
+                                          }, 2000);
+                                      } else {
+                                          toast.error("Kunne ikke arkivere nettverket.");
+                                      }
+                                  } catch (err) {
+                                      console.error("Error archiving network:", err);
+                                  }
+                              }}
+                          >
+                              Ja, arkiver
+                          </button>
+                          <button onClick={() => setShowArchiveConfirm(false)}>Avbryt</button>
+                      </div>
+                  )}
+
+                  {showDeleteConfirm && (
+                      <div className={styles.confirmModal}>
+                          <p>Er du sikker på at du vil slette dette nettverket?</p>
+                          <button
+                              onClick={async () => {
+                                  try {
+                                      const res = await fetch(`https://localhost:5255/api/samvirkeNettverk/delete/${networkId}`, {
+                                          method: "DELETE",
+                                      });
+                                      if (res.ok) {
+                                          toast.success("Nettverket ble slettet!", { position: "top-right", autoClose: 3000 });
+                                          setTimeout(() => {
+                                              navigate("/samvirkeNettverk");
+                                          }, 2000);
+                                      } else {
+                                          toast.error("Kunne ikke slette nettverket.");
+                                      }
+                                  } catch (err) {
+                                      console.error("Error deleting network:", err);
+                                  }
+                              }}
+                          >
+                              Ja, slett
+                          </button>
+                          <button onClick={() => setShowDeleteConfirm(false)}>Avbryt</button>
+                      </div>
+                  )}
+                  </div>
+</ReactFlowProvider >
   );
-  
 }
+    
   
 export default LiveNettverk;
