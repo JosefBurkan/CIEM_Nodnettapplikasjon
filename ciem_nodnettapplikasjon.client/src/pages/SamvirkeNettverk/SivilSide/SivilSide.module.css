@@ -55,7 +55,7 @@
 
 /* Main content area, leaving room for fixed navbar */
 .contentContainer {
-    margin-top: 6rem; /* same as in QRAccessPage to avoid overlap */
+    margin-top: 4rem; /* same as in QRAccessPage to avoid overlap */
     width: 90%;
     max-width: 600px;
     display: flex;
@@ -87,4 +87,15 @@
     border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+/* Welcome box */
+.welcomeBox {
+    margin-top: 4rem;
+    background-color: #1A1A1A; /* Same color as the navbar */
+    color: white; /* Text color */
+    padding: 1rem 2rem; /* Add padding for spacing */
+    border-radius: 10px; /* Curved edges */
+    text-align: center; /* Center the text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for depth */
 }
