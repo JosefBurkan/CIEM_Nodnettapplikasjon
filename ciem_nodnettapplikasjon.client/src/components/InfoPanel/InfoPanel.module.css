@@ -157,6 +157,34 @@
     font-size: 0.95rem;
     color: #ddd;
   }
+
+  /* Dropdown for live networks */
+.dropdownField {
+  background-color: #3a3a3a;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dropdownField label {
+  font-weight: bold;
+}
+
+.dropdownField select {
+  width: 100%;
+  padding: 6px;
+  border: none;
+  border-radius: 4px;
+  background-color: #444;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+}
+
   
   /* Media query fallback: For screens under 600px, switch to vertical layout */
   @media (max-width: 600px) {

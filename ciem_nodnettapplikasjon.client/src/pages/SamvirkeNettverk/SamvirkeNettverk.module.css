@@ -19,9 +19,8 @@
 }
 
 .rightSection {
-    background: rgb(170, 170, 170); /* Gray background */
+    background: #d2d2d2; /* Gray background */
     padding: 20px;
-    border-radius: 15px 0 0 15px; /* Rounded corners */
     width: 35%; /* ✅ Expands to half the screen */
     height: 100vh; /* ✅ Ensures it takes full height */
     display: flex;
