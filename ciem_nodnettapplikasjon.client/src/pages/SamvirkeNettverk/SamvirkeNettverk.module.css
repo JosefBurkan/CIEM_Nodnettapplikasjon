@@ -16,18 +16,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-bottom: 200px;
+  box-sizing: border-box;
 }
 
 .rightSection {
-    background: #d2d2d2; /* Gray background */
-    padding: 20px;
-    width: 35%; /* ✅ Expands to half the screen */
-    height: 100vh; /* ✅ Ensures it takes full height */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 200px; /* ✅ Adds spacing between the boxes */
+  background: #d2d2d2; /* Gray background */
+  width: 35%; /* ✅ Expands to half the screen */
+  height: 100vh; /* ✅ Ensures it takes full height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 200px; /* ✅ Adds spacing between the boxes */
+  border-radius: 25px 0 0 25px;
 }
 
 /* RESPONSIVENESS */

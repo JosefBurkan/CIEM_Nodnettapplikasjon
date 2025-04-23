@@ -363,7 +363,7 @@ function LiveNettverk() {
     (actor) => {
       if (!reactFlowInstance || !actor) return;
       const targetId = actor.id || String(actor.nodeID);
-  
+
       // Finn alle ancestor-IDer
       const ancestors = [];
       let curr = nodeNetwork.nodes.find(n => String(n.nodeID) === targetId);
@@ -373,7 +373,7 @@ function LiveNettverk() {
         curr = nodeNetwork.nodes.find(n => String(n.nodeID) === pid);
       }
       const pathIds = new Set([...ancestors, targetId]);
-  
+
       // Skjul alt utenfor path
       setHiddenNodes(new Set(
         initialNodes.map(n => n.id).filter(id => !pathIds.has(id))
@@ -388,18 +388,15 @@ function LiveNettverk() {
       setHiddenEdges(new Set(
         combinedEdges.map(e => e.id).filter(id => !visibleEdgeIds.includes(id))
       ));
-  
-      // Re-layout og sentrering
+
+      // Re-layout og bruk FitView
       updateLayout();
       setTimeout(() => {
-        const node = initialNodes.find(n => n.id === targetId);
-        if (!node) return;
-        reactFlowInstance.setCenter(
-          node.position.x + 90,
-          node.position.y + 25,
-          1.5
-        );
+        if (reactFlowInstance) {
+          reactFlowInstance.fitView();
+        }
         setActiveTab("details");
+        const node = initialNodes.find(n => n.id === targetId);
         setSelectedNode(node);
       }, 0);
     },
@@ -411,7 +408,6 @@ function LiveNettverk() {
       updateLayout
     ]
   );
-  
 
 
   // onConnect: Når en ny forbindelse opprettes manuelt
@@ -651,6 +647,9 @@ function LiveNettverk() {
         actors={nodeNetwork?.nodes || []}
         onSelectActor={focusNode}
       />
+      <button className={styles.showAllButton} onClick={handleShowAll}>
+        Vis hele nettverket
+      </button>
     </div>
 
     <div className={styles.content}>
