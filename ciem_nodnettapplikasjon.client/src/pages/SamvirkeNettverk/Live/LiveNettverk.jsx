@@ -831,7 +831,7 @@ function LiveNettverk() {
             </ul>
           )}
 
-          {/* Info Kontroll */}
+          {/* Infokontroll */}
             {activeTab === "info" && (
                 <div>
                   <p>HENSPE</p>
