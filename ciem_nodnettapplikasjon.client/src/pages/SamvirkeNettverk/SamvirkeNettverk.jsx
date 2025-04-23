@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './SamvirkeNettverk.module.css';
 import Box from '../../components/Box/Box';
+import newNetworkIcon from '../../assets/newNetwork.svg';
+import networkArchiveIcon from '../../assets/networkArchive.svg';
 
 function SamvirkeNettverk() {
   const [situations, setSituations] = useState([]);
@@ -58,12 +60,12 @@ function SamvirkeNettverk() {
         </div>
 
         <div className={styles.rightSection}>
-          <Link to="/newNetwork">
-            <Box title="Nytt Nettverk" icon="grid-add" />
+                    <Link to="/newNetwork">
+            <Box title="Nytt Nettverk" iconSrc={newNetworkIcon} />
           </Link>
 
           <Link to="/nettverks-arkiv" style={{ textDecoration: 'none' }}>
-            <Box title="Nettverks Arkiv" boxIconColor="red" disableLink />
+            <Box title="Nettverks Arkiv" iconSrc={networkArchiveIcon} disableLink />
           </Link>
         </div>
       </div>
