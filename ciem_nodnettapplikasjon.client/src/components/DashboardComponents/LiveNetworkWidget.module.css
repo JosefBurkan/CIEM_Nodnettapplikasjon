@@ -1,7 +1,7 @@
 /* Default Small Widget */
 .widgetContainer {
     background-color: white;
-    border: 10px solid black;
+    border: 10px solid #1A1A1A;
     border-radius: 40px;
     width: 450px;
     height: 250px;
@@ -16,7 +16,7 @@
 /* Large Widget for Krisehåndtering */
 .largeWidgetContainer {
     background-color: rgb(193, 192, 192);
-    border: 10px solid black;
+    border: 10px solid #1A1A1A;
     border-radius: 40px;
     width: 800px; /* ✅ Bigger width */
     height: 400px; /* ✅ Bigger height */
@@ -30,7 +30,7 @@
 
 /* Default Small Header */
 .header {
-    background-color: darkred;
+    background-color: #FF3F3F;
     color: white;
     font-weight: bold;
     width: 150px;

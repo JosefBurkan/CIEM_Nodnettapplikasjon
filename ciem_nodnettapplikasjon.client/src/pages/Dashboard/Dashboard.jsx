@@ -7,6 +7,8 @@ import styles from './Dashboard.module.css';
 import Box from '../../components/Box/Box';
 import { WiDaySunny } from 'react-icons/wi';
 import { Link } from 'react-router-dom';
+import newNetworkIcon from '../../assets/newNetwork.svg';
+import networkArchiveIcon from '../../assets/networkArchive.svg';
 
     function Dashboard() {
         const [situations, setSituations] = useState([]);
@@ -93,11 +95,11 @@ import { Link } from 'react-router-dom';
 
             <div className={styles.cardGrid}>
                 <Link to="/newNetwork">
-                    <Box title="Nytt Nettverk" icon="grid-add" />
+                    <Box title="Nytt Nettverk" iconSrc={newNetworkIcon} />
                 </Link>
 
                 <Link to="/nettverks-arkiv">
-                    <Box title="Nettverks Arkiv" icon="folder" />
+                    <Box title="Nettverks Arkiv" iconSrc={networkArchiveIcon} disableLink />
                 </Link>
 
                 <Link to="/actorsAll">

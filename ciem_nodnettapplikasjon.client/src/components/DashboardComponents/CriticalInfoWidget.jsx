@@ -62,7 +62,7 @@ const CriticalInfoWidget = () => {
         <div className={styles.widgetContainer}>
             <div className={styles.header}>
                 <div className={styles.icon}></div>
-                <span>Kritisk Informasjon</span>
+                <span>Infosjekkliste</span>
             </div>
             <div className={styles.infoGrid}>
                 {infoBoxes.map((box, index) => (

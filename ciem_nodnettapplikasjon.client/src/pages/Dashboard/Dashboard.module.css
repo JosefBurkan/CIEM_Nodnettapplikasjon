@@ -57,7 +57,7 @@
 }
 
 .liveKhnHeader {
-    background: #007b8f;
+    background: #006C74;
     color: white;
     padding: 8px 15px;
     border-radius: 15px 15px 0 0;
@@ -134,7 +134,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: black;
+    background: #1A1A1A;
     color: white;
     padding: 30px 40px;
     border-radius: 30px;

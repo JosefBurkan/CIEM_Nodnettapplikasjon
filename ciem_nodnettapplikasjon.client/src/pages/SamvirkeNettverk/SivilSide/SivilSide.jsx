@@ -21,13 +21,16 @@ function SivilSide() {
 
       {/* Content */}
       <div className={styles.contentContainer}>
-        <h2>Velkommen, {name || 'Ukjent Bruker'}!</h2>
-        {/* Pass a prop to indicate vertical layout */}
+        {/* Velkommen message in a styled box */}
+        <div className={styles.welcomeBox}>
+          <h2>Velkommen, {name || 'Ukjent Bruker'}!</h2>
+        </div>
+
+        {/* InfoPanel */}
         <InfoPanel layout="vertical" showEdit={false} showComm={false} />
       </div>
     </div>
   );
 }
-
 
 export default SivilSide;

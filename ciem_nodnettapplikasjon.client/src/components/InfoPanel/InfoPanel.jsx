@@ -6,7 +6,7 @@ import checkListIcon from "../../assets/checkList.svg";
 import SeverityDots from "../../components/SeverityDots/SeverityDots.jsx";
 
 export default function InfoPanel({
-  layout,
+  layout = "horizontal", // Default to "horizontal"
   showEdit = true,
   showComm = true,
 }) {

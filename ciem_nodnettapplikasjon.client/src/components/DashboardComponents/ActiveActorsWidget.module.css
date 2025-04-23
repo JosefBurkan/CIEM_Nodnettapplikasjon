@@ -1,5 +1,5 @@
 .widget {
-    background-color: #1f2029;
+    background-color: #1A1A1A;
     border-radius: 30px;
     padding: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -10,7 +10,7 @@
 }
 
 .header {
-    background-color: #007c89; /* Teal */
+    background-color: #006C74; /* Teal */
     color: white;
     font-weight: bold;
     padding: 10px 15px;
@@ -24,7 +24,7 @@
 }
 
 .actorsList {
-    background-color: #1f2029;
+    background-color: #1A1A1A;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -60,7 +60,7 @@
 
 .greenIcon {
     color: white;
-    background-color: #007c89;
+    background-color: #047400;
     border-radius: 50%;
     width: 24px;
     height: 24px;
@@ -72,7 +72,7 @@
 
 .redIcon {
     color: white;
-    background-color: #d9534f;
+    background-color: #FF3F3F;
     border-radius: 50%;
     width: 24px;
     height: 24px;
@@ -117,7 +117,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    background-color: #f44336; /* Red background */
+    background-color: #FF3F3F; /* Red background */
     width: 95px;
     height: 65px;
     border-top-left-radius: 50px;
@@ -141,7 +141,7 @@
     top: 0px;
     left: 0px;
     background-color: white;
-    color: red;
+    color: #FF3F3F;
     width: 24px;
     height: 24px;
     border-radius: 50%;
