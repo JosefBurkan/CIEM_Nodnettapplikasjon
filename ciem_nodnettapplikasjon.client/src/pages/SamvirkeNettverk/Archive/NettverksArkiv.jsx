@@ -13,7 +13,7 @@ function NettverksArkiv() {
         try {
 
             const response = await fetch(
-                'https://localhost:5255/api/samvirkeNettverk/ArchivedNetworks'
+                'https://localhost:5255/api/ArchivedNetworks'
             );
             if (!response.ok) {
                 throw new Error('Failed to fetch archived networks');
