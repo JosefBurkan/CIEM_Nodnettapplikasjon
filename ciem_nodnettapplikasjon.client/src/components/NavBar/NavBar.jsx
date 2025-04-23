@@ -36,13 +36,13 @@ function NavBar() {
                 <div className={styles.navbarLinks}>
                     <Link
                         to="/samvirkeNettverk"
-                        className={`${styles.navbarLink} ${isActive('/samvirkeNettverk') ? styles.activeLink : ''}`}
+                        className={`${styles.navbarLink} ${isActive('/samvirkeNettverk') || isActive('/sn') || isActive('/nettverk') || isActive('/newNetwork') ? styles.activeLink : ''}`}
                     >
                         Samvirke Nettverk
                     </Link>
                     <Link
                         to="/actors"
-                        className={`${styles.navbarLink} ${isActive('/actor') ? styles.activeLink : ''}`}
+                        className={`${styles.navbarLink} ${isActive('/actor') || isActive('/createActor') ? styles.activeLink : ''}`}
                     >
                         Aktører
                     </Link>

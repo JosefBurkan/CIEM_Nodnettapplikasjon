@@ -29,7 +29,7 @@ function Actors() {
             <Box
                 title="Ny Aktør"
                 boxIconColor="#057A36"
-                destination="/actorNew"
+                destination="/createActor"
             />
         </div>
     );
