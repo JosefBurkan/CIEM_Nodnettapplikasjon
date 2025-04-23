@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getTemplateNodes } from "../../../components/TemplateHandler"; 
 import { useScreenshot } from "use-react-screenshot"; // legg til øverst!
+import { supabase } from '../../../utils/supabaseClient'; // Client used for real-time updates
 
 const proOptions = { hideAttribution: true };
 
@@ -176,10 +177,6 @@ function LiveNettverk() {
     }
   }
 
-  useEffect(() => {
-    getInfoControl();
-  }, [])
-
   const updateLayout = useCallback(() => {
     if (nodeNetwork && nodeNetwork.nodes) {
       const nodes = nodeNetwork.nodes.map((node) => ({
@@ -241,9 +238,7 @@ function LiveNettverk() {
   };
   }, [nodeNetwork, hiddenNodes, hiddenEdges]);
 
-  useEffect(() => {
-    updateLayout();
-  }, [nodeNetwork, hiddenNodes, hiddenEdges, updateLayout]);
+
   
   // API for sletting av en node
   const deleteNode = async (nodeID) => {
@@ -301,6 +296,52 @@ function LiveNettverk() {
     [reactFlowInstance, initialNodes]
   );
 
+
+  // Subscribe to database for real-time updates
+  useEffect(() => {
+    getInfoControl();
+    supabase
+        .channel('infoControl-db-changes')
+        .on(
+            'postgres_changes',
+            {
+                event: '*',
+                schema: 'public',
+                table: 'InfoControl',
+            },
+            (payload) => {
+              getInfoControl();
+              console.log(payload);
+            }
+        )
+        .subscribe();
+  }, []);
+
+  // Generate the node network
+  useEffect(() => {
+    updateLayout();
+  }, [nodeNetwork, hiddenNodes, hiddenEdges]);
+
+  // Subscribe for node-layout updates
+  useEffect(() => {
+    supabase
+        .channel('nodes-db-changes')
+        .on(
+            'postgres_changes',
+            {
+                event: '*',
+                schema: 'public',
+                table: 'Nodes',
+            },
+            async (payload) => {
+              console.log("Change registrered");
+              const updatedNetwork = await fetchSamvirkeNettverk();
+              setNodeNetwork([...updatedNetwork]); // send the network as a new network, so react registeres it
+              updateLayout();
+            }
+        )
+        .subscribe();
+  }, []);
 
     // Knapp for å vise alle noder.
   const handleShowAll = useCallback(() => {
@@ -599,7 +640,7 @@ function LiveNettverk() {
   return (
     <ReactFlowProvider>
   <div className={styles.container}>
-    <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
+    <h2 className={styles.title}>{nodeNetwork?.name || "Nettverk uten navn"}</h2>
 
     <div className={styles.searchBarContainer}>
       <SearchBar
@@ -607,7 +648,7 @@ function LiveNettverk() {
         bgColor="#1A1A1A"
         width="25rem"
         enableDropdown={true}
-        actors={nodeNetwork.nodes || []}
+        actors={nodeNetwork?.nodes || []}
         onSelectActor={focusNode}
       />
     </div>
@@ -767,7 +808,7 @@ function LiveNettverk() {
           )}
 
           {/* Aktører */}
-          {activeTab === "actors" && nodeNetwork.nodes && (
+          {activeTab === "actors" && nodeNetwork?.nodes && (
             <ul>
               <button
                 className={styles.addActorButton}
