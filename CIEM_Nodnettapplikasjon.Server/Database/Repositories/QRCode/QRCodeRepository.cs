@@ -17,7 +17,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode
             _context = context;
         }
 
-        [HttpPost("add-node")]
         public async Task<IActionResult> AddNode([FromBody] QRNodeDto dto)
         {
             if (dto == null || dto.ParentId == 0 || string.IsNullOrEmpty(dto.Token))

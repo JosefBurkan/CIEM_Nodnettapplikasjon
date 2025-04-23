@@ -299,9 +299,8 @@ function LiveNettverk() {
   // Generate the node network
   useEffect(() => {
     updateLayout();
-  }, [nodeNetwork, hiddenNodes, hiddenEdges, updateLayout]);
+  }, [nodeNetwork, hiddenNodes, hiddenEdges]);
 
-  /* FUNKER IKKE HELT
   // Subscribe for node-layout updates
   useEffect(() => {
     supabase
@@ -314,14 +313,15 @@ function LiveNettverk() {
                 table: 'Nodes',
             },
             async (payload) => {
-              console.log("Endring registrert");
-              const updatedNodes = await fetchSamvirkeNettverk();
-              setNodeNetwork(updatedNodes);   
+              console.log("Change registrered");
+              const updatedNetwork = await fetchSamvirkeNettverk();
+              setNodeNetwork([...updatedNetwork]); // send the network as a new network, so react registeres it
+              updateLayout();
             }
         )
         .subscribe();
   }, []);
-  */
+
     // Knapp for å vise alle noder.
   const handleShowAll = useCallback(() => {
     setHiddenEdges(new Set());
@@ -596,7 +596,7 @@ function LiveNettverk() {
   return (
     <ReactFlowProvider>
   <div className={styles.container}>
-    <h2 className={styles.title}>{nodeNetwork.name || "Nettverk uten navn"}</h2>
+    <h2 className={styles.title}>{nodeNetwork?.name || "Nettverk uten navn"}</h2>
 
     <div className={styles.searchBarContainer}>
       <SearchBar
@@ -604,7 +604,7 @@ function LiveNettverk() {
         bgColor="#1A1A1A"
         width="25rem"
         enableDropdown={true}
-        actors={nodeNetwork.nodes || []}
+        actors={nodeNetwork?.nodes || []}
         onSelectActor={focusNode}
       />
     </div>
@@ -764,7 +764,7 @@ function LiveNettverk() {
           )}
 
           {/* Aktører */}
-          {activeTab === "actors" && nodeNetwork.nodes && (
+          {activeTab === "actors" && nodeNetwork?.nodes && (
             <ul>
               <button
                 className={styles.addActorButton}
