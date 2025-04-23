@@ -76,6 +76,7 @@
     align-items: center; /* Center child elements */
     gap: 1rem;
     width: 100%;
+    
 }
 
 .form input,
@@ -84,7 +85,11 @@
     width: 100%; /* Ensure full width for input and button */
     max-width: 100%;
 }
-
+.form textarea { /* begrensninger i textarea'en */ 
+  resize: vertical;
+  min-height: 80px;
+  max-height: 300px;
+}
 
 .form input {
     padding: 0.8rem;

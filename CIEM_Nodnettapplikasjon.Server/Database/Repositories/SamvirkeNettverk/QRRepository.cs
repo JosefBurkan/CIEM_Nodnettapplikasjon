@@ -13,6 +13,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
             _context = context;
         }
 
+        // Adds a new node using QR token validation
         public async Task<NodesModel?> AddNodeViaQRAsync(QRNodeDto dto)
         {
             var parentUser = await _context.Users
@@ -25,6 +26,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
 
             if (parentNode == null) return null;
 
+            // Create a new child node with default values for some properties
             var newNode = new NodesModel
             {
                 name = dto.Name,
@@ -32,9 +34,9 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
                 beskrivelse = dto.Beskrivelse,
                 parentID = dto.ParentId,
                 networkID = parentNode?.networkID ?? dto.ParentId,
-                category = "Frivillige",
-                type = "Selvstendig",
-                hierarchy_level = "Underaktør"
+                category = "Frivillige", // Default 
+                type = "Selvstendig", // Default
+                hierarchy_level = "Underaktør" // Default
             };
 
             _context.Nodes.Add(newNode);

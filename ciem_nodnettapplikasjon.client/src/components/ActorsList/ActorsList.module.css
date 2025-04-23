@@ -35,11 +35,10 @@
     gap: 0.5rem;
 }
 
-/* .filterBtnContainer{
-  border: 1px solid black;
-  display: flex;
-  justify-content: flex-end; 
-} */
+.filterBtnContainer{
+    display:flex;
+    gap: 10px;
+}
 .midlertidigBtn {
     border: 2px solid rgb(165, 31, 31);
     padding: 10px 15px;
@@ -51,15 +50,17 @@
     color: black;
 }
 
-.filterButton {
+.filterSelect {
     text-align: center;
     border-radius: 15px;
-    font-size: 1.4rem;
-    font-weight: bold;
+    font-size: 1.1rem;
     width: 150px;
     border: none;
     outline: none;
     transition: 0.3s;
+    cursor: pointer;
+    color: hsl(0, 0%, 83%);
+    background-color: #1a1a1a;
 }
 .filterButton:hover {
     background-color: #006c74;

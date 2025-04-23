@@ -12,17 +12,40 @@
 }
 
 .searchBarContainer {
-    margin: 5rem 0 3rem 3rem;
+    margin: 2rem 0;
     width: fit-content;
+    display:flex;
+    gap: 20px;
+}
+.showAllButton{
+    background-color: #1A1A1A;
+    padding: 10px 20px;
+    color: hsl(0, 0%, 90%);
+    border: 1px solid black;
+    cursor: pointer;
+    font-size: 1.5em;
+    border-radius: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+.showAllButton:hover{
+    background-color: hsl(0, 0%, 8%);
+}
+.showAllButton:active{
+    background-color: hsl(0, 0%, 18%);
 }
 
 .networkContainer {
     width: 70vw;
     height: 65vh;
     border: 1px solid white;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .infoBox {
+    display:flex;
+    flex-direction: column;
+    overflow:hidden;
     position: relative;
     top: -5vh;
     width: 30%;
@@ -93,6 +116,10 @@ ul {
     padding: 10px;
     border-radius: 15px;
 }
+.actorList:hover {
+    background-color: hsl(0, 0%, 80%);
+}
+
 .tabContent {
     list-style-type: none;
     width: 90%;
@@ -100,6 +127,8 @@ ul {
     border-radius: 5px;
     padding: 5px 10px;
     text-align: center;
+    overflow-x: hidden;
+    scrollbar-width: none;
 }
 .editButton {
     position: absolute;
@@ -151,3 +180,14 @@ ul {
     gap: 1rem;
     align-items: center;
 }
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 35px; 
+    border: 1px solid #1A1A1A;
+    border-radius: 10px;
+    width: fit-content;
+    background-color: #111;
+    color: hsl(0, 0%, 95%);
+}
+

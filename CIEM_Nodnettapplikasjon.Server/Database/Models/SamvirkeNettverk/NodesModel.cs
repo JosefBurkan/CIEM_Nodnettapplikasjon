@@ -9,7 +9,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes
 {
     public class NodesModel
     {
-        [Key] // Set NodeID to PK
+        [Key] // Set nodeID to PK
         public int nodeID { get; set; }
 
         public string name { get; set; }
@@ -19,6 +19,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes
         public string? type { get; set; }
         public string? hierarchy_level { get; set; }
         public string? category { get; set; }
+        public List<int>? connectionID {get; set; }
 
         // NetworkID is FK for NodesModel
         [ForeignKey("NodeNetwork")]
@@ -36,4 +37,12 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes
 
       
     }
+
+    // For saving connections between nodes
+    public class NodeConnection
+    {
+        public int NodeID { get; set; }
+        public int ConnectionID { get; set; }
+    }
+
 }

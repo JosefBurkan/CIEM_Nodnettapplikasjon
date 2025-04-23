@@ -95,6 +95,7 @@ function ActorsList({ category }) {
                     <select
                         value={categoryFilter}
                         onChange={(e) => setCategoryFilter(e.target.value)}
+                        className={styles.filterSelect}
                     >
                         <option value="Alle">Alle</option>
                         <option value="Statlige">Statlige</option>
@@ -102,6 +103,7 @@ function ActorsList({ category }) {
                         <option value="Frivillige">Frivillige</option>
                     </select>
                     <select
+                        className={styles.filterSelect}
                         value={typeFilter}
                         onChange={(e) => setTypeFilter(e.target.value)}
                     >
@@ -110,12 +112,6 @@ function ActorsList({ category }) {
                         <option value="Organisasjon">Organisasjon</option>
                     </select>
                 </div>
-                <button>
-                    <IconMail className={styles.mailIcon} />
-                </button>
-                <button>
-                    <IconUser className={styles.userIcon} />
-                </button>
             </div>
 
             <div className={styles.headerBoxContainer}>
