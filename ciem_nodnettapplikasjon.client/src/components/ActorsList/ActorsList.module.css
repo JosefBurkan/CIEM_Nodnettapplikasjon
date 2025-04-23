@@ -173,7 +173,7 @@
 }
 
 .actorBtn {
-    width: 60vw;
+    width: 85vw;
     text-align: end;
     display: flex;
     justify-content: space-between;
@@ -183,6 +183,7 @@
     font-size: 1.3rem;
     border-bottom: 1.5px solid #ffffff;
     margin-bottom: 5px;
+    text-decoration: none;
 }
 
 .activeDropdown {
@@ -191,4 +192,45 @@
 }
 .activeArrow {
     color: #ff3f3f;
+}
+
+.subActors {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.subActor {
+    position: relative;
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    padding-bottom: 0.5rem;
+    width: 93%;
+}
+
+.subActor::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background-color: white;
+    opacity: 0.5;
+}
+
+.subActor::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.6rem;
+    height: 0.6rem;
+    background-color: #00b3b3;
+    border-radius: 50%;
 }
