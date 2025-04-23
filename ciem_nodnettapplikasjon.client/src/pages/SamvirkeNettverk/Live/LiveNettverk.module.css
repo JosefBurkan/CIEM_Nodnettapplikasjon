@@ -43,6 +43,9 @@
 }
 
 .infoBox {
+    display:flex;
+    flex-direction: column;
+    overflow:hidden;
     position: relative;
     top: -5vh;
     width: 30%;
@@ -124,6 +127,8 @@ ul {
     border-radius: 5px;
     padding: 5px 10px;
     text-align: center;
+    overflow-x: hidden;
+    scrollbar-width: none;
 }
 .editButton {
     position: absolute;
