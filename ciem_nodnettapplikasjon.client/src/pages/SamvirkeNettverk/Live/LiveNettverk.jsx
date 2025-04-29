@@ -409,7 +409,6 @@ function LiveNettverk() {
     ]
   );
 
-
   // onConnect: Når en ny forbindelse opprettes manuelt
   const onConnect = useCallback(
     async (params) => {
@@ -728,29 +727,29 @@ function LiveNettverk() {
                               </>
                           )}
 
-          {/* Aktører */}
-          {activeTab === "actors" && nodeNetwork?.nodes && (
-            <ul>
-              <button
-                className={styles.addActorButton}
-                onClick={() => {
-                  setAddActorStep("choose");
-                  setShowAddActorModal(true);
-                }}
-              >
-                + Ny Aktør
-              </button>
-              {nodeNetwork.nodes.map((node) => (
+            {/* Aktører */}
+            {activeTab === "actors" && nodeNetwork?.nodes && (
+              <ul>
                 <button
-                  key={node.nodeID}
-                  className={styles.actorList}
-                  onClick={() => focusNode(node)}
+                  className={styles.addActorButton}
+                  onClick={() => {
+                    setAddActorStep("choose");
+                    setShowAddActorModal(true);
+                  }}
                 >
-                  {node.name}
+                  + Ny Aktør
                 </button>
-              ))}
-            </ul>
-          )}
+                {nodeNetwork.nodes.map((node) => (
+                  <button
+                    key={node.nodeID}
+                    className={styles.actorList}
+                    onClick={() => focusNode(node)}
+                  >
+                    {node.name}
+                  </button>
+                ))}
+              </ul>
+            )}
 
           {/* Info Kontroll */}
             {activeTab === "info" && (
