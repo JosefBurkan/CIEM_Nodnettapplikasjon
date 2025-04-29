@@ -3,14 +3,14 @@ import styles from './CriticalInfoWidget.module.css';
 
 const CriticalInfoWidget = () => {
 
-    const [infoControl, setInfoControl] = useState([]);
+    const [InfoPanel, setInfoPanel] = useState([]);
     const dotMap = level => '🟢'.repeat(level);
 
-    const getInfoControl = async () => {
+    const getInfoPanel = async () => {
         try {
-            const response = await fetch("https://localhost:5255/api/infoControl/retrieveInfoControl");
+            const response = await fetch("https://localhost:5255/api/InfoPanel/retrieveInfoPanel");
             const data = await response.json();
-            setInfoControl(data);
+            setInfoPanel(data);
             console.log(data);
         }
         catch (error) {
@@ -19,12 +19,12 @@ const CriticalInfoWidget = () => {
         }
 
         useEffect(() => {
-        getInfoControl();
+        getInfoPanel();
         }, [])
     
         const dotLabels = ["areaLevel", "structure", "escalation", "searchDogs", "vehicles", "drones"];
 
-        const infoBoxes = infoControl.map(item => ({
+        const infoBoxes = InfoPanel.map(item => ({
             time: item.lastEdit || "19:16",
             content: Object.entries(item || {}).map(([label, value]) => ({
               label,

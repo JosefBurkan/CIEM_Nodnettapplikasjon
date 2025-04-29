@@ -5,7 +5,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Models.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Archive;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.InfoControl;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.InfoPanel;
 using CIEM_Nodnettapplikasjon.Server.Database;
 
 
@@ -21,6 +21,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<NodeNetworksModel> NodeNetworks { get; set;}
     public DbSet<NodesModel> Nodes { get; set; }
     public DbSet<ArchivedNetworksModel> ArchivedNetworks { get; set; }
-    public DbSet<InfoControlModel> InfoControl { get; set; }
+    public DbSet<InfoPanelModel> InfoPanels { get; set; }
 
 }

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
         const [situations, setSituations] = useState([]);
         const [loading, setLoading] = useState(true);
         const [user, setUser] = useState({});
-
+                    
 
     useEffect(() => {
         fetch('https://localhost:5255/api/samvirkeNettverk/all-situations')

@@ -101,7 +101,7 @@ function LiveNettverk() {
   const [addActorStep, setAddActorStep] = useState("choose");
   const [isReady, setIsReady] = useState(false);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [infoControl, setInfoControl] = useState([]);
+  const [InfoPanel, setInfoPanel] = useState([]);
 
   // Skriv kommentar her
   const [image, takeScreenshot] = useScreenshot();
@@ -163,13 +163,13 @@ function LiveNettverk() {
   }, [networkId]);
 
   // Fetch the 'Info Control' data
-  const getInfoControl = async () =>
+  const getInfoPanel = async () =>
   {
     try
     {
-      const response = await fetch("https://localhost:5255/api/infoControl/retrieveInfoControl");
+      const response = await fetch("https://localhost:5255/api/InfoPanel/retrieveInfoPanel");
       const data = await response.json();
-      setInfoControl(data);
+      setInfoPanel(data);
     }
     catch (error)
     {
@@ -299,18 +299,18 @@ function LiveNettverk() {
 
   // Subscribe to database for real-time updates
   useEffect(() => {
-    getInfoControl();
+    getInfoPanel();
     supabase
-        .channel('infoControl-db-changes')
+        .channel('InfoPanel-db-changes')
         .on(
             'postgres_changes',
             {
                 event: '*',
                 schema: 'public',
-                table: 'InfoControl',
+                table: 'InfoPanel',
             },
             (payload) => {
-              getInfoControl();
+              getInfoPanel();
               console.log(payload);
             }
         )
@@ -835,7 +835,7 @@ function LiveNettverk() {
             {activeTab === "info" && (
                 <div>
                   <p>HENSPE</p>
-                {infoControl.map((info, index) => (
+                {InfoPanel.map((info, index) => (
                   <p key={index}>
                     Hendelse: {info.eventName} <br/>
                     Eksakt posisjon: {info.exactPosition} <br/>
