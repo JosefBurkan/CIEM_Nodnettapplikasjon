@@ -1,62 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './CriticalInfoWidget.module.css';
 
 const CriticalInfoWidget = () => {
-    const infoBoxes = [
-        {
-            time: '19:16',
-            content: [
-                {
-                    label: 'Antall',
-                    value: 'Skadde: 6 | Døde: 0 | Uskadde: 16 | Uvisst: 5',
-                },
-            ],
-        },
-        {
-            time: '19:16',
-            content: [
-                {
-                    label: 'Antall',
-                    value: 'Skadde: 6 | Døde: 0 | Uskadde: 16 | Uvisst: 5',
-                },
-            ],
-        },
-        {
-            time: '19:12',
-            content: [
-                {
-                    label: 'Evakuering',
-                    value: 'Evakuert: 18 | Gjenværende: 4 | Savnet: 5',
-                },
-            ],
-        },
-        {
-            time: '19:12',
-            content: [
-                {
-                    label: 'Evakuering',
-                    value: 'Evakuert: 18 | Gjenværende: 4 | Savnet: 5',
-                },
-            ],
-        },
-        {
-            time: '19:10',
-            content: [
-                { label: 'Sikkerhet', value: 'Område: ' },
-                { label: 'Struktur', value: '🟢🟢🟢🟢🟢' },
-                { label: 'Fare for eskalering', value: '🟢🟢🟢🟢🟢' },
-            ],
-        },
-        {
-            time: '19:12',
-            content: [
-                { label: 'Tilgjengelighet', value: '' },
-                { label: 'Kjøretøy', value: '🟠🟠🟠🟠🟠' },
-                { label: 'Droner', value: '⚫⚫⚫⚫⚫' },
-                { label: 'Letehund', value: '⚫⚫⚫⚫⚫' },
-            ],
-        },
-    ];
+
+    const [InfoPanel, setInfoPanel] = useState([]);
+    const dotMap = level => '🟢'.repeat(level);
+
+    const getInfoPanel = async () => {
+        try {
+            const response = await fetch("https://localhost:5255/api/InfoPanel/retrieveInfoPanel");
+            const data = await response.json();
+            setInfoPanel(data);
+            console.log(data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+        }
+
+        useEffect(() => {
+        getInfoPanel();
+        }, [])
+    
+        const dotLabels = ["areaLevel", "structure", "escalation", "searchDogs", "vehicles", "drones"];
+
+        const infoBoxes = InfoPanel.map(item => ({
+            time: item.lastEdit || "19:16",
+            content: Object.entries(item || {}).map(([label, value]) => ({
+              label,
+              value: dotLabels.includes(label) ? dotMap(value) : value,
+            })),
+          }));
 
     return (
         <div className={styles.widgetContainer}>
