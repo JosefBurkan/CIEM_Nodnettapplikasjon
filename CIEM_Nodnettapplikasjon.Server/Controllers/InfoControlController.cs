@@ -1,24 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.InfoControl;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.InfoControl;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.InfoPanel;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.InfoPanel;
 
 [ApiController]
 [Route("api/[controller]")] // Base route: All dashboard endpoints
-public class InfoControlController : ControllerBase
+public class InfoPanelController : ControllerBase
 {
-    private readonly IInfoControlRepository _infoControl;
+    private readonly IInfoPanelRepository _InfoPanel;
 
-    public InfoControlController(IInfoControlRepository infoControl)
+    public InfoPanelController(IInfoPanelRepository InfoPanel)
     {
-        _infoControl = infoControl;
+        _InfoPanel = InfoPanel;
     }
 
-    [HttpGet("retrieveInfoControl")]
-    public async Task<ActionResult<IEnumerable<InfoControlModel>>> GetInfoControl()
+    [HttpGet("retrieveInfoPanel")]
+    public async Task<ActionResult<IEnumerable<InfoPanelModel>>> GetInfoPanel()
     {
-        var infoControlData = await _infoControl.RetrieveInfoControl();
-        return Ok(infoControlData);
+        var InfoPanelData = await _InfoPanel.RetrieveInfoPanel();
+        return Ok(InfoPanelData);
     }
 
 }

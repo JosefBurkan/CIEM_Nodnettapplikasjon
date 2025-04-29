@@ -43,12 +43,14 @@ export default function InfoPanel({
     loadNetworks();
   }, []);
 
+
+
   //
   // --- Left‑side fields + backups + timestamp ---
   //
-  const [hendelse, setHendelse]     = useState("Hendelse beskrivelse...");
-  const [nivaa, setNivaa]           = useState("Nivå...");
-  const [lokasjon, setLokasjon]     = useState("Lokasjon...");
+  const [hendelse, setHendelse] = useState("Hendelse beskrivelse...");
+  const [nivaa, setNivaa] = useState("Nivå...");
+  const [lokasjon, setLokasjon] = useState("Lokasjon...");
   const [backupLeft, setBackupLeft] = useState({ hendelse, nivaa, lokasjon });
   const [lastEditLeft, setLastEditLeft] = useState(null);
 
@@ -62,10 +64,11 @@ export default function InfoPanel({
   //
   const [items, setItems] = useState([
     { id: 1, type: "sikkerhet", values: { omrade: 3, struktur: 2, eskalering: 1 }, lastEdit: null },
-    { id: 2, type: "default",   values: { evakuert: 18, gjenværende: 4, savnet: 5 },   lastEdit: null },
-    { id: 3, type: "default",   values: { pasienter: 7 },                             lastEdit: null },
-    { id: 4, type: "sikkerhet", values: { kjoretoy: 3, droner: 2, letehunder: 1 },   lastEdit: null },
+    { id: 2, type: "default", values: { evakuert: 18, gjenværende: 4, savnet: 5 }, lastEdit: null },
+    { id: 3, type: "default", values: { pasienter: 7 }, lastEdit: null },
+    { id: 4, type: "sikkerhet", values: { kjoretoy: 3, droner: 2, letehunder: 1 }, lastEdit: null },
   ]);
+  
   const [backupItems, setBackupItems] = useState(
     items.map(i => ({ id: i.id, values: { ...i.values } }))
   );

@@ -14,6 +14,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
         const [situations, setSituations] = useState([]);
         const [loading, setLoading] = useState(true);
         const [user, setUser] = useState({});
+                    
 
     useEffect(() => {
         fetch('https://localhost:5255/api/samvirkeNettverk/all-situations')
@@ -29,23 +30,22 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
     }, []);
 
 
-        useEffect(() => {
-            const username = localStorage.getItem("username"); 
+    useEffect(() => {
+        const username = localStorage.getItem("username"); 
 
-            const fetchUser = async () => {
-                try {
-                    const res = await fetch(`https://localhost:5255/api/User/current/${username}`);
-                    if (!res.ok) throw new Error("User not found");
-                    const data = await res.json();
-                    setUser(data);
-                } catch (err) {
-                    console.error("Failed to fetch user:", err);
-                }
-            };
+        const fetchUser = async () => {
+            try {
+                const res = await fetch(`https://localhost:5255/api/User/current/${username}`);
+                if (!res.ok) throw new Error("User not found");
+                const data = await res.json();
+                setUser(data);
+            } catch (err) {
+                console.error("Failed to fetch user:", err);
+            }
+        };
 
-            fetchUser();
-        }, []);
-
+        fetchUser();
+    }, []);
 
         if (loading) return <div>Laster inn...</div>;
 
@@ -62,7 +62,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
 
                 <div className={styles.centerColumn}>
                     <LiveNetworkWidget />
-                    <CriticalInfoWidget />
+                    <CriticalInfoWidget/>
                 </div>
 
                 <div className={styles.rightColumn}>
