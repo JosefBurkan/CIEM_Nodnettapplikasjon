@@ -38,7 +38,7 @@ function SamvirkeNettverk() {
                   >
                     <div className={styles.card}>
                       {/* 🔴 Nettverksnavn på toppen */}
-                      <div className={styles.networkName}>{situation.name}</div>
+                      <div className={styles.networkName}> <p>{situation.status}</p></div>
 
                       {/* 🔳 Bilde eller placeholder */}
                       <div className={styles.cardContent}>

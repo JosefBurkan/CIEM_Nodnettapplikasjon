@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
+    
     [ApiController]
     [Route("api/[controller]")] // Route base: api/actor
     public class ActorController : ControllerBase

@@ -6,11 +6,10 @@ using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Archive;
 
-
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")] // Base route: api/ArchivedNetworks
+    [Route("api/[controller]")] 
     public class ArchivedNetworksController : ControllerBase
     {
         private readonly INodeNetworkRepository _nodeNetwork;
