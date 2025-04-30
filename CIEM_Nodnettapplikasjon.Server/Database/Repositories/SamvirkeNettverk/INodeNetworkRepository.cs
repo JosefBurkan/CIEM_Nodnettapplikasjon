@@ -1,9 +1,9 @@
-using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.Archive;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
 {
     public interface INodeNetworkRepository
     {
@@ -18,9 +18,6 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 
         // Deletes a node network by its ID
         Task DeleteNodeNetwork(int id);
-
-        // Retrieves all networks that have been archived
-        Task<IEnumerable<ArchivedNetworksModel>> GetAllArchivedNetworks();
 
         // Archives a network by its ID
         Task<bool> ArchiveNetwork(int id);

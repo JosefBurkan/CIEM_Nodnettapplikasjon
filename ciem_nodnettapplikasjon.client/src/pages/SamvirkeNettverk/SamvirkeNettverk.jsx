@@ -15,7 +15,7 @@ function SamvirkeNettverk() {
       .catch((err) => console.error('Failed to fetch situations:', err));
   }, []);
 
-  const liveSituations = situations.filter((s) => s.status === 'Live');
+  const liveSituations = situations.filter((s) => !s.isArchived);
 
   return (
     <div className={styles.container}>

@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
 
 namespace CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk
 {

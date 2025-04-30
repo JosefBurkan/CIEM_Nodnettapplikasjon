@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
 
-
-namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
+namespace CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk
 {
     public class NodeNetworksModel
     {
@@ -14,12 +12,10 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 
         public DateTimeOffset time_of_creation {get; set;}
 
-        public string Status { get; set; } = "Live";
-
         // Connects the class to the Nodes table
         public List<NodesModel> Nodes { get; set; } = new();
 
-        public bool IsArchived { get; set; } = false;
+        public bool isArchived { get; set; } = false;
 
 
     }

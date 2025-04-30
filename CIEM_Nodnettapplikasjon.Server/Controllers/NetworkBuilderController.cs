@@ -26,6 +26,24 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(new { id });
         }
 
+
+        // GET: api/archived
+        [HttpGet("archived")]
+        public async Task<IActionResult> GetAllArchivedNetworks()
+        {
+            var networks = await _nodeNetwork.GetAllNodeNetworks(); // gets all non-archived
+            var archivedNetworks = await _context.NodeNetworks
+                .Where(n => n.IsArchived)
+                .Select(n => new {
+                    n.name,
+                    n.networkID
+                })
+                .ToListAsync();
+
+            return Ok(archivedNetworks);
+        }
+
+
         // DELETE: api/NetworkBuilder/delete/{id} (Deletes an existing network by ID)
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteNetwork(int id)
