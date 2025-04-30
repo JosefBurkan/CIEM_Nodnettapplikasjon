@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
@@ -47,22 +49,22 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 
 
         // Archive a network by setting isArchived = true
-        public async Task<bool> ArchiveNetwork(int id)
+        public async Task<NodeNetworksModel> ArchiveNetwork(int id)
         {
             var network = await _context.NodeNetworks.FindAsync(id);
 
             if (network == null)
-                return false;
+                return null;
 
-            network.IsArchived = true; // Just marks it as archived
+            network.IsArchived = false; // Just marks it as archived
 
             await _context.SaveChangesAsync();
-            return true;
+            return null;
         }
 
 
         // Delete a nodenetwork
-        public async Task DeleteNodeNetwork(int id)
+        public async Task<NodeNetworksModel> DeleteNodeNetwork(int id)
         {
 
             var nodeNetwork = await _context.NodeNetworks.FindAsync(id);
@@ -70,7 +72,10 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
             {
                 _context.NodeNetworks.Remove(nodeNetwork);
                 await _context.SaveChangesAsync();
+                return null;
             }
+
+            return null;
         }
     }
 }

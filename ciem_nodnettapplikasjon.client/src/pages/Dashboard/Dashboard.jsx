@@ -22,6 +22,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
             .then((data) => {
                 setSituations(data);
                 setLoading(false);
+                console.log("Situations retrieved successfully");
             })
             .catch((err) => {
                 console.error('Failed to fetch situations:', err);

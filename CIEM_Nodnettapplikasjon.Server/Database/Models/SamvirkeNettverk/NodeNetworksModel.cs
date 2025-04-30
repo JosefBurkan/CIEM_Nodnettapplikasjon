@@ -13,10 +13,12 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 
         public DateTimeOffset time_of_creation {get; set;}
 
+        // Decides whether the network is active or not
+        public bool IsArchived { get; set; } 
+
         // Connects the class to the Nodes table
         public List<NodesModel> Nodes { get; set; } = new();
 
-        public bool isArchived { get; set; } = false;
 
 
     }

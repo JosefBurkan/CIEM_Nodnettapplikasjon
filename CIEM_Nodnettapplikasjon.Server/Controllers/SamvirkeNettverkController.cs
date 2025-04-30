@@ -53,7 +53,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
         {
             var success = await _nodeNetwork.ArchiveNetwork(id);
 
-            if (!success)
+            if (success == null)
                 return NotFound($"No network found with ID {id}");
 
             return Ok("Network archived successfully");
@@ -74,7 +74,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             var situations = await _nodeNetwork.GetAllNodeNetworks();
 
             var result = situations
-                .Where(s => !s.isArchived)
+                .Where(s => !s.IsArchived)
                 .Select(s => new
                 {
                     Title = s.name,

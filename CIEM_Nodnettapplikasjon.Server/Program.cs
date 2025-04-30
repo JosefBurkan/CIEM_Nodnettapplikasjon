@@ -25,8 +25,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<INodeNetworkRepository, NodeNetworksRepository>();
 builder.Services.AddScoped<INodeNetworksService, NodeNetworksService>();
-builder.Services.AddScoped<INetworkBuilderRepository, NetworkBuilderRepository>();
-builder.Services.AddScoped<INetworkBuilderService, NetworkBuilderService>();
 builder.Services.AddScoped<INodeRepository, NodeRepository>();
 builder.Services.AddScoped<IQRRepository, QRRepository>();
 builder.Services.AddScoped<IInfoPanelRepository, InfoPanelRepository>();

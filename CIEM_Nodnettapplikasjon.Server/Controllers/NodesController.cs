@@ -12,10 +12,12 @@ using Microsoft.EntityFrameworkCore;
 public class NodesController : ControllerBase
 {
     private readonly INodeRepository _nodeRepo;
+    private readonly INodeNetworkRepository _nodeNetwork;
 
-    public NodesController(INodeRepository nodeRepo)
+    public NodesController(INodeRepository nodeRepo, INodeNetworkRepository nodeNetwork)
     {
         _nodeRepo = nodeRepo;
+        _nodeNetwork = nodeNetwork;
     }
 
     // POST: api/nodes/add (Creates a new node)

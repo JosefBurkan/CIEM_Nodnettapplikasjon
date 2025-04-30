@@ -8,11 +8,17 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
 function NodeNetworks() {
   const [situations, setSituations] = useState([]);
 
+  const FetchAllNetworks = async () => {
+
+    const response = await fetch('https://localhost:5255/api/NodeNetworks/situations')
+    const data = await response.json();
+    console.log(data);
+    setSituations(data);
+
+  }
+
   useEffect(() => {
-    fetch('https://localhost:5255/api/NodeNetworks/situations')
-      .then((res) => res.json())
-      .then((data) => setSituations(data))
-      .catch((err) => console.error('Failed to fetch situations:', err));
+    FetchAllNetworks();
   }, []);
 
   const liveSituations = situations.filter((s) => !s.isArchived);
@@ -37,8 +43,13 @@ function NodeNetworks() {
                     className={styles.cardLink}
                   >
                     <div className={styles.card}>
+
                       {/* 🔴 Nettverksnavn på toppen */}
-                      <div className={styles.networkName}>{situation.name}</div>
+                      <div className={styles.networkName}>
+                          <p>
+                            {situation.title}
+                          </p>
+                      </div>
 
                       {/* 🔳 Bilde eller placeholder */}
                       <div className={styles.cardContent}>
