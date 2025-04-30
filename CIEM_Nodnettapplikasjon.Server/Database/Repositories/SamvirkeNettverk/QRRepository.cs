@@ -1,8 +1,8 @@
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using Microsoft.EntityFrameworkCore;
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
     public class QRRepository : IQRRepository
     {
@@ -36,7 +36,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
                 networkID = parentNode?.networkID ?? dto.ParentId,
                 category = "Frivillige", // Default 
                 type = "Selvstendig", // Default
-                hierarchy_level = "Underaktør" // Default
+                hierarchy_level = "Underaktï¿½r" // Default
             };
 
             _context.Nodes.Add(newNode);
