@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { data, Link } from 'react-router-dom';
 import styles from './SamvirkeNettverk.module.css';
 import Box from '../../components/Box/Box';
 import newNetworkIcon from '../../assets/newNetwork.svg';
@@ -13,6 +13,7 @@ function SamvirkeNettverk() {
       .then((res) => res.json())
       .then((data) => setSituations(data))
       .catch((err) => console.error('Failed to fetch situations:', err));
+    console.log(data);
   }, []);
 
   const liveSituations = situations.filter((s) => s.status === 'Live');
