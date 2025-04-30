@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './SamvirkeNettverk.module.css';
+import styles from './NodeNetworks.module.css';
 import Box from '../../components/Box/Box';
 import newNetworkIcon from '../../assets/newNetwork.svg';
 import networkArchiveIcon from '../../assets/networkArchive.svg';
 
-function SamvirkeNettverk() {
+function NodeNetworks() {
   const [situations, setSituations] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:5255/api/samvirkeNettverk/situations')
+    fetch('https://localhost:5255/api/NodeNetworks/situations')
       .then((res) => res.json())
       .then((data) => setSituations(data))
       .catch((err) => console.error('Failed to fetch situations:', err));
@@ -73,4 +73,4 @@ function SamvirkeNettverk() {
   );
 }
 
-export default SamvirkeNettverk;
+export default NodeNetworks;

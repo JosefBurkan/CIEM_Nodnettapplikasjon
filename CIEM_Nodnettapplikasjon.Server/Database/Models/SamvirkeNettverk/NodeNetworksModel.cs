@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
     public class NodeNetworksModel
     {

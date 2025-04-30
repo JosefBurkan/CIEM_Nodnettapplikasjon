@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Services.NodeNetworks;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {

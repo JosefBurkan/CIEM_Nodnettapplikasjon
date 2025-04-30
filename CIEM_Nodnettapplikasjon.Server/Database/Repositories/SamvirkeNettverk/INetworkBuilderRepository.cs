@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
     public interface INetworkBuilderRepository
     {

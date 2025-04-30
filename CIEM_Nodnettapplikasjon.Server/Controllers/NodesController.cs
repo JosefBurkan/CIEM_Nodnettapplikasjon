@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CIEM_Nodnettapplikasjon.Server.Database;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;

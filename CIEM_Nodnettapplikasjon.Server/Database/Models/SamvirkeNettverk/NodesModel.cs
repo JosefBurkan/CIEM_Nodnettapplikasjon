@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Users;

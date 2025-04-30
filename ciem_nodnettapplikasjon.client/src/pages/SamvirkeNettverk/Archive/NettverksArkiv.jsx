@@ -10,7 +10,7 @@ function NettverksArkiv() {
 
     async function fetchNetworks() {
         try {
-            const response = await fetch('https://localhost:5255/api/samvirkeNettverk/situations');
+            const response = await fetch('https://localhost:5255/api/NodeNetworks/situations');
             if (!response.ok) {
                 throw new Error('Failed to fetch networks');
             }

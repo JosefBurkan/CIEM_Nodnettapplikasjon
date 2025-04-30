@@ -17,7 +17,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
                     
 
     useEffect(() => {
-        fetch('https://localhost:5255/api/samvirkeNettverk/all-situations')
+        fetch('https://localhost:5255/api/NodeNetworks/all-situations')
             .then((res) => res.json())
             .then((data) => {
                 setSituations(data);
@@ -53,7 +53,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
 
 
     if (hasLiveSituations) {
-        // Live SamvirkeNettverk
+        // Live NodeNetworks
         return (
             <div className={styles.dashboard}>
                 <div className={styles.leftColumn}>
@@ -72,7 +72,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
         );
     }
 
-    // No Live SamvirkeNettverk
+    // No Live NodeNetworks
     return (
         <div className={styles.noCrisisContainer}>
             <div className={styles.welcomeBox}>

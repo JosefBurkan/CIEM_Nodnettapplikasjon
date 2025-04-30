@@ -1,9 +1,9 @@
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
     public interface INodeNetworkRepository
     {

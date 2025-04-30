@@ -3,9 +3,9 @@ using CIEM_Nodnettapplikasjon.Server.Database;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk; 
+using CIEM_Nodnettapplikasjon.Server.Services.NodeNetworks; 
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
     public class NetworkBuilderRepository : INetworkBuilderRepository
     {
@@ -44,7 +44,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
         }
     }
 
-    [Route("api/samvirkeNettverk")]
+    [Route("api/NodeNetworks")]
     [ApiController]
     public class NetworkBuilderController : ControllerBase
     {
@@ -55,7 +55,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
             _service = service;
         }
 
-        // POST: api/samvirkeNettverk/create
+        // POST: api/NodeNetworks/create
         // Creates a new node network
         [HttpPost("create")]
         public async Task<IActionResult> CreateNetwork([FromBody] CreateNetworkDto dto)

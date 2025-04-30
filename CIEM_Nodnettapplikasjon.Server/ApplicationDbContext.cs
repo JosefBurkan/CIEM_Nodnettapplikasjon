@@ -5,7 +5,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Models.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.InfoPanel;
 using CIEM_Nodnettapplikasjon.Server.Database;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 
 public class ApplicationDbContext : DbContext
 {

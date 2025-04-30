@@ -1,5 +1,5 @@
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
     [ApiController]
-    [Route("api/samvirkeNettverk")] // Route base: api/samvirkeNettverk
-    public class SamvirkeNettverkController : ControllerBase
+    [Route("api/NodeNetworks")] // Route base: api/NodeNetworks
+    public class NodeNetworksController : ControllerBase
     {
         private readonly INodeNetworkRepository _nodeNetwork;
 
-        public SamvirkeNettverkController(INodeNetworkRepository nodeNetwork)
+        public NodeNetworksController(INodeNetworkRepository nodeNetwork)
         {
             _nodeNetwork = nodeNetwork;
         }
@@ -30,7 +30,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(nodeNetwork);
         }
 
-        // GET: api/samvirkeNettverk/situations (Retrieves all live situations)
+        // GET: api/NodeNetworks/situations (Retrieves all live situations)
         [HttpGet("situations")]
         public async Task<IActionResult> GetAllSituations()
         {
@@ -47,7 +47,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(result);
         }
 
-        // POST: api/samvirkeNettverk/archive/{id} (Archives a given node network by ID)
+        // POST: api/NodeNetworks/archive/{id} (Archives a given node network by ID)
         [HttpPost("archive/{id}")]
         public async Task<IActionResult> ArchiveNetwork(int id)
         {
@@ -59,7 +59,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok("Network archived successfully");
         }
 
-        // DELETE: api/samvirkeNettverk/delete({id} (Deletes a node network by ID)
+        // DELETE: api/NodeNetworks/delete({id} (Deletes a node network by ID)
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteNetwork(int id)
         {
@@ -67,7 +67,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok("Network deleted successfully");
         }
 
-        // GET: api/samvirkeNettverk/all-situations (Used by dashboard.jsx to dynamically fetch all live node networks)
+        // GET: api/NodeNetworks/all-situations (Used by dashboard.jsx to dynamically fetch all live node networks)
         [HttpGet("all-situations")]
         public async Task<IActionResult> GetAllSituationsDashboard()
         {

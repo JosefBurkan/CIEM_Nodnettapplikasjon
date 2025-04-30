@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database;
 
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
     public class NodeNetworksRepository : INodeNetworkRepository
     {
