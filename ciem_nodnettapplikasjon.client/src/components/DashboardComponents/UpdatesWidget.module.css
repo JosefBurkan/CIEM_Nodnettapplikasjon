@@ -1,58 +1,48 @@
+/* Overall widget container */
 .widgetContainer {
-    position: relative;
-    background: #1A1A1A;
-    padding: 40px 15px 15px;
-    border-radius: 30px;
+    background-color: #1A1A1A; /* Dark background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding around the widget */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     width: 100%;
     max-width: 300px;
-    margin-left: 5px;
-    margin-top: 40px;
+    position: relative;
 }
 
+/* Header styling */
 .header {
-    background: #006C74; /* Teal color */
+    background-color: #006C74; /* Teal color */
     color: white;
-    padding: 8px 15px;
-    border-radius: 15px; /* Rounded pill shape */
-    text-align: right;
     font-weight: bold;
-    font-size: 14px;
-    position: absolute;
-    top: 0px; /* Slight offset from top */
-    right: 0px; /* Right corner inside */
-    z-index: 2;
-    height: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 75%;
-    white-space: nowrap; /* Prevent wrapping */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    font-size: 1rem; /* Font size for the header */
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+    text-align: center;
 }
 
-/* === LIST STYLING === */
+/* List styling */
 .list {
     list-style: none;
     padding: 0;
     margin: 0;
-    background: #1A1A1A;
-    border-radius: 0 0 20px 20px; /* Matches rounded edges */
-    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Space between list items */
+    margin-top: 10px;
 }
 
-/* === LIST ITEM STYLING === */
+/* Individual list item */
 .listItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 12px;
-    font-size: 14px;
-    font-weight: bold;
+    padding: 10px 0; /* Add vertical padding */
+    font-size: 0.9rem; /* Font size for list items */
     color: white;
     position: relative;
 }
 
-/* === UNDERLINE COLOR VARIATION === */
+/* Underline for each list item */
 .underline {
     height: 2px;
     width: 100%;
@@ -61,12 +51,17 @@
     left: 0;
 }
 
-/* === TEXT STYLING === */
+/* Actor name styling */
 .actor {
     font-weight: bold;
+    flex: 1; /* Allow the actor name to take up space */
+    text-align: left;
 }
 
+/* Time styling */
 .time {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 0.9rem; /* Font size for the time */
+    color: white;
+    text-align: right;
 }

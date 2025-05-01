@@ -1,18 +1,19 @@
 .dashboard {
     display: grid;
-    grid-template-columns: 0.9fr 1.2fr 0.9fr; /* Tighter columns */
-    gap: 15px; /* Less space between widgets */
-    padding: 15px;
+    grid-template-columns: 1fr 2fr 1fr; /* Allocate more space to the center column */
+    gap: 30px; /* Add space between columns */
+    padding: 20px; /* Add padding around the entire dashboard */
     box-sizing: border-box;
-    max-width: 1200px; /* Keeps overall dashboard width smaller */
-    margin: 0 auto; /* Centers the dashboard */
+    max-width: 1400px; /* Increase the maximum width to utilize more space */
+    margin: 0 auto; /* Center the dashboard */
 }
 
-.leftColumn {
+.leftColumn,
+.rightColumn {
     display: flex;
-    justify-content: flex-start;
     flex-direction: column;
-    gap: 50px; /* Tighter spacing */
+    gap: 20px; /* Add spacing between widgets */
+    width: 100%; /* Ensure they take up the full width of their columns */
 }
 
 .centerColumn {
@@ -22,14 +23,6 @@
     flex-direction: column; /* Stack LiveKhnWidget above CriticalInfoWidget */
     gap: 20px; /* ✅ Adds space between LiveKhnWidget and CriticalInfoWidget */
     width: 100%; /* Ensure it takes full space */
-}
-
-.rightColumn {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    gap: 15px; /* Tighter spacing */
-    align-self: flex-start;
 }
 
 /* ===== Active Actors Widget Styling ===== */
@@ -98,13 +91,20 @@
     }
 }
 
+/* For larger screens */
+@media (min-width: 1400px) {
+    .dashboard {
+        grid-template-columns: 1fr 3fr 1fr; /* Give even more space to the center column */
+        gap: 40px; /* Increase spacing between columns */
+        max-width: 1600px; /* Expand the maximum width */
+    }
+}
+
 /* ===== MOBILE RESPONSIVENESS ===== */
 @media (max-width: 1024px) {
     .dashboard {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 10px;
-        height: auto;
+        grid-template-columns: 1fr; /* Switch to a single-column layout */
+        gap: 20px;
     }
 
     .leftColumn,
@@ -121,6 +121,20 @@
 
     .liveKhnWidget {
         max-width: 95%;
+    }
+}
+
+/* For smaller screens */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 1fr; /* Switch to a single-column layout */
+        gap: 20px;
+    }
+
+    .leftColumn,
+    .centerColumn,
+    .rightColumn {
+        width: 100%;
     }
 }
 

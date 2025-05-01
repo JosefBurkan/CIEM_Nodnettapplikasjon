@@ -1,65 +1,68 @@
+/* Overall widget container */
 .widget {
-    background-color: #1A1A1A;
-    border-radius: 30px;
-    padding: 0;
+    background-color: #1A1A1A; /* Match InfoPanel background */
+    border-radius: 8px; /* Match InfoPanel border radius */
+    padding: 15px; /* Match InfoPanel padding */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    width: 110%;
+    width: 100%;
     position: relative;
-    margin-top: 40px;
 }
 
+/* Header styling */
 .header {
-    background-color: #006C74; /* Teal */
+    background-color: #006C74; /* Teal color */
     color: white;
     font-weight: bold;
-    padding: 10px 15px;
-    text-align: left;
-    font-size: 16px;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 15px; /* No rounded corner on right side */
-    width: 70%; /* Cut the header width to half */
-    border-bottom-right-radius: 15px; /* Optional - you can remove this if you want it to be flat */
-    box-sizing: border-box;
+    padding: 10px;
+    font-size: 1rem; /* Match InfoPanel font size */
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+    text-align: center;
 }
 
+/* List of actors */
 .actorsList {
-    background-color: #1A1A1A;
-    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px; /* Space between actor rows */
+    margin-top: 10px;
 }
 
+/* Individual actor row */
 .actorRow {
-    background-color: white;
-    padding: 10px 15px;
-    border-radius: 25px;
+    background-color: #2A2A2A; /* Match InfoPanel field background */
+    padding: 10px;
+    border-radius: 8px; /* Match InfoPanel field border radius */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Actor name styling */
 .actorName {
     font-weight: bold;
-    font-size: 10px;
+    font-size: 0.9rem; /* Match InfoPanel font size */
+    color: white;
 }
 
+/* Status icons container */
 .statusIcons {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
+/* Icon with number styling */
 .iconWithNumber {
     display: flex;
     align-items: center;
     gap: 5px;
+    font-size: 0.9rem; /* Match InfoPanel font size */
+    color: white;
 }
 
+/* Green icon styling */
 .greenIcon {
-    color: white;
     background-color: #047400;
     border-radius: 50%;
     width: 24px;
@@ -70,8 +73,8 @@
     font-weight: bold;
 }
 
+/* Red icon styling */
 .redIcon {
-    color: white;
     background-color: #FF3F3F;
     border-radius: 50%;
     width: 24px;
@@ -82,8 +85,8 @@
     font-weight: bold;
 }
 
+/* Orange icon styling */
 .orangeIcon {
-    color: white;
     background-color: #f0ad4e;
     border-radius: 50%;
     width: 24px;

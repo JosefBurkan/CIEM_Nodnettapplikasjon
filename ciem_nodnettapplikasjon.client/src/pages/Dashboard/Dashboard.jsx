@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UpdatesWidget from '../../components/DashboardComponents/UpdatesWidget';
-import CriticalInfoWidget from '../../components/DashboardComponents/CriticalInfoWidget';
+import InfoPanel from '../../components/InfoPanel/InfoPanel';
 import ActiveActorsWidget from '../../components/DashboardComponents/ActiveActorsWidget';
 import LiveNetworkWidget from '../../components/DashboardComponents/LiveNetworkWidget';
 import styles from './Dashboard.module.css';
@@ -10,11 +10,10 @@ import { Link } from 'react-router-dom';
 import newNetworkIcon from '../../assets/newNetwork.svg';
 import networkArchiveIcon from '../../assets/networkArchive.svg';
 
-    function Dashboard() {
-        const [situations, setSituations] = useState([]);
-        const [loading, setLoading] = useState(true);
-        const [user, setUser] = useState({});
-                    
+function Dashboard() {
+    const [situations, setSituations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         fetch('https://localhost:5255/api/samvirkeNettverk/all-situations')
@@ -29,9 +28,8 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
             });
     }, []);
 
-
     useEffect(() => {
-        const username = localStorage.getItem("username"); 
+        const username = localStorage.getItem("username");
 
         const fetchUser = async () => {
             try {
@@ -47,10 +45,9 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
         fetchUser();
     }, []);
 
-        if (loading) return <div>Laster inn...</div>;
+    if (loading) return <div>Laster inn...</div>;
 
-        const hasLiveSituations = situations.some(s => s.status === "Live");
-
+    const hasLiveSituations = situations.some(s => s.status === "Live");
 
     if (hasLiveSituations) {
         // Live SamvirkeNettverk
@@ -62,7 +59,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
 
                 <div className={styles.centerColumn}>
                     <LiveNetworkWidget />
-                    <CriticalInfoWidget/>
+                    <InfoPanel />
                 </div>
 
                 <div className={styles.rightColumn}>
@@ -79,12 +76,12 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
                 <div className={styles.leftText}>
                     <h2>Velkommen!</h2>
                     {user.username ? (
-                    <>
-                    <p className={styles.userName}>{user.username}</p>
-                    <p>{user.role} <br />{ user.organisasjon } | {user.stat}</p>
-                    </>
+                        <>
+                            <p className={styles.userName}>{user.username}</p>
+                            <p>{user.role} <br />{user.organisasjon} | {user.stat}</p>
+                        </>
                     ) : (
-                        <p>Laster brukerdata...</p>  
+                        <p>Laster brukerdata...</p>
                     )}
                 </div>
                 <div className={styles.rightText}>
