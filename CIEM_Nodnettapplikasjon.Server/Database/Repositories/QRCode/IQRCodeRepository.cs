@@ -3,11 +3,10 @@ using CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.QRCode
 {
+    // Interface that defines the contract for QRcode-related operations
     public interface IQRCodeRepository
     {
-        //Task InsertAsync(NodeNetworksModel network);
-
-        //Task<bool> DeleteNetworkAsync(int networkId);
-
+        // Asynchronously adds a new node based on the provided QRNodeDto
+        Task<IActionResult> AddNode(QRNodeDto dto);
     }
 }

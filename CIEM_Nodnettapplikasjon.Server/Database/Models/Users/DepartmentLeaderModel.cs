@@ -1,5 +1,6 @@
 ﻿namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Users
 {
+    // Department Leader userr type, inherits from UserModel
     public class DepartmentLeaderModel : UserModel
     {
 

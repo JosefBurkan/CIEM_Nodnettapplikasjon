@@ -2,6 +2,7 @@
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Users
 {
+    // Admin user type, inhertis from UserModel
     public class AdministratorModel : UserModel
     {
 
