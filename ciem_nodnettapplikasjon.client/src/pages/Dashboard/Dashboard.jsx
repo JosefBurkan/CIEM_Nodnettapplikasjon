@@ -50,7 +50,7 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
 
         if (loading) return <div>Laster inn...</div>;
 
-        const hasLiveSituations = situations.some(s => s.isArchived === false);
+        const hasLiveSituations = situations.length > 0;
 
 
     if (hasLiveSituations) {
