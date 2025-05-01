@@ -9,7 +9,7 @@ function SamvirkeNettverk() {
   const [situations, setSituations] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:5255/api/samvirkeNettverk/situations')
+    fetch('https://localhost:5255/api/NodeNetworks/situations')
       .then((res) => res.json())
       .then((data) => setSituations(data))
       .catch((err) => console.error('Failed to fetch situations:', err));

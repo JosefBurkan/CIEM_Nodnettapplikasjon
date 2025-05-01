@@ -25,6 +25,7 @@
     "vite": "^6.2.2"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "@xyflow/react": "^12.4.4"
   }
 }
