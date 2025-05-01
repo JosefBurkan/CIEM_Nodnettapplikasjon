@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode
 {
+    // QRController handles HTTP request related to QR code functionality
     [ApiController]
     [Route("api/[controller]")]
     public class QRController : ControllerBase
@@ -17,8 +18,10 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode
             _context = context;
         }
 
+        // Adds a new node to thr system after validating the QR token and parent node
         public async Task<IActionResult> AddNode([FromBody] QRNodeDto dto)
         {
+            // Validate the provided data
             if (dto == null || dto.ParentId == 0 || string.IsNullOrEmpty(dto.Token))
             {
                 return BadRequest("Ugyldig data.");
@@ -33,6 +36,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode
                 return Unauthorized("Ugyldig token eller parentID.");
             }
 
+            // Retrieve parent node from the database
             var parentNode = await _context.Nodes
                 .FirstOrDefaultAsync(n => n.nodeID == dto.ParentId && n.UserID == parentUser.UserID);
 

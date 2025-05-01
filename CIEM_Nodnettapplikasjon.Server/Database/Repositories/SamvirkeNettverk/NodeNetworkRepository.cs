@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
+    // NodeNetworksRepository handles the implementation of node network-related database operation
     public class NodeNetworksRepository : INodeNetworkRepository
     {
         private readonly ApplicationDbContext _context;
@@ -28,7 +29,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 
         }
 
-        // Grabs a specific nodenetwork, and only the nodes witch matches the foreign key of Nodes
+        // Retrieves a specific node network, and only the nodes witch matches the foreign key of Nodes
         public async Task<NodeNetworksModel> GetNodeNetworkByID(int id)
         {
             return await _context.NodeNetworks
@@ -38,7 +39,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
         }
 
 
-        // Create a new node network
+        // Create a new node network and saves it to the database
         public async Task<NodeNetworksModel> CreateNodeNetwork(NodeNetworksModel newNodeNetwork)
         {
 
@@ -63,7 +64,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
         }
 
 
-        // Delete a nodenetwork
+        // Delete a node network by its ID
         public async Task<NodeNetworksModel> DeleteNodeNetwork(int id)
         {
 

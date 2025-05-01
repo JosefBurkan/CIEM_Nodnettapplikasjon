@@ -29,9 +29,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes
         [JsonIgnore] // Prevents an infinite loop by not sending NodeNetwork data on API calls
         public NodeNetworksModel NodeNetwork { get; set; }
 
+        // Foreignkey to the user accociated with the node
         [ForeignKey("User")]
         public int? UserID { get; set; }
 
+        // Navigation property to access full user info
         [JsonIgnore]
         public UserModel? User { get; set; }
 

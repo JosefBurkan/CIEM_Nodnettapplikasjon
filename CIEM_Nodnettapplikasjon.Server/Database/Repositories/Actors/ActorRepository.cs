@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
 {
+    // ActorRepository handles all the database operations, while IActorRepository is implemented for actor-related operations.
     public class ActorRepository : IActorRepository
     {
         private readonly ApplicationDbContext _context;
@@ -52,6 +53,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors
         // Deletes an actor by ID if it exists in the database
         public async Task DeleteActorAsync(int id)
         {
+            // Finds the actor by ID
             var actor = await _context.Actors.FindAsync(id);
             if (actor != null)
             {

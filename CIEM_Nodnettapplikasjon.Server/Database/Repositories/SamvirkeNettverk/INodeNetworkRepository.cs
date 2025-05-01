@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
+    // INodeNetworkReposiotory defines the contract for node network-related operations
     public interface INodeNetworkRepository
     {
         // Retrieves all node networks that are not archived

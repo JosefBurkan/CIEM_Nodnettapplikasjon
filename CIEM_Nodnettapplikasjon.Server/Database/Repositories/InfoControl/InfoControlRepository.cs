@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.InfoPanel
 {
-
+    // InfoPanelRepo handles the database operations, while implementing IInfoPanelRepo for infopanel-related operations
     public class InfoPanelRepository : IInfoPanelRepository
     {
         private readonly ApplicationDbContext _context;
@@ -16,9 +16,10 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.InfoPanel
             _context = context;
         }
 
-        // This is only a temporary hard-coded solution, not suitable for proper implementation
+        // Retrieves a list of all InfoPanelModel entries from the database asynchronously
         public async Task<List<InfoPanelModel>> RetrieveInfoPanel() 
         {
+            // Fetches all info panels from the database and returns them as a list asynchronously
             return await _context.InfoPanels.ToListAsync();
         }
     }
