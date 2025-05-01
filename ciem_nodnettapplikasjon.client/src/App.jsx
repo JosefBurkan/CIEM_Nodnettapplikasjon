@@ -16,16 +16,16 @@ import GovActors from './pages/Actors/GovActors.jsx';
 import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
 import PrivateActors from './pages/Actors/PrivateActors.jsx';
-import LiveNettverk from './pages/NodeNetworks/Live/LiveNettverk.jsx';
+import LiveNetwork from './pages/NodeNetworks/Live/LiveNetwork.jsx';
 import CreateActor from './pages/Actors/CreateActor.jsx';
 import DatabaseOrg from './pages/DatabaseSearch/DatabaseOrg';
 import ActorsListWrapper from './pages/DatabaseSearch/ActorsListWrapper';
-import NettverksArkiv from './pages/NodeNetworks/Archive/NettverksArkiv.jsx';
+import NetworkArchive from './pages/NodeNetworks/Archive/NetworkArchive.jsx';
 import NewNetwork from './pages/NodeNetworks/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/NodeNetworks/QRcode/QRcodePage.jsx';
 import QRAccessPage from './pages/NodeNetworks/QRcode/QRAccessPage.jsx';
-import SivilSide from './pages/NodeNetworks/SivilSide/SivilSide.jsx';
+import CivilianPage from './pages/NodeNetworks/CivilianPage/CivilianPage.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -45,18 +45,18 @@ function Layout() {
                   <Route path="/actors" element={<Actors />} />
                   <Route path="/qr-code" element={<QRcodePage />} />
                   <Route path="/qr-access" element={<QRAccessPage />} />
-                  <Route path="/civilianPage" element={<SivilSide />} />
+                  <Route path="/civilianPage" element={<CivilianPage />} />
           <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
           <Route path="/actorsVol" element={<VolActors />} />
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
-          <Route path="/sn/:networkId" element={<LiveNettverk />} />
+          <Route path="/sn/:networkId" element={<LiveNetwork />} />
           <Route path="/newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor />} />
           <Route path="/searchDatabase" element={<DatabaseOrg />} />
           <Route path="/searchDatabase/:category" element={<ActorsListWrapper />} />
-          <Route path="/nettverks-arkiv" element={<NettverksArkiv />} />
+          <Route path="/nettverks-arkiv" element={<NetworkArchive />} />
           <Route path="/actor/:id" element={<AboutActor />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
               </Routes>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import UpdatesWidget from '../../components/DashboardComponents/UpdatesWidget';
 import InfoPanel from '../../components/InfoPanel/InfoPanel';
 import ActiveActorsWidget from '../../components/DashboardComponents/ActiveActorsWidget';
@@ -15,40 +15,52 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({});
 
-    useEffect(() => {
-        fetch('https://localhost:5255/api/NodeNetworks/all-situations')
-            .then((res) => res.json())
-            .then((data) => {
-                setSituations(data);
-                setLoading(false);
-                console.log("Situations retrieved successfully");
-            })
-            .catch((err) => {
-                console.error('Failed to fetch situations:', err);
-                setLoading(false);
-            });
+    // Fetch situations from the API
+    const fetchSituations = useCallback(async () => {
+        try {
+            const response = await fetch('https://localhost:5255/api/NodeNetworks/all-situations');
+            if (!response.ok) throw new Error('Failed to fetch situations');
+            const data = await response.json();
+            setSituations(data);
+            console.log('Situations retrieved successfully');
+        } catch (error) {
+            console.error('Failed to fetch situations:', error);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
+    // Fetch user data from the API
+    const fetchUser = useCallback(async () => {
+        const username = localStorage.getItem('username');
+        if (!username) {
+            console.error('No username found in localStorage');
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://localhost:5255/api/User/current/${username}`);
+            if (!response.ok) throw new Error('User not found');
+            const data = await response.json();
+            setUser(data);
+        } catch (error) {
+            console.error('Failed to fetch user:', error);
+        }
+    }, []);
+
+    // Use useEffect to fetch situations on component mount
     useEffect(() => {
-        const username = localStorage.getItem("username");
+        fetchSituations();
+    }, [fetchSituations]);
 
-        const fetchUser = async () => {
-            try {
-                const res = await fetch(`https://localhost:5255/api/User/current/${username}`);
-                if (!res.ok) throw new Error("User not found");
-                const data = await res.json();
-                setUser(data);
-            } catch (err) {
-                console.error("Failed to fetch user:", err);
-            }
-        };
-
+    // Use useEffect to fetch user data on component mount
+    useEffect(() => {
         fetchUser();
-    }, []);
+    }, [fetchUser]);
 
     if (loading) return <div>Laster inn...</div>;
 
-        const hasLiveSituations = situations.some(s => s.isArchived === false);
+    const hasLiveSituations = situations.some((s) => s.isArchived === false);
 
     if (hasLiveSituations) {
         // Live NodeNetworks
@@ -79,7 +91,10 @@ function Dashboard() {
                     {user.username ? (
                         <>
                             <p className={styles.userName}>{user.username}</p>
-                            <p>{user.role} <br />{user.organisasjon} | {user.stat}</p>
+                            <p>
+                                {user.role} <br />
+                                {user.organisasjon} | {user.stat}
+                            </p>
                         </>
                     ) : (
                         <p>Laster brukerdata...</p>

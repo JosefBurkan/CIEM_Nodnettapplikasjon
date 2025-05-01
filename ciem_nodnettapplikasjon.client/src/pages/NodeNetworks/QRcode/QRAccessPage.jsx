@@ -6,7 +6,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import styles from './QRAccessPage.module.css';
-import logo from '../../../assets/EMKORE.png'; // Replace with your logo path
+import logo from '../../../assets/EMKORE.png';
 
 function QRAccessPage() {
   // Get QR parameters from the URL

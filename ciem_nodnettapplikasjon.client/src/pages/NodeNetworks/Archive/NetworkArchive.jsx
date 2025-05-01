@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './NettverksArkiv.module.css';
+import styles from './NetworkArchive.module.css';
 
 function NettverksArkiv() {
     const [networks, setNetworks] = useState([]);
