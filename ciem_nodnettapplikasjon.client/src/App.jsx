@@ -24,14 +24,14 @@ import NetworkArchive from './pages/NodeNetworks/Archive/NetworkArchive.jsx';
 import NewNetwork from './pages/NodeNetworks/NewNetwork/NewNetwork.jsx';
 import AboutActor from './pages/Actors/AboutActors/AboutActor.jsx';
 import QRcodePage from './pages/NodeNetworks/QRcode/QRcodePage.jsx';
-import QRAccessPage from './pages/NodeNetworks/QRcode/QRAccessPage.jsx';
+import CivilianForm from './pages/NodeNetworks/QRcode/CivilianForm.jsx';
 import CivilianPage from './pages/NodeNetworks/CivilianPage/CivilianPage.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Layout() {
   const location = useLocation();
-    const hideNavBarRoutes = ['/qr-access', '/civilianPage', '/login'];
+    const hideNavBarRoutes = ['/civilianForm', '/civilianPage', '/login'];
     const hideNavBar = hideNavBarRoutes.includes(location.pathname);
 
   return (
@@ -44,7 +44,7 @@ function Layout() {
           <Route path="/NodeNetworks" element={<NodeNetworks />} />
                   <Route path="/actors" element={<Actors />} />
                   <Route path="/qr-code" element={<QRcodePage />} />
-                  <Route path="/qr-access" element={<QRAccessPage />} />
+                  <Route path="/civilianForm" element={<CivilianForm />} />
                   <Route path="/civilianPage" element={<CivilianPage />} />
           <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
