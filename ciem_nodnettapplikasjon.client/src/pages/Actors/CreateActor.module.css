@@ -1,9 +1,6 @@
-\.container {
-    background-color: #1a1a1a;
-    color: #fff;
-    padding: 2rem;
-    min-height: 100vh;
-    box-sizing: border-box;
+h1{
+    text-align: center;
+    font-size: 3rem;
 }
 
 .form {

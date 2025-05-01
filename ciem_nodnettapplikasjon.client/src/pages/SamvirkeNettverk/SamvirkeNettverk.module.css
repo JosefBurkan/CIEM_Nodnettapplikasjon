@@ -24,15 +24,14 @@
 }
 
 .rightSection {
-  background: #d2d2d2; /* Gray background */
-  width: 35%; /* ✅ Expands to half the screen */
-  height: 100vh; /* ✅ Ensures it takes full height */
+  background: #d2d2d2; 
+  width: 35%; 
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 200px; /* ✅ Adds spacing between the boxes */
-  /* border-radius: 25px 0 0 25px; */
+  gap: 200px; 
 }
 
 /* RESPONSIVENESS */

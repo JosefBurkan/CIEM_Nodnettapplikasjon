@@ -117,7 +117,7 @@ function LiveNettverk() {
             }
           });
         }
-      }, 1000); // Vente 1 sekund slik at grafen rekker å tegnes
+      }, 1000);
     }
   }, [reactFlowInstance, isReady, networkId]);
   
@@ -129,7 +129,7 @@ function LiveNettverk() {
     try {
       const response = await fetch(`https://localhost:5255/api/samvirkeNettverk/GetNodeNetwork/${networkId}`);
       const data = await response.json();
-      console.log("Fetched data:", data);
+      // console.log("Fetched data:", data);
 
       const templateName = data.template || guessTemplateFromName(data.name);
 
@@ -178,64 +178,89 @@ function LiveNettverk() {
   }
 
   const updateLayout = useCallback(() => {
-    if (nodeNetwork && nodeNetwork.nodes) {
-      const nodes = nodeNetwork.nodes.map((node) => ({
-        id: String(node.nodeID),
-        data: { label: node.name, info: `Detaljert info om ${node.name}` },
-        hidden: hiddenNodes.has(String(node.nodeID)),
-        position: { x: 0, y: 0 },
-        
-        sourcePosition: 'right',  // kanten “går ut” til høyre
-        targetPosition: 'left',   // kanten “kommer inn” fra venstre
-      }));
+    if (!nodeNetwork?.nodes) return;
+  
+    // 1) Kart over bakgrunnsfarger per category
+    //    Sørg for at nøklene matcher nøyaktig det du får fra API (her både entall og flertall)
+    const categoryColors = {
+      statlige:   "#1f77b4",
+      offentlige: "#ff7f0e",
+      private:    "#2ca02c",
+      frivillige: "#d62728",
+    };
+  
+    const nodes = nodeNetwork.nodes.map((node) => {
+      const id      = String(node.nodeID);
+      const typeRaw = node.type     || "";
+      const catRaw  = node.category || "";
+  
+      // 2) Sjekk om det er en organisasjon
+      const isOrg = /organisasjon|selskap/i.test(typeRaw);
+      // 3) Finn bakgrunnsfarge ut fra category (eller hvit som fallback)
+      const bgColor = categoryColors[catRaw.toLowerCase()] || "#fff";
 
-      const allEdges = nodeNetwork.nodes.flatMap(node => {
+      const style = {
+        backgroundColor: bgColor,
+        border:          `2px ${isOrg ? "dashed" : "solid"} #000`,
+        borderRadius:    10,
+        padding:         15,
+      };
+  
+      return {
+        id,
+        data: {
+          label: node.name,
+          info:  `Detaljert info om ${node.name}`,
+          beskrivelse: ``,
+        },
+        hidden:         hiddenNodes.has(id),
+        position:       { x: 0, y: 0 },
+        sourcePosition: "right",
+        targetPosition: "left",
+        style,
+      };
+    });
+  
+    const allEdges = nodeNetwork.nodes.flatMap((node) => {
       const edges = [];
-    
-    
-        // Hierarkiske kanter. Parent til child.
-    if (node.parentID != null && node.parentID !== 0) {
-      edges.push({
-        id: `edge-${node.parentID}-${node.nodeID}`,
-        source: String(node.parentID),
-        target: String(node.nodeID),
-        hierarchical: true,
-        hidden: hiddenEdges.has(`edge-${node.parentID}-${node.nodeID}`),
-        animated: false,
-        style: { strokeWidth: 2.5, stroke: "#888" },
+  
+      if (node.parentID != null && node.parentID !== 0) {
+        edges.push({
+          id: `edge-${node.parentID}-${node.nodeID}`,
+          source: String(node.parentID),
+          target: String(node.nodeID),
+          hierarchical: true,
+          hidden: hiddenEdges.has(`edge-${node.parentID}-${node.nodeID}`),
+          animated: false,
+          style: { strokeWidth: 2.5, stroke: "#888" },
+        });
+      }
+  
+      (node.connectionID || []).forEach((connID) => {
+        edges.push({
+          id: `comm-${node.nodeID}-${connID}`,
+          source: String(node.nodeID),
+          target: String(connID),
+          hierarchical: false,
+          animated: true,
+          markerEnd: { type: MarkerType.ArrowClosed },
+          markerStart: {
+            type: MarkerType.ArrowClosed,
+            orient: "auto-start-reverse",
+          },
+          style: { strokeWidth: 1.5, strokeDasharray: "4 2" },
+        });
       });
-    }
-
-    // B) Manuelt tegnet kommunikasjons‑kanter
-    (node.connectionID || []).forEach(connID => {
-      edges.push({
-        id: `comm-${node.nodeID}-${connID}`,
-        source: String(node.nodeID),
-        target: String(connID),
-        hierarchical: false,
-        animated: true,
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-        },
-        markerStart: {
-          type: MarkerType.ArrowClosed,
-          orient: 'auto-start-reverse',
-        },
-        style: { strokeWidth: 1.5, strokeDasharray: "4 2" },
-      });
+  
+      return edges;
     });
-
-    return edges;
-    });
-    
-
+  
     const { nodes: layoutedNodes, edges: layoutedEdges } =
       getLayoutedElements(nodes, allEdges, "LR");
-
+  
     setInitialNodes(layoutedNodes);
-    setInitialEdges(layoutedEdges.filter(e => e.hierarchical));
-    setCommunicationEdges(layoutedEdges.filter(e => !e.hierarchical));
-  };
+    setInitialEdges(layoutedEdges.filter((e) => e.hierarchical));
+    setCommunicationEdges(layoutedEdges.filter((e) => !e.hierarchical));
   }, [nodeNetwork, hiddenNodes, hiddenEdges]);
 
 

@@ -76,14 +76,6 @@ function ActorsList({ category }) {
     return (
         <div className={styles.x}>
             <div className={styles.topSection}>
-                <div className={styles.btnContainer}>
-                    <button className={styles.midlertidigBtn}>
-                        List format
-                    </button>
-                    <button className={styles.midlertidigBtn}>
-                        Nettverk format
-                    </button>
-                </div>
                 <div className={styles.searchBarContainer}>
                     <SearchBar
                         placeholder="Search actors..."
@@ -112,15 +104,15 @@ function ActorsList({ category }) {
                         <option value="Organisasjon">Organisasjon</option>
                     </select>
                 </div>
-            </div>
 
-            <div className={styles.headerBoxContainer}>
-                <div className={styles.headerBox}>
-                    <IconUser className={styles.headerIcon} />
-                    <span>
-                        {`${categoryFilter} Aktører`}
-                        {typeFilter !== 'Alle' && ` / ${typeFilter}`}
-                    </span>
+                <div className={styles.headerBoxContainer}>
+                    <div className={styles.headerBox}>
+                        <IconUser className={styles.headerIcon} />
+                        <span>
+                            {`${categoryFilter} Aktører`}
+                            {typeFilter !== 'Alle' && ` / ${typeFilter}`}
+                        </span>
+                    </div>
                 </div>
             </div>
 
