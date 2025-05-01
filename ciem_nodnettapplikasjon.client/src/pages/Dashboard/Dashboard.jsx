@@ -46,7 +46,7 @@ function Dashboard() {
         fetchUser();
     }, []);
 
-    if (loading) return <div>Laster inn...</div>;
+        if (loading) return <div>Laster inn...</div>;
 
     const hasLiveSituations = situations.some(s => s.isArchived === false);
 
