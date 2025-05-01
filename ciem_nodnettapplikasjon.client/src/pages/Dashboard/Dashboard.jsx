@@ -10,12 +10,11 @@ import { Link } from 'react-router-dom';
 import newNetworkIcon from '../../assets/newNetwork.svg';
 import networkArchiveIcon from '../../assets/networkArchive.svg';
 
-    function Dashboard() {
-        const [situations, setSituations] = useState([]);
-        const [loading, setLoading] = useState(true);
-        const [user, setUser] = useState({});
+function Dashboard() {
+    const [situations, setSituations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState({});
                     
-
     useEffect(() => {
         fetch('https://localhost:5255/api/NodeNetworks/all-situations')
             .then((res) => res.json())
@@ -29,7 +28,6 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
                 setLoading(false);
             });
     }, []);
-
 
     useEffect(() => {
         const username = localStorage.getItem("username"); 
@@ -48,10 +46,9 @@ import networkArchiveIcon from '../../assets/networkArchive.svg';
         fetchUser();
     }, []);
 
-        if (loading) return <div>Laster inn...</div>;
+    if (loading) return <div>Laster inn...</div>;
 
-        const hasLiveSituations = situations.some(s => s.isArchived === false);
-
+    const hasLiveSituations = situations.some(s => s.isArchived === false);
 
     if (hasLiveSituations) {
         // Live NodeNetworks
