@@ -16,11 +16,12 @@ function Dashboard() {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        fetch('https://localhost:5255/api/samvirkeNettverk/all-situations')
+        fetch('https://localhost:5255/api/NodeNetworks/all-situations')
             .then((res) => res.json())
             .then((data) => {
                 setSituations(data);
                 setLoading(false);
+                console.log("Situations retrieved successfully");
             })
             .catch((err) => {
                 console.error('Failed to fetch situations:', err);
@@ -47,10 +48,10 @@ function Dashboard() {
 
     if (loading) return <div>Laster inn...</div>;
 
-    const hasLiveSituations = situations.some(s => s.status === "Live");
+        const hasLiveSituations = situations.some(s => s.isArchived === false);
 
     if (hasLiveSituations) {
-        // Live SamvirkeNettverk
+        // Live NodeNetworks
         return (
             <div className={styles.dashboard}>
                 <div className={styles.leftColumn}>
@@ -69,7 +70,7 @@ function Dashboard() {
         );
     }
 
-    // No Live SamvirkeNettverk
+    // No Live NodeNetworks
     return (
         <div className={styles.noCrisisContainer}>
             <div className={styles.welcomeBox}>

@@ -1,4 +1,4 @@
-namespace CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
     public class QRNodeDto
     {
