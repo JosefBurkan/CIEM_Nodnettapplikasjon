@@ -1,6 +1,0 @@
-@CIEM_Nodnettapplikasjon.Server_HostAddress = http://localhost:5255
-
-GET {{CIEM_Nodnettapplikasjon.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -3,6 +3,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Models.Users;
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
 
 {
+    // IUserRepository defines the operations related to user management
     public interface IUserRepository
     {
         // Adds a new user with the provided details

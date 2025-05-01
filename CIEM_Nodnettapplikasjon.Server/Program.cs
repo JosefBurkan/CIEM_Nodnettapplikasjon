@@ -1,9 +1,9 @@
 using CIEM_Nodnettapplikasjon.Server.Services.Users;
-using CIEM_Nodnettapplikasjon.Server.Services.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Services.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.InfoPanel;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
@@ -24,9 +24,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
 builder.Services.AddScoped<INodeNetworkRepository, NodeNetworksRepository>();
-builder.Services.AddScoped<ISamvirkeNettverkService, SamvirkeNettverkService>();
-builder.Services.AddScoped<INetworkBuilderRepository, NetworkBuilderRepository>();
-builder.Services.AddScoped<INetworkBuilderService, NetworkBuilderService>();
+builder.Services.AddScoped<INodeNetworksService, NodeNetworksService>();
 builder.Services.AddScoped<INodeRepository, NodeRepository>();
 builder.Services.AddScoped<IQRRepository, QRRepository>();
 builder.Services.AddScoped<IInfoPanelRepository, InfoPanelRepository>();
@@ -63,6 +61,7 @@ using (var scope = app.Services.CreateScope())
     int attempt = 0;
     bool connected = false;
 
+    // Attempt to connect to the database up to five times
     while (attempt < maxRetries && !connected)
     {
         try

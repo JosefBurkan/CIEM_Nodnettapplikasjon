@@ -1,5 +1,6 @@
-namespace CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
+    // DTO for creating a new node
     public class NodeDto
     {
         public string Name { get; set; }

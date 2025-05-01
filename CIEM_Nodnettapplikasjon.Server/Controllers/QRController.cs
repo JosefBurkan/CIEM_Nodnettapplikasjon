@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using CIEM_Nodnettapplikasjon.Server.Database;
 using System.Threading.Tasks;
@@ -8,21 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
+    // This controller handles API requests for the QR code
     [ApiController]
-    [Route("api/[controller]")] // Route base: api/qr
+    [Route("api/[controller]")]
     public class QRController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly IQRRepository _qrRepository;
 
-
-        public QRController(ApplicationDbContext context, IQRRepository qRRepository)
+        
+        public QRController(IQRRepository qRRepository)
         {
-            _context = context;
             _qrRepository = qRRepository;
         }
 
-        // POST: api/qr/add-node (Creates a new node via QR token authorization)
+        // Creates a new node via QR token authorization
         [HttpPost("add-node")]
         public async Task<IActionResult> AddNode([FromBody] QRNodeDto dto)
         {

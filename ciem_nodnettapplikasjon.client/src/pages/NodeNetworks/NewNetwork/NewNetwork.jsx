@@ -23,7 +23,8 @@ function NewNetwork() {
 
     const newNetwork = {
       name: networkName,
-      template: selectedTemplate
+        template: selectedTemplate,
+      isArchived: false,
     };
 
     try {

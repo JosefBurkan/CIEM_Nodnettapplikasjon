@@ -123,11 +123,11 @@ function LiveNettverk() {
   
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
-
+// 
   // Fetch the network and all of its nodes
-  const fetchSamvirkeNettverk = async () => {
+  const fetchNodeNetworks = async () => {
     try {
-      const response = await fetch(`https://localhost:5255/api/samvirkeNettverk/GetNodeNetwork/${networkId}`);
+      const response = await fetch(`https://localhost:5255/api/NodeNetworks/GetNodeNetwork/${networkId}`);
       const data = await response.json();
       // console.log("Fetched data:", data);
 
@@ -159,7 +159,7 @@ function LiveNettverk() {
   };
 
   useEffect(() => {
-    if (networkId) fetchSamvirkeNettverk();
+    if (networkId) fetchNodeNetworks();
   }, [networkId]);
 
   // Fetch the 'Info Control' data
@@ -298,7 +298,7 @@ function LiveNettverk() {
   };
 
   useEffect(() => {
-    if (networkId) fetchSamvirkeNettverk();
+    if (networkId) fetchNodeNetworks();
   }, [networkId]);
 
   // Fokusfunksjon for å sentrere kameraet til den valgte noden
@@ -360,7 +360,7 @@ function LiveNettverk() {
             },
             async (payload) => {
               console.log("Change registrered");
-              const updatedNetwork = await fetchSamvirkeNettverk();
+              const updatedNetwork = await fetchNodeNetworks();
               setNodeNetwork([...updatedNetwork]); // send the network as a new network, so react registeres it
               updateLayout();
             }
@@ -835,7 +835,7 @@ function LiveNettverk() {
                           <button
                               onClick={async () => {
                                   try {
-                                      const res = await fetch(`https://localhost:5255/api/samvirkeNettverk/archive/${networkId}`, {
+                                      const res = await fetch(`https://localhost:5255/api/NodeNetworks/archive/${networkId}`, {
                                           method: "POST",
                                       });
                                       if (res.ok) {
@@ -863,13 +863,13 @@ function LiveNettverk() {
                           <button
                               onClick={async () => {
                                   try {
-                                      const res = await fetch(`https://localhost:5255/api/samvirkeNettverk/delete/${networkId}`, {
+                                      const res = await fetch(`https://localhost:5255/api/NodeNetworks/delete/${networkId}`, {
                                           method: "DELETE",
                                       });
                                       if (res.ok) {
                                           toast.success("Nettverket ble slettet!", { position: "top-right", autoClose: 3000 });
                                           setTimeout(() => {
-                                              navigate("/samvirkeNettverk");
+                                              navigate("/NodeNetworks");
                                           }, 2000);
                                       } else {
                                           toast.error("Kunne ikke slette nettverket.");

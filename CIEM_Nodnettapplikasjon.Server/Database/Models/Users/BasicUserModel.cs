@@ -2,6 +2,7 @@
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Users
 {
+    // Basci user type, inherits from UserModel
     public class BasicUserModel : UserModel
     {
 
