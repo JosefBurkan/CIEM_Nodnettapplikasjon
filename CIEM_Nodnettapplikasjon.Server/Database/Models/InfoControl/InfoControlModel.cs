@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.InfoPanel 
 {
+    // This is the model for the "InfoPanel" table
     public class InfoPanelModel
     {
         [Key] // Declare primary key

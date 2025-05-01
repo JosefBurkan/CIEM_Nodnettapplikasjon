@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace CIEM_Nodnettapplikasjon.Server.Controllers
 {
+
+    // This controller handles API requests for actors and retrieves data from the "Actor" table.
     [ApiController]
     [Route("api/[controller]")] // Route base: api/actor
     public class ActorController : ControllerBase
@@ -17,7 +19,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             _actorRepository = actorRepository;
         }
 
-        // GET: api/actor (Retrieves all actors in the database)
+        // Retrieves all actors in the database as a list
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActorModel>>> GetActors()
         {
@@ -26,7 +28,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
         }
 
 
-        // GET: api/actor/id (Retrieves a single actor by ID)
+        // Retrieves a single actor by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorModel>> GetActor(int id)
         {
@@ -37,7 +39,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
         }
 
 
-        // POST: api/actor/CreateActor (Creates a new actor)
+        // Creates a new actor using input data from the frontend
         [HttpPost("CreateActor")]
         public async Task<ActionResult<ActorModel>> CreateActor([FromBody] ActorModel newActor)
         {
@@ -45,10 +47,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return CreatedAtAction(nameof(GetActor), new { id = newActor.Id }, newActor);
         }
 
-        // POST: api/actor/CreateSubActor (Adds a subactor to an exisiting actor by ID)
+        // Adds a subactor to an exisiting actor by ID using input data from the frontend
         [HttpPost("CreateSubActor")]
         public async Task<ActionResult> CreateSubActor([FromBody] AddSubActor newSubActor)
         {
+            // Assign the subactor to the correct actor
             var updatedActor = await _actorRepository.CreateSubActorAsync(newSubActor.ActorID, newSubActor.SubActor);
 
             if (updatedActor == null)
@@ -59,7 +62,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Controllers
             return Ok(updatedActor);
         }
 
-        // DELETE: api/actor/{id} (Deletes an actor by ID)
+        // Deletes an actor by ID
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteActor(int id)
         {

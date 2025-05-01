@@ -5,84 +5,86 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CIEM_Nodnettapplikasjon.Server.Controllers
+
+// This controller handles API requests for nodes and retrieves data from the "Nodes" table.
+[ApiController]
+[Route("api/NodeNetworks")] 
+public class NodeNetworksController : ControllerBase
 {
-    [ApiController]
-    [Route("api/NodeNetworks")] // Route base: api/NodeNetworks
-    public class NodeNetworksController : ControllerBase
+    private readonly INodeNetworkRepository _nodeNetwork;
+
+    public NodeNetworksController(INodeNetworkRepository nodeNetwork)
     {
-        private readonly INodeNetworkRepository _nodeNetwork;
+        _nodeNetwork = nodeNetwork;
+    }
 
-        public NodeNetworksController(INodeNetworkRepository nodeNetwork)
+    // Get a specific node network
+    [HttpGet("GetNodeNetwork/{id}")]
+    public async Task<ActionResult<NodeNetworksModel>> GetNodeNetwork(int id)
+    {
+        var nodeNetwork = await _nodeNetwork.GetNodeNetworkByID(id);
+        if (nodeNetwork == null)
         {
-            _nodeNetwork = nodeNetwork;
+            return NotFound($"No network found with ID {id}");
         }
 
-        [HttpGet("GetNodeNetwork/{id}")]
-        public async Task<ActionResult<NodeNetworksModel>> GetNodeNetwork(int id)
-        {
-            var nodeNetwork = await _nodeNetwork.GetNodeNetworkByID(id);
-            if (nodeNetwork == null)
+        return Ok(nodeNetwork);
+    }
+
+    // Retrieves all live situations
+    [HttpGet("situations")]
+    public async Task<IActionResult> GetAllSituations()
+    {
+        var situations = await _nodeNetwork.GetAllNodeNetworks();
+
+        // "result" should be handled inside a service file, not controller
+        var result = situations
+            .Select(s => new
             {
-                return NotFound($"No network found with ID {id}");
-            }
+                Title = s.name,
+                NetworkId = s.networkID,
+            })
+            .ToList();
 
-            return Ok(nodeNetwork);
-        }
+        return Ok(result);
+    }
 
-        // GET: api/NodeNetworks/situations (Retrieves all live situations)
-        [HttpGet("situations")]
-        public async Task<IActionResult> GetAllSituations()
-        {
-            var situations = await _nodeNetwork.GetAllNodeNetworks();
+    // Archives a node network by ID
+    [HttpPost("archive/{id}")]
+    public async Task<IActionResult> ArchiveNetwork(int id)
+    {
+        var success = await _nodeNetwork.ArchiveNetwork(id);
 
-            var result = situations
-                .Select(s => new
-                {
-                    Title = s.name,
-                    NetworkId = s.networkID,
-                })
-                   .ToList();
+        if (success == null)
+            return NotFound($"No network found with ID {id}");
 
-            return Ok(result);
-        }
+        return Ok("Network archived successfully");
+    }
 
-        // POST: api/NodeNetworks/archive/{id} (Archives a given node network by ID)
-        [HttpPost("archive/{id}")]
-        public async Task<IActionResult> ArchiveNetwork(int id)
-        {
-            var success = await _nodeNetwork.ArchiveNetwork(id);
+    // Deletes a node network by ID
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteNetwork(int id)
+    {
+        await _nodeNetwork.DeleteNodeNetwork(id);
+        return Ok("Network deleted successfully");
+    }
 
-            if (success == null)
-                return NotFound($"No network found with ID {id}");
+    // Used by dashboard.jsx to fetch all live node networks
+    [HttpGet("all-situations")]
+    public async Task<IActionResult> GetAllSituationsDashboard()
+    {
+        var situations = await _nodeNetwork.GetAllNodeNetworks();
 
-            return Ok("Network archived successfully");
-        }
+        // "result" should be handled inside a service file, not controller
+        var result = situations
+            .Where(s => !s.IsArchived)
+            .Select(s => new
+            {
+                Title = s.name,
+                NetworkId = s.networkID,
+            })
+            .ToList();
 
-        // DELETE: api/NodeNetworks/delete({id} (Deletes a node network by ID)
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteNetwork(int id)
-        {
-            await _nodeNetwork.DeleteNodeNetwork(id);
-            return Ok("Network deleted successfully");
-        }
-
-        // GET: api/NodeNetworks/all-situations (Used by dashboard.jsx to dynamically fetch all live node networks)
-        [HttpGet("all-situations")]
-        public async Task<IActionResult> GetAllSituationsDashboard()
-        {
-            var situations = await _nodeNetwork.GetAllNodeNetworks();
-
-            var result = situations
-                .Where(s => !s.IsArchived)
-                .Select(s => new
-                {
-                    Title = s.name,
-                    NetworkId = s.networkID,
-                })
-                .ToList();
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }

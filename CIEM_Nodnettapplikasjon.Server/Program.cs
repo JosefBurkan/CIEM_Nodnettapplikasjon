@@ -61,6 +61,7 @@ using (var scope = app.Services.CreateScope())
     int attempt = 0;
     bool connected = false;
 
+    // Attempt to connect to the database up to five times
     while (attempt < maxRetries && !connected)
     {
         try

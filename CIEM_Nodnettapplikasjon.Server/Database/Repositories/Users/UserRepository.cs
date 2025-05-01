@@ -25,6 +25,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
                 Console.WriteLine($"Found user: {u.Username}");
             }
 
+
             var user = _context.Users.FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
 
             if (user == null)
@@ -63,7 +64,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
         }
 
 
-        // Modifies an existing user’s details based on userID
+        // Modifies an existing userï¿½s details based on userID
         public void ModifyUser(int userID, string newUsername, string newEmail, string newPhone, string newRole)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == userID);

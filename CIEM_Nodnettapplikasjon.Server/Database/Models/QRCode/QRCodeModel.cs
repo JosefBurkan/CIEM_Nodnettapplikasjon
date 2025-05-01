@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode 
 {
+    // DTO for creating a node from the QR code
     public class QRNodeDto
     {
         [Key] // Declare primary key
