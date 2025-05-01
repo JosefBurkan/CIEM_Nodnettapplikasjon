@@ -16,7 +16,7 @@ const CriticalInfoWidget = () => {
         catch (error) {
             console.log(error);
         }
-        }
+    }
 
         useEffect(() => {
         getInfoPanel();

@@ -5,6 +5,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Repositories.Actors;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Repositories.InfoPanel;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.QRCode;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
@@ -61,6 +62,7 @@ using (var scope = app.Services.CreateScope())
     int attempt = 0;
     bool connected = false;
 
+    // Attempt to connect to the database up to five times
     while (attempt < maxRetries && !connected)
     {
         try

@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
 {
+    // UserRepository handles the CRUD operations for UserModel in the database
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
@@ -14,10 +15,11 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
             _context = context;
         }
 
-        // Retrieves a user by username and logs info to console
+        // Retrieves a user by username and logs user info to console for debugging
         public UserModel? GetUserByUsername(string username)
         {
   
+            // Retrives all users from the database and logs number of users
             var allUsers = _context.Users.ToList();
             Console.WriteLine($"Total users in database: {allUsers.Count}");
             foreach (var u in allUsers)
@@ -46,7 +48,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
         }
 
 
-        // Adds a new user to the database
+        // Adds a new user to the database with the provided details
         public void AddUser(string username, string email, string phone, string password, string role)
         {
             var newUser = new UserModel
@@ -63,7 +65,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
         }
 
 
-        // Modifies an existing user’s details based on userID
+        // Modifies an existing userï¿½s details based on userID
         public void ModifyUser(int userID, string newUsername, string newEmail, string newPhone, string newRole)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == userID);
@@ -78,7 +80,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.Users
             }
         }
 
-        //  // Deletes a user from the database by userID 
+        // Deletes a user from the database by userID 
         public void DeleteUser(int userID)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == userID);

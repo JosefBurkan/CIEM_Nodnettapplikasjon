@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity; // Identity features
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Users
 {
+    // Represents the user in the database
     public class UserModel
     {
         [Key] // userID primary key
@@ -29,7 +30,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Users
             this.Role = role;
         }
     }
-
+    // Login requests from client
     public class LoginRequest
     {
         public string Username { get; set; } = null!;

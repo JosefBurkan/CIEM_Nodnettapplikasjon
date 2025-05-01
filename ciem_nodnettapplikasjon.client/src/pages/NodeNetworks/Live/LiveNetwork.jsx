@@ -123,7 +123,7 @@ function LiveNetwork() {
   
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
-
+// 
   // Fetch the network and all of its nodes
   const fetchNodeNetworks = async () => {
     try {

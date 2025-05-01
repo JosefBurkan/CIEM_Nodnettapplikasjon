@@ -4,6 +4,7 @@ using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
+    // Model for the table "NodeNetworks"
     public class NodeNetworksModel
     {
         [Key] // Set NetworkID to PK
