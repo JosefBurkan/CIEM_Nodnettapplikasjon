@@ -1,12 +1,13 @@
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using System.Threading.Tasks;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode;
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.QRCode
 {
-    // Interface that defines the contract for QRcode-related operations
-    public interface IQRCodeRepository
+    public interface IQRRepository
     {
-        // Asynchronously adds a new node based on the provided QRNodeDto
-        Task<IActionResult> AddNode(QRNodeDto dto);
+        // Adds a node to the network using QR token validation
+        Task<NodesModel?> AddNodeViaQRAsync(QRNodeDto dto);
+
     }
 }
