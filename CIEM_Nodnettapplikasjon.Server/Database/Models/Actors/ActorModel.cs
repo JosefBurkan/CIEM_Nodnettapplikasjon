@@ -1,5 +1,6 @@
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Actors
 {
+    // This is the model for the "Actor" table
     public class ActorModel
     {
         public int Id { get; set; }
@@ -10,7 +11,8 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.Actors
         public string? Description { get; set; }
     }
 
-        public class AddSubActor
+    // THis is a DTO for adding a sub actor to an existing actor
+    public class AddSubActor
     {
         public int ActorID { get; set; }
         public string SubActor { get; set; } = null!;

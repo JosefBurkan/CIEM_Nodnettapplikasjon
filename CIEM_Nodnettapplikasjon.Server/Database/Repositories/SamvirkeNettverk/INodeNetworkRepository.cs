@@ -1,10 +1,14 @@
 using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.Archive;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
 {
+    // INodeNetworkReposiotory defines the contract for node network-related operations
     public interface INodeNetworkRepository
     {
         // Retrieves all node networks that are not archived
@@ -17,13 +21,10 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks
         Task<NodeNetworksModel> CreateNodeNetwork(NodeNetworksModel newNodeNetwork);
 
         // Deletes a node network by its ID
-        Task DeleteNodeNetwork(int id);
-
-        // Retrieves all networks that have been archived
-        Task<IEnumerable<ArchivedNetworksModel>> GetAllArchivedNetworks();
+        Task<NodeNetworksModel> DeleteNodeNetwork(int id);
 
         // Archives a network by its ID
-        Task<bool> ArchiveNetwork(int id);
+        Task<NodeNetworksModel> ArchiveNetwork(int id);
 
 
     }

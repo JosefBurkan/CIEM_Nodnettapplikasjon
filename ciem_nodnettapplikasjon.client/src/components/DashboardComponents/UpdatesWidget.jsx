@@ -22,7 +22,7 @@ function UpdatesWidget() {
     return (
         <div className={styles.widgetContainer}>
             {/* Header Section */}
-            <div className={styles.header}>NESTE OPPDATERING</div>
+            <div className={styles.header}>INFORMASJONS BEHOV</div>
 
             {/* List of Updates */}
             <ul className={styles.list}>

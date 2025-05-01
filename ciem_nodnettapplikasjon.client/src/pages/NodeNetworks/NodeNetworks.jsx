@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './SamvirkeNettverk.module.css';
+import styles from './NodeNetworks.module.css';
 import Box from '../../components/Box/Box';
 import newNetworkIcon from '../../assets/newNetwork.svg';
 import networkArchiveIcon from '../../assets/networkArchive.svg';
 
-function SamvirkeNettverk() {
+function NodeNetworks() {
   const [situations, setSituations] = useState([]);
 
+  const FetchAllNetworks = async () => {
+
+    const response = await fetch('https://localhost:5255/api/NodeNetworks/situations')
+    const data = await response.json();
+    console.log(data);
+    setSituations(data);
+
+  }
+
   useEffect(() => {
-    fetch('https://localhost:5255/api/NodeNetworks/situations')
-      .then((res) => res.json())
-      .then((data) => setSituations(data))
-      .catch((err) => console.error('Failed to fetch situations:', err));
+    FetchAllNetworks();
   }, []);
 
-  const liveSituations = situations.filter((s) => s.status === 'Live');
+  const liveSituations = situations.filter((s) => !s.isArchived);
 
   return (
     <div className={styles.container}>
@@ -37,8 +43,13 @@ function SamvirkeNettverk() {
                     className={styles.cardLink}
                   >
                     <div className={styles.card}>
+
                       {/* 🔴 Nettverksnavn på toppen */}
-                      <div className={styles.networkName}>{situation.name}</div>
+                      <div className={styles.networkName}>
+                          <p>
+                            {situation.title}
+                          </p>
+                      </div>
 
                       {/* 🔳 Bilde eller placeholder */}
                       <div className={styles.cardContent}>
@@ -73,4 +84,4 @@ function SamvirkeNettverk() {
   );
 }
 
-export default SamvirkeNettverk;
+export default NodeNetworks;

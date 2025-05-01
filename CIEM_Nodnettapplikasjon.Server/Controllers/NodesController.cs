@@ -1,24 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using CIEM_Nodnettapplikasjon.Server.Database;
-using CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk;
-using CIEM_Nodnettapplikasjon.Server.Database.Repositories.SamvirkeNettverk;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
+using CIEM_Nodnettapplikasjon.Server.Database.Repositories.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 
+// This controller handles API requests for nodes and retrieves data from the "Nodes" table
 [ApiController]
-[Route("api/[controller]")] // Route base: api/nodes
+[Route("api/[controller]")] 
 public class NodesController : ControllerBase
 {
     private readonly INodeRepository _nodeRepo;
+    private readonly INodeNetworkRepository _nodeNetwork;
 
-    public NodesController(INodeRepository nodeRepo)
+    public NodesController(INodeRepository nodeRepo, INodeNetworkRepository nodeNetwork)
     {
         _nodeRepo = nodeRepo;
+        _nodeNetwork = nodeNetwork;
     }
 
-    // POST: api/nodes/add (Creates a new node)
+    // Creates a new node with input from the front end
     [HttpPost("add")]
     public async Task<IActionResult> AddNode([FromBody] NodeDto dto)
     {
@@ -28,7 +31,7 @@ public class NodesController : ControllerBase
         return Ok(createdNode);
     }
 
-    // GET: api/nodes/user/{userID} (Retrieves a single node by associated userID)
+    // Retrieves a single node by associated userID
     [HttpGet("user/{userID}")]
     public async Task<IActionResult> GetNodeByUserId(int userID)
     {
@@ -40,7 +43,7 @@ public class NodesController : ControllerBase
         return Ok(node);
     }
 
-    // DELETE: api/nodes/delete/{nodeID} (Deletes a node by ID)
+    // Deletes a node by ID
     [HttpDelete("delete/{nodeID}")]
     public async Task<IActionResult> RemoveNodeByUserId(int nodeID)
     {
@@ -53,7 +56,7 @@ public class NodesController : ControllerBase
         return Ok($"Node med ID {nodeID} ble fjernet.");
     }
 
-    // Save node connections
+    // Save manually created connections between nodes in the nodenetwork
     [HttpPut("connect")]
     public async Task<IActionResult> AddNodeConnection([FromBody] NodeConnection connectionData)
     {

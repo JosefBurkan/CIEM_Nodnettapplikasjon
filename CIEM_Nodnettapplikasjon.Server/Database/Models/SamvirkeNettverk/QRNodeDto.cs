@@ -1,5 +1,6 @@
-namespace CIEM_Nodnettapplikasjon.Server.Database.Models.SamvirkeNettverk
+namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
+    // DTO for creating a node via QR code
     public class QRNodeDto
     {
         public string Name { get; set; }

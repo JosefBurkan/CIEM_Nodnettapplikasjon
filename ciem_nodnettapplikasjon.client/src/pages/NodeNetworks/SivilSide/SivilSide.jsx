@@ -27,7 +27,7 @@ function SivilSide() {
         </div>
 
         {/* InfoPanel */}
-        <InfoPanel layout="vertical" showEdit={false} showComm={false} />
+        <InfoPanel layout="vertical" hideSections={["Tilgjengelighet"]} />
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
-
 
 namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 {
+    // Model for the table "NodeNetworks"
     public class NodeNetworksModel
     {
         [Key] // Set NetworkID to PK
@@ -14,12 +14,12 @@ namespace CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks
 
         public DateTimeOffset time_of_creation {get; set;}
 
-        public string Status { get; set; } = "Live";
+        // Decides whether the network is active or not
+        public bool IsArchived { get; set; } 
 
         // Connects the class to the Nodes table
         public List<NodesModel> Nodes { get; set; } = new();
 
-        public bool IsArchived { get; set; } = false;
 
 
     }
