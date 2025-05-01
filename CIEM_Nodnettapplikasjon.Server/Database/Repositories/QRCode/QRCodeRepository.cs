@@ -1,70 +1,48 @@
-using Microsoft.AspNetCore.Mvc;
+using CIEM_Nodnettapplikasjon.Server.Database.Models.NodeNetworks;
 using CIEM_Nodnettapplikasjon.Server.Database.Models.Nodes;
-using CIEM_Nodnettapplikasjon.Server.Database;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace CIEM_Nodnettapplikasjon.Server.Database.Models.QRCode
+namespace CIEM_Nodnettapplikasjon.Server.Database.Repositories.QRCode
 {
-    // QRController handles HTTP request related to QR code functionality
-    [ApiController]
-    [Route("api/[controller]")]
-    public class QRController : ControllerBase
+    public class QRRepository : IQRRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public QRController(ApplicationDbContext context)
+        public QRRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // Adds a new node to thr system after validating the QR token and parent node
-        public async Task<IActionResult> AddNode([FromBody] QRNodeDto dto)
+        // Adds a new node using QR token validation
+        public async Task<NodesModel?> AddNodeViaQRAsync(QRNodeDto dto)
         {
-            // Validate the provided data
-            if (dto == null || dto.ParentId == 0 || string.IsNullOrEmpty(dto.Token))
-            {
-                return BadRequest("Ugyldig data.");
-            }
-
-            // Validate the token from the user
             var parentUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.qr_token == dto.Token);
 
-            if (parentUser == null)
-            {
-                return Unauthorized("Ugyldig token eller parentID.");
-            }
+            if (parentUser == null) return null;
 
-            // Retrieve parent node from the database
             var parentNode = await _context.Nodes
                 .FirstOrDefaultAsync(n => n.nodeID == dto.ParentId && n.UserID == parentUser.UserID);
 
-            if (parentNode == null)
-            {
-                return BadRequest("Kunne ikke finne noden til tilh�rende bruker.");
-            }
+            if (parentNode == null) return null;
 
-
-            // Create and add new node
+            // Create a new child node with default values for some properties
             var newNode = new NodesModel
             {
                 name = dto.Name,
                 phone = dto.Phone,
                 beskrivelse = dto.Beskrivelse,
                 parentID = dto.ParentId,
-                networkID = parentNode?.networkID ?? dto.ParentId, // fallback to parentId
-
-            // Auto filling the rest
-            category = "Frivillige",
-            type = "Selvstendig",
-            hierarchy_level = "Underakt�r"
+                networkID = parentNode?.networkID ?? dto.ParentId,
+                category = "Frivillige", // Default 
+                type = "Selvstendig", // Default
+                hierarchy_level = "Underakt�r" // Default
             };
 
             _context.Nodes.Add(newNode);
             await _context.SaveChangesAsync();
 
-            return Ok(newNode);
+            return newNode;
         }
     }
 }
