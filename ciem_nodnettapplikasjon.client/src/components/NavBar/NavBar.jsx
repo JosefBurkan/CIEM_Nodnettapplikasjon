@@ -35,8 +35,8 @@ function NavBar() {
             <div className={styles.navbarCenter}>
                 <div className={styles.navbarLinks}>
                     <Link
-                        to="/NodeNetworks"
-                        className={`${styles.navbarLink} ${isActive('/NodeNetworks') || isActive('/sn') || isActive('/nettverk') || isActive('/newNetwork') ? styles.activeLink : ''}`}
+                        to="/nodeNetworks"
+                        className={`${styles.navbarLink} ${isActive('/nodeNetworks') || isActive('/liveNetwork') || isActive('/nettverk') || isActive('/newNetwork') ? styles.activeLink : ''}`}
                     >
                         Samvirke Nettverk
                     </Link>
