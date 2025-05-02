@@ -41,7 +41,7 @@ function Layout() {
         <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/login" element={<Login />} />
-          <Route path="/NodeNetworks" element={<NodeNetworks />} />
+          <Route path="/nodeNetworks" element={<NodeNetworks />} />
                   <Route path="/actors" element={<Actors />} />
                   <Route path="/qr-code" element={<QRcodePage />} />
                   <Route path="/civilianForm" element={<CivilianForm />} />
@@ -51,12 +51,12 @@ function Layout() {
           <Route path="/actorsVol" element={<VolActors />} />
           <Route path="/actorsAll" element={<AllActors />} />
           <Route path="/actorsPrivate" element={<PrivateActors />} />
-          <Route path="/sn/:networkId" element={<LiveNetwork />} />
+          <Route path="/liveNetwork/:networkId" element={<LiveNetwork />} />
           <Route path="/newNetwork" element={<NewNetwork />} />
           <Route path="/createActor" element={<CreateActor />} />
           <Route path="/searchDatabase" element={<DatabaseOrg />} />
           <Route path="/searchDatabase/:category" element={<ActorsListWrapper />} />
-          <Route path="/nettverks-arkiv" element={<NetworkArchive />} />
+          <Route path="/networkArchive" element={<NetworkArchive />} />
           <Route path="/actor/:id" element={<AboutActor />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
               </Routes>

@@ -111,7 +111,7 @@ function Dashboard() {
                     <Box title="Nytt Nettverk" iconSrc={newNetworkIcon} />
                 </Link>
 
-                <Link to="/nettverks-arkiv">
+                <Link to="/networkArchive">
                     <Box title="Nettverks Arkiv" iconSrc={networkArchiveIcon} disableLink />
                 </Link>
 
