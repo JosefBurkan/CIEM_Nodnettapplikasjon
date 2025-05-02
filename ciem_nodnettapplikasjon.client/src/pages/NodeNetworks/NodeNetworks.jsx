@@ -5,7 +5,6 @@ import Box from '../../components/Box/Box';
 import newNetworkIcon from '../../assets/newNetwork.svg';
 import networkArchiveIcon from '../../assets/networkArchive.svg';
 
-
 function NodeNetworks() {
   // State to store the list of situations fetched from the API
   const [situations, setSituations] = useState([]);
@@ -29,8 +28,7 @@ function NodeNetworks() {
 
   // Filter the situations to get only the live (non-archived) ones
   const liveSituations = situations.filter((s) => !s.isArchived);
- 
-  // Filter out archived situations
+
   return (
     <div className={styles.container}>
       <div className={styles.dashboard}>
