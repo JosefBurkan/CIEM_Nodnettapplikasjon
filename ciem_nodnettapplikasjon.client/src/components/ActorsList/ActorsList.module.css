@@ -1,10 +1,17 @@
-/* * {
-    outline: 1px solid gold;
-} */
+/* ================================
+   General Styles
+================================ */
+
+/* Root container for the Actors List component */
 .x {
     font-family: Arial, Helvetica, sans-serif;
-    /* background-color: blue; */
 }
+
+/* ================================
+   Button Styles
+================================ */
+
+/* Common styles for buttons */
 .midlertidigBtn,
 .filterButton,
 .selectAllButton,
@@ -20,6 +27,17 @@
     background-color: #1a1a1a;
 }
 
+/* Hover effect for buttons */
+.midlertidigBtn:hover {
+    background-color: red;
+    color: black;
+}
+
+/* ================================
+   Top Section Styles
+================================ */
+
+/* Top section containing buttons and filters */
 .topSection {
     display: flex;
     flex-wrap: wrap;
@@ -27,29 +45,21 @@
     padding: 1rem 4rem;
     width: 20%;
     gap: 1rem;
-    /* border: 1px solid */
 }
+
+/* Container for buttons in the top section */
 .btnContainer {
-    /* border: 1px solid black; */
     display: flex;
     gap: 0.5rem;
 }
 
-.filterBtnContainer{
-    display:flex;
+/* Container for filter buttons */
+.filterBtnContainer {
+    display: flex;
     gap: 10px;
 }
-.midlertidigBtn {
-    border: 2px solid rgb(165, 31, 31);
-    padding: 10px 15px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-.midlertidigBtn:hover {
-    background-color: red;
-    color: black;
-}
 
+/* Filter dropdown styles */
 .filterSelect {
     text-align: center;
     border-radius: 15px;
@@ -62,24 +72,27 @@
     color: hsl(0, 0%, 83%);
     background-color: #1a1a1a;
 }
+
+/* Hover effect for filter buttons */
 .filterButton:hover {
     background-color: #006c74;
     color: white;
 }
+
+/* ================================
+   Header Box Styles
+================================ */
+
+/* Container for the header box */
 .headerBoxContainer {
     position: absolute;
     top: 3rem;
     margin-left: 20%;
     width: 20%;
 }
+
+/* Header box for displaying category and type */
 .headerBox {
-    /* display:flex;
-  justify-content: center;
-  padding: 1rem;
-  background-color: #1A1A1A;
-  color: hsl(0, 0%, 93%);
-  border-radius: 15px;
-  width: 10%; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,6 +107,11 @@
     font-weight: bold;
 }
 
+/* ================================
+   Content Container Styles
+================================ */
+
+/* Main content container for the actors list */
 .contentContainer {
     display: flex;
     flex-wrap: wrap;
@@ -111,67 +129,38 @@
     scrollbar-width: none;
 }
 
-.selectAllButton:hover,
-.showSelectionButton:hover {
-    background-color: #ff3f3f;
-    color: white;
-}
-.selectAllButton,
-.showSelectionButton {
-    text-align: center;
-    border-radius: 25px;
-    border: 3px solid #ff3f3f;
-}
-.selectAllButton {
-    padding: 0.6rem;
-    width: 150px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    position: relative;
-    left: 2.8vw;
-    margin-top: 20px;
-}
-.showSelectionButton {
-    padding: 1rem;
-    width: 17rem;
-    font-size: 1.4rem;
-    font-weight: bold;
-    position: relative;
-    right: 2.8vw;
-    margin-top: 40px;
-}
+/* ================================
+   Actor List Styles
+================================ */
 
-.bottomSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-}
+/* List of actors */
 .actorsList {
     list-style: none;
 }
+
+/* Container for individual actor items */
 .actorListContainer {
     display: flex;
     margin-top: 10px;
 }
+
+/* Checkbox for selecting actors */
 .actorCheckbox {
     width: 1.3em;
     height: 1.3em;
     background-color: white;
     border-radius: 50%;
     border: none;
-    backface-visibility: hidden;
-    vertical-align: middle;
     appearance: none;
-    /* outline: 3px solid white; */
-    cursor: pointer;
-    box-shadow: none;
-}
-.actorCheckbox:checked {
-    background-color: gray;
     cursor: pointer;
 }
 
+/* Checked state for the checkbox */
+.actorCheckbox:checked {
+    background-color: gray;
+}
+
+/* Button for actor names */
 .actorBtn {
     width: 85vw;
     text-align: end;
@@ -179,21 +168,18 @@
     justify-content: space-between;
     border: none;
     color: white;
-    background-color: hsla(0, 0%, 0%, 0);
+    background-color: transparent;
     font-size: 1.3rem;
     border-bottom: 1.5px solid #ffffff;
     margin-bottom: 5px;
     text-decoration: none;
 }
 
-.activeDropdown {
-    border-bottom: 2px solid #ff3f3f;
-    font-weight: bold;
-}
-.activeArrow {
-    color: #ff3f3f;
-}
+/* ================================
+   Sub-Actor Styles
+================================ */
 
+/* List of sub-actors */
 .subActors {
     display: flex;
     flex-direction: column;
@@ -202,6 +188,7 @@
     width: 100%;
 }
 
+/* Individual sub-actor item */
 .subActor {
     position: relative;
     margin-bottom: 0.8rem;
@@ -212,6 +199,7 @@
     width: 93%;
 }
 
+/* Line under each sub-actor */
 .subActor::after {
     content: '';
     position: absolute;
@@ -223,6 +211,7 @@
     opacity: 0.5;
 }
 
+/* Dot before each sub-actor */
 .subActor::before {
     content: '';
     position: absolute;

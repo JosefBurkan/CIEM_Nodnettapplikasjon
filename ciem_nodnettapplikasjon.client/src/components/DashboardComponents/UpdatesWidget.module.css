@@ -1,4 +1,6 @@
-/* Overall widget container */
+/* ================================
+   Overall widget container styles
+   ================================ */
 .widgetContainer {
     background-color: #1A1A1A; /* Dark background */
     border-radius: 8px; /* Rounded corners */
@@ -9,7 +11,9 @@
     position: relative;
 }
 
-/* Header styling */
+/* ================================
+   Header styles
+   ================================ */
 .header {
     background-color: #006C74; /* Teal color */
     color: white;
@@ -20,9 +24,13 @@
     text-align: center;
 }
 
-/* List styling */
+/* ================================
+   List styles
+   ================================ */
+
+/* Container for the list */
 .list {
-    list-style: none;
+    list-style: none; /* Remove default list styling */
     padding: 0;
     margin: 0;
     display: flex;
@@ -42,6 +50,10 @@
     position: relative;
 }
 
+/* ================================
+   Underline styles
+   ================================ */
+
 /* Underline for each list item */
 .underline {
     height: 2px;
@@ -51,14 +63,18 @@
     left: 0;
 }
 
-/* Actor name styling */
+/* ================================
+   Actor name styles
+   ================================ */
 .actor {
     font-weight: bold;
     flex: 1; /* Allow the actor name to take up space */
     text-align: left;
 }
 
-/* Time styling */
+/* ================================
+   Time styles
+   ================================ */
 .time {
     font-weight: bold;
     font-size: 0.9rem; /* Font size for the time */

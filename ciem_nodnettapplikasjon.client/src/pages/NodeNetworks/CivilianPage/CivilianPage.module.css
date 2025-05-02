@@ -1,6 +1,8 @@
-/* SivilSide.module.css */
+/* ================================
+   Container Styles
+================================ */
 
-/* Overall container (similar to QRAccessPage) */
+/* Main container for the Civilian Page */
 .container {
     display: flex;
     flex-direction: column;
@@ -14,12 +16,16 @@
     box-sizing: border-box;
 }
 
-/* Navbar (same style as QRAccessPage) */
+/* ================================
+   Navbar Styles
+================================ */
+
+/* Navbar at the top of the page */
 .navbar {
     width: 100%;
     background-color: #1A1A1A;
     color: white;
-    padding: 1rem 2rem; /* Add some horizontal padding */
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,16 +36,22 @@
     box-sizing: border-box;
 }
 
+/* Logo inside the navbar */
 .navbar img {
     height: 40px;
 }
 
+/* Date and time display in the navbar */
 .dateTime {
     font-size: 0.9rem;
     text-align: right;
 }
 
-/* 'Hjelp' button top-right */
+/* ================================
+   Help Button Styles
+================================ */
+
+/* Help button for assistance */
 .helpButton {
     background-color: red;
     color: white;
@@ -47,15 +59,21 @@
     padding: 0.8rem;
     border-radius: 10px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+/* Hover effect for the help button */
 .helpButton:hover {
     background-color: #ff7878;
 }
 
-/* Main content area, leaving room for fixed navbar */
+/* ================================
+   Content Container Styles
+================================ */
+
+/* Main content container */
 .contentContainer {
-    margin-top: 4rem; /* same as in QRAccessPage to avoid overlap */
+    margin-top: 4rem;
     width: 90%;
     max-width: 600px;
     display: flex;
@@ -63,7 +81,11 @@
     gap: 2rem;
 }
 
-/* Top info panel for Lokasjon, Nivå, Hendelse */
+/* ================================
+   Top Info Styles
+================================ */
+
+/* Top information box */
 .topInfo {
     background-color: #333;
     border-radius: 20px;
@@ -71,31 +93,40 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
+/* Heading inside the top information box */
 .topInfo h2 {
     margin-bottom: 1rem;
 }
 
-/* InfoItems container below the top panel */
+/* ================================
+   Info Items Styles
+================================ */
+
+/* Container for multiple information items */
 .infoItemsContainer {
     display: grid;
     grid-gap: 1rem;
 }
 
-/* Each InfoItem card */
+/* Individual information item */
 .infoItem {
     background-color: #333;
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* Welcome box */
+/* ================================
+   Welcome Box Styles
+================================ */
+
+/* Welcome box displayed on the page */
 .welcomeBox {
     margin-top: 4rem;
-    background-color: #1A1A1A; /* Same color as the navbar */
-    color: white; /* Text color */
-    padding: 1rem 2rem; /* Add padding for spacing */
-    border-radius: 10px; /* Curved edges */
-    text-align: center; /* Center the text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for depth */
+    background-color: #1A1A1A;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }

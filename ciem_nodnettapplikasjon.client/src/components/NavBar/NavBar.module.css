@@ -1,47 +1,73 @@
+/* ================================
+   Navbar Container Styles
+================================ */
+
+/* Main navbar container */
 .navbar {
     background-color: #1a1a1a;
     padding: 0.5rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* width: 97.503%; */
     width: auto;
     max-width: 100vw;
     height: 3.5rem;
-    overflow:visible;
+    overflow: visible;
     font-family: Arial, Helvetica, sans-serif;
-    z-index: 1000; /* Plasseres øverst. */
+    z-index: 1000;
 }
 
-.navbarRight,
-.navbarLeft,
-.navbarCenter {
-    display: flex;
-    align-items: center;
-}
+/* ================================
+   Navbar Layout Styles
+================================ */
+
+/* Left section of the navbar */
 .navbarLeft {
     flex: 1;
+    display: flex;
+    align-items: center;
     gap: 1rem;
 }
+
+/* Center section of the navbar */
 .navbarCenter {
     flex: 2;
+    display: flex;
     justify-content: center;
+    align-items: center;
 }
+
+/* Right section of the navbar */
 .navbarRight {
     flex: 1;
+    display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 1rem;
     position: relative;
 }
+
+/* ================================
+   Logo Styles
+================================ */
+
+/* Container for the logo */
 .logoContainer {
     display: flex;
     align-items: center;
 }
+
+/* Logo image */
 .logo {
     max-height: 55px;
     max-width: 55px;
 }
 
+/* ================================
+   Icon Styles
+================================ */
+
+/* Common styles for icons */
 .iconSearch,
 .menuIcon,
 .iconMail,
@@ -50,6 +76,8 @@
     font-size: 1.2rem;
     margin: 0 5px;
 }
+
+/* Hover effect for icons */
 .iconSearch:hover,
 .menuIcon:hover,
 .iconMail:hover,
@@ -57,11 +85,17 @@
     cursor: pointer;
 }
 
+/* ================================
+   Navbar Links Styles
+================================ */
+
+/* Container for navbar links */
 .navbarLinks {
     display: flex;
     gap: 5rem;
 }
 
+/* Individual navbar link */
 .navbarLink {
     color: hsl(0, 0%, 74%);
     text-decoration: none;
@@ -71,13 +105,74 @@
     transition: ease-in 0.1s;
 }
 
+/* Hover effect for navbar links */
 .navbarLink:hover {
     color: hwb(184 0% 25%);
     text-decoration: underline;
 }
 
+/* Active link styling */
+.activeLink {
+    color: white !important;
+    text-decoration: underline;
+    text-decoration-color: hsl(17, 100%, 50%);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
+/* ================================
+   User Dropdown Styles
+================================ */
+
+/* Container for the user icon and dropdown */
+.userContainer {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* Dropdown menu for logout */
+.logoutDropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    min-width: 120px;
+    white-space: nowrap;
+}
+
+/* Button inside the logout dropdown */
+.logoutDropdown button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    padding: 0.3rem 0;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover effect for logout button */
+.logoutDropdown button:hover {
+    background-color: #333;
+    color: red;
+}
+
+/* ================================
+   Responsive Styles
+================================ */
+
+/* Adjust layout for smaller screens */
 @media (max-width: 768px) {
-    /* Slik at det kan zoomes inn og fortsatt brukes*/
     .navbar {
         flex-direction: column;
         align-items: flex-start;
@@ -101,56 +196,10 @@
         flex-direction: column;
         gap: 10px;
     }
+
     .clockContainer {
         position: static;
         transform: none;
         margin-top: 10px;
     }
 }
-
-.activeLink {
-    color: white !important; /* Viser at man er på siden likt som på Figma. Important gjør at den ikke endrer ved hover*/
-    text-decoration: underline;
-    text-decoration-color: hsl(17, 100%, 50%);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-}
-
-.userContainer {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    z-index: 1000; 
-}
-
-.logoutDropdown {
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    background-color: #1a1a1a;
-    color: white;
-    padding: 0.6rem 1rem;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    z-index: 9999;
-    min-width: 120px;
-    white-space: nowrap;
-}
-
-    .logoutDropdown button {
-        background: none;
-        border: none;
-        color: white;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: 500;
-        text-align: left;
-        width: 100%;
-        padding: 0.3rem 0;
-        transition: background-color 0.2s ease;
-    }
-
-        .logoutDropdown button:hover {
-            background-color: #333;
-            color: red;
-        }

@@ -1,4 +1,8 @@
-/* Overall Container */
+/* ================================
+   General Container Styles
+================================ */
+
+/* Main container for the About Actor page */
 .aboutActorContainer {
     width: 100%;
     min-height: 100vh;
@@ -11,22 +15,62 @@
     gap: 20px;
 }
 
-/* TOP ROW */
+/* ================================
+   Top Row Styles
+================================ */
+
+/* Layout for the top row containing actor name and organization section */
 .topRow {
     display: flex;
     gap: 20px;
     align-items: flex-start;
 }
 
-/* Top Left Column: Actor Name & Contact Panels */
+/* Left column in the top row */
 .topLeftColumn {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.actorNamePanel,
+
+/* ================================
+   Actor Name Panel Styles
+================================ */
+
+/* Panel displaying the actor's name */
+.actorNamePanel {
+    min-height: 50px;
+    min-width: 300px;
+    max-width: none;
+    width: auto;
+    background-color: #1d1d1d;
+    border-radius: 8px;
+    color: #fff;
+    padding: 20px;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+/* Actor name heading inside the panel */
+.actorNamePanel h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* ================================
+   Contact Panel Styles
+================================ */
+
+/* Panel for the contact button */
 .contactPanel {
+    cursor: pointer;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 100px;
+    width: 300px;
     background-color: #1d1d1d;
     border-radius: 8px;
     color: #fff;
@@ -36,27 +80,18 @@
     justify-content: center;
     text-align: center;
 }
-.actorNamePanel {
-    min-height: 50px;
-    width: 300px;
-}
-.actorNamePanel h2 {
-    font-size: 2rem;
-    margin: 0;
-}
-.contactPanel {
-    cursor: pointer;
-    flex-direction: column;
-    gap: 8px;
-    min-height: 100px;
-    width: 300px;
-}
+
+/* Icon inside the contact panel */
 .contactIcon {
     width: 70px;
     height: 70px;
 }
 
-/* Top Right Column: Om Organisasjonen Panel */
+/* ================================
+   Organization Section Styles
+================================ */
+
+/* Organization section container */
 .orgSection {
     flex: 100;
     background-color: #1d1d1d;
@@ -66,26 +101,36 @@
     overflow-y: auto;
     min-height: 230px;
 }
+
+/* Header for the organization section */
 .orgHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
 }
+
+/* Left part of the organization header */
 .orgHeaderLeft {
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
+/* Icon inside the organization header */
 .orgIcon {
     width: 48px;
     height: 48px;
 }
+
+/* Title for the organization section */
 .sectionTitle {
     font-size: 1.5rem;
     font-weight: bold;
     margin: 0;
 }
+
+/* Edit button for the organization section */
 .editModeButton {
     background: none;
     border: none;
@@ -94,6 +139,12 @@
     padding: 4px;
     color: #fff;
 }
+
+/* ================================
+   Edit Buttons Styles
+================================ */
+
+/* Common styles for edit buttons */
 .editButtons button {
     margin-right: 5px;
     padding: 6px 10px;
@@ -102,14 +153,22 @@
     cursor: pointer;
     font-weight: bold;
 }
+
+/* Save changes button */
 .saveChangesButton {
     background-color: #5cb85c;
 }
+
+/* Cancel changes button */
 .cancelChangesButton {
     background-color: #d9534f;
 }
 
-/* BOTTOM PANELS */
+/* ================================
+   Bottom Panels Styles
+================================ */
+
+/* Layout for the bottom panels */
 .bottomPanels {
     display: flex;
     gap: 20px;
@@ -117,7 +176,11 @@
     flex-wrap: nowrap;
 }
 
-/* Infosjekkliste Panel (Bottom Left) */
+/* ================================
+   Info Section Styles
+================================ */
+
+/* Container for the info section */
 .infoSjekkContainer {
     flex: 1;
     min-width: 300px;
@@ -126,25 +189,35 @@
     padding: 20px;
     color: #fff;
 }
+
+/* Header for the info section */
 .infoHeader {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 10px;
 }
+
+/* Title with icon layout */
 .titleWithIcon {
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
+/* Icon inside the info section */
 .infoIcon {
     width: 48px;
     height: 48px;
 }
+
+/* Info content layout */
 .infoSjekkContent {
     display: flex;
     gap: 20px;
 }
+
+/* Left column in the info section */
 .infoLeft {
     flex: 1;
     background-color: #3a3a3a;
@@ -154,20 +227,28 @@
     flex-direction: column;
     gap: 10px;
 }
+
+/* Info field label */
 .infoField label {
     font-weight: bold;
 }
+
+/* Input and textarea in the info field */
 .infoField textarea,
 .infoField input {
     width: 100%;
     padding: 6px;
 }
+
+/* Right grid layout in the info section */
 .infoRightGrid {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
+
+/* Communication row layout */
 .kommunikasjonRow {
     display: flex;
     align-items: center;
@@ -175,9 +256,13 @@
     font-size: 0.9rem;
     margin-top: 10px;
 }
+
+/* Time given text */
 .gittTime {
     font-weight: bold;
 }
+
+/* Timestamp button */
 .timestampButton {
     background-color: #51aad3;
     border: none;
@@ -187,25 +272,37 @@
     cursor: pointer;
 }
 
-/* Underliggende Aktører Panel (Bottom Right) */
+/* ================================
+   Underlying Panel Styles
+================================ */
+
+/* Underlying panel container */
 .underliggendePanel {
     flex: 1;
     min-width: 300px;
-    background-color: #1d1d1d; /* Dark background restored */
+    background-color: #1d1d1d;
     color: #fff;
     border-radius: 8px;
     padding: 20px;
     overflow-y: auto;
 }
+
+/* Heading inside the underlying panel */
 .underliggendePanel h2 {
     font-size: 1.5rem;
     margin: 0 0 10px;
 }
+
+/* Full description text */
 .fullDescription {
     margin-bottom: 10px;
 }
 
-/* Actors List Section (if used) */
+/* ================================
+   Actors List Styles
+================================ */
+
+/* Container for the actors list */
 .actorsListContainer {
     background-color: #1d1d1d;
     border-radius: 8px;
@@ -213,21 +310,29 @@
     margin-bottom: 20px;
     color: #fff;
 }
+
+/* Header for the actors list */
 .actorsHeader {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 10px;
 }
+
+/* Icon inside the actors list header */
 .actorsIcon {
     width: 48px;
     height: 48px;
 }
+
+/* List of actors */
 .actorsList {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
+/* Individual actor item */
 .actorItem {
     background-color: #3a3a3a;
     padding: 6px 10px;
@@ -235,7 +340,11 @@
     margin-bottom: 6px;
 }
 
-/* Contact Popup Modal */
+/* ================================
+   Modal Styles
+================================ */
+
+/* Modal container */
 .modal {
     position: fixed;
     top: 0;
@@ -248,6 +357,8 @@
     align-items: center;
     z-index: 1000;
 }
+
+/* Content inside the modal */
 .modalContent {
     background: #fff;
     color: #000;
@@ -256,12 +367,12 @@
     max-width: 400px;
     width: 90%;
 }
-.contactHeader {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-}
+
+/* ================================
+   Miscellaneous Styles
+================================ */
+
+/* Close button for the popup */
 .closePopupButton {
     background-color: #d9534f;
     border: none;
@@ -271,12 +382,14 @@
     cursor: pointer;
 }
 
-/* InfoItem Styling */
+/* Info item container */
 .infoItem {
     background-color: #3a3a3a;
     border-radius: 8px;
     padding: 10px;
 }
+
+/* Edit button for info items */
 .infoItemEditButton {
     padding: 6px 10px;
     background-color: #51aad3;
@@ -285,38 +398,62 @@
     color: #fff;
     cursor: pointer;
 }
+
+/* Edit field layout */
 .editField {
     display: flex;
     gap: 8px;
     align-items: center;
     margin-bottom: 8px;
 }
+
+/* Display values text */
 .displayValues {
     margin-top: 8px;
     font-size: 0.95rem;
     color: #ddd;
 }
 
-/* Buttons for fixed actions in Infosjekkliste */
-.addInfoItemButton,
-.deleteInfoItemButton,
-.saveChangesButton,
-.cancelChangesButton {
+/* ================================
+   Buttons Styles
+================================ */
+
+/* Add info item button */
+.addInfoItemButton {
+    background-color: #51aad3;
     padding: 6px 10px;
     border: none;
     border-radius: 4px;
     color: #fff;
     cursor: pointer;
 }
-.addInfoItemButton {
-    background-color: #51aad3;
-}
+
+/* Delete info item button */
 .deleteInfoItemButton {
     background-color: #d9534f;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
 }
+
+/* Save changes button */
 .saveChangesButton {
     background-color: #5cb85c;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
 }
+
+/* Cancel changes button */
 .cancelChangesButton {
     background-color: #d9534f;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
 }

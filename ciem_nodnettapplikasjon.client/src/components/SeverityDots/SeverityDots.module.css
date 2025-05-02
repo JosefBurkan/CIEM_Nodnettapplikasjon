@@ -1,8 +1,18 @@
+/* ================================
+   Dots Container Styles
+================================ */
+
+/* Container for the severity dots */
 .dotsContainer {
     display: flex;
-    gap: 4px; /* Space between dots */
+    gap: 4px;
 }
 
+/* ================================
+   Dot Styles
+================================ */
+
+/* Individual dot representing severity level */
 .dot {
     width: 16px;
     height: 16px;

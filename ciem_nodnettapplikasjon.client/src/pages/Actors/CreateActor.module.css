@@ -1,4 +1,9 @@
-\.container {
+/* ================================
+   Container Styles
+================================ */
+
+/* Main container for the Create Actor page */
+.container {
     background-color: #1a1a1a;
     color: #fff;
     padding: 2rem;
@@ -6,6 +11,11 @@
     box-sizing: border-box;
 }
 
+/* ================================
+   Form Styles
+================================ */
+
+/* Form container */
 .form {
     display: flex;
     flex-direction: column;
@@ -14,6 +24,11 @@
     margin: 0 auto;
 }
 
+/* ================================
+   Input Styles
+================================ */
+
+/* Common styles for text, select, and textarea inputs */
 .textInput,
 .selectInput,
 .textArea {
@@ -24,11 +39,17 @@
     padding: 0.5rem;
 }
 
+/* Textarea-specific styles */
 .textArea {
     min-height: 80px;
     resize: vertical;
 }
 
+/* ================================
+   Button Styles
+================================ */
+
+/* Button for creating a new actor */
 .createButton {
     background-color: #000;
     color: #fff;
@@ -39,10 +60,16 @@
     transition: transform 0.3s;
 }
 
+/* Hover effect for the create button */
 .createButton:hover {
     transform: scale(1.05);
 }
 
+/* ================================
+   Success Message Styles
+================================ */
+
+/* Success message displayed after creating an actor */
 .successMessage {
     background-color: green;
     color: white;

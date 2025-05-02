@@ -50,27 +50,6 @@ const ActiveActorsWidget = () => {
 
             <div className={styles.footer}>
                 <button className={styles.loadMore}>Last inn mer...</button>
-
-                {/* Warning Corner */}
-                <div className={styles.warningCorner}>
-                    <div className={styles.warningCount}>4</div>
-                    <div className={styles.warningIcon}>
-                        {/* SVG Warning Icon */}
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="white"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path d="M12 9v4"></path>
-                            <path d="M12 17h.01"></path>
-                            <path d="M21 21H3L12 2l9 19z"></path>
-                        </svg>
-                    </div>
-                </div>
             </div>
         </div>
     );

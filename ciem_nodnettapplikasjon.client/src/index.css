@@ -1,6 +1,5 @@
 html,
 body {
-    /*  Setter margin og padding til 0 slik for å gjøre CSS til de andre sidene lettere */
     margin: 0;
     padding: 0;
     scrollbar-width: none;

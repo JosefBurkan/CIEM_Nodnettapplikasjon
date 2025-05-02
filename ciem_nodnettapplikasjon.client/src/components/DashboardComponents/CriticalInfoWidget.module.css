@@ -1,3 +1,8 @@
+/* ================================
+   Widget Container Styles
+================================ */
+
+/* Main container for the widget */
 .widgetContainer {
     background-color: #1A1A1A;
     border-radius: 30px;
@@ -6,10 +11,15 @@
     width: 90%;
     max-width: 420px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    overflow: hidden; /* Prevents any content from protruding */
+    overflow: hidden;
     margin-top: 40px;
 }
 
+/* ================================
+   Header Styles
+================================ */
+
+/* Header section of the widget */
 .header {
     background: #006C74;
     color: white;
@@ -29,6 +39,7 @@
     z-index: 2;
 }
 
+/* Red circular icon in the header */
 .header .icon {
     width: 12px;
     height: 12px;
@@ -37,17 +48,27 @@
     margin-right: 8px;
 }
 
+/* ================================
+   Info Grid Styles
+================================ */
+
+/* Grid layout for displaying information boxes */
 .infoGrid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two-column layout */
-    gap: 8px; /* Adjust spacing */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
     justify-content: center;
-    align-items: stretch; /* Ensures equal height */
+    align-items: stretch;
     width: 100%;
-    box-sizing: border-box; /* Ensures padding doesn’t overflow */
-    padding-bottom: 10px; /* Prevents content from being cut off */
+    box-sizing: border-box;
+    padding-bottom: 10px;
 }
 
+/* ================================
+   Info Box Styles
+================================ */
+
+/* Individual information box */
 .infoBox {
     background: white;
     padding: 12px;
@@ -55,12 +76,12 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     font-size: 12px;
     line-height: 1.4;
-    width: 100%; /* Makes sure they don’t exceed their column */
+    width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* Ensures content doesn’t leak */
+    overflow: hidden;
 }
 
-/* Ensure it stays within bounds */
+/* Header inside each info box */
 .infoHeader {
     font-weight: bold;
     margin-bottom: 5px;
@@ -69,15 +90,20 @@
     text-overflow: ellipsis;
 }
 
+/* Content inside each info box */
 .infoContent strong {
     display: inline-block;
     width: 80px;
 }
 
-/* ===== Mobile Responsiveness: Stack Boxes ===== */
+/* ================================
+   Responsive Styles
+================================ */
+
+/* Adjust layout for smaller screens */
 @media (max-width: 768px) {
     .infoGrid {
-        grid-template-columns: 1fr; /* Stack boxes in one column */
+        grid-template-columns: 1fr;
         gap: 10px;
     }
 

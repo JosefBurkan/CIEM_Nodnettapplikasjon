@@ -1,4 +1,8 @@
-/* General container styles */
+/* ================================
+   Container Styles
+================================ */
+
+/* Main container for the Civilian Form page */
 .container {
     display: flex;
     flex-direction: column;
@@ -6,12 +10,16 @@
     justify-content: center;
     padding: 1rem;
     font-family: Arial, sans-serif;
-    background-color: #d1d1d1; /* Dark background */
+    background-color: #d1d1d1;
     color: white;
     min-height: 100vh;
 }
 
-/* Navbar styles */
+/* ================================
+   Navbar Styles
+================================ */
+
+/* Navbar at the top of the page */
 .navbar {
     width: 100%;
     background-color: #1A1A1A;
@@ -28,19 +36,24 @@
     box-sizing: border-box;
 }
 
+/* Logo inside the navbar */
 .navbar img {
     height: 40px;
 }
 
+/* Date and time display in the navbar */
 .navbar .date-time {
     font-size: 0.9rem;
     text-align: right;
 }
 
-/* Form container styles */
-/* Form container styles */
+/* ================================
+   Form Container Styles
+================================ */
+
+/* Container for the form */
 .formContainer {
-    margin-top: 6rem; /* Space for the navbar */
+    margin-top: 6rem;
     background-color: #333;
     border-radius: 20px;
     padding: 3rem;
@@ -48,64 +61,71 @@
     max-width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     text-align: center;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-
+/* Heading inside the form container */
 .formContainer h2 {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     color: white;
 }
 
+/* Paragraph inside the form container */
 .formContainer p {
     font-size: 0.9rem;
     margin-bottom: 2rem;
     color: #ccc;
 }
 
-/* Form styles */
-/* Form styles */
+/* ================================
+   Form Styles
+================================ */
+
+/* Form element */
 .form {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center child elements */
+    align-items: center;
     gap: 1rem;
     width: 100%;
-    
 }
 
+/* Input, button, and textarea fields inside the form */
 .form input,
 .form button,
 .form textarea {
-    width: 100%; /* Ensure full width for input and button */
+    width: 100%;
     max-width: 100%;
 }
-.form textarea { /* begrensninger i textarea'en */ 
-  resize: vertical;
-  min-height: 80px;
-  max-height: 300px;
+
+/* Textarea-specific styles */
+.form textarea {
+    resize: vertical;
+    min-height: 80px;
+    max-height: 300px;
 }
 
+/* Input field styles */
 .form input {
     padding: 0.8rem;
     font-size: 1rem;
     border: none;
     border-radius: 10px;
-    background-color: #444; /* Darker gray background */
+    background-color: #444;
     color: white;
     outline: none;
-    width: 100%;
 }
 
+/* Placeholder text styling */
 .form input::placeholder {
-    color: #aaa; /* Light gray placeholder text */
+    color: #aaa;
 }
 
+/* Button styles */
 .form button {
     padding: 0.8rem;
     font-size: 1rem;
@@ -117,12 +137,17 @@
     transition: all 0.3s ease;
 }
 
+/* Hover effect for the button */
 .form button:hover {
     background-color: red;
     color: black;
 }
 
-/* Success message styles */
+/* ================================
+   Success and Error Styles
+================================ */
+
+/* Success message displayed after form submission */
 .success {
     text-align: center;
     margin-top: 5rem;
@@ -130,7 +155,7 @@
     color: #28a745;
 }
 
-/* Error message styles */
+/* Error message displayed when required parameters are missing */
 .error {
     text-align: center;
     margin-top: 5rem;
@@ -138,7 +163,11 @@
     color: #dc3545;
 }
 
-/* Responsive design for smaller screens */
+/* ================================
+   Responsive Styles
+================================ */
+
+/* Adjust layout for smaller screens */
 @media (max-width: 600px) {
     .formContainer {
         padding: 1.5rem;

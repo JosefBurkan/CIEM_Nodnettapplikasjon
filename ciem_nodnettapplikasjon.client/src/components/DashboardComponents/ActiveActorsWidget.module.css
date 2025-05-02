@@ -1,67 +1,83 @@
-/* Overall widget container */
+/* ================================
+   Widget Container Styles
+================================ */
+
+/* Main container for the widget */
 .widget {
-    background-color: #1A1A1A; /* Match InfoPanel background */
-    border-radius: 8px; /* Match InfoPanel border radius */
-    padding: 15px; /* Match InfoPanel padding */
+    background-color: #1A1A1A;
+    border-radius: 8px;
+    padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     width: 100%;
     position: relative;
 }
 
-/* Header styling */
+/* ================================
+   Header Styles
+================================ */
+
+/* Header section of the widget */
 .header {
-    background-color: #006C74; /* Teal color */
+    background-color: #006C74;
     color: white;
     font-weight: bold;
     padding: 10px;
-    font-size: 1rem; /* Match InfoPanel font size */
-    border-radius: 8px 8px 0 0; /* Rounded top corners */
+    font-size: 1rem;
+    border-radius: 8px 8px 0 0;
     text-align: center;
 }
 
-/* List of actors */
+/* ================================
+   Actors List Styles
+================================ */
+
+/* Container for the list of actors */
 .actorsList {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Space between actor rows */
+    gap: 10px;
     margin-top: 10px;
 }
 
-/* Individual actor row */
+/* Individual row for each actor */
 .actorRow {
-    background-color: #2A2A2A; /* Match InfoPanel field background */
+    background-color: #2A2A2A;
     padding: 10px;
-    border-radius: 8px; /* Match InfoPanel field border radius */
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Actor name styling */
+/* Actor name text */
 .actorName {
     font-weight: bold;
-    font-size: 0.9rem; /* Match InfoPanel font size */
+    font-size: 0.9rem;
     color: white;
 }
 
-/* Status icons container */
+/* ================================
+   Status Icons Styles
+================================ */
+
+/* Container for status icons */
 .statusIcons {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* Icon with number styling */
+/* Icon with a number next to it */
 .iconWithNumber {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 0.9rem; /* Match InfoPanel font size */
+    font-size: 0.9rem;
     color: white;
 }
 
-/* Green icon styling */
+/* Green status icon */
 .greenIcon {
     background-color: #047400;
     border-radius: 50%;
@@ -73,7 +89,7 @@
     font-weight: bold;
 }
 
-/* Red icon styling */
+/* Red status icon */
 .redIcon {
     background-color: #FF3F3F;
     border-radius: 50%;
@@ -85,7 +101,7 @@
     font-weight: bold;
 }
 
-/* Orange icon styling */
+/* Orange status icon */
 .orangeIcon {
     background-color: #f0ad4e;
     border-radius: 50%;
@@ -97,6 +113,11 @@
     font-weight: bold;
 }
 
+/* ================================
+   Footer Styles
+================================ */
+
+/* Footer section of the widget */
 .footer {
     display: flex;
     justify-content: space-between;
@@ -106,6 +127,7 @@
     position: relative;
 }
 
+/* Load more button */
 .loadMore {
     background-color: rgb(201, 189, 189);
     border: none;
@@ -115,59 +137,3 @@
     font-weight: bold;
 }
 
-/* WARNING CORNER STYLING */
-.warningCorner {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: #FF3F3F; /* Red background */
-    width: 95px;
-    height: 65px;
-    border-top-left-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    overflow: visible;
-}
-
-.warningContent {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.warningCount {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: white;
-    color: #FF3F3F;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    font-weight: bold;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.warningIcon {
-    position: relative;
-    width: 40px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Optional - SVG size control */
-.warningIcon svg {
-    width: 50px;
-    height: 50px;
-}

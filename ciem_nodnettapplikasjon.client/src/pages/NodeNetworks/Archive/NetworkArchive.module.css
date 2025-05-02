@@ -1,3 +1,8 @@
+/* ================================
+   Container Styles
+================================ */
+
+/* Main container for the Network Archive page */
 .container {
     background-color: #1a1a1a;
     color: #fff;
@@ -6,13 +11,22 @@
     box-sizing: border-box;
 }
 
+/* ================================
+   Title Styles
+================================ */
+
+/* Title displayed at the top of the page */
 .title {
     font-size: 2rem;
     text-align: center;
     margin-bottom: 2rem;
 }
 
+/* ================================
+   Controls Styles
+================================ */
 
+/* Container for input fields and buttons */
 .controls {
     display: flex;
     gap: 1rem;
@@ -20,7 +34,7 @@
     margin-bottom: 2rem;
 }
 
-
+/* Input field for search or filtering */
 .inputField {
     padding: 0.5rem;
     font-size: 1rem;
@@ -30,6 +44,7 @@
     border-radius: 4px;
 }
 
+/* Button for creating a new network */
 .createButton {
     padding: 0.5rem 1rem;
     background-color: #ff3f3f;
@@ -41,10 +56,16 @@
     transition: transform 0.2s;
 }
 
+/* Hover effect for the create button */
 .createButton:hover {
     transform: scale(1.05);
 }
 
+/* ================================
+   Grid Styles
+================================ */
+
+/* Grid layout for displaying network cards */
 .grid {
     display: grid;
     gap: 1rem;
@@ -52,7 +73,11 @@
     justify-items: center;
 }
 
+/* ================================
+   Network Card Styles
+================================ */
 
+/* Individual card representing a network */
 .networkCard {
     width: 140px;
     height: 140px;
@@ -68,23 +93,26 @@
     text-align: center;
 }
 
-
+/* Hover effect for the network card */
 .networkCard:hover {
     transform: scale(1.05);
 }
 
+/* Icon inside the network card */
 .networkCard img {
     width: 60px;
     height: 60px;
     margin-bottom: 0.5rem;
 }
 
+/* Icon styling for the network card */
 .cardIcon {
     width: 60px;
     height: 60px;
     margin-bottom: 0.5rem;
 }
 
+/* Name of the network displayed in the card */
 .networkName {
     font-size: 1rem;
     font-weight: bold;

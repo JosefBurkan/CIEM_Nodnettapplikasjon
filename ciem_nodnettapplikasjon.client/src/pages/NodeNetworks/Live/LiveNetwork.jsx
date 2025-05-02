@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getTemplateNodes } from "../../../components/TemplateHandler"; 
 import { useScreenshot } from "use-react-screenshot"; // legg til øverst!
 import { supabase } from '../../../utils/supabaseClient'; // Client used for real-time updates
+import InfoPanel from "../../../components/InfoPanel/InfoPanel";
 
 const proOptions = { hideAttribution: true };
 
@@ -101,7 +102,6 @@ function LiveNetwork() {
   const [addActorStep, setAddActorStep] = useState("choose");
   const [isReady, setIsReady] = useState(false);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [InfoPanel, setInfoPanel] = useState([]);
 
   // Skriv kommentar her
   const [image, takeScreenshot] = useScreenshot();
@@ -161,21 +161,6 @@ function LiveNetwork() {
   useEffect(() => {
     if (networkId) fetchNodeNetworks();
   }, [networkId]);
-
-  // Fetch the 'Info Control' data
-  const getInfoPanel = async () =>
-  {
-    try
-    {
-      const response = await fetch("https://localhost:5255/api/InfoPanel/retrieveInfoPanel");
-      const data = await response.json();
-      setInfoPanel(data);
-    }
-    catch (error)
-    {
-      console.log(error);
-    }
-  }
 
   const updateLayout = useCallback(() => {
     if (nodeNetwork && nodeNetwork.nodes) {
@@ -295,27 +280,6 @@ function LiveNetwork() {
     },
     [reactFlowInstance, initialNodes]
   );
-
-
-  // Subscribe to database for real-time updates
-  useEffect(() => {
-    getInfoPanel();
-    supabase
-        .channel('InfoPanel-db-changes')
-        .on(
-            'postgres_changes',
-            {
-                event: '*',
-                schema: 'public',
-                table: 'InfoPanel',
-            },
-            (payload) => {
-              getInfoPanel();
-              console.log(payload);
-            }
-        )
-        .subscribe();
-  }, []);
 
   // Generate the node network
   useEffect(() => {
@@ -696,78 +660,66 @@ function LiveNetwork() {
                   setActiveTab("info");
                 }}
               >
-            Infokontroll
+            Info Panel
           </button>
         </div>
-          <div className={styles.tabContent}>
-            {activeTab === "details" && selectedNode && (
-              <div>
-                <h3>{selectedNode.data.label}</h3>
-                <p>{selectedNode.data.info}</p>
-                <p>Fyll inn mer detaljer her...</p>
+          <div className={`${styles.tabContent} ${activeTab === "info" ? styles.infoTabContent : ""}`}>
+    {activeTab === "details" && selectedNode && (
+        <div>
+            <h3>{selectedNode.data.label}</h3>
+            <p>{selectedNode.data.info}</p>
+            <p>Fyll inn mer detaljer her...</p>
 
-                <button
-                  className={styles.showPathButton}
-                  onClick={() => showPath(selectedNode)}
-                  >
-                    Vis sti
-                </button>
-                <button className={styles.deleteButton} onClick={handleDeleteNode}>
-                  Slett node
-                </button>
-              </div>
-            )}
+            <button
+                className={styles.showPathButton}
+                onClick={() => showPath(selectedNode)}
+            >
+                Vis sti
+            </button>
+            <button className={styles.deleteButton} onClick={handleDeleteNode}>
+                Slett node
+            </button>
+        </div>
+    )}
 
-                          {activeTab === "details" && !selectedNode && (
-                              <>
-                                  <div>
-                                      <h3>{nodeNetwork.name}</h3>
-                                      <p>Status: {nodeNetwork.status}</p>
-                                  </div>
-                              </>
-                          )}
+    {activeTab === "details" && !selectedNode && (
+        <>
+            <div>
+                <h3>{nodeNetwork.name}</h3>
+                <p>Status: {nodeNetwork.status}</p>
+            </div>
+        </>
+    )}
 
-            {/* Aktører */}
-            {activeTab === "actors" && nodeNetwork?.nodes && (
-              <ul>
-                <button
-                  className={styles.addActorButton}
-                  onClick={() => {
+    {activeTab === "actors" && nodeNetwork?.nodes && (
+        <ul>
+            <button
+                className={styles.addActorButton}
+                onClick={() => {
                     setAddActorStep("choose");
                     setShowAddActorModal(true);
-                  }}
-                >
-                  + Ny Aktør
-                </button>
-                {nodeNetwork.nodes.map((node) => (
-                  <button
+                }}
+            >
+                + Ny Aktør
+            </button>
+            {nodeNetwork.nodes.map((node) => (
+                <button
                     key={node.nodeID}
                     className={styles.actorList}
                     onClick={() => focusNode(node)}
-                  >
+                >
                     {node.name}
-                  </button>
-                ))}
-              </ul>
-            )}
+                </button>
+            ))}
+        </ul>
+    )}
 
-          {/* Infokontroll */}
-            {activeTab === "info" && (
-                <div>
-                  <p>HENSPE</p>
-                {InfoPanel.map((info, index) => (
-                  <p key={index}>
-                    Hendelse: {info.eventName} <br/>
-                    Eksakt posisjon: {info.exactPosition} <br/>
-                    Nivå: {info.level} <br/>
-                    Sikkerhet: {info.security} <br/>
-                    Pasienter: {info.patients} <br/>
-                    Evakuering: {info.evacuation} <br/>
-                  </p>
-                ))}
-              </div>
-            )}
+    {activeTab === "info" && (
+        <div>
+            <InfoPanel layout="vertical" />
         </div>
+    )}
+</div>
       </div>
     </div>
 

@@ -1,15 +1,8 @@
-/* body{
-    background-color: #1a1a1a;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-} */
+/* ================================
+   Login Page Styles
+================================ */
 
+/* Main container for the login page */
 .loginPage {
     top: 0;
     left: 0;
@@ -24,12 +17,22 @@
     position: absolute;
 }
 
+/* ================================
+   Logo Styles
+================================ */
+
+/* Logo displayed on the login page */
 .logo {
     width: 200px;
     height: auto;
     margin-bottom: 3em;
 }
 
+/* ================================
+   Help Box Styles
+================================ */
+
+/* Help box at the bottom-right corner */
 .helpBox {
     position: absolute;
     bottom: 20px;
@@ -44,16 +47,24 @@
     border-radius: 25px;
     border: none;
 }
+
+/* Hover effect for the help box */
 .helpBox:hover {
     background-color: hsl(0, 0%, 18%);
 }
 
+/* ================================
+   Input Field Styles
+================================ */
+
+/* Container for the input fields */
 .inputContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* Input fields for username and password */
 .inputField {
     width: 400px;
     padding: 18px;
@@ -65,11 +76,35 @@
     margin-bottom: 25px;
     font-size: 1em;
 }
+
+/* Placeholder text styling */
 .inputField::placeholder {
     color: #bbb;
     text-transform: uppercase;
 }
 
+/* Autofill styling for input fields */
+.inputField:-webkit-autofill {
+    background-color: #595959 !important;
+    color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #595959 inset !important;
+}
+
+.inputField:-webkit-autofill,
+.inputField:-webkit-autofill:hover,
+.inputField:-webkit-autofill:focus,
+.inputField:-webkit-autofill:active {
+    background-color: #595959 !important;
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ================================
+   Button Styles
+================================ */
+
+/* Login button */
 .loginButton {
     width: 150px;
     padding: 15px;
@@ -83,33 +118,26 @@
     transition: 0.3s;
     margin-bottom: 1rem;
 }
+
+/* Disabled state for the login button */
 .loginButton:disabled {
     background-color: #3a3a3a;
     cursor: not-allowed;
     color: hsl(0, 0%, 70%);
 }
+
+/* Hover effect for the login button */
 .loginButton:hover {
     background-color: hsl(184, 100%, 18%);
 }
-.inputField:-webkit-autofill {
-    background-color: #595959 !important;
-    color: white !important; /*  Kode funnet på nett for å forhindre at autofullføring   */
-    -webkit-box-shadow: 0 0 0px 1000px #595959 inset !important; /*  av nettleser påvirker CSS i brukernavn feltet.          */
-}
-.inputField:-webkit-autofill,
-.inputField:-webkit-autofill:hover, 
-.inputField:-webkit-autofill:focus,         /*  Kode funnet på nett for å forhindre at autofullføring   */
-.inputField:-webkit-autofill:active {
-    /*  av nettleser påvirker CSS i brukernavn feltet.          */
-    background-color: #595959 !important;
-    color: white !important;
-    -webkit-text-fill-color: white !important;
-    transition: background-color 5000s ease-in-out 0s;
-}
 
+/* ================================
+   Responsive Styles
+================================ */
+
+/* Hide the help box on smaller screens */
 @media (max-width: 800px) {
-    /* Når skjermbredden er under 800px */
     .helpBox {
-        display: none; /* Skjuler hjelpboksen - // fin hjelp her ja*/
+        display: none;
     }
 }

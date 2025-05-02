@@ -1,41 +1,160 @@
+/* ================================
+   Container Styles
+================================ */
+
+/* Main container for the Node Networks page */
 .container {
-    background-color: rgb(5, 107, 107); /* Dark mode background */
+    background-color: rgb(5, 107, 107);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* ================================
+   Dashboard Layout Styles
+================================ */
+
+/* Dashboard layout container */
 .dashboard {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
+/* Left section of the dashboard */
 .leftSection {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  overflow-y: auto;
-  scrollbar-width: none;
-  padding-bottom: 200px;
-  box-sizing: border-box;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding-bottom: 200px;
+    box-sizing: border-box;
 }
 
+/* Right section of the dashboard */
 .rightSection {
-  background: #d2d2d2; /* Gray background */
-  width: 35%; /* ✅ Expands to half the screen */
-  height: 100vh; /* ✅ Ensures it takes full height */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 200px; /* ✅ Adds spacing between the boxes */
-  /* border-radius: 25px 0 0 25px; */
+    background: #d2d2d2;
+    width: 35%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 200px;
 }
 
-/* RESPONSIVENESS */
+/* ================================
+   Grid Styles
+================================ */
+
+/* Grid layout for displaying live situations */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    justify-items: center;
+    margin-top: 40px;
+}
+
+/* ================================
+   Card Styles
+================================ */
+
+/* Link wrapping each card */
+.cardLink {
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* Individual card for live situations */
+.card {
+    background-color: white;
+    border-radius: 39px;
+    border: 10px solid black;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    position: relative;
+    width: 400px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 25px;
+}
+
+/* Content inside the card */
+.cardContent {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* Image inside the card */
+.networkImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Placeholder text for cards without an image */
+.placeholder {
+    color: #888;
+    font-size: 0.9rem;
+    padding: 20px;
+    text-align: center;
+}
+
+/* LIVE tag displayed on live situations */
+.liveTag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 6px;
+    z-index: 20;
+}
+
+/* Network name displayed on the card */
+.networkName {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff3b3b;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 6px 20px;
+    border-radius: 15px;
+    z-index: 30;
+    white-space: nowrap;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Wrapper for the image inside the card */
+.imageWrapper {
+    margin-top: 10px;
+}
+
+/* ================================
+   Responsiveness
+================================ */
+
+/* Adjust layout for smaller screens */
 @media (max-width: 1024px) {
     .dashboard {
         display: flex;
@@ -46,91 +165,4 @@
     .rightSection {
         margin-top: 20px;
     }
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-  justify-items: center;
-  margin-top: 40px;
-}
-
-.cardLink {
-  text-decoration: none;
-  width: 100%;
-  height: 100%;
-}
-
-.card {
-  background-color: white;
-  border-radius: 39px;
-  border: 10px solid black;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  position: relative;
-  width: 400px;
-  height: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 25px;
-}
-
-.cardContent {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f7f7f7;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-}
-
-.networkImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.placeholder {
-  color: #888;
-  font-size: 0.9rem;
-  padding: 20px;
-  text-align: center;
-}
-
-.liveTag {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: red;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 6px;
-  z-index: 20;
-}
-
-.networkName {
-  position: absolute;
-  top: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #ff3b3b;
-  color: white;
-  font-weight: bold;
-  font-size: 0.9rem;
-  padding: 6px 20px;
-  border-radius: 15px;
-  z-index: 30;
-  white-space: nowrap;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
-}
-
-.imageWrapper {
-  margin-top: 10px;
 }

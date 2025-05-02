@@ -1,3 +1,8 @@
+/* ================================
+   Search Bar Container Styles
+================================ */
+
+/* Main container for the search bar */
 .searchContainer {
     display: flex;
     align-items: center;
@@ -7,21 +12,41 @@
     width: 18rem;
     position: relative;
 }
+
+/* ================================
+   Search Bar Styles
+================================ */
+
+/* Wrapper for the search bar elements */
 .searchBar {
     display: flex;
     align-items: center;
     width: 100%;
 }
+
+/* ================================
+   Icon Styles
+================================ */
+
+/* Common styles for search and menu icons */
 .iconSearch,
 .menuIcon {
     color: hsl(0, 0%, 80%);
     font-size: 1.2rem;
     margin: 0 5px;
 }
+
+/* Hover effect for icons */
 .iconSearch:hover,
 .menuIcon:hover {
     cursor: pointer;
 }
+
+/* ================================
+   Input Styles
+================================ */
+
+/* Input field for the search bar */
 .searchInput {
     flex: 1;
     background-color: transparent;
@@ -31,10 +56,17 @@
     outline: none;
     font-size: 1rem;
 }
+
+/* Placeholder text styling */
 .searchInput::placeholder {
     color: hsl(0, 0%, 70%);
 }
 
+/* ================================
+   Dropdown Styles
+================================ */
+
+/* Dropdown container for search suggestions */
 .dropdown {
     position: absolute;
     top: 100%;
@@ -50,11 +82,14 @@
     z-index: 1000;
 }
 
+/* Individual item in the dropdown */
 .dropdownItem {
     padding: 8px 10px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
 }
+
+/* Hover effect for dropdown items */
 .dropdownItem:hover {
     background-color: #f0f0f0;
 }
