@@ -28,3 +28,7 @@ Create a .env file inside the root of the .Server folder. Add the following vari
 DefaultConnection="YourDatabaseConnectionStringHere"
 This will be the the connection used for the database
 
+## Code structure
+Most of the code is finished, but in some places like LiveNetwork.jsx, it still needs to be split into components.
+Some other files have poorly structured code as well.
+
