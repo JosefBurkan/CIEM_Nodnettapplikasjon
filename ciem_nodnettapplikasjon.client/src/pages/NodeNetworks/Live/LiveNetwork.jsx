@@ -108,7 +108,8 @@ function LiveNetwork() {
 
   // Takes a screenshot of the network and saves it to localStorage
   const [image, takeScreenshot] = useScreenshot();
-  const reactFlowWrapperRef = useRef(null); 
+  const reactFlowWrapperRef = useRef(null);
+
   useEffect(() => {
     if (reactFlowInstance && isReady) {
       setTimeout(() => {
