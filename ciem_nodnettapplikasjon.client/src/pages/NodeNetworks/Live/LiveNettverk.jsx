@@ -105,7 +105,8 @@ function LiveNettverk() {
 
   // Skriv kommentar her
   const [image, takeScreenshot] = useScreenshot();
-  const reactFlowWrapperRef = useRef(null); 
+  const reactFlowWrapperRef = useRef(null);
+
   useEffect(() => {
     if (reactFlowInstance && isReady) {
       setTimeout(() => {
@@ -296,7 +297,6 @@ function LiveNettverk() {
     [reactFlowInstance, initialNodes]
   );
 
-
   // Subscribe to database for real-time updates
   useEffect(() => {
     getInfoPanel();
@@ -356,7 +356,6 @@ function LiveNettverk() {
         }
     }, 0);
   }, [reactFlowInstance, updateLayout]);
-
 
   // Viser kun stien (ancestors + noden selv)
   const showPath = useCallback(
