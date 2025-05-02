@@ -6,7 +6,7 @@ Frameworks:
 - [.NET 8]
 - [Node.js and npm]
 
-## Tec stack
+## Technology
 - ASP.NET Core (C#) — Backend API
 - React (with Vite) — Frontend UI
 - Supabase - Database
