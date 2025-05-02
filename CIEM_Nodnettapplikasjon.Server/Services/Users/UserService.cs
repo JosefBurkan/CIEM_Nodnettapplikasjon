@@ -29,7 +29,7 @@ namespace CIEM_Nodnettapplikasjon.Server.Services.Users
             {
                 return true;
             }
-
+            
             return false;
         }
 
