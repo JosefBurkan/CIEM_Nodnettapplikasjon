@@ -28,7 +28,7 @@ function NewNetwork() {
     };
 
     try {
-      const response = await fetch('https://localhost:5255/api/NetworkBuilder/create', {
+      const response = await fetch('https://ciem-nodnettapplikasjon.onrender.com/api/NetworkBuilder/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newNetwork),

@@ -18,7 +18,7 @@ function Dashboard() {
     // Fetch situations from the API
     const fetchSituations = useCallback(async () => {
         try {
-            const response = await fetch('https://localhost:5255/api/NodeNetworks/all-situations');
+            const response = await fetch('https://ciem-nodnettapplikasjon.onrender.com/api/NodeNetworks/all-situations');
             if (!response.ok) throw new Error('Failed to fetch situations');
             const data = await response.json();
             setSituations(data);
@@ -39,7 +39,7 @@ function Dashboard() {
         }
 
         try {
-            const response = await fetch(`https://localhost:5255/api/User/current/${username}`);
+            const response = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/User/current/${username}`);
             if (!response.ok) throw new Error('User not found');
             const data = await response.json();
             setUser(data);

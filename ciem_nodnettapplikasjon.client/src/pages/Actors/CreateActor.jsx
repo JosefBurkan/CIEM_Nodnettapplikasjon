@@ -27,7 +27,7 @@ function CreateActor() {
     // Fetch actors to use actor names for the drop down meny
     const fetchActors = async () => {
         const response = await fetch(
-            'https://localhost:5255/api/actor'
+            'https://ciem-nodnettapplikasjon.onrender.com/api/actor'
         );
         const data = await response.json();
         setExistingActor(data);
@@ -81,7 +81,7 @@ function CreateActor() {
 
         try {
             const response = await fetch(
-                'https://localhost:5255/api/actor/CreateActor',
+                'https://ciem-nodnettapplikasjon.onrender.com/api/actor/CreateActor',
                 {
                     method: 'POST',
                     headers: {
@@ -124,7 +124,7 @@ function CreateActor() {
 
         try {
             const response = await fetch(
-                'https://localhost:5255/api/actor/CreateSubActor',
+                'https://ciem-nodnettapplikasjon.onrender.com/api/actor/CreateSubActor',
                 {
                     method: 'POST',
                     headers: {

@@ -19,7 +19,7 @@ function QRcodePage() {
         }
 
         try {
-            const res = await fetch(`https://localhost:5255/api/nodes/user/${userId}`);
+            const res = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/nodes/user/${userId}`);
             if (!res.ok) {
                 const msg = await res.text();
                 throw new Error(msg || 'Feil ved henting av kode.'); // Throws an error if the response is not OK
@@ -43,7 +43,7 @@ function QRcodePage() {
     }
 
     // Constructs the QR code link
-    const qrCodeLink = `https://localhost:5173/#/civilianForm?parentId=${userNode.nodeID}&token=${user.qr_token}`;
+    const qrCodeLink = `emkore.vercel.app/#/civilianForm?parentId=${userNode.nodeID}&token=${user.qr_token}`;
 
     return (
         <div style={{ textAlign: 'center', marginTop: '4rem' }}>

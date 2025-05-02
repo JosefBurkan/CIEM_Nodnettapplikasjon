@@ -29,7 +29,7 @@ function CivilianForm() {
     };
 
     try {
-      const res = await fetch('https://localhost:5255/api/qr/add-node', {
+      const res = await fetch('https://ciem-nodnettapplikasjon.onrender.com/api/qr/add-node', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

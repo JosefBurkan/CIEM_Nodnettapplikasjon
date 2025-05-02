@@ -12,7 +12,7 @@ export default function InfoPanel({ layout = "horizontal", showComm = true, hide
   // Memoized function to fetch data for the InfoPanel from the API
   const getInfoPanel = useCallback(async () => {
     try {
-      const response = await fetch("https://localhost:5255/api/InfoPanel/retrieveInfoPanel");
+      const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/InfoPanel/retrieveInfoPanel");
       const data = await response.json();
       setItems(data); // Updates the state with fetched data
       console.log(data); // Logs the data for debugging

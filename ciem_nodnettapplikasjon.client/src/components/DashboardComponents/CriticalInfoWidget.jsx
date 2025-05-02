@@ -14,7 +14,7 @@ const CriticalInfoWidget = () => {
     // It uses the Fetch API to make a GET request to the specified endpoint
     const getInfoPanel = async () => {
         try {
-            const response = await fetch("https://localhost:5255/api/InfoPanel/retrieveInfoPanel");
+            const response = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/InfoPanel/retrieveInfoPanel");
             const data = await response.json();
             setInfoPanel(data);
             console.log(data);

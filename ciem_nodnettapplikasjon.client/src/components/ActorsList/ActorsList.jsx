@@ -16,7 +16,7 @@ function ActorsList({ category }) {
     const [tempSelectedActors, setTempSelectedActors] = useState([]); // Temporary state for actors selected via checkboxes
     // Function to fetch actors from the API
     const fetchActors = async () => {
-        const response = await fetch('https://localhost:5255/api/actor');
+        const response = await fetch('https://ciem-nodnettapplikasjon.onrender.com/api/actor');
         const data = await response.json();
         setActors(data);
     };

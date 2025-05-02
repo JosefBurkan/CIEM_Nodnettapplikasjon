@@ -20,7 +20,7 @@ function AboutActor() {
     // Fetches actor data from the API
     const fetchActor = useCallback(async () => {
         try {
-            const response = await fetch(`https://localhost:5255/api/Actor/${id}`); // Fetch actor data by ID
+            const response = await fetch(`https://ciem-nodnettapplikasjon.onrender.com/api/Actor/${id}`); // Fetch actor data by ID
             if (!response.ok) {
                 throw new Error('Failed to fetch actor data'); // Handle non-OK responses
             }

@@ -26,7 +26,7 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
   useEffect(() => {
     async function fetchDbActors() {
       try {
-        const res = await fetch("https://localhost:5255/api/actor");
+        const res = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/actor");
         if (!res.ok) throw new Error("Klarte ikke hente aktører fra server");
         setDbActors(await res.json());
       } catch (e) {
@@ -74,7 +74,7 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
         type: selectedActor.type || "",
         hierarchyLevel: "Underaktør",
       };
-      const res = await fetch("https://localhost:5255/api/nodes/add", {
+      const res = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/nodes/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -122,7 +122,7 @@ function AddActor({ onClose, onActorAdded, existingActors = [], defaultParent, n
         type: actorType,
         hierarchyLevel: hierarchy,
       };
-      const res = await fetch("https://localhost:5255/api/nodes/add", {
+      const res = await fetch("https://ciem-nodnettapplikasjon.onrender.com/api/nodes/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

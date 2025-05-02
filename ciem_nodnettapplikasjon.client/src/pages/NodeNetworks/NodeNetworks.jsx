@@ -12,7 +12,7 @@ function NodeNetworks() {
   // Function to fetch all network situations from the API
   const FetchAllNetworks = async () => {
     try {
-      const response = await fetch('https://localhost:5255/api/NodeNetworks/situations'); // API call to fetch situations
+      const response = await fetch('https://ciem-nodnettapplikasjon.onrender.com/api/NodeNetworks/situations'); // API call to fetch situations
       const data = await response.json(); // Parse the JSON response
       console.log(data); // Log the fetched data for debugging
       setSituations(data); // Update the state with the fetched situations
