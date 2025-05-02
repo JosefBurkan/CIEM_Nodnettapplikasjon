@@ -179,6 +179,7 @@ ul {
     min-width: 300px;
 }
 .title {
+    margin-top: 30px;
     font-size: 1.5rem;
     font-weight: bold;
     padding: 10px 35px; 
@@ -221,4 +222,10 @@ ul {
 .deleteButton {
     margin-left: 10px;
     background-color: hsl(0, 88%, 43%);
+}
+
+
+.nodeGov{
+
+    background-color: red;;
 }

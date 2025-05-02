@@ -116,7 +116,7 @@
 
 .networkName {
   position: absolute;
-  top: -22px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #ff3b3b;

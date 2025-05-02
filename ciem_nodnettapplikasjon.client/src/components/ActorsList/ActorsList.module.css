@@ -1,15 +1,9 @@
-/* * {
-    outline: 1px solid gold;
-} */
-.x {
+.container {
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 2rem;
-    /* background-color: blue; */
 }
 .midlertidigBtn,
-.filterButton,
-.selectAllButton,
-.showSelectionButton {
+.filterButton{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     border-radius: 15px;
@@ -28,10 +22,8 @@
     padding: 1rem 4rem;
     width: 20%;
     gap: 1rem;
-    /* border: 1px solid */
 }
 .btnContainer {
-    /* border: 1px solid black; */
     display: flex;
     gap: 0.5rem;
 }
@@ -113,42 +105,6 @@
     scrollbar-width: none;
 }
 
-.selectAllButton:hover,
-.showSelectionButton:hover {
-    background-color: #ff3f3f;
-    color: white;
-}
-.selectAllButton,
-.showSelectionButton {
-    text-align: center;
-    border-radius: 25px;
-    border: 3px solid #ff3f3f;
-}
-.selectAllButton {
-    padding: 0.6rem;
-    width: 150px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    position: relative;
-    left: 2.8vw;
-    margin-top: 20px;
-}
-.showSelectionButton {
-    padding: 1rem;
-    width: 17rem;
-    font-size: 1.4rem;
-    font-weight: bold;
-    position: relative;
-    right: 2.8vw;
-    margin-top: 40px;
-}
-
-.bottomSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-}
 .actorsList {
     list-style: none;
 }

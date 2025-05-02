@@ -103,7 +103,6 @@ function LiveNetwork() {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [InfoPanel, setInfoPanel] = useState([]);
 
-  // Skriv kommentar her
   const [image, takeScreenshot] = useScreenshot();
   const reactFlowWrapperRef = useRef(null);
 
@@ -180,31 +179,27 @@ function LiveNetwork() {
 
   const updateLayout = useCallback(() => {
     if (!nodeNetwork?.nodes) return;
-  
-    // 1) Kart over bakgrunnsfarger per category
-    //    Sørg for at nøklene matcher nøyaktig det du får fra API (her både entall og flertall)
+
     const categoryColors = {
-      statlige:   "#1f77b4",
-      offentlige: "#ff7f0e",
-      private:    "#2ca02c",
-      frivillige: "#d62728",
+      statlige:   "#87ceeb80",
+      private:    "#90ee9080",
+      frivillige: "#ff7f5080",
     };
-  
     const nodes = nodeNetwork.nodes.map((node) => {
       const id      = String(node.nodeID);
       const typeRaw = node.type     || "";
       const catRaw  = node.category || "";
   
-      // 2) Sjekk om det er en organisasjon
+      // Sjekk om det er en organisasjon
       const isOrg = /organisasjon|selskap/i.test(typeRaw);
-      // 3) Finn bakgrunnsfarge ut fra category (eller hvit som fallback)
+      // Finn bakgrunnsfarge ut fra category (eller hvit som fallback)
       const bgColor = categoryColors[catRaw.toLowerCase()] || "#fff";
 
       const style = {
         backgroundColor: bgColor,
         border:          `2px ${isOrg ? "dashed" : "solid"} #000`,
         borderRadius:    10,
-        padding:         15,
+        padding:         18,
       };
   
       return {

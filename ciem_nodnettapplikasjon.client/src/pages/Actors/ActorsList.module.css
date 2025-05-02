@@ -36,11 +36,11 @@
 /* .searchBarContainer{
 
 } */
-/* .filterBtnContainer{
+.filterBtnContainer{
     border: 1px solid black;
     display: flex;
     justify-content: flex-end; 
-} */
+}
 .midlertidigBtn{
     border: 2px solid rgb(165, 31, 31);
     padding: 10px 15px;

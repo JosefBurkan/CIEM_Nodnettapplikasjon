@@ -11,7 +11,6 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import NodeNetworks from './pages/NodeNetworks/NodeNetworks.jsx';
 import Actors from './pages/Actors/Actors.jsx';
-import ActorInfo from './pages/Actors/ActorInfo.jsx';
 import GovActors from './pages/Actors/GovActors.jsx';
 import VolActors from './pages/Actors/VolActors.jsx';
 import AllActors from './pages/Actors/AllActors.jsx';
@@ -46,7 +45,6 @@ function Layout() {
                   <Route path="/qr-code" element={<QRcodePage />} />
                   <Route path="/civilianForm" element={<CivilianForm />} />
                   <Route path="/civilianPage" element={<CivilianPage />} />
-          <Route path="/actorInfo" element={<ActorInfo />} />
           <Route path="/actorsGov" element={<GovActors />} />
           <Route path="/actorsVol" element={<VolActors />} />
           <Route path="/actorsAll" element={<AllActors />} />

@@ -2,24 +2,26 @@ import React, { useState, useEffect } from 'react';
 import '../../index.css';
 import styles from './ActorsList.module.css';
 import SearchBar from '../SearchBar/SearchBar';
-import { IconMail, IconUser } from '@tabler/icons-react';
+import { IconUser } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../utils/supabaseClient';
 
 function ActorsList({ category }) {
-    const [actors, setActors] = useState([]);
-    const [search, setSearch] = useState('');
-    const [categoryFilter, setCategoryFilter] = useState(category || 'Alle');
-    const [typeFilter, setTypeFilter] = useState('Alle');
-    const [dropdown, setDropdown] = useState({});
-    const [tempSelectedActors, setTempSelectedActors] = useState([]);
 
+    const [actors, setActors] = useState([]); // State to store all actors fetched from the API
+    const [search, setSearch] = useState(''); // State to store the search query
+    const [categoryFilter, setCategoryFilter] = useState(category || 'Alle'); // State for the selected category filter (default to prop or 'Alle')
+    const [typeFilter, setTypeFilter] = useState('Alle'); // State for the selected type filter
+    const [dropdown, setDropdown] = useState({}); // State to track which dropdown menus are open (by actor name)
+    const [tempSelectedActors, setTempSelectedActors] = useState([]); // Temporary state for actors selected via checkboxes
+    // Function to fetch actors from the API
     const fetchActors = async () => {
         const response = await fetch('https://localhost:5255/api/actor');
         const data = await response.json();
         setActors(data);
     };
 
+// Initial fetch of actors when the component mounts. Subscribes to changes.
     useEffect(() => {
         fetchActors();
         supabase
@@ -32,12 +34,13 @@ function ActorsList({ category }) {
                     table: 'Actors',
                 },
                 (payload) => {
-                    fetchActors();
+                    fetchActors(); // Fetch actors again when there are changes in the 'Actors' table
                 }
             )
             .subscribe();
     }, []);
 
+    // Filter actors based on filters and search query
     const filteredActors = actors.filter((actor) => {
         const matchesCategory =
             categoryFilter === 'Alle' ||
@@ -58,6 +61,7 @@ function ActorsList({ category }) {
         return matchesCategory && matchesType && matchesSearch;
     });
 
+    // Toggle dropdown for sub-actors
     const toggleDropdown = (actorName) => {
         setDropdown((prev) => ({
             ...prev,
@@ -65,6 +69,7 @@ function ActorsList({ category }) {
         }));
     };
 
+    // Toggle temporary selection of actors via checkboxes
     const toggleTempSelectedActor = (actorName) => {
         setTempSelectedActors((prev) =>
             prev.includes(actorName)
@@ -74,7 +79,8 @@ function ActorsList({ category }) {
     };
 
     return (
-        <div className={styles.x}>
+        <div className={styles.container}>
+            {/* Top section with search bar, filters, and header */}
             <div className={styles.topSection}>
                 <div className={styles.searchBarContainer}>
                     <SearchBar
@@ -116,6 +122,7 @@ function ActorsList({ category }) {
                 </div>
             </div>
 
+            {/* Actor list */}
             <div className={styles.contentContainer}>
                 <ul className={styles.actorsList}>
                     {filteredActors.map((actor) => (
@@ -155,11 +162,11 @@ function ActorsList({ category }) {
                                             .split(',')
                                             .map((sub, index) => (
                                         <li key={index} className={styles.subActor}>
-                                        {sub.trim()}
+                                            {sub.trim()}
                                         </li>
                                         ))}
                                     </ul>
-                                )}
+                            )}
                         </li>
                     ))}
                 </ul>

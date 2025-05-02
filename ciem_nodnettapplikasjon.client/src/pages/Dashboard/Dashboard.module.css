@@ -1,70 +1,23 @@
 .dashboard {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* Allocate more space to the center column */
-    gap: 30px; /* Add space between columns */
-    padding: 20px; /* Add padding around the entire dashboard */
+    grid-template-columns: 1fr 2fr 1fr; 
+    gap: 30px; 
+    padding: 20px; 
     box-sizing: border-box;
-    max-width: 1400px; /* Increase the maximum width to utilize more space */
-    margin: 0 auto; /* Center the dashboard */
-}
-
-.leftColumn,
-.rightColumn {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Add spacing between widgets */
-    width: 100%; /* Ensure they take up the full width of their columns */
+    max-width: 1400px; 
+    margin: 0 auto; 
 }
 
 .centerColumn {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* Stack LiveKhnWidget above CriticalInfoWidget */
-    gap: 20px; /* ✅ Adds space between LiveKhnWidget and CriticalInfoWidget */
-    width: 100%; /* Ensure it takes full space */
-}
-
-/* ===== Active Actors Widget Styling ===== */
-.activeActorsWidget {
-    width: 100%;
-    max-width: 360px; /* Keeps the same width as Next Update Widget */
-    margin-top: 10px; /* ✅ Adjust spacing for better alignment */
-    align-self: flex-start; /* ✅ Ensures it is in line with other widgets */
-}
-
-/* ===== LiveKhnWidget Styling ===== */
-.liveKhnWidget {
-    background-color: #ffffff;
-    border: 2px solid #333;
-    border-radius: 10px;
-    padding: 15px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px; /* ✅ Added space below Live KHN widget */
+    gap: 20px;
+    width: 100%; 
+    margin-left:15px;
 }
 
-.liveKhnHeader {
-    background: #006C74;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 15px 15px 0 0;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-}
-
-/* ===== Critical Information Widget Styling ===== */
-.criticalInfoWidget {
-    width: 100%;
-    max-width: 360px;
-    margin-top: 20px; /* ✅ Added extra spacing for better separation */
-}
 
 /* ===== RESPONSIVENESS TO MIMIC 80% ZOOM AT 100% ===== */
 @media (min-width: 1200px) {
@@ -94,16 +47,16 @@
 /* For larger screens */
 @media (min-width: 1400px) {
     .dashboard {
-        grid-template-columns: 1fr 3fr 1fr; /* Give even more space to the center column */
-        gap: 40px; /* Increase spacing between columns */
-        max-width: 1600px; /* Expand the maximum width */
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 40px; 
+        max-width: 1600px; 
     }
 }
 
 /* ===== MOBILE RESPONSIVENESS ===== */
 @media (max-width: 1024px) {
     .dashboard {
-        grid-template-columns: 1fr; /* Switch to a single-column layout */
+        grid-template-columns: 1fr;
         gap: 20px;
     }
 
@@ -127,7 +80,7 @@
 /* For smaller screens */
 @media (max-width: 1024px) {
     .dashboard {
-        grid-template-columns: 1fr; /* Switch to a single-column layout */
+        grid-template-columns: 1fr; 
         gap: 20px;
     }
 
