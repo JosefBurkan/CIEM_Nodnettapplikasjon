@@ -22,6 +22,7 @@
 }
 
 /* Left section of the dashboard */
+/* Left section of the dashboard */
 .leftSection {
     width: 60%;
     display: flex;
@@ -138,7 +139,8 @@
     color: white;
     font-weight: bold;
     font-size: 0.9rem;
-    padding: 6px 20px;
+    padding: 10px 20px; 
+    padding-top: 25px;
     border-radius: 15px;
     z-index: 30;
     white-space: nowrap;

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './ActiveActorsWidget.module.css';
 import { FaCheckCircle, FaTimesCircle, FaClock } from 'react-icons/fa'; // Using FontAwesome icons for statuses
 
+// Sample data for actors and their statuses
 const actorsData = [
     { name: 'Kristhåndterings Sentral', green: 12, red: 1, orange: 22 },
     { name: 'Hovedrednings Sentralen', green: 85, red: 2, orange: 24 },
@@ -14,7 +15,7 @@ const actorsData = [
     { name: 'Heimevernet', green: 90, red: 80, orange: 97 },
     { name: 'Sanitetskvinnene', green: 2, red: 3, orange: 8 },
 ];
-
+// Sample data for the number of actors in each status
 const ActiveActorsWidget = () => {
     return (
         <div className={styles.widget}>

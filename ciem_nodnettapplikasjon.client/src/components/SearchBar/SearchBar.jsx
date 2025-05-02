@@ -2,6 +2,13 @@ import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { IconSearch, IconMenu2 } from '@tabler/icons-react';
 import styles from './SearchBar.module.css';
 
+/*
+  SearchBar component that allows users to search for actors.
+  It can be used in different modes, such as searching for actors or networks.
+  It supports fetching actors from an API and displaying them in a dropdown.
+  This component is used in various parts of the application, including the Actors page, Network page, and more.
+*/
+
 function SearchBar({
   placeholder = 'Søk...',
   bgColor = '#4F4F4F',
@@ -11,7 +18,7 @@ function SearchBar({
   actors = [],
   enableDropdown = false,
   fetchActors = false,
-  searchBarMode = '', // e.g. 'Actors' or 'NetworkSearch'
+  searchBarMode = '',
 }) {
   const [query, setQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -53,7 +60,7 @@ function SearchBar({
     onSearch(val);
   };
 
-  // Handle Enter key
+  // Handle Enter key: select first suggestion or close dropdown
   const handleKeyDown = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -71,13 +78,12 @@ function SearchBar({
     setShowDropdown(false);
     onSelectActor(actor);
   };
-
-  // Decide click action based on mode
+  
+  // Mode-specific click behavior: actor mode returns ID via onSearch
   const handleItemClick = actor => {
     if (searchBarMode === 'Actors') {
       setQuery(actor.name);
       setShowDropdown(false);
-      // use onSearch to send back selected actor ID
       const id = actor.id ?? actor.nodeID;
       onSearch(id);
     } else {
@@ -102,6 +108,8 @@ function SearchBar({
       className={styles.searchContainer}
       style={{ backgroundColor: bgColor, width, position: 'relative' }}
     >
+
+      {/* Search input and icons */}
       <div className={styles.searchBar}>
         <IconSearch className={styles.iconSearch} />
         <input
@@ -116,6 +124,7 @@ function SearchBar({
         <IconMenu2 className={styles.menuIcon} />
       </div>
 
+      {/* Suggestion dropdown */}
       {enableDropdown && showDropdown && filteredActors.length > 0 && (
         <ul className={styles.dropdown}>
           {filteredActors.map(actor => (

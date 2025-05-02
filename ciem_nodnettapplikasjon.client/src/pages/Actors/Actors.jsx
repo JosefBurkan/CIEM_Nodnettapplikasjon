@@ -5,7 +5,7 @@ import '../../index.css';
 
 function Actors() {
     return (
-        <div className={styles.actorsContainer}>
+        <div className={styles.actorsContainer}> {/* Actors Dashboard, reusing Box Components */} 
             <Box
                 title="Private Aktører"
                 boxIconColor="#0A77A6"

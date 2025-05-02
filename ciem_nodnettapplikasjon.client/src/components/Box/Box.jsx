@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import styles from './Box.module.css';
 import { IconUsers } from '@tabler/icons-react';
 
+
+/* A reusable Box component that displays a title, an icon, and optionally acts as a link. */
+
 function Box({ title, boxIconColor, destination, disableLink = false, iconSrc }) {
     const content = (
         <div className={styles.box}>

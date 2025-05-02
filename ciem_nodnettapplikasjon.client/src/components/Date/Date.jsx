@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Date.module.css';
 
+
+// This component displays the current date and time in a specific format. It updates every second to show the current time
+
+
 function DateComponent() {
     const [time, setTime] = useState(new Date());
 
