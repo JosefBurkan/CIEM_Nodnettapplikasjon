@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './UpdatesWidget.module.css';
 
+// This component displays a list of updates with their last update time and status represented by colored lines
+// The updates are hardcoded for demonstration purposes, but they can be fetched from an API in a real application
 function UpdatesWidget() {
     const updates = [
         { actor: 'Aktør 1', time: '18:54', color: '#D22D2D' }, // Red
@@ -19,6 +21,8 @@ function UpdatesWidget() {
         { actor: 'Aktør 14', time: '19:07', color: '#4CAF50' }, // Green
     ];
 
+    // The updates are hardcoded for demonstration purposes, but they can be fetched from an API in a real application
+    // The updates are displayed in a list format, with each update showing the actor's name, last update time, and a colored line indicating the status
     return (
         <div className={styles.widgetContainer}>
             {/* Header Section */}

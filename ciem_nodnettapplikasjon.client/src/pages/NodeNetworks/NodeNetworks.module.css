@@ -1,16 +1,18 @@
+/* Main container for the page layout */
 .container {
     background-color: rgb(5, 107, 107); /* Dark mode background */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
+/* Dashboard layout with left and right sections */
 .dashboard {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
+/* Left section of the dashboard */
 .leftSection {
   width: 60%;
   display: flex;
@@ -22,7 +24,7 @@
   padding-bottom: 200px;
   box-sizing: border-box;
 }
-
+/* Right section of the dashboard */
 .rightSection {
   background: #d2d2d2; /* Gray background */
   width: 35%; /* ✅ Expands to half the screen */
@@ -35,7 +37,7 @@
   /* border-radius: 25px 0 0 25px; */
 }
 
-/* RESPONSIVENESS */
+/* Responsive design for smaller screens */
 @media (max-width: 1024px) {
     .dashboard {
         display: flex;
@@ -47,7 +49,7 @@
         margin-top: 20px;
     }
 }
-
+/* Grid layout for displaying cards */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -55,13 +57,13 @@
   justify-items: center;
   margin-top: 40px;
 }
-
+/* Link wrapper for cards */
 .cardLink {
   text-decoration: none;
   width: 100%;
   height: 100%;
 }
-
+/* Card styling */
 .card {
   background-color: white;
   border-radius: 39px;
@@ -76,7 +78,7 @@
   align-items: center;
   padding-top: 25px;
 }
-
+/* Content inside the card */
 .cardContent {
   flex: 1;
   width: 100%;
@@ -88,20 +90,20 @@
   position: relative;
   z-index: 1;
 }
-
+/* Image inside the card */
 .networkImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
+/* Placeholder text styling */
 .placeholder {
   color: #888;
   font-size: 0.9rem;
   padding: 20px;
   text-align: center;
 }
-
+/* Tag indicating live status */
 .liveTag {
   position: absolute;
   top: 10px;
@@ -114,7 +116,7 @@
   border-radius: 6px;
   z-index: 20;
 }
-
+/* Network name styling */
 .networkName {
   position: absolute;
   top: -22px;
@@ -130,7 +132,7 @@
   white-space: nowrap;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
 }
-
+/* Wrapper for images */
 .imageWrapper {
   margin-top: 10px;
 }
