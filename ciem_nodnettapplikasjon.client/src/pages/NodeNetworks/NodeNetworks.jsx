@@ -5,9 +5,11 @@ import Box from '../../components/Box/Box';
 import newNetworkIcon from '../../assets/newNetwork.svg';
 import networkArchiveIcon from '../../assets/networkArchive.svg';
 
+
 function NodeNetworks() {
   const [situations, setSituations] = useState([]);
 
+  // Fetch all networks from the API
   const FetchAllNetworks = async () => {
 
     const response = await fetch('https://localhost:5255/api/NodeNetworks/situations')
@@ -20,9 +22,10 @@ function NodeNetworks() {
   useEffect(() => {
     FetchAllNetworks();
   }, []);
-
+ // Fetch all networks from the API when the component mounts
   const liveSituations = situations.filter((s) => !s.isArchived);
-
+ 
+  // Filter out archived situations
   return (
     <div className={styles.container}>
       <div className={styles.dashboard}>
@@ -44,14 +47,14 @@ function NodeNetworks() {
                   >
                     <div className={styles.card}>
 
-                      {/* 🔴 Nettverksnavn på toppen */}
+                      {/* Networkname on top */}
                       <div className={styles.networkName}>
                           <p>
                             {situation.title}
                           </p>
                       </div>
 
-                      {/* 🔳 Bilde eller placeholder */}
+                      {/*  Picture or placeholder */}
                       <div className={styles.cardContent}>
                         {screenshot ? (
                           <img src={screenshot} alt="Network preview" className={styles.networkImage} />
@@ -60,7 +63,7 @@ function NodeNetworks() {
                         )}
                       </div>
 
-                      {/* 🔴 LIVE-tag på bildet */}
+                      {/* LIVE-tag(red) on the picture */}
                       <div className={styles.liveTag}>LIVE</div>
                     </div>
                   </Link>

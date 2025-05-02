@@ -1,4 +1,4 @@
-// TemplateHandler.js
+
 
 export function guessTemplateFromName(name) {
     if (!name) return null;

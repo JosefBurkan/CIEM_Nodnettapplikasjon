@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './LiveNetworkWidget.module.css';
 
+// This component displays a live network diagram with nodes and connections
+// It uses SVG to create a visual representation of the network
 const LiveNetworkWidget = ({ large, title }) => {
     return (
         <div
