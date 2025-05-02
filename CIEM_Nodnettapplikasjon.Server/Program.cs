@@ -10,17 +10,24 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.FileProviders;
 using System.Threading;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     WebRootPath = null
 });
 
-// Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Load environment variables from .env file
+DotNetEnv.Env.Load();
 
-// Scoped services
+// Set this .env variable inside a .env file
+builder.Configuration.AddEnvironmentVariables();
+
+// Configure the DbContext with the connection string from environment variables
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(Environment.GetEnvironmentVariable("DefaultConnection")));
+
+// Add services to the container.
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IActorRepository, ActorRepository>();
@@ -29,7 +36,6 @@ builder.Services.AddScoped<INodeNetworksService, NodeNetworksService>();
 builder.Services.AddScoped<INodeRepository, NodeRepository>();
 builder.Services.AddScoped<IQRRepository, QRRepository>();
 builder.Services.AddScoped<IInfoPanelRepository, InfoPanelRepository>();
-
 
 // Cors setup
 builder.Services.AddCors(options =>
@@ -44,8 +50,6 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

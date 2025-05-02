@@ -10,9 +10,6 @@ function CreateActor() {
     const [actorHierachy, setActorHierachy] = useState("Overordnet");
     const [existingActor, setExistingActor] = useState(""); // For the dropdown meny, to select an actor from the database 
     const [successMessage, setSuccessMessage] = useState("");
-    const [actorID, setActorID] = useState("");
-    const [subActor, setSubActor] = useState("");
-    const [search, setSearch] = useState("");
 
     const [subActorFormData, setSubActorFormData] = useState({
         actorID: 0,
@@ -30,7 +27,7 @@ function CreateActor() {
     // Fetch actors to use actor names for the drop down meny
     const fetchActors = async () => {
         const response = await fetch(
-            'https://ciem-nodnettapplikasjon.onrender.com/api/actor'
+            'https://localhost:5255/api/actor'
         );
         const data = await response.json();
         setExistingActor(data);
@@ -56,7 +53,7 @@ function CreateActor() {
         });
     };
 
-    // Set the sub actor, actorID to the chose actor
+    // Set the sub actor, actorID to the chosen actor
     const handleActorSelect = (actorID) => {
         setSubActorFormData({
             ...subActorFormData,
@@ -68,6 +65,7 @@ function CreateActor() {
         setActorHierachy(e.target.value);
     };
 
+    // Create an actor
     const handleSubmitActor = async (e) => {
         e.preventDefault();
 
@@ -83,7 +81,7 @@ function CreateActor() {
 
         try {
             const response = await fetch(
-                'https://ciem-nodnettapplikasjon.onrender.com/api/actor/CreateActor',
+                'https://localhost:5255/api/actor/CreateActor',
                 {
                     method: 'POST',
                     headers: {
