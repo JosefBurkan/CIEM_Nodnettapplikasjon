@@ -1,20 +1,12 @@
-import React, { useState } from 'react';
-import {
-  useSearchParams,
-  useNavigate,
-  Link,
-  useLocation,
-} from 'react-router-dom';
-import styles from './QRAccessPage.module.css';
-import logo from '../../../assets/EMKORE.png'; // Replace with your logo path
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import styles from './CivilianForm.module.css';
+import logo from '../../../assets/EMKORE.png';
 
-function QRAccessPage() {
-  // Get QR parameters from the URL
+function CivilianForm() {
   const [searchParams] = useSearchParams();
   const parentId = searchParams.get('parentId');
   const token = searchParams.get('token');
-
-  // Initialize useNavigate for programmatic redirect
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -25,12 +17,7 @@ function QRAccessPage() {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
 
     const payload = {
@@ -52,7 +39,7 @@ function QRAccessPage() {
 
       if (res.ok) {
         const result = await res.json();
-        // Redirect to SivilSide and pass form data via state
+        setSubmitted(true);
         navigate('/civilianPage', {
           state: {
             name: formData.name,
@@ -69,13 +56,24 @@ function QRAccessPage() {
       console.error('Error sending request:', err);
       alert('Kunne ikke koble til serveren.');
     }
+  }, [formData, parentId, token, navigate]);
+
+  useEffect(() => {
+    if (!parentId || !token) {
+      console.error('Missing QR parameters');
+    }
+  }, [parentId, token]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   if (!parentId || !token) {
     return (
-      <div className={styles.error}>
-        Mangler nødvendig QR-informasjon.
-      </div>
+<div className={styles.error}>
+Mangler nødvendig QR-informasjon.
+</div>
     );
   }
 
@@ -89,7 +87,6 @@ function QRAccessPage() {
 
   return (
     <div className={styles.container}>
-      {/* Navbar */}
       <nav className={styles.navbar}>
         <img src={logo} alt="Logo" />
         <div className="date-time">
@@ -98,7 +95,6 @@ function QRAccessPage() {
         </div>
       </nav>
 
-      {/* Form */}
       <div className={styles.formContainer}>
         <h2>Bli med i nettverket</h2>
         <p>Fyll inn nødvendig informasjon for å få tilgang til nettverket.</p>
@@ -123,16 +119,6 @@ function QRAccessPage() {
             required
             onChange={handleChange}
             rows="4"
-            style={{
-              padding: '0.8rem',
-              fontSize: '1rem',
-              border: 'none',
-              borderRadius: '10px',
-              backgroundColor: '#444',
-              color: 'white',
-              outline: 'none',
-              width: '100%',
-            }}
           />
           <button type="submit">Koble til Nettverk</button>
         </form>
@@ -141,4 +127,4 @@ function QRAccessPage() {
   );
 }
 
-export default QRAccessPage;
+export default CivilianForm;

@@ -14,7 +14,7 @@ import {
 import dagre from "dagre";
 import "@xyflow/react/dist/style.css";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "./LiveNettverk.module.css";
+import styles from "./LiveNetwork.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import AddActor from "./AddActor";
 import { toast } from "react-toastify";
@@ -82,7 +82,7 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
   };
 }
 
-function LiveNettverk() {
+function LiveNetwork() {
   const navigate = useNavigate();
   const { networkId } = useParams();
 
@@ -864,4 +864,4 @@ function LiveNettverk() {
 }
     
   
-export default LiveNettverk;
+export default LiveNetwork;
