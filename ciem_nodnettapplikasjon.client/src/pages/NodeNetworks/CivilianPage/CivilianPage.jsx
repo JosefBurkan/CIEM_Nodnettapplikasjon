@@ -1,10 +1,10 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import styles from './SivilSide.module.css';
+import styles from './CivilianPage.module.css';
 import logo from '../../../assets/EMKORE.png';
 import InfoPanel from '../../../components/InfoPanel/InfoPanel';
 
-function SivilSide() {
+function CivilianPage() {
   const location = useLocation();
   const { name } = location.state || {};
 
@@ -33,4 +33,4 @@ function SivilSide() {
   );
 }
 
-export default SivilSide;
+export default CivilianPage;
