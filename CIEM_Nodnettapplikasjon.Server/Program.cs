@@ -23,6 +23,8 @@ DotNetEnv.Env.Load();
 // Set this .env variable inside a .env file
 builder.Configuration.AddEnvironmentVariables();
 
+Console.WriteLine(Environment.GetEnvironmentVariable("DefaultConnection"));
+
 // Configure the DbContext with the connection string from environment variables
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(Environment.GetEnvironmentVariable("DefaultConnection")));
