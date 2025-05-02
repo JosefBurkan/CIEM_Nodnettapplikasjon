@@ -1,3 +1,4 @@
+// This file contains the LiveNetwork component which is used to display and manage the live network of nodes and edges
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   ReactFlow,
@@ -16,16 +17,18 @@ import "@xyflow/react/dist/style.css";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./LiveNetwork.module.css";
 import SearchBar from "../../../components/SearchBar/SearchBar";
-import AddActor from "./AddActor";
+import AddActor from "./AddActor"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getTemplateNodes } from "../../../components/TemplateHandler"; 
-import { useScreenshot } from "use-react-screenshot"; // legg til øverst!
-import { supabase } from '../../../utils/supabaseClient'; // Client used for real-time updates
+import { useScreenshot } from "use-react-screenshot"; 
+import { supabase } from '../../../utils/supabaseClient'; 
 
 const proOptions = { hideAttribution: true };
 
-// Gjett mal basert på navn
+// guessTemplateFromName-function to guess the template name based on the network name
+// this is not complete, we didnt have time to implement it fully
+// it is a placeholder for now, and should be improved in the future
 function guessTemplateFromName(name) {
   if (!name) return null;
   const loweredName = name.toLowerCase();
@@ -35,11 +38,12 @@ function guessTemplateFromName(name) {
   return null;
 }
 
-// Auto-layout-funksjon
+// A function to get the layouted elements using dagre
 function getLayoutedElements(nodes, edges, direction = "TB") {
   const hierEdges = edges.filter(e => e.hierarchical);
   const commEdges = edges.filter(e => !e.hierarchical);
-
+ 
+  // Create a new directed graph using dagre
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
   dagreGraph.setGraph({ rankdir: direction, ranksep: 100, nodeSep: 30, edgeSep: 50 });
@@ -58,6 +62,7 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
 
   dagre.layout(dagreGraph);
 
+  // Set the position of each node based on the layout
   const layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     if (nodeWithPosition) {
@@ -71,7 +76,6 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
     }
     return node;
   });
-
   const layoutedHierEdges = hierEdges.map(edge => ({
     ...edge,
   }));
@@ -81,11 +85,10 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
     edges: [...layoutedHierEdges, ...commEdges],
   };
 }
-
+// Main component for the live network
 function LiveNetwork() {
   const navigate = useNavigate();
   const { networkId } = useParams();
-
   const [nodeNetwork, setNodeNetwork] = useState({});
   const [initialNodes, setInitialNodes] = useState([]);
   const [initialEdges, setInitialEdges] = useState([]);
@@ -103,6 +106,7 @@ function LiveNetwork() {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [InfoPanel, setInfoPanel] = useState([]);
 
+  // Takes a screenshot of the network and saves it to localStorage
   const [image, takeScreenshot] = useScreenshot();
   const reactFlowWrapperRef = useRef(null);
 
@@ -117,20 +121,20 @@ function LiveNetwork() {
             }
           });
         }
-      }, 1000);
+      }, 1000); // Delay to ensure the screenshot is taken after the layout is updated
     }
   }, [reactFlowInstance, isReady, networkId]);
   
   const clickTimeoutRef = useRef(null);
   const doubleClickFlagRef = useRef(false);
-// 
   // Fetch the network and all of its nodes
   const fetchNodeNetworks = async () => {
     try {
-      const response = await fetch(`https://localhost:5255/api/NodeNetworks/GetNodeNetwork/${networkId}`);
+      const response = await fetch(`https://localhost:5255/api/NodeNetworks/GetNodeNetwork/${networkId}`); // Fetch the network data
       const data = await response.json();
-      // console.log("Fetched data:", data);
-
+      console.log("Fetched data:", data);
+       
+      // Check if the response is valid and contains nodes
       const templateName = data.template || guessTemplateFromName(data.name);
 
       if (data.nodes && data.nodes.length > 0) {
@@ -162,7 +166,8 @@ function LiveNetwork() {
     if (networkId) fetchNodeNetworks();
   }, [networkId]);
 
-  // Fetch the 'Info Control' data
+  
+  // This function fetches the info panel data from the API and sets it in the state
   const getInfoPanel = async () =>
   {
     try
@@ -176,7 +181,8 @@ function LiveNetwork() {
       console.log(error);
     }
   }
-
+ // Function to update the layout of the nodes and edges
+// This function uses the dagre library to layout the nodes and edges in a hierarchical manner
   const updateLayout = useCallback(() => {
     if (!nodeNetwork?.nodes) return;
 
@@ -185,91 +191,100 @@ function LiveNetwork() {
       private:    "#90ee9080",
       frivillige: "#ff7f5080",
     };
-    const nodes = nodeNetwork.nodes.map((node) => {
-      const id      = String(node.nodeID);
-      const typeRaw = node.type     || "";
-      const catRaw  = node.category || "";
+      const nodes = nodeNetwork.nodes.map((node) => {
+        const id      = String(node.nodeID);
+        const typeRaw = node.type     || "";
+        const catRaw  = node.category || "";
+    
+        // Sjekk om det er en organisasjon
+        const isOrg = /organisasjon|selskap/i.test(typeRaw);
+        // Finn bakgrunnsfarge ut fra category (eller hvit som fallback)
+        const bgColor = categoryColors[catRaw.toLowerCase()] || "#fff";
   
-      // Sjekk om det er en organisasjon
-      const isOrg = /organisasjon|selskap/i.test(typeRaw);
-      // Finn bakgrunnsfarge ut fra category (eller hvit som fallback)
-      const bgColor = categoryColors[catRaw.toLowerCase()] || "#fff";
-
-      const style = {
-        backgroundColor: bgColor,
-        border:          `2px ${isOrg ? "dashed" : "solid"} #000`,
-        borderRadius:    10,
-        padding:         18,
-      };
-  
-      return {
-        id,
-        data: {
-          label: node.name,
-          info:  `Detaljert info om ${node.name}`,
-          beskrivelse: ``,
-        },
-        hidden:         hiddenNodes.has(id),
-        position:       { x: 0, y: 0 },
-        sourcePosition: "right",
-        targetPosition: "left",
-        style,
-      };
-    });
-  
-    const allEdges = nodeNetwork.nodes.flatMap((node) => {
-      const edges = [];
-  
-      if (node.parentID != null && node.parentID !== 0) {
-        edges.push({
-          id: `edge-${node.parentID}-${node.nodeID}`,
-          source: String(node.parentID),
-          target: String(node.nodeID),
-          hierarchical: true,
-          hidden: hiddenEdges.has(`edge-${node.parentID}-${node.nodeID}`),
-          animated: false,
-          style: { strokeWidth: 2.5, stroke: "#888" },
-        });
-      }
-  
-      (node.connectionID || []).forEach((connID) => {
-        edges.push({
-          id: `comm-${node.nodeID}-${connID}`,
-          source: String(node.nodeID),
-          target: String(connID),
-          hierarchical: false,
-          animated: true,
-          markerEnd: { type: MarkerType.ArrowClosed },
-          markerStart: {
-            type: MarkerType.ArrowClosed,
-            orient: "auto-start-reverse",
+        const style = {
+          backgroundColor: bgColor,
+          border:          `2px ${isOrg ? "dashed" : "solid"} #000`,
+          borderRadius:    10,
+          padding:         18,
+        };
+    
+        return {
+          id,
+          data: {
+            label: node.name,
+            info:  `Detaljert info om ${node.name}`,
+            beskrivelse: ``,
           },
-          style: { strokeWidth: 1.5, strokeDasharray: "4 2" },
-        });
+          hidden:         hiddenNodes.has(id),
+          position:       { x: 0, y: 0 },
+          sourcePosition: "right",
+          targetPosition: "left",
+          style,
+        };
       });
   
-      return edges;
-    });
+      const allEdges = nodeNetwork.nodes.flatMap(node => {
+        const edges = [];
+      
+        // Add hierarchical edges
+        // These edges are used to represent the parent-child relationship between nodes
+        if (node.parentID != null && node.parentID !== 0) {
+          edges.push({
+            id: `edge-${node.parentID}-${node.nodeID}`,
+            source: String(node.parentID),
+            target: String(node.nodeID),
+            hierarchical: true,
+            hidden: hiddenEdges.has(`edge-${node.parentID}-${node.nodeID}`),
+            animated: false,
+            style: { strokeWidth: 2.5, stroke: "#888" },
+          });
+        }
   
-    const { nodes: layoutedNodes, edges: layoutedEdges } =
-      getLayoutedElements(nodes, allEdges, "LR");
+        // Add communication edges
+        // These edges are not hierarchical and are used for communication between nodes
+        (node.connectionID || []).forEach(connID => {
+          edges.push({
+            id: `comm-${node.nodeID}-${connID}`,
+            source: String(node.nodeID),
+            target: String(connID),
+            hierarchical: false,
+            animated: true,
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+            },
+            markerStart: {
+              type: MarkerType.ArrowClosed,
+              orient: 'auto-start-reverse',
+            },
+            style: { strokeWidth: 1.5, strokeDasharray: "4 2" },
+          });
+        });
   
-    setInitialNodes(layoutedNodes);
-    setInitialEdges(layoutedEdges.filter((e) => e.hierarchical));
-    setCommunicationEdges(layoutedEdges.filter((e) => !e.hierarchical));
-  }, [nodeNetwork, hiddenNodes, hiddenEdges]);
+        return edges;
+      });
+      
+      // Filter out hidden edges
+      const { nodes: layoutedNodes, edges: layoutedEdges } =
+        getLayoutedElements(nodes, allEdges, "LR");
+    
+      setInitialNodes(layoutedNodes);
+      setInitialEdges(layoutedEdges.filter((e) => e.hierarchical));
+      setCommunicationEdges(layoutedEdges.filter((e) => !e.hierarchical));
+    }, [nodeNetwork, hiddenNodes, hiddenEdges]);
 
 
+
   
-  // API for sletting av en node
+  // API call to delete a node
+  // This function checks if the node has children before deleting it
   const deleteNode = async (nodeID) => {
 
-      // Sjekk om noden har underaktører
+      // Check if the node has children
       const hasChildren = nodeNetwork.nodes.some(
         (n) => n.parentID !== null && String(n.parentID) === nodeID
       );
 
-      if (hasChildren) { // Hvis noden har underaktører, kan den ikke slettes og error melding kommer.
+      if (hasChildren) { // If the node has children, show an error message
         toast.error("Kan ikke slette en node som har underaktører.", {
           position: "top-center",
           autoClose: 2000,
@@ -292,12 +307,15 @@ function LiveNetwork() {
         return false;
       }
   };
-
+ 
+  // Fetch the node network when the component mounts or when networkId changes
+  // This function fetches the node network data from the API and sets it in the state
   useEffect(() => {
     if (networkId) fetchNodeNetworks();
   }, [networkId]);
 
-  // Fokusfunksjon for å sentrere kameraet til den valgte noden
+  // Focus on a specific node when it is selected from the search bar
+  // This function sets the center of the react flow instance to the position of the selected node
   const focusNode = useCallback(
     (actor) => {
       if (!reactFlowInstance || !actor) return;
@@ -317,7 +335,9 @@ function LiveNetwork() {
     [reactFlowInstance, initialNodes]
   );
 
-  // Subscribe to database for real-time updates
+
+  // This function subscribes to the database for real-time updates and fetches the data when changes occur
+  // It uses the supabase client to listen for changes in the InfoPanel table and updates the state accordingly
   useEffect(() => {
     getInfoPanel();
     supabase
@@ -337,12 +357,13 @@ function LiveNetwork() {
         .subscribe();
   }, []);
 
-  // Generate the node network
+ 
+  // This function updates the layout of the nodes and edges based on the current state
   useEffect(() => {
     updateLayout();
   }, [nodeNetwork, hiddenNodes, hiddenEdges]);
 
-  // Subscribe for node-layout updates
+  // This function subscribes to the database for real-time updates and fetches the data when changes occur
   useEffect(() => {
     supabase
         .channel('nodes-db-changes')
@@ -356,19 +377,19 @@ function LiveNetwork() {
             async (payload) => {
               console.log("Change registrered");
               const updatedNetwork = await fetchNodeNetworks();
-              setNodeNetwork([...updatedNetwork]); // send the network as a new network, so react registeres it
+              setNodeNetwork([...updatedNetwork]); // Update the nodeNetwork state with the new data
               updateLayout();
             }
         )
         .subscribe();
   }, []);
 
-    // Knapp for å vise alle noder.
+    // Subscribe for node-network updates
   const handleShowAll = useCallback(() => {
     setHiddenEdges(new Set());
     setHiddenNodes(new Set());
     setSelectedNode(null);
-    setActiveTab("actors"); // Tilbakestill til aktør-fanen og null valgt node. Viser alle lukkede noder.
+    setActiveTab("actors"); // Reset active tab to "actors"
 
     setTimeout(() => {
         if (reactFlowInstance) {
@@ -377,13 +398,15 @@ function LiveNetwork() {
     }, 0);
   }, [reactFlowInstance, updateLayout]);
 
-  // Viser kun stien (ancestors + noden selv)
+
+  // This function shows the path from the selected node to its ancestors
   const showPath = useCallback(
     (actor) => {
       if (!reactFlowInstance || !actor) return;
       const targetId = actor.id || String(actor.nodeID);
 
-      // Finn alle ancestor-IDer
+      // Finds the path to the root node
+      // and stores the ids in a set for easy lookup
       const ancestors = [];
       let curr = nodeNetwork.nodes.find(n => String(n.nodeID) === targetId);
       while (curr?.parentID) {
@@ -393,7 +416,7 @@ function LiveNetwork() {
       }
       const pathIds = new Set([...ancestors, targetId]);
 
-      // Skjul alt utenfor path
+      // Set the hidden nodes and edges based on the path
       setHiddenNodes(new Set(
         initialNodes.map(n => n.id).filter(id => !pathIds.has(id))
       ));
@@ -408,7 +431,8 @@ function LiveNetwork() {
         combinedEdges.map(e => e.id).filter(id => !visibleEdgeIds.includes(id))
       ));
 
-      // Re-layout og bruk FitView
+      // Update the layout and set the selected node
+      // to the target node after a short delay
       updateLayout();
       setTimeout(() => {
         if (reactFlowInstance) {
@@ -428,10 +452,11 @@ function LiveNetwork() {
     ]
   );
 
-  // onConnect: Når en ny forbindelse opprettes manuelt
+  // This function handles the connection between nodes
+  // It checks if the connection is hierarchical based on the parentID
   const onConnect = useCallback(
     async (params) => {
-      // Sjekk om forbindelsen er hierarkisk basert på parentID
+     
       const targetNode = nodeNetwork.nodes.find(
         (n) => String(n.nodeID) === params.target
       );
@@ -441,7 +466,8 @@ function LiveNetwork() {
         console.log("Hierarkisk edge - ignorer manuell oppretting");
       } else {
         try {
-          // Send data to "conenctionID"
+          // API call to save the connection
+          // This function sends a PUT request to the API to save the connection between nodes
           const response = await fetch("https://localhost:5255/api/nodes/connect", {
             method: "PUT",
             headers: {
@@ -457,7 +483,7 @@ function LiveNetwork() {
             throw new Error("Failed to save connection");
           }
   
-          // Dette er en manuell kommunikasjonsedge
+          // If the connection is saved successfully, add the edge to the state
           const newCommEdge = {
             ...params,
             animated: true,
@@ -481,33 +507,37 @@ function LiveNetwork() {
     [nodeNetwork]
   );
   
-
+  // This function handles the changes in nodes
   const onNodesChange = useCallback(
     (changes) => {
       setInitialNodes(nds => applyNodeChanges(changes, nds));
     },
     []
   );
-
+ // This function handles the changes in edges
+  // It uses the applyEdgeChanges function to update the edges based on the changes
   const onEdgesChange = useCallback(
     (changes) => {
-      // Her brukes combinedEdges hvis du ønsker å endre dem
+      
       setInitialEdges(eds => applyEdgeChanges(changes, eds));
     },
     []
   );
-
+ // This function handles the deletion of a node
+  // It checks if the node has children before deleting it
   const handleDeleteNode = useCallback(async () => {
     if (!selectedNode) return;
     const nodeIdToDelete = selectedNode.id; 
-    // Vent til deleteNode har kjørt
+    
+    // Check if the node has children
     const deletionSucceeded = await deleteNode(selectedNode.id);
     if (!deletionSucceeded) {
-      // Hvis slettingen ikke ble gjennomført, stopp.
+      
       return;
     }
     
-    // Hvis slettingen var vellykket, oppdater UI – fjern noden fra nodeNetwork.nodes
+    // If the deletion is successful, remove the node from the state
+    // and update the layout
     setNodeNetwork((prev) => {
       const updatedNodes = prev.nodes.filter(
         (n) => String(n.nodeID) !== nodeIdToDelete
@@ -516,13 +546,17 @@ function LiveNetwork() {
     });
     setSelectedNode(null);
   
-    // Bruk en liten timeout for å sikre at stateoppdateringen er fullført før du kaller updateLayout
+    // Use setTimeout to ensure the layout is updated after the state change
+    // This is a workaround to ensure the layout is updated after the state change
+    // and the React Flow instance is ready
+    // This is necessary because React Flow does not update the layout immediately after state changes
     setTimeout(() => {
       updateLayout();
     }, 0);
   }, [selectedNode, updateLayout]);
   
-  // Hjelpefunksjoner for collapse/expand
+  // Helper functions to get descendant nodes and edges
+  // These functions are used to get the descendants of a node in the network
   const getDescendantNodes = (node, allNodes, allEdges) => {
     const descendants = [];
     const visited = new Set();
@@ -541,7 +575,8 @@ function LiveNetwork() {
     }
     return descendants;
   };
-
+  // This function gets the descendant edges of a node in the network
+  // It filters the edges based on the descendant nodes
   const getDescendantEdges = (node, allNodes, allEdges) => {
     const descendantNodes = getDescendantNodes(node, allNodes, allEdges);
     const descendantIds = descendantNodes.map(n => n.id);
@@ -550,6 +585,8 @@ function LiveNetwork() {
     );
   };
 
+  // This function toggles the collapse/expand state of a node
+  // It hides or shows the descendants of the node based on the current state
   const toggleCollapseExpand = useCallback(
     (node) => {
       const descendants     = getDescendantNodes(node, initialNodes, initialEdges);
@@ -572,7 +609,8 @@ function LiveNetwork() {
       setHiddenNodes(updatedHiddenNodes);
       setHiddenEdges(updatedHiddenEdges);
   
-      // 3) Oppdater label på akkurat denne noden med antall descendants
+      // Update the node name to show the number of descendants
+      // This is done by checking if the node name already contains a count
       const count = descendants.length;
       setNodeNetwork(prev => ({
         ...prev,
@@ -590,7 +628,8 @@ function LiveNetwork() {
     [hiddenNodes, hiddenEdges, initialNodes, initialEdges, updateLayout]
   );
   
-
+ // This function handles the click event on a node
+// It toggles the collapse/expand state of the node based on the click type (single or double click)
   const handleNodeClick = useCallback(
     (event, node) => {
       clickTimeoutRef.current = setTimeout(() => {
@@ -604,7 +643,9 @@ function LiveNetwork() {
     },
     [toggleCollapseExpand]
   );
-
+ 
+  // This function handles the double click event on a node
+  // It clears the click timeout and sets the selected node to show its details
   const handleNodeDoubleClick = useCallback((event, node) => {
     if (clickTimeoutRef.current) {
       clearTimeout(clickTimeoutRef.current);
@@ -615,7 +656,8 @@ function LiveNetwork() {
     setActiveTab("details");
   }, []);
 
-  // onEdgeClick: Skjul target-node og dens etterkommere
+  // onEdgeClick: Handles the click event on an edge
+  // It hides the target node and its descendants when clicked
   const handleEdgeClick = useCallback(
     (event, edge) => {
       const targetNode = initialNodes.find(n => n.id === edge.target);
@@ -637,7 +679,8 @@ function LiveNetwork() {
     [initialNodes, initialEdges, hiddenNodes, hiddenEdges, updateLayout]
   );
 
-  // Når en ny aktør legges til via AddActor
+  // This function handles the addition of a new actor to the network
+  // It updates the node network state and closes the modal
   const handleActorAdded = (newActor) => {
     setNodeNetwork(prev => ({
       ...prev,
@@ -651,11 +694,18 @@ function LiveNetwork() {
     return <div>Loading...</div>;
   }
   
+  // Render the live network component
+  // It includes the search bar, network visualization, and info panel
+  // The search bar allows the user to search for actors in the network
+  // The network visualization shows the nodes and edges in a hierarchical layout
+  // The info panel shows the details of the selected node and allows the user to add new actors
+  // The component also includes buttons to archive or delete the network
+  // and a confirmation modal for these actions
   return (
     <ReactFlowProvider>
   <div className={styles.container}>
     <h2 className={styles.title}>{nodeNetwork?.name || "Nettverk uten navn"}</h2>
-
+    
     <div className={styles.searchBarContainer}>
       <SearchBar
         placeholder="Søk etter aktør"
@@ -701,12 +751,14 @@ function LiveNetwork() {
             className={`${styles.tabButton} ${activeTab === "details" ? styles.activeTab : ""}`}
             onClick={() => setActiveTab("details")}
           >
+            {/* Details */}
             Detaljer
           </button>
           <button
             className={`${styles.tabButton} ${activeTab === "actors" ? styles.activeTab : ""}`}
             onClick={() => setActiveTab("actors")}
           >
+            {/* Actors */}
             Aktører
           </button>
           <button
@@ -715,6 +767,7 @@ function LiveNetwork() {
                   setActiveTab("info");
                 }}
               >
+            {/* InfoControll */}
             Infokontroll
           </button>
         </div>
@@ -732,7 +785,7 @@ function LiveNetwork() {
                     Vis sti
                 </button>
                 <button className={styles.deleteButton} onClick={handleDeleteNode}>
-                  Slett node
+                  Slett node 
                 </button>
               </div>
             )}
@@ -745,8 +798,7 @@ function LiveNetwork() {
                                   </div>
                               </>
                           )}
-
-            {/* Aktører */}
+             {/* Show the list of actors in the network */}
             {activeTab === "actors" && nodeNetwork?.nodes && (
               <ul>
                 <button
@@ -756,6 +808,7 @@ function LiveNetwork() {
                     setShowAddActorModal(true);
                   }}
                 >
+                  {/* Add Actor */}
                   + Ny Aktør
                 </button>
                 {nodeNetwork.nodes.map((node) => (
@@ -769,8 +822,8 @@ function LiveNetwork() {
                 ))}
               </ul>
             )}
-
-          {/* Infokontroll */}
+            {/* Show the info panel */}
+            {/* This section displays the info panel data fetched from the API */}
             {activeTab === "info" && (
                 <div>
                   <p>HENSPE</p>
@@ -790,7 +843,8 @@ function LiveNetwork() {
       </div>
     </div>
 
-    {/* AddActor Modal */}
+    {/* Add Actor Modal */}
+    {/* This modal is shown when the user clicks on the "Add Actor" button */}
     {showAddActorModal && (
       <AddActor
         onClose={() => setShowAddActorModal(false)}
@@ -800,7 +854,7 @@ function LiveNetwork() {
       />
                   )}
 
-  {/* Archive and delete button */}
+  
                   <div className={styles.fixedBottomRight}>
                       <button
                           className={styles.archiveButton}
@@ -822,7 +876,9 @@ function LiveNetwork() {
                           Slett Nettverk
                       </button>
                   </div>
-
+                  
+                  {/* Confirmation Modals for Archive and Delete actions */}
+                  {/* These modals are shown when the user clicks on the "Archive Network" or "Delete Network" buttons */}
                   {showArchiveConfirm && (
                       <div className={styles.confirmModal}>
                           <p>Er du sikker på at du vil arkivere dette nettverket?</p>
@@ -850,7 +906,8 @@ function LiveNetwork() {
                           <button onClick={() => setShowArchiveConfirm(false)}>Avbryt</button>
                       </div>
                   )}
-
+                  {/* Delete Confirmation Modal */}
+                  {/* This modal is shown when the user clicks on the "Delete Network" button */}
                   {showDeleteConfirm && (
                       <div className={styles.confirmModal}>
                           <p>Er du sikker på at du vil slette dette nettverket?</p>
