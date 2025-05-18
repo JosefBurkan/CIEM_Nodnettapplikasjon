@@ -43,7 +43,7 @@ function QRcodePage() {
     }
 
     // Constructs the QR code link
-    const qrCodeLink = `https//emkore.vercel.app/#/civilianForm?parentId=${userNode.nodeID}&token=${user.qr_token}`;
+    const qrCodeLink = `https://emkore.vercel.app/#/civilianForm?parentId=${userNode.nodeID}&token=${user.qr_token}`;
 
     return (
         <div style={{ textAlign: 'center', marginTop: '4rem' }}>
